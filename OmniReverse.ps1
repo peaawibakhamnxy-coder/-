@@ -1217,49 +1217,26 @@ $btnMasterPhoneSearch.Add_Click({
         [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนเริ่มค้นหาครับ", "แจ้งเตือน", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
         return
     }
-    Set-AppStatus "กำลังเปิดหน้าตรวจสอบเบอร์โทร (Facebook, LINE, IG, Discord, Whoscall, Truecaller)..." "#10B981"
-    Exec-FacebookPhone
-    Start-Sleep -Milliseconds 300
-    Exec-LinePhone
-    Start-Sleep -Milliseconds 300
-    Exec-InstagramPhone
-    Start-Sleep -Milliseconds 300
-    Exec-DiscordPhone
-    Start-Sleep -Milliseconds 300
-    Exec-Whoscall
-    Start-Sleep -Milliseconds 300
-    Exec-Truecaller
-    Start-Sleep -Milliseconds 300
-    Exec-Blacklistseller
-    Start-Sleep -Milliseconds 300
-    Exec-WhatsAppPhone
-    Set-AppStatus "เปิดผลลัพธ์การค้นหาเบอร์โทรเรียบร้อยแล้ว!" "#10B981"
+    Set-AppStatus "เปิดระบบค้นหาในเว็บ In-App Search (ไม่เด้งออกเว็บภายนอก)..." "#10B981"
+    if (Test-Path $htmlPath) {
+        Open-Url "file:///$($htmlPath.Replace('\', '/'))"
+    } else {
+        Exec-Whoscall
+    }
+    Set-AppStatus "ระบบ In-App Search พร้อมใช้งานบนหน้าเว็บ (กรองเฉพาะที่พบข้อมูล)" "#10B981"
 })
 
 $btnMasterSearch.Add_Click({
     if ($mainTabControl.SelectedIndex -eq 1) {
         $btnMasterPhoneSearch.RaiseEvent((New-Object System.Windows.RoutedEventArgs([System.Windows.Controls.Button]::ClickEvent)))
     } else {
-        if (-not $global:CurrentFilePath -and -not $global:CurrentBitmap) {
-            [System.Windows.MessageBox]::Show("กรุณาเลือกรูปภาพก่อนเริ่มค้นหาครับ", "แจ้งเตือน", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
-            return
+        Set-AppStatus "เปิดระบบ In-App Visual OSINT (ค้นหาในเว็บ ไม่เด้งแท็บ กรองเฉพาะที่พบข้อมูล)..." "#10B981"
+        if (Test-Path $htmlPath) {
+            Open-Url "file:///$($htmlPath.Replace('\', '/'))"
+        } else {
+            Exec-Yandex
         }
-
-        Set-AppStatus "กำลังเปิดหน้าผลลัพธ์ทุกเครื่องมือพร้อมกัน..." "#38BDF8"
-
-        Exec-Yandex
-        Start-Sleep -Milliseconds 300
-        Exec-FaceCheck
-        Start-Sleep -Milliseconds 300
-        Exec-GoogleLens
-        Start-Sleep -Milliseconds 300
-        Exec-TinEye
-        Start-Sleep -Milliseconds 300
-        Exec-Bing
-        Start-Sleep -Milliseconds 300
-        Exec-Instagram
-
-        Set-AppStatus "เปิดผลลัพธ์ทุกเครื่องมือเรียบร้อยแล้ว!" "#10B981"
+        Set-AppStatus "ระบบ In-App Visual Search พร้อมใช้งานบนหน้าเว็บ (กรองเฉพาะที่พบข้อมูล)" "#10B981"
     }
 })
 
