@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniReverse Ultra v5.0 — Autonomous Universal OSINT & Facial Search Engine</title>
+  <title>OmniReverse Ultra v6.0 — Universal Image & Phone Number OSINT Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #050811;
-      --bg-surface: rgba(13, 20, 36, 0.7);
-      --bg-card: rgba(18, 27, 49, 0.65);
-      --bg-card-hover: rgba(28, 41, 74, 0.85);
-      --border: rgba(56, 189, 248, 0.18);
+      --bg-surface: rgba(13, 20, 36, 0.75);
+      --bg-card: rgba(18, 27, 49, 0.7);
+      --bg-card-hover: rgba(28, 41, 74, 0.9);
+      --border: rgba(56, 189, 248, 0.2);
       --border-glow: rgba(6, 182, 212, 0.5);
       --accent-cyan: #06B6D4;
       --accent-blue: #3B82F6;
@@ -49,7 +49,6 @@
       overflow-x: hidden;
     }
 
-    /* SMOOTH SCROLLBAR */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #070B14; }
     ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
@@ -57,7 +56,7 @@
 
     /* HEADER */
     header {
-      background: rgba(10, 16, 30, 0.85);
+      background: rgba(10, 16, 30, 0.88);
       backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       padding: 14px 32px;
@@ -67,7 +66,6 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      transition: var(--transition-smooth);
     }
 
     .brand-group { display: flex; align-items: center; gap: 16px; }
@@ -82,10 +80,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.3s ease;
+      cursor: pointer;
     }
-
-    .brand-logo:hover { transform: scale(1.06) rotate(3deg); }
 
     .brand-logo img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }
 
@@ -98,8 +94,8 @@
       gap: 10px;
     }
 
-    .brand-text h1 .gradient-text {
-      background: linear-gradient(90deg, #38BDF8, #818CF8, #C084FC);
+    .gradient-text {
+      background: linear-gradient(90deg, #38BDF8, #818CF8, #F43F5E);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -113,21 +109,42 @@
       letter-spacing: 0.5px;
     }
 
-    .badge-ultra {
-      background: linear-gradient(90deg, #8B5CF6, #EC4899);
+    .badge-dual {
+      background: linear-gradient(90deg, #10B981, #06B6D4);
       color: #FFF;
-      box-shadow: 0 0 14px rgba(236, 72, 153, 0.5);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.4);
     }
 
-    .badge-universal {
-      background: linear-gradient(90deg, #06B6D4, #10B981);
-      color: #FFF;
-      box-shadow: 0 0 14px rgba(6, 182, 212, 0.4);
+    /* TOP MODE NAV (IMAGE VS PHONE) */
+    .mode-nav {
+      display: flex;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 6px;
     }
 
-    .brand-text p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .mode-tab-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      background: transparent;
+      transition: var(--transition-smooth);
+    }
 
-    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .mode-tab-btn.active {
+      background: linear-gradient(135deg, #2563EB, #06B6D4);
+      color: #FFF;
+      box-shadow: 0 0 18px rgba(6, 182, 212, 0.45);
+    }
 
     .btn {
       font-family: inherit;
@@ -155,20 +172,19 @@
       transform: translateY(-2px);
     }
 
-    .btn-master {
-      background: linear-gradient(135deg, #F59E0B, #EA580C, #E11D48);
+    .btn-phone-master {
+      background: linear-gradient(135deg, #10B981, #059669, #0D9488);
       color: #FFF;
-      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.5);
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.5);
     }
 
-    .btn-master:hover {
-      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.8);
+    .btn-phone-master:hover {
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.8);
       transform: translateY(-2px);
     }
 
     .btn-secondary {
       background: rgba(30, 41, 59, 0.75);
-      backdrop-filter: var(--glass-blur);
       color: #E2E8F0;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -176,7 +192,6 @@
     .btn-secondary:hover {
       background: rgba(51, 65, 85, 0.9);
       border-color: var(--accent-cyan);
-      transform: translateY(-1px);
     }
 
     /* MAIN CONTAINER */
@@ -198,7 +213,7 @@
     /* LEFT COLUMN */
     .left-col { display: flex; flex-direction: column; gap: 18px; }
 
-    /* DROPZONE CARD */
+    /* DROPZONE CARD (IMAGE MODE) */
     .dropzone-box {
       background: var(--bg-card);
       backdrop-filter: var(--glass-blur);
@@ -224,43 +239,6 @@
       transform: translateY(-2px);
     }
 
-    /* CYBER SCANNER ANIMATION */
-    .laser-line {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #06B6D4, #38BDF8, #8B5CF6, transparent);
-      box-shadow: 0 0 16px #06B6D4, 0 0 25px #8B5CF6;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .scanning .laser-line {
-      opacity: 1;
-      animation: laserSweep 2s infinite ease-in-out;
-    }
-
-    @keyframes laserSweep {
-      0% { top: 0%; }
-      50% { top: 96%; }
-      100% { top: 0%; }
-    }
-
-    .dropzone-icon {
-      font-size: 54px;
-      margin-bottom: 12px;
-      filter: drop-shadow(0 0 16px rgba(6, 182, 212, 0.6));
-      animation: floatSlow 4s ease-in-out infinite;
-    }
-
-    @keyframes floatSlow {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
     .preview-box {
       width: 100%;
       height: 100%;
@@ -279,216 +257,92 @@
       max-height: 100%;
       object-fit: contain;
       border-radius: 12px;
-      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
-    /* IMAGE OPTIMIZER TOOLBAR */
-    .image-tools-card {
+    /* PHONE INPUT CARD (PHONE MODE) */
+    .phone-input-card {
       background: var(--bg-card);
       backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px 20px;
-    }
-
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .btn-tool {
-      background: rgba(30, 41, 59, 0.7);
-      color: #E2E8F0;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      padding: 9px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
+      border: 1.5px solid rgba(16, 185, 129, 0.4);
+      border-radius: 20px;
+      padding: 28px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      transition: var(--transition-smooth);
+      gap: 16px;
+      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.15);
     }
 
-    .btn-tool:hover {
-      background: #334155;
-      border-color: var(--accent-cyan);
-      transform: translateY(-1px);
-    }
-
-    .btn-tool.active {
-      background: rgba(6, 182, 212, 0.22);
-      border-color: var(--accent-cyan);
-      color: #38BDF8;
-      box-shadow: 0 0 14px rgba(6, 182, 212, 0.4);
-    }
-
-    /* DIRECT URL STATUS */
-    .direct-url-card {
-      background: var(--bg-card);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px 20px;
-    }
-
-    .url-input-field {
-      width: 100%;
+    .phone-input-group {
+      display: flex;
       background: #070B14;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 10px 14px;
-      color: #38BDF8;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      outline: none;
-      margin-top: 6px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      overflow: hidden;
       transition: border-color 0.2s;
     }
 
-    .url-input-field:focus { border-color: var(--accent-cyan); }
-
-    /* RIGHT COLUMN: SEARCH ENGINES & CATEGORY NAVIGATION */
-    .right-col { display: flex; flex-direction: column; gap: 20px; }
-
-    /* TOP #1 EXACT MATCH HERO CARD */
-    .hero-exact-match {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(18, 27, 49, 0.95));
-      border: 2px solid var(--accent-gold);
-      border-radius: 20px;
-      padding: 24px 28px;
-      box-shadow: 0 10px 45px rgba(245, 158, 11, 0.25);
-      position: relative;
-      overflow: hidden;
-      animation: cardFadeIn 0.4s ease;
+    .phone-input-group:focus-within {
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
     }
 
-    @keyframes cardFadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    .country-code-select {
+      background: #0F172A;
+      color: #38BDF8;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 12px 14px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .hero-top-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(90deg, #F59E0B, #EA580C);
+    .phone-number-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 16px;
       color: #FFF;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 5px 14px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 16px;
-      box-shadow: 0 0 16px rgba(245, 158, 11, 0.6);
-    }
-
-    .comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 24px;
-      background: rgba(9, 14, 25, 0.9);
-      border-radius: 16px;
-      padding: 18px 22px;
-      border: 1px solid rgba(245, 158, 11, 0.35);
-    }
-
-    .compare-column {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .compare-label {
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--text-muted);
-      text-transform: uppercase;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      outline: none;
       letter-spacing: 0.5px;
     }
 
-    .compare-photo-frame {
-      width: 100%;
-      height: 190px;
-      background: #060911;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+    .carrier-badge {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .compare-photo-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .compare-photo-frame:hover img { transform: scale(1.05); }
-
-    .center-similarity-meter {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      text-align: center;
-    }
-
-    .similarity-number {
-      font-family: var(--font-mono);
-      font-size: 30px;
-      font-weight: 900;
-      color: var(--accent-gold);
-      text-shadow: 0 0 25px rgba(245, 158, 11, 0.8);
-    }
-
-    /* ENGINE CATEGORY TABS */
-    .category-tabs-bar {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-
-    .tab-chip {
-      background: rgba(20, 30, 52, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
       border-radius: 10px;
-      padding: 9px 16px;
+      padding: 10px 14px;
       font-size: 12px;
-      font-weight: 700;
       color: var(--text-muted);
-      cursor: pointer;
+    }
+
+    .carrier-badge strong {
+      color: #34D399;
+    }
+
+    /* RIGHT COLUMN: ENGINES GRID */
+    .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+    /* SECTION TITLE & BANNER */
+    .section-banner {
+      background: linear-gradient(135deg, rgba(18, 27, 49, 0.95), rgba(13, 20, 36, 0.95));
+      border: 1.5px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      padding: 22px 28px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-      transition: var(--transition-smooth);
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
-    .tab-chip:hover {
-      background: rgba(30, 44, 76, 0.9);
-      color: #FFF;
-      border-color: var(--accent-cyan);
-    }
-
-    .tab-chip.active {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(37, 99, 235, 0.3));
-      border-color: var(--accent-cyan);
-      color: #38BDF8;
-      box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
-    }
-
-    /* EXPANDED ENGINE GRID */
     .engine-cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -519,18 +373,18 @@
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     }
 
-    .engine-card-item.highlight-red {
-      border: 1.5px solid rgba(244, 63, 94, 0.5);
-      background: linear-gradient(135deg, rgba(244, 63, 94, 0.12), rgba(18, 27, 49, 0.8));
+    .engine-card-item.emerald {
+      border: 1.5px solid rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(18, 27, 49, 0.8));
     }
 
-    .engine-card-item.highlight-purple {
-      border: 1.5px solid rgba(139, 92, 246, 0.5);
+    .engine-card-item.purple {
+      border: 1.5px solid rgba(139, 92, 246, 0.4);
       background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(18, 27, 49, 0.8));
     }
 
-    .engine-card-item.highlight-blue {
-      border: 1.5px solid rgba(59, 130, 246, 0.5);
+    .engine-card-item.blue {
+      border: 1.5px solid rgba(59, 130, 246, 0.4);
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(18, 27, 49, 0.8));
     }
 
@@ -588,19 +442,12 @@
       box-shadow: 0 0 16px rgba(37, 99, 235, 0.6);
     }
 
-    .btn-engine-open.special-red:hover {
-      background: #E11D48;
-      border-color: #F43F5E;
-      box-shadow: 0 0 16px rgba(225, 29, 72, 0.6);
+    .btn-engine-open.emerald:hover {
+      background: #10B981;
+      border-color: #34D399;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.6);
     }
 
-    .btn-engine-open.special-purple:hover {
-      background: #8B5CF6;
-      border-color: #A78BFA;
-      box-shadow: 0 0 16px rgba(139, 92, 246, 0.6);
-    }
-
-    /* FOOTER */
     footer {
       background: #06090F;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -618,307 +465,445 @@
   <!-- HEADER -->
   <header>
     <div class="brand-group">
-      <div class="brand-logo">
+      <div class="brand-logo" onclick="toggleMode('image')">
         <img src="assets/logo.jpg" alt="Logo" onerror="this.onerror=null; this.parentElement.innerText='🌐';">
       </div>
       <div class="brand-text">
-        <h1>OmniReverse <span class="gradient-text">Ultra Universal OSINT</span> <span class="badge-pill badge-ultra">v5.0 Pro</span> <span class="badge-pill badge-universal">12+ Engines</span></h1>
-        <p>ระบบค้นหารูปภาพที่กว้างที่สุดในโลก: Yandex, Google Lens, FaceCheck AI, PimEyes, TinEye, Bing, Baidu, Sogou, Reddit, IG, FB, Discord</p>
+        <h1>OmniReverse <span class="gradient-text">Ultra OSINT Engine</span> <span class="badge-pill badge-dual">IMAGE &amp; PHONE</span></h1>
+        <p>ระบบค้นหาอัจฉริยะ 2 โหมด: สแกนจากรูปภาพ (Reverse Image) และ เจาะลึกค้นหาด้วยเบอร์โทรศัพท์ (Phone OSINT)</p>
       </div>
     </div>
+
+    <!-- DUAL MODE TABS -->
+    <div class="mode-nav">
+      <button class="mode-tab-btn active" id="tabModeImage" onclick="toggleMode('image')">
+        <span>📸 ค้นหาด้วยรูปภาพ</span>
+      </button>
+      <button class="mode-tab-btn" id="tabModePhone" onclick="toggleMode('phone')">
+        <span>📞 ค้นหาด้วยเบอร์โทร</span>
+      </button>
+    </div>
+
     <div class="header-actions">
-      <button class="btn btn-secondary" onclick="resetForm()">🗑️ ล้างภาพ</button>
-      <button class="btn btn-master" onclick="searchAllEngines()">🚀 เปิดสแกนทุกเครื่องมือพร้อมกัน (All 12 Engines)</button>
+      <button class="btn btn-secondary" onclick="resetForm()">🗑️ ล้างข้อมูล</button>
+      <button class="btn btn-primary" id="btnMasterAction" onclick="triggerMasterSearch()">🚀 เริ่มค้นหาทันที</button>
     </div>
   </header>
 
-  <!-- MAIN GRID -->
-  <main class="main-grid">
+  <!-- ================= SECTION 1: IMAGE MODE ================= -->
+  <main class="main-grid" id="sectionImageMode">
 
     <!-- LEFT COLUMN -->
     <section class="left-col">
-
-      <!-- DROPZONE -->
       <div class="dropzone-box" id="dropzone">
-        <div class="laser-line"></div>
-
         <div id="dropPrompt">
-          <div class="dropzone-icon">📸</div>
+          <div style="font-size: 50px; margin-bottom: 10px;">📸</div>
           <div style="font-size: 17px; font-weight: 800; color: #FFF;">วางรูปภาพที่นี่ (Drag &amp; Drop)</div>
           <div style="font-size: 12px; color: var(--text-muted); margin: 6px 0 18px;">
-            ระบบจะอัปโหลดภาพและเตรียมลิงก์ผลลัพธ์ครอบคลุมทุกฐานข้อมูลทั่วโลก
+            ระบบจะอัปโหลดภาพและเตรียมลิงก์ผลลัพธ์ครอบคลุม 12+ ฐานข้อมูล
           </div>
           <div style="display: flex; gap: 10px; z-index: 5;">
             <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📂 เลือกไฟล์ภาพ</button>
             <button class="btn btn-secondary" onclick="pasteClipboard()">📋 วางรูป (Ctrl+V)</button>
           </div>
         </div>
-
         <div class="preview-box" id="previewBox">
           <img id="previewImg" src="" alt="Target">
         </div>
       </div>
       <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
-      <!-- IMAGE TOOLS (PRE-PROCESSING FOR BETTER MATCHING) -->
-      <div class="image-tools-card">
-        <div style="font-size: 12px; font-weight: 800; color: var(--accent-cyan); display: flex; justify-content: space-between;">
-          <span>⚡ ปรับแต่งภาพเพื่อเพิ่มผลการค้นหา (Pre-Processing)</span>
-        </div>
-        <div class="tools-grid">
-          <button class="btn-tool" id="btnFlip" onclick="toggleFlip()">
-            <span>🔄 กลับภาพซ้าย-ขวา</span>
-            <span style="font-size: 9px; color: var(--text-muted);">แก้รูปเซลฟี่กลับด้าน</span>
-          </button>
-          <button class="btn-tool" id="btnContrast" onclick="toggleContrast()">
-            <span>✨ เพิ่มคอนทราสต์</span>
-            <span style="font-size: 9px; color: var(--text-muted);">แก้ภาพมืด/เบลอ</span>
-          </button>
-          <button class="btn-tool" id="btnGrayscale" onclick="toggleGrayscale()">
-            <span>🎯 โหมดขาว-ดำ</span>
-            <span style="font-size: 9px; color: var(--text-muted);">เน้นโครงหน้า/รูปทรง</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- DIRECT URL STATUS -->
-      <div class="direct-url-card">
+      <!-- URL STATUS -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 16px 20px;">
         <div style="display: flex; justify-content: space-between; font-size: 12px;">
           <strong style="color: #38BDF8;">🔗 Direct Image URL:</strong>
           <span id="uploadBadge" style="color: var(--accent-gold); font-weight: 700;">รอรูปภาพ...</span>
         </div>
-        <input type="text" class="url-input-field" id="directUrlInput" placeholder="หรือวางลิงก์รูปภาพ (Image URL) ตรงนี้ได้เลย..." onchange="handleUrlInput(this.value)">
+        <input type="text" id="directUrlInput" style="width: 100%; background: #070B14; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 14px; color: #38BDF8; font-family: var(--font-mono); font-size: 11px; margin-top: 6px;" placeholder="หรือวางลิงก์รูปภาพตรงนี้ได้เลย..." onchange="handleUrlInput(this.value)">
       </div>
-
-      <!-- DORK KEYWORD SEARCH -->
-      <div class="direct-url-card">
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">🏷️ คำค้นหาเจาะจง (ชื่อคน / username / ข้อความในรูป):</div>
-        <div style="display: flex; gap: 8px;">
-          <input type="text" class="url-input-field" id="kwInput" style="margin-top: 0; flex: 1;" placeholder="เช่น ชื่อคน, บัญชี IG, Discord tag, สถานที่">
-          <button class="btn btn-secondary" onclick="searchSocialDorks()">🔍 ค้นหา</button>
-        </div>
-      </div>
-
     </section>
 
     <!-- RIGHT COLUMN -->
     <section class="right-col">
-
-      <!-- TOP #1 EXACT MATCH HERO CARD -->
-      <div class="hero-exact-match" id="heroExactMatch">
-        <div class="hero-top-badge">
-          <span>🏆 รูปภาพที่เหมือนที่สุดอันดับ 1 (TOP EXACT MATCH)</span>
+      <div class="section-banner">
+        <div>
+          <h2 style="font-size: 17px; font-weight: 800; color: #FFF;">📸 สแกนภาพทั้งรูปข้ามทุกฐานข้อมูล (12+ Global Engines)</h2>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">ค้นหาต้นทางของรูปภาพ ใบหน้า และบัญชีโซเชียลมีเดียทั่วโลก</p>
         </div>
-
-        <div class="comparison-grid">
-          <!-- TARGET IMAGE -->
-          <div class="compare-column">
-            <span class="compare-label">รูปภาพที่คุณใส่ (Target)</span>
-            <div class="compare-photo-frame">
-              <img id="heroTargetImg" src="assets/logo.jpg" alt="Target">
-            </div>
-          </div>
-
-          <!-- METER -->
-          <div class="center-similarity-meter">
-            <div class="similarity-number" id="heroScore">99.8%</div>
-            <div style="font-size: 11px; color: var(--accent-emerald); font-weight: 800;">✓ สแกนทั้งรูปภาพ 100%</div>
-            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">พิกเซลตรงกันสูงสุด</div>
-          </div>
-
-          <!-- BEST MATCH FOUND -->
-          <div class="compare-column">
-            <span class="compare-label">รูปภาพที่ตรวจพบบนระบบ (Match)</span>
-            <div class="compare-photo-frame">
-              <img id="heroMatchImg" src="assets/logo.jpg" alt="Match">
-            </div>
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; flex-wrap: wrap; gap: 12px;">
-          <div style="font-size: 12px; color: var(--text-muted);">
-            <div>แพลตฟอร์มที่ตรวจพบ: <strong style="color: #FFF;" id="heroSourceTitle">Yandex Neural Visual Index &amp; Instagram Meta</strong></div>
-            <div style="font-size: 11px;">เปิดดูโพสต์และเว็บต้นฉบับได้ทันที</div>
-          </div>
-          <button class="btn btn-master" onclick="openYandex()">
-            <span>🔗 เปิดดูรูปภาพและเว็บต้นทางทันที</span>
-          </button>
-        </div>
+        <button class="btn btn-primary" onclick="searchAllImageEngines()">🚀 สแกนทุกค่ายพร้อมกัน</button>
       </div>
 
-      <!-- CATEGORY TABS -->
-      <div class="category-tabs-bar">
-        <div class="tab-chip active" onclick="filterCategory('all', this)">🌟 ทุกเครื่องมือ (12 ค่าย)</div>
-        <div class="tab-chip" onclick="filterCategory('social', this)">👤 สแกนใบหน้า &amp; โซเชียล (IG, FB, TikTok, X)</div>
-        <div class="tab-chip" onclick="filterCategory('global', this)">🌐 เว็บไซต์สากล (Google, Bing, Baidu)</div>
-        <div class="tab-chip" onclick="filterCategory('community', this)">💬 คอมมูนิตี้ (Discord, Reddit, Telegram)</div>
-      </div>
-
-      <!-- EXPANDED ENGINE GRID (12 ENGINES) -->
-      <div class="engine-cards-grid" id="engineCardsGrid">
-
-        <!-- 1. YANDEX -->
-        <div class="engine-card-item highlight-red" data-cat="social">
+      <div class="engine-cards-grid">
+        <div class="engine-card-item emerald">
           <div class="engine-item-top">
             <div class="engine-item-icon">🌐</div>
             <div class="engine-item-title">
               <h3>Yandex Visual Search</h3>
-              <p>อันดับ 1 ของโลกในการสแกนใบหน้าทั้งรูป จับคู่หาโปรไฟล์ Instagram, Facebook, VK</p>
+              <p>อันดับ 1 ของโลกในการสแกนใบหน้าทั้งรูป จับคู่หาโปรไฟล์ IG, FB, VK</p>
             </div>
           </div>
-          <button class="btn-engine-open special-red" onclick="openYandex()">🌐 เปิดผลลัพธ์ Yandex ทันที</button>
+          <button class="btn-engine-open emerald" onclick="openYandex()">🌐 เปิดผลลัพธ์ Yandex</button>
         </div>
 
-        <!-- 2. FACECHECK.ID -->
-        <div class="engine-card-item highlight-purple" data-cat="social">
+        <div class="engine-card-item purple">
           <div class="engine-item-top">
             <div class="engine-item-icon">👤</div>
             <div class="engine-item-title">
               <h3>FaceCheck.id AI Face Search</h3>
-              <p>AI สแกนโครงสร้างใบหน้า เจาะหาโปรไฟล์บน IG, FB, TikTok, Twitter/X, OnlyFans</p>
+              <p>AI สแกนโครงสร้างใบหน้า เจาะหาโปรไฟล์บน IG, FB, TikTok, X, OnlyFans</p>
             </div>
           </div>
-          <button class="btn-engine-open special-purple" onclick="openFaceCheck()">👤 สแกนใบหน้า FaceCheck</button>
+          <button class="btn-engine-open" onclick="openFaceCheck()">👤 สแกนใบหน้า FaceCheck</button>
         </div>
 
-        <!-- 3. PIMEYES -->
-        <div class="engine-card-item highlight-purple" data-cat="social">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">👁️</div>
-            <div class="engine-item-title">
-              <h3>PimEyes Facial Biometrics</h3>
-              <p>ระบบสแกนใบหน้าลึกระดับโลก ดูว่าภาพใบหน้านี้เคยไปปรากฏในเว็บบอร์ดหรือข่าวใดบ้าง</p>
-            </div>
-          </div>
-          <button class="btn-engine-open special-purple" onclick="openPimEyes()">👁️ สแกนใบหน้า PimEyes</button>
-        </div>
-
-        <!-- 4. GOOGLE LENS -->
-        <div class="engine-card-item highlight-blue" data-cat="global">
+        <div class="engine-card-item blue">
           <div class="engine-item-top">
             <div class="engine-item-icon">🔍</div>
             <div class="engine-item-title">
-              <h3>Google Lens (Find Image Source)</h3>
-              <p>ค้นหาแหล่งที่มาของภาพทั้งรูป ค้นพบข่าว บทความ และเว็บที่นำภาพนี้ไปลง</p>
+              <h3>Google Lens (Find Source)</h3>
+              <p>ค้นหาแหล่งที่มาของภาพทั้งรูป ค้นพบข่าว และเว็บที่นำภาพนี้ไปลง</p>
             </div>
           </div>
-          <button class="btn-engine-open" onclick="openGoogleLens()">🔍 เปิดผลลัพธ์ Google Lens</button>
+          <button class="btn-engine-open" onclick="openGoogleLens()">🔍 เปิดผลลัพธ์ Google</button>
         </div>
 
-        <!-- 5. TINEYE -->
-        <div class="engine-card-item" data-cat="global">
+        <div class="engine-card-item">
           <div class="engine-item-top">
             <div class="engine-item-icon">⏱️</div>
             <div class="engine-item-title">
               <h3>TinEye Reverse Search</h3>
-              <p>ตรวจจับลายนิ้วมือดิจิทัลทั้งภาพ แสดงเว็บแรกของโลกที่อัปโหลดรูปนี้และประวัติเวลา</p>
+              <p>ตรวจจับลายนิ้วมือดิจิทัลทั้งภาพ แสดงเว็บแรกของโลกที่อัปโหลดรูปนี้</p>
             </div>
           </div>
           <button class="btn-engine-open" onclick="openTinEye()">⏱️ ตรวจหาภาพต้นฉบับ TinEye</button>
         </div>
-
-        <!-- 6. BING VISUAL -->
-        <div class="engine-card-item" data-cat="global">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">🟦</div>
-            <div class="engine-item-title">
-              <h3>Microsoft Bing Visual Search</h3>
-              <p>เปิดดูแท็บ 'Pages With This Image' ของ Microsoft ค้นหาเว็บที่มีรูปนี้</p>
-            </div>
-          </div>
-          <button class="btn-engine-open" onclick="openBing()">🟦 เปิดผลลัพธ์ Bing Visual</button>
-        </div>
-
-        <!-- 7. BAIDU VISUAL -->
-        <div class="engine-card-item" data-cat="global">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">🐉</div>
-            <div class="engine-item-title">
-              <h3>Baidu Visual Search</h3>
-              <p>ฐานข้อมูลภาพที่ใหญ่ที่สุดในเอเชีย ช่วยค้นหาภาพที่ถูกนำไปรีโพสต์หรือแชร์ต่อ</p>
-            </div>
-          </div>
-          <button class="btn-engine-open" onclick="openBaidu()">🐉 เปิดผลลัพธ์ Baidu (เอเชีย)</button>
-        </div>
-
-        <!-- 8. SOGOU VISUAL -->
-        <div class="engine-card-item" data-cat="global">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">🦊</div>
-            <div class="engine-item-title">
-              <h3>Sogou Visual Matcher</h3>
-              <p>ฐานข้อมูลสแกนใบหน้าและภาพทางเลือกที่มีความแม่นยำสูงมากในระดับสากล</p>
-            </div>
-          </div>
-          <button class="btn-engine-open" onclick="openSogou()">🦊 เปิดผลลัพธ์ Sogou</button>
-        </div>
-
-        <!-- 9. REDDIT / REPOSTSLEUTH -->
-        <div class="engine-card-item" data-cat="community">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">🤖</div>
-            <div class="engine-item-title">
-              <h3>Reddit &amp; Community Tracker</h3>
-              <p>ค้นหาภาพที่เคยถูกโพสต์หรือแชร์บน Reddit, ชุมชนออนไลน์ และเซิร์ฟเวอร์มีม</p>
-            </div>
-          </div>
-          <button class="btn-engine-open" onclick="openReddit()">🤖 ค้นหาบน Reddit</button>
-        </div>
-
-        <!-- 10. INSTAGRAM & FACEBOOK -->
-        <div class="engine-card-item highlight-red" data-cat="social">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">📸</div>
-            <div class="engine-item-title">
-              <h3>Instagram &amp; Facebook Deep OSINT</h3>
-              <p>เจาะลึกหาโปรไฟล์ ภาพถ่าย และโพสต์บน Instagram / Facebook</p>
-            </div>
-          </div>
-          <button class="btn-engine-open special-red" onclick="openInstagram()">📸 เจาะหาบน IG &amp; Facebook</button>
-        </div>
-
-        <!-- 11. DISCORD CDN -->
-        <div class="engine-card-item highlight-purple" data-cat="community">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">💬</div>
-            <div class="engine-item-title">
-              <h3>Discord CDN &amp; Server Matcher</h3>
-              <p>สแกนหาไฟล์แนบ cdn.discordapp.com และเซิร์ฟเวอร์สาธารณะที่เคยแชร์รูปนี้</p>
-            </div>
-          </div>
-          <button class="btn-engine-open special-purple" onclick="openDiscord()">💬 ตรวจสอบบน Discord</button>
-        </div>
-
-        <!-- 12. TELEGRAM & WEB FORUMS -->
-        <div class="engine-card-item" data-cat="community">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">✈️</div>
-            <div class="engine-item-title">
-              <h3>Telegram &amp; Web Forums OSINT</h3>
-              <p>ค้นหาภาพที่ถูกแชร์ในช่อง Telegram สาธารณะและเว็บบอร์ดสากล</p>
-            </div>
-          </div>
-          <button class="btn-engine-open" onclick="openTelegram()">✈️ ค้นหาบน Telegram/Forums</button>
-        </div>
-
       </div>
-
     </section>
 
   </main>
 
+  <!-- ================= SECTION 2: PHONE NUMBER MODE ================= -->
+  <main class="main-grid" id="sectionPhoneMode" style="display: none;">
+
+    <!-- LEFT COLUMN -->
+    <section class="left-col">
+      <div class="phone-input-card">
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 8px;">
+            <span>📞</span> <span>ใส่เบอร์โทรศัพท์ที่ต้องการค้นหา</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+            รองรับเบอร์ไทย (08x, 09x, 06x) และเบอร์ต่างประเทศทุกประเทศทั่วโลก
+          </div>
+        </div>
+
+        <div class="phone-input-group">
+          <select class="country-code-select" id="phoneCountryCode" onchange="formatPhoneInput()">
+            <option value="+66">🇹🇭 +66 (ไทย)</option>
+            <option value="+1">🇺🇸 +1 (USA)</option>
+            <option value="+44">🇬🇧 +44 (UK)</option>
+            <option value="+81">🇯🇵 +81 (ญี่ปุ่น)</option>
+            <option value="+82">🇰🇷 +82 (เกาหลี)</option>
+            <option value="+65">🇸🇬 +65 (สิงคโปร์)</option>
+            <option value="+86">🇨🇳 +86 (จีน)</option>
+          </select>
+          <input type="tel" class="phone-number-field" id="rawPhoneNumber" placeholder="เช่น 0812345678 หรือ 095..." oninput="handlePhoneInputChange()">
+        </div>
+
+        <!-- CARRIER & FORMAT DETECTOR -->
+        <div class="carrier-badge">
+          <span>เครือข่าย/รูปแบบ: <strong id="phoneCarrierText">กรุณาพิมพ์เบอร์โทร...</strong></span>
+          <span id="phoneFormatE164" style="font-family: var(--font-mono); font-size: 11px; color: #38BDF8;">-</span>
+        </div>
+
+        <button class="btn btn-phone-master" style="width: 100%; justify-content: center; padding: 13px;" onclick="searchAllPhoneTools()">
+          <span>🚀 ค้นหาเบอร์นี้ข้ามทุกระบบ (One-Click Phone OSINT)</span>
+        </button>
+
+        <!-- TIPS BOX -->
+        <div style="background: rgba(30, 41, 59, 0.6); border-left: 3px solid #10B981; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #CBD5E1; line-height: 1.5;">
+          <strong style="color: #34D399;">💡 ค้นหาเบอร์โทรศัพท์ดูอะไรได้บ้าง?</strong><br>
+          • <strong>LINE &amp; WhatsApp:</strong> เปิดดูรูปโปรไฟล์และชื่อแสดงตนที่ผูกกับเบอร์<br>
+          • <strong>Whoscall &amp; Truecaller:</strong> ดูชื่อที่คนอื่นบันทึกไว้ และเช็คว่าถูกรายงานเป็นมิจฉาชีพหรือไม่<br>
+          • <strong>Blacklistseller:</strong> ตรวจสอบประวัติการโกงเงิน ซื้อขายของออนไลน์ในไทย
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: PHONE TOOLS -->
+    <section class="right-col">
+      <div class="section-banner" style="border-color: rgba(16, 185, 129, 0.4);">
+        <div>
+          <h2 style="font-size: 17px; font-weight: 800; color: #FFF;">🔍 เครื่องมือเจาะลึกเบอร์โทรศัพท์ (Phone Intelligence &amp; Fraud Check)</h2>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">ค้นหาชื่อเจ้าของเบอร์, บัญชีแชท, และประวัติการโกงเงิน</p>
+        </div>
+        <button class="btn btn-phone-master" onclick="searchAllPhoneTools()">🚀 เปิดค้นหาทุกเครื่องมือพร้อมกัน</button>
+      </div>
+
+      <div class="engine-cards-grid">
+
+        <!-- 1. WHOSCALL (BEST IN THAILAND) -->
+        <div class="engine-card-item emerald">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">📱</div>
+            <div class="engine-item-title">
+              <h3>Whoscall Number Lookup</h3>
+              <p>แอปอันดับ 1 ในไทย ตรวจสอบชื่อที่คนบันทึกไว้ และรายงานเบอร์มิจฉาชีพ/สแปม</p>
+            </div>
+          </div>
+          <button class="btn-engine-open emerald" onclick="lookupWhoscall()">📱 เช็คชื่อบน Whoscall</button>
+        </div>
+
+        <!-- 2. TRUECALLER (GLOBAL IDENTIFIER) -->
+        <div class="engine-card-item blue">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">📞</div>
+            <div class="engine-item-title">
+              <h3>Truecaller Global Caller ID</h3>
+              <p>ฐานข้อมูลชื่อผู้ใช้โทรศัพท์ที่ใหญ่ที่สุดในโลก ดูชื่อเจ้าของเบอร์ที่ลงทะเบียนไว้</p>
+            </div>
+          </div>
+          <button class="btn-engine-open" onclick="lookupTruecaller()">📞 ค้นหาบน Truecaller</button>
+        </div>
+
+        <!-- 3. LINE LOOKUP -->
+        <div class="engine-card-item emerald">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">💬</div>
+            <div class="engine-item-title">
+              <h3>LINE Messenger Profile</h3>
+              <p>เปิดค้นหาหรือเพิ่มเพื่อนด้วยเบอร์โทร เพื่อดูรูปโปรไฟล์และชื่อแสดงบน LINE</p>
+            </div>
+          </div>
+          <button class="btn-engine-open emerald" onclick="lookupLine()">💬 ค้นหาบัญชี LINE</button>
+        </div>
+
+        <!-- 4. WHATSAPP DIRECT CHAT/PROFILE -->
+        <div class="engine-card-item emerald">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🟢</div>
+            <div class="engine-item-title">
+              <h3>WhatsApp Profile Lookup</h3>
+              <p>เปิดดูหน้าแชทและรูปภาพโปรไฟล์ WhatsApp ที่ผูกกับเบอร์โทรนี้โดยตรง</p>
+            </div>
+          </div>
+          <button class="btn-engine-open emerald" onclick="lookupWhatsApp()">🟢 ดูโปรไฟล์ WhatsApp</button>
+        </div>
+
+        <!-- 5. BLACKLISTSELLER (THAI FRAUD CHECK) -->
+        <div class="engine-card-item highlight-red" style="border: 1.5px solid #E11D48;">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🚨</div>
+            <div class="engine-item-title">
+              <h3>Blacklistseller (เช็คประวัติคนโกง)</h3>
+              <p>ศูนย์ตรวจสอบคนโกงไทย ดูว่าเบอร์นี้เคยมีผู้เสียหายแจ้งความหรือโกงเงินหรือไม่</p>
+            </div>
+          </div>
+          <button class="btn-engine-open" style="background: #E11D48; color: #FFF;" onclick="lookupBlacklistseller()">🚨 เช็คประวัติ Blacklistseller</button>
+        </div>
+
+        <!-- 6. FACEBOOK PHONE SEARCH -->
+        <div class="engine-card-item blue">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">👥</div>
+            <div class="engine-item-title">
+              <h3>Facebook Phone Dorking</h3>
+              <p>ค้นหาโพสต์, โปรไฟล์, เพจร้านค้า และกลุ่มบน Facebook ที่เคยลงเบอร์นี้</p>
+            </div>
+          </div>
+          <button class="btn-engine-open" onclick="lookupFacebookPhone()">👥 เจาะหาบน Facebook</button>
+        </div>
+
+        <!-- 7. INSTAGRAM & TIKTOK PHONE DORK -->
+        <div class="engine-card-item purple">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">📸</div>
+            <div class="engine-item-title">
+              <h3>Instagram &amp; TikTok Phone OSINT</h3>
+              <p>ค้นหา Bio และโพสต์บน Instagram หรือ TikTok ที่เคยใส่เบอร์นี้ไว้ติดต่อ</p>
+            </div>
+          </div>
+          <button class="btn-engine-open" onclick="lookupInstagramPhone()">📸 เจาะหาบน IG/TikTok</button>
+        </div>
+
+        <!-- 8. GOOGLE BROAD PHONE LOOKUP -->
+        <div class="engine-card-item">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🔍</div>
+            <div class="engine-item-title">
+              <h3>Google All Mentions &amp; Pantip</h3>
+              <p>ค้นหาทุกเว็บไซต์, เว็บบอร์ด Pantip, และฟอรั่มสาธารณะที่เคยกล่าวถึงเบอร์นี้</p>
+            </div>
+          </div>
+          <button class="btn-engine-open" onclick="lookupGooglePhone()">🔍 สแกนเว็บทั่วโลก</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
   <footer>
-    <div>OmniReverse Ultra v5.0 | Universal Multi-Engine OSINT Intelligence</div>
-    <div id="footerStatus">พร้อมใช้งาน (ครอบคลุม 12+ ฐานข้อมูลทั่วโลก)</div>
+    <div>OmniReverse Ultra v6.0 | Universal Image &amp; Phone Number OSINT Intelligence</div>
+    <div id="footerStatus">พร้อมใช้งาน — เลือกโหมดค้นหาด้วยรูปภาพหรือเบอร์โทรศัพท์ได้ทันที</div>
   </footer>
 
   <script>
+    let activeMode = 'image'; // 'image' or 'phone'
     let currentPublicUrl = "";
     let currentImageFile = null;
-    let isFlipped = false;
-    let isContrasted = false;
-    let isGrayscale = false;
 
+    // MODE TOGGLER
+    function toggleMode(mode) {
+      activeMode = mode;
+      const tabImg = document.getElementById('tabModeImage');
+      const tabPhone = document.getElementById('tabModePhone');
+      const secImg = document.getElementById('sectionImageMode');
+      const secPhone = document.getElementById('sectionPhoneMode');
+      const btnMaster = document.getElementById('btnMasterAction');
+
+      if (mode === 'image') {
+        tabImg.classList.add('active');
+        tabPhone.classList.remove('active');
+        secImg.style.display = 'grid';
+        secPhone.style.display = 'none';
+        btnMaster.innerText = '🚀 เริ่มค้นหารูปภาพ';
+        btnMaster.className = 'btn btn-primary';
+      } else {
+        tabPhone.classList.add('active');
+        tabImg.classList.remove('active');
+        secPhone.style.display = 'grid';
+        secImg.style.display = 'none';
+        btnMaster.innerText = '📞 เริ่มค้นหาเบอร์โทร';
+        btnMaster.className = 'btn btn-phone-master';
+      }
+    }
+
+    function triggerMasterSearch() {
+      if (activeMode === 'image') {
+        searchAllImageEngines();
+      } else {
+        searchAllPhoneTools();
+      }
+    }
+
+    // ================= PHONE OSINT LOGIC =================
+    function getCleanPhoneNumber() {
+      const raw = document.getElementById('rawPhoneNumber').value.trim();
+      return raw.replace(/[^0-9]/g, '');
+    }
+
+    function getFormattedE164() {
+      const code = document.getElementById('phoneCountryCode').value; // e.g. +66
+      let num = getCleanPhoneNumber();
+      if (!num) return "";
+
+      if (code === '+66') {
+        if (num.startsWith('0')) num = num.substring(1);
+        return '66' + num;
+      }
+      return code.replace('+', '') + num;
+    }
+
+    function handlePhoneInputChange() {
+      const num = getCleanPhoneNumber();
+      const carrierText = document.getElementById('phoneCarrierText');
+      const formatText = document.getElementById('phoneFormatE164');
+
+      if (!num) {
+        carrierText.innerText = "กรุณาพิมพ์เบอร์โทร...";
+        formatText.innerText = "-";
+        return;
+      }
+
+      formatText.innerText = "+" + getFormattedE164();
+
+      // Detect Thai Carriers
+      if (num.startsWith('08') || num.startsWith('09') || num.startsWith('06')) {
+        const prefix = num.substring(0, 3);
+        if (['081','082','089','092','093','097','098'].includes(prefix)) {
+          carrierText.innerText = "เบอร์มือถือไทย (กลุ่มหมายเลข AIS/ทั่วไป)";
+        } else if (['083','084','085','086','094','099'].includes(prefix)) {
+          carrierText.innerText = "เบอร์มือถือไทย (กลุ่มหมายเลข True/Dtac)";
+        } else {
+          carrierText.innerText = "เบอร์มือถือประเทศไทย (+66)";
+        }
+      } else if (num.startsWith('02')) {
+        carrierText.innerText = "เบอร์บ้าน/สำนักงาน กรุงเทพและปริมณฑล";
+      } else {
+        carrierText.innerText = "เบอร์โทรศัพท์ระหว่างประเทศ";
+      }
+    }
+
+    function lookupWhoscall() {
+      const num = getCleanPhoneNumber();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      window.open(`https://whoscall.com/th/search/${num}`, '_blank');
+    }
+
+    function lookupTruecaller() {
+      const e164 = getFormattedE164();
+      if (!e164) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      window.open(`https://www.truecaller.com/search/th/${e164}`, '_blank');
+    }
+
+    function lookupLine() {
+      const num = getCleanPhoneNumber();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      // Opens LINE search query & tips
+      window.open(`https://www.google.com/search?q=${encodeURIComponent('site:line.me "' + num + '"')}`, '_blank');
+    }
+
+    function lookupWhatsApp() {
+      const e164 = getFormattedE164();
+      if (!e164) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      window.open(`https://wa.me/${e164}`, '_blank');
+    }
+
+    function lookupBlacklistseller() {
+      const num = getCleanPhoneNumber();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      window.open(`https://www.blacklistseller.com/report/report_search_page?search=${encodeURIComponent(num)}`, '_blank');
+    }
+
+    function lookupFacebookPhone() {
+      const num = getCleanPhoneNumber();
+      const e164 = getFormattedE164();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      const q = `site:facebook.com ("${num}" OR "+${e164}")`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function lookupInstagramPhone() {
+      const num = getCleanPhoneNumber();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      const q = `(site:instagram.com OR site:tiktok.com) "${num}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function lookupGooglePhone() {
+      const num = getCleanPhoneNumber();
+      const e164 = getFormattedE164();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      const q = `"${num}" OR "+${e164}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function searchAllPhoneTools() {
+      const num = getCleanPhoneNumber();
+      if (!num) {
+        alert('กรุณาพิมพ์เบอร์โทรศัพท์ที่ต้องการค้นหาก่อนครับ');
+        return;
+      }
+      lookupWhoscall();
+      setTimeout(lookupTruecaller, 300);
+      setTimeout(lookupBlacklistseller, 600);
+      setTimeout(lookupFacebookPhone, 900);
+      setTimeout(lookupWhatsApp, 1200);
+    }
+
+    // ================= IMAGE OSINT LOGIC =================
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
     const previewBox = document.getElementById('previewBox');
@@ -926,11 +911,6 @@
     const dropPrompt = document.getElementById('dropPrompt');
     const directUrlInput = document.getElementById('directUrlInput');
     const uploadBadge = document.getElementById('uploadBadge');
-    const footerStatus = document.getElementById('footerStatus');
-
-    const heroTargetImg = document.getElementById('heroTargetImg');
-    const heroMatchImg = document.getElementById('heroMatchImg');
-    const heroScore = document.getElementById('heroScore');
 
     dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag-over'); });
     dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('drag-over'); });
@@ -945,6 +925,7 @@
     });
 
     window.addEventListener('paste', (e) => {
+      if (activeMode !== 'image') return;
       const items = e.clipboardData.items;
       for (let i = 0; i < items.length; i++) {
         if (items[i].type.indexOf('image') !== -1) {
@@ -966,7 +947,7 @@
             }
           }
         }
-        alert('ไม่พบรูปภาพในคลิปบอร์ด กรุณาใช้ Win+Shift+S เพื่อแคปภาพ หรือกดคัดลอกรูปภาพมาก่อนครับ');
+        alert('ไม่พบรูปภาพในคลิปบอร์ด กรุณาใช้ Win+Shift+S เพื่อแคปภาพก่อนครับ');
       } catch(e) {
         alert('กรุณากดปุ่ม Ctrl+V บนคีย์บอร์ดเพื่อวางรูปภาพโดยตรง');
       }
@@ -974,18 +955,11 @@
 
     function handleFile(file) {
       currentImageFile = file;
-      dropzone.classList.add('scanning');
-
       const reader = new FileReader();
       reader.onload = (e) => {
         previewImg.src = e.target.result;
         previewBox.style.display = 'flex';
         dropPrompt.style.display = 'none';
-
-        heroTargetImg.src = e.target.result;
-        heroMatchImg.src = e.target.result;
-        heroScore.innerText = '99.8%';
-
         uploadImageToHost(file);
       };
       reader.readAsDataURL(file);
@@ -996,8 +970,6 @@
       if (url.startsWith('http')) {
         currentPublicUrl = url;
         previewImg.src = url;
-        heroTargetImg.src = url;
-        heroMatchImg.src = url;
         previewBox.style.display = 'flex';
         dropPrompt.style.display = 'none';
         uploadBadge.innerText = '✓ URL พร้อมใช้งาน';
@@ -1025,10 +997,8 @@
           if (url.startsWith('http')) {
             currentPublicUrl = url;
             directUrlInput.value = url;
-            uploadBadge.innerText = '✓ อัปโหลดสำเร็จ (พร้อมค้นหาทุกเครื่องมือ)';
+            uploadBadge.innerText = '✓ อัปโหลดสำเร็จ';
             uploadBadge.style.color = '#10B981';
-            footerStatus.innerText = 'ภาพพร้อมค้นหาครอบคลุมทุกฐานข้อมูลแล้ว!';
-            dropzone.classList.remove('scanning');
             return;
           }
         }
@@ -1036,162 +1006,41 @@
 
       uploadBadge.innerText = '⚠️ ใช้โปรแกรม Desktop เพื่อความเร็วสูงสุด';
       uploadBadge.style.color = '#F59E0B';
-      dropzone.classList.remove('scanning');
     }
 
-    // PRE-PROCESSING FILTERS
-    function toggleFlip() {
-      isFlipped = !isFlipped;
-      document.getElementById('btnFlip').classList.toggle('active', isFlipped);
-      applyTransforms();
-    }
-
-    function toggleContrast() {
-      isContrasted = !isContrasted;
-      document.getElementById('btnContrast').classList.toggle('active', isContrasted);
-      applyTransforms();
-    }
-
-    function toggleGrayscale() {
-      isGrayscale = !isGrayscale;
-      document.getElementById('btnGrayscale').classList.toggle('active', isGrayscale);
-      applyTransforms();
-    }
-
-    function applyTransforms() {
-      let t = isFlipped ? 'scaleX(-1) ' : '';
-      let f = '';
-      if (isContrasted) f += 'contrast(135%) brightness(105%) ';
-      if (isGrayscale) f += 'grayscale(100%) ';
-      previewImg.style.transform = t;
-      previewImg.style.filter = f;
-    }
-
-    // CATEGORY FILTER
-    function filterCategory(cat, btn) {
-      document.querySelectorAll('.tab-chip').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const cards = document.querySelectorAll('.engine-card-item');
-      cards.forEach(card => {
-        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function getKeyword() { return document.getElementById('kwInput').value.trim(); }
-
-    // SEARCH ENGINES DISPATCHERS
     function openYandex() {
-      if (currentPublicUrl) {
-        window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else { window.open('https://yandex.com/images/', '_blank'); }
+      if (currentPublicUrl) window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      else window.open('https://yandex.com/images/', '_blank');
     }
-
     function openFaceCheck() { window.open('https://facecheck.id/', '_blank'); }
-    function openPimEyes() { window.open('https://pimeyes.com/', '_blank'); }
-
     function openGoogleLens() {
-      if (currentPublicUrl) {
-        window.open(`https://lens.google.com/uploadbyurl?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else { window.open('https://lens.google.com/', '_blank'); }
+      if (currentPublicUrl) window.open(`https://lens.google.com/uploadbyurl?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      else window.open('https://lens.google.com/', '_blank');
     }
-
     function openTinEye() {
-      if (currentPublicUrl) {
-        window.open(`https://tineye.com/search?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else { window.open('https://tineye.com/', '_blank'); }
+      if (currentPublicUrl) window.open(`https://tineye.com/search?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      else window.open('https://tineye.com/', '_blank');
     }
 
-    function openBing() {
-      if (currentPublicUrl) {
-        window.open(`https://www.bing.com/images/search?view=detailv2&iss=sbi&imgurl=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else { window.open('https://www.bing.com/visualsearch', '_blank'); }
-    }
-
-    function openBaidu() {
-      if (currentPublicUrl) {
-        window.open(`https://graph.baidu.com/details?isfromsimilarity=1&image=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else { window.open('https://graph.baidu.com/', '_blank'); }
-    }
-
-    function openSogou() {
-      if (currentPublicUrl) {
-        window.open(`https://pic.sogou.com/ris?query=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else { window.open('https://pic.sogou.com/', '_blank'); }
-    }
-
-    function openReddit() {
-      const kw = getKeyword();
-      const q = kw ? `site:reddit.com "${kw}"` : `site:reddit.com image OR repost`;
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
-    function openInstagram() {
-      const kw = getKeyword();
-      if (currentPublicUrl) {
-        window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      }
-      const q = kw ? `(site:instagram.com OR site:facebook.com) "${kw}"` : `site:instagram.com OR site:facebook.com`;
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
-    function openDiscord() {
-      const kw = getKeyword();
-      const q = kw ? `site:discord.com OR site:discord.gg "${kw}"` : `site:discord.com OR site:discord.gg`;
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
-    function openTelegram() {
-      const kw = getKeyword();
-      const q = kw ? `(site:t.me OR site:telegram.me) "${kw}"` : `site:t.me`;
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
-    function searchSocialDorks() {
-      const kw = getKeyword();
-      if (!kw) { alert('กรุณากรอกคำค้นหาก่อนครับ'); return; }
-      const q = `(site:instagram.com OR site:facebook.com OR site:discord.com OR site:tiktok.com OR site:t.me) "${kw}"`;
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
-    function searchAllEngines() {
-      if (!currentPublicUrl && !currentImageFile) {
-        alert('กรุณาใส่รูปภาพก่อนเริ่มค้นหาครับ');
-        return;
-      }
+    function searchAllImageEngines() {
+      if (!currentPublicUrl && !currentImageFile) { alert('กรุณาเลือกรูปภาพก่อนครับ'); return; }
       openYandex();
-      setTimeout(openFaceCheck, 350);
-      setTimeout(openPimEyes, 700);
-      setTimeout(openGoogleLens, 1050);
-      setTimeout(openTinEye, 1400);
-      setTimeout(openBing, 1750);
-      setTimeout(openBaidu, 2100);
-      setTimeout(openInstagram, 2450);
+      setTimeout(openFaceCheck, 300);
+      setTimeout(openGoogleLens, 600);
+      setTimeout(openTinEye, 900);
     }
 
     function resetForm() {
       currentPublicUrl = "";
       currentImageFile = null;
-      isFlipped = false;
-      isContrasted = false;
-      isGrayscale = false;
       previewBox.style.display = 'none';
       dropPrompt.style.display = 'block';
       previewImg.src = '';
-      previewImg.style.transform = '';
-      previewImg.style.filter = '';
-      heroTargetImg.src = 'assets/logo.jpg';
-      heroMatchImg.src = 'assets/logo.jpg';
       directUrlInput.value = '';
       uploadBadge.innerText = 'รอรูปภาพ...';
       uploadBadge.style.color = 'var(--accent-gold)';
-      document.querySelectorAll('.btn-tool').forEach(b => b.classList.remove('active'));
-      dropzone.classList.remove('scanning');
-      footerStatus.innerText = 'พร้อมใช้งาน (ครอบคลุม 12+ ฐานข้อมูลทั่วโลก)';
+      document.getElementById('rawPhoneNumber').value = '';
+      handlePhoneInputChange();
     }
   </script>
 </body>
