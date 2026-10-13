@@ -3,26 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniReverse AI Vision — Autonomous Cross-Platform Search & Image Matcher</title>
+  <title>OmniReverse Pro — สแกนทั้งรูปภาพข้ามทุกแพลตฟอร์ม (Direct Search Results)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #070B12;
-      --bg-surface: rgba(15, 23, 42, 0.75);
-      --bg-card: rgba(20, 29, 50, 0.75);
-      --bg-card-hover: rgba(30, 44, 76, 0.9);
-      --border: rgba(56, 189, 248, 0.16);
-      --border-glow: rgba(6, 182, 212, 0.5);
+      --bg-dark: #070B14;
+      --bg-card: rgba(17, 24, 39, 0.85);
+      --bg-card-hover: rgba(31, 41, 55, 0.95);
+      --border: rgba(56, 189, 248, 0.2);
       --accent-cyan: #06B6D4;
-      --accent-blue: #3B82F6;
-      --accent-purple: #8B5CF6;
+      --accent-blue: #2563EB;
       --accent-emerald: #10B981;
-      --accent-amber: #F59E0B;
       --accent-rose: #F43F5E;
-      --text-primary: #F8FAFC;
-      --text-secondary: #94A3B8;
+      --accent-amber: #F59E0B;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
       --font-mono: 'JetBrains Mono', monospace;
       --font-sans: 'Inter', sans-serif;
       --glass-blur: blur(16px);
@@ -37,23 +34,18 @@
     body {
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
-        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
-      color: var(--text-primary);
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.18) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(225, 29, 72, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+      color: var(--text-main);
       font-family: var(--font-sans);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
     }
 
-    /* HEADER */
     header {
-      background: rgba(11, 17, 32, 0.85);
+      background: rgba(15, 23, 42, 0.9);
       backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       padding: 14px 28px;
@@ -65,25 +57,25 @@
       z-index: 100;
     }
 
-    .brand {
+    .brand-group {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    .brand-icon {
-      width: 44px;
-      height: 44px;
+    .brand-logo {
+      width: 46px;
+      height: 46px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #06B6D4, #3B82F6, #8B5CF6);
+      background: linear-gradient(135deg, #06B6D4, #2563EB);
       padding: 2px;
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.45);
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .brand-icon img {
+    .brand-logo img {
       width: 100%;
       height: 100%;
       border-radius: 10px;
@@ -96,59 +88,37 @@
       letter-spacing: -0.5px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .brand-text h1 .highlight {
-      background: linear-gradient(90deg, #38BDF8, #818CF8, #C084FC);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .badge-pill {
+    .badge-full {
+      background: #10B981;
+      color: #FFF;
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 800;
       padding: 3px 8px;
       border-radius: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .badge-ai {
-      background: linear-gradient(90deg, #8B5CF6, #EC4899);
-      color: #FFF;
-      box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
-      animation: pulseGlow 2s infinite alternate;
-    }
-
-    @keyframes pulseGlow {
-      from { box-shadow: 0 0 8px rgba(139, 92, 246, 0.4); }
-      to { box-shadow: 0 0 16px rgba(236, 72, 153, 0.8); }
-    }
-
     .brand-text p {
       font-size: 12px;
-      color: var(--text-secondary);
+      color: var(--text-muted);
       margin-top: 2px;
-    }
-
-    .header-ctrls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
     .btn {
       font-family: inherit;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       border-radius: 8px;
       padding: 9px 16px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.2s ease;
       border: none;
       outline: none;
     }
@@ -156,16 +126,16 @@
     .btn-primary {
       background: linear-gradient(135deg, #06B6D4, #2563EB);
       color: #FFF;
-      box-shadow: 0 0 18px rgba(6, 182, 212, 0.35);
+      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
     }
 
     .btn-primary:hover {
-      box-shadow: 0 0 26px rgba(6, 182, 212, 0.6);
+      box-shadow: 0 6px 22px rgba(6, 182, 212, 0.65);
       transform: translateY(-1px);
     }
 
     .btn-secondary {
-      background: rgba(30, 41, 59, 0.7);
+      background: rgba(30, 41, 59, 0.8);
       color: #E2E8F0;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -175,8 +145,7 @@
       border-color: var(--accent-cyan);
     }
 
-    /* MAIN LAYOUT */
-    .app-main {
+    .main-grid {
       flex: 1;
       padding: 24px;
       max-width: 1540px;
@@ -188,29 +157,26 @@
     }
 
     @media (max-width: 1100px) {
-      .app-main {
-        grid-template-columns: 1fr;
-      }
+      .main-grid { grid-template-columns: 1fr; }
     }
 
-    /* LEFT PANEL */
-    .left-panel {
+    .left-col {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
     }
 
-    .dropzone-container {
+    .dropzone-box {
       background: var(--bg-card);
       backdrop-filter: var(--glass-blur);
       border: 2px dashed rgba(56, 189, 248, 0.35);
-      border-radius: 18px;
+      border-radius: 16px;
       padding: 24px;
       text-align: center;
       cursor: pointer;
       position: relative;
       transition: all 0.3s ease;
-      min-height: 310px;
+      min-height: 290px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -218,67 +184,19 @@
       overflow: hidden;
     }
 
-    .dropzone-container:hover, .dropzone-container.drag-over {
+    .dropzone-box:hover, .dropzone-box.drag-over {
       border-color: var(--accent-cyan);
       background: rgba(20, 29, 50, 0.95);
-      box-shadow: 0 0 35px rgba(6, 182, 212, 0.3);
-    }
-
-    /* LASER SCANNER EFFECT */
-    .scan-laser {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #06B6D4, #38BDF8, #8B5CF6, transparent);
-      box-shadow: 0 0 15px #06B6D4, 0 0 25px #8B5CF6;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .scanning .scan-laser {
-      opacity: 1;
-      animation: scanLaser 1.8s infinite ease-in-out;
-    }
-
-    @keyframes scanLaser {
-      0% { top: 0%; }
-      50% { top: 96%; }
-      100% { top: 0%; }
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
     }
 
     .dropzone-icon {
-      font-size: 52px;
-      margin-bottom: 12px;
-      filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.6));
-      animation: floatIcon 3.5s ease-in-out infinite;
+      font-size: 50px;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
     }
 
-    @keyframes floatIcon {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-7px); }
-    }
-
-    .dropzone-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #FFF;
-    }
-
-    .dropzone-desc {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin: 6px 0 16px;
-    }
-
-    #fileInput {
-      display: none;
-    }
-
-    /* PREVIEW DISPLAY */
-    .preview-wrapper {
+    .preview-box {
       width: 100%;
       height: 100%;
       position: absolute;
@@ -291,99 +209,85 @@
       padding: 10px;
     }
 
-    .preview-wrapper img {
+    .preview-box img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
-    .preview-badge-status {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: #10B981;
-      color: #FFF;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
-      z-index: 12;
-    }
-
-    /* FORENSICS & AI INSIGHTS CARD */
-    .insights-card {
-      background: var(--bg-card);
-      backdrop-filter: var(--glass-blur);
+    .upload-status-card {
+      background: #0F172A;
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
+      border-radius: 12px;
+      padding: 14px 16px;
     }
 
-    .card-heading {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      margin-bottom: 12px;
+    .status-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
       font-size: 12px;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 6px;
     }
 
-    .stat-lbl { color: var(--text-secondary); }
-    .stat-val {
-      font-family: var(--font-mono);
-      font-weight: 500;
-      color: #FFF;
-      max-width: 260px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .ai-tags-container {
-      margin-top: 12px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .ai-tag {
-      background: rgba(139, 92, 246, 0.2);
-      border: 1px solid rgba(139, 92, 246, 0.4);
-      color: #C084FC;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 8px;
+    .url-display {
+      width: 100%;
+      background: #070B12;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 6px;
+      padding: 8px 10px;
+      color: #38BDF8;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      outline: none;
+      margin-top: 4px;
     }
 
-    /* RIGHT PANEL: AUTONOMOUS AI AGENT CONSOLE */
-    .right-panel {
+    .progress-bar-wrap {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 8px 0;
+      display: none;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #06B6D4, #3B82F6, #10B981);
+      transition: width 0.3s ease;
+    }
+
+    .tip-box {
+      background: rgba(30, 41, 59, 0.6);
+      border-left: 3px solid #06B6D4;
+      border-radius: 6px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: #CBD5E1;
+      line-height: 1.5;
+    }
+
+    .tip-box strong { color: #38BDF8; }
+
+    .right-col {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
     }
 
-    /* AUTONOMOUS SCANNER CONTROL BAR */
-    .scanner-dashboard {
-      background: linear-gradient(135deg, rgba(20, 29, 50, 0.85), rgba(15, 23, 42, 0.95));
-      border: 1.5px solid rgba(6, 182, 212, 0.4);
+    .master-action-banner {
+      background: linear-gradient(135deg, rgba(20, 29, 50, 0.9), rgba(15, 23, 42, 0.95));
+      border: 1.5px solid rgba(6, 182, 212, 0.5);
       border-radius: 16px;
-      padding: 20px 24px;
+      padding: 22px 26px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
 
-    .scanner-top {
+    .master-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -391,392 +295,119 @@
       flex-wrap: wrap;
     }
 
-    .scanner-info h2 {
-      font-size: 18px;
+    .btn-search-master {
+      background: linear-gradient(135deg, #06B6D4, #2563EB, #7C3AED);
+      color: #FFF;
+      font-size: 15px;
       font-weight: 800;
-      color: #FFF;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .scanner-info p {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-top: 4px;
-    }
-
-    .btn-auto-scan {
-      background: linear-gradient(135deg, #06B6D4, #3B82F6, #8B5CF6);
-      color: #FFF;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 12px 26px;
+      padding: 14px 28px;
       border-radius: 10px;
       border: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.45);
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
       transition: all 0.25s ease;
     }
 
-    .btn-auto-scan:hover {
+    .btn-search-master:hover {
       box-shadow: 0 0 35px rgba(6, 182, 212, 0.8);
       transform: scale(1.02);
     }
 
-    /* LIVE RADAR & TELEMETRY PROGRESS */
-    .telemetry-box {
+    .keyword-bar {
       margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .keyword-input {
+      flex: 1;
       background: #090E17;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 12px 16px;
-    }
-
-    .progress-track {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 10px;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #06B6D4, #3B82F6, #8B5CF6, #10B981);
-      transition: width 0.3s ease;
-      box-shadow: 0 0 10px var(--accent-cyan);
-    }
-
-    .telemetry-log {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: #38BDF8;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .log-step {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .radar-pulse {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent-cyan);
-      box-shadow: 0 0 10px var(--accent-cyan);
-      display: inline-block;
-      animation: pulseDot 1s infinite alternate;
-    }
-
-    @keyframes pulseDot {
-      from { transform: scale(0.8); opacity: 0.5; }
-      to { transform: scale(1.3); opacity: 1; }
-    }
-
-    /* LIVE MATCH ALERT CARDS CONTAINER */
-    .matches-section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 4px;
-    }
-
-    .matches-section-header h3 {
-      font-size: 15px;
-      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 10px 14px;
       color: #FFF;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 13px;
+      outline: none;
     }
 
-    .matches-feed {
+    .keyword-input:focus { border-color: var(--accent-cyan); }
+
+    .engine-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
-    /* SIDE-BY-SIDE MATCH COMPARISON CARD */
-    .match-card {
+    .engine-card {
       background: var(--bg-card);
       backdrop-filter: var(--glass-blur);
-      border: 1.5px solid rgba(56, 189, 248, 0.3);
-      border-radius: 16px;
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      animation: cardAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .match-card:hover {
-      border-color: var(--accent-cyan);
-      transform: translateY(-2px);
-    }
-
-    @keyframes cardAppear {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .match-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .platform-tag {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .tag-ig { color: #F43F5E; }
-    .tag-fb { color: #3B82F6; }
-    .tag-dc { color: #818CF8; }
-    .tag-gg { color: #34D399; }
-    .tag-yd { color: #FB7185; }
-
-    .confidence-badge {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .conf-high {
-      background: rgba(16, 185, 129, 0.18);
-      color: #34D399;
-      border: 1px solid rgba(16, 185, 129, 0.4);
-    }
-
-    /* SIDE-BY-SIDE COMPARISON IMAGES */
-    .compare-grid {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 16px;
-      background: rgba(11, 17, 32, 0.65);
-      border-radius: 12px;
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .compare-side {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .compare-side-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .compare-img-box {
-      width: 100%;
-      height: 140px;
-      background: #090E17;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .compare-img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .compare-divider {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      color: var(--accent-cyan);
-    }
-
-    .compare-vs {
-      font-family: var(--font-mono);
-      font-weight: 800;
-      font-size: 12px;
-      background: rgba(6, 182, 212, 0.15);
-      padding: 4px 8px;
-      border-radius: 6px;
-      border: 1px solid rgba(6, 182, 212, 0.3);
-    }
-
-    /* MATCH DETAILS & METADATA */
-    .match-details {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .match-meta-text {
-      font-size: 12px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    .match-meta-text strong {
-      color: #FFF;
-    }
-
-    .match-link-btn {
-      background: rgba(37, 99, 235, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #93C5FD;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 7px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .match-link-btn:hover {
-      background: #2563EB;
-      color: #FFF;
-      box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
-    }
-
-    /* FLOATING POPUP TOAST ALERT */
-    .match-popup-alert {
-      position: fixed;
-      top: 90px;
-      right: 30px;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: var(--glass-blur);
-      border: 1.5px solid var(--accent-cyan);
-      box-shadow: 0 10px 40px rgba(6, 182, 212, 0.35);
+      border: 1px solid var(--border);
       border-radius: 14px;
       padding: 16px 20px;
       display: flex;
       align-items: center;
-      gap: 14px;
-      z-index: 1000;
-      animation: alertSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      max-width: 420px;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all 0.2s ease;
     }
 
-    @keyframes alertSlideIn {
-      from { opacity: 0; transform: translateX(50px); }
-      to { opacity: 1; transform: translateX(0); }
+    .engine-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(6, 182, 212, 0.6);
+      transform: translateX(4px);
     }
 
-    .alert-thumb {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
-      object-fit: cover;
-      border: 1px solid var(--accent-cyan);
+    .engine-card.featured {
+      border: 1.5px solid #E11D48;
+      background: linear-gradient(135deg, rgba(225, 29, 72, 0.15), rgba(17, 24, 39, 0.85));
     }
 
-    .alert-content h4 {
-      font-size: 13px;
-      font-weight: 800;
-      color: #38BDF8;
+    .engine-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
 
-    .alert-content p {
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
-
-    /* GEMINI API MODAL */
-    .modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: var(--glass-blur);
-      display: none;
+    .engine-icon {
+      font-size: 32px;
+      width: 44px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 999;
     }
 
-    .modal-box {
-      background: #0F172A;
-      border: 1px solid var(--border-glow);
-      border-radius: 16px;
-      padding: 24px;
-      width: 100%;
-      max-width: 500px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-    }
-
-    .modal-box h3 {
-      font-size: 16px;
-      font-weight: 800;
+    .engine-info h3 {
+      font-size: 15px;
+      font-weight: 700;
       color: #FFF;
-      margin-bottom: 8px;
-    }
-
-    .modal-box p {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
-
-    .modal-input {
-      width: 100%;
-      background: #070B12;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-      padding: 10px 14px;
-      color: #FFF;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      outline: none;
-      margin-bottom: 16px;
-    }
-
-    .modal-actions {
       display: flex;
-      justify-content: flex-end;
-      gap: 10px;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* FOOTER */
+    .engine-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .pill-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .pill-red { background: #E11D48; color: #FFF; }
+    .pill-blue { background: #2563EB; color: #FFF; }
+    .pill-green { background: #10B981; color: #FFF; }
+    .pill-purple { background: #8B5CF6; color: #FFF; }
+
     footer {
       background: #06090F;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -785,7 +416,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 12px;
-      color: var(--text-secondary);
+      color: var(--text-muted);
     }
   </style>
 </head>
@@ -793,212 +424,210 @@
 
   <!-- HEADER -->
   <header>
-    <div class="brand">
-      <div class="brand-icon">
+    <div class="brand-group">
+      <div class="brand-logo">
         <img src="assets/logo.jpg" alt="Logo" onerror="this.onerror=null; this.parentElement.innerText='🔍';">
       </div>
       <div class="brand-text">
-        <h1>OmniReverse <span class="highlight">AI Vision Engine</span> <span class="badge-pill badge-ai">AUTONOMOUS SEARCH</span></h1>
-        <p>AI อัตโนมัติค้นหารูปภาพข้ามทุกแพลตฟอร์ม (IG, Facebook, Discord, Google) และประกบคู่ผลลัพธ์แจ้งเตือนทันที</p>
+        <h1>OmniReverse <span style="color: #38BDF8;">Full Image OSINT</span> <span class="badge-full">สแกนทั้งรูปภาพ 100%</span></h1>
+        <p>เปิดหน้าผลลัพธ์การค้นหาทันที (เห็นภาพและเว็บที่มา ไม่ต้องลากรูปซ้ำ) บน Google, IG, FB, Discord, Yandex, TinEye</p>
       </div>
     </div>
-    <div class="header-ctrls">
-      <button class="btn btn-secondary" onclick="openApiModal()">⚙️ ตั้งค่า Gemini AI</button>
-      <button class="btn btn-secondary" id="btnAudioToggle" onclick="toggleAudio()">🔊 เสียงไซเบอร์: เปิด</button>
-      <button class="btn btn-secondary" onclick="resetAll()">🗑️ ล้างภาพ</button>
+    <div>
+      <button class="btn btn-secondary" onclick="resetForm()">🗑️ ล้างภาพ</button>
+      <button class="btn btn-primary" onclick="searchAllEngines()">🚀 เปิดผลลัพธ์ทุกแพลตฟอร์ม</button>
     </div>
   </header>
 
-  <!-- MAIN APPLICATION -->
-  <main class="app-main">
+  <!-- MAIN -->
+  <main class="main-grid">
 
-    <!-- LEFT PANEL: Image Drop & Forensics -->
-    <section class="left-panel">
+    <!-- LEFT COLUMN -->
+    <section class="left-col">
 
-      <!-- DROPZONE & LASER SCANNER -->
-      <div class="dropzone-container" id="dropzone">
-        <div class="scan-laser"></div>
-
-        <div id="dropContent">
-          <div class="dropzone-icon">🤖</div>
-          <div class="dropzone-title">วางรูปภาพที่นี่ — ระบบ AI จะเริ่มค้นหาอัตโนมัติทันที</div>
-          <div class="dropzone-desc">ลากไฟล์มาวาง, กดคลิกเลือกไฟล์, หรือกด Ctrl+V เพื่อวางภาพแคปหน้าจอ</div>
+      <!-- DROPZONE -->
+      <div class="dropzone-box" id="dropzone">
+        <div id="dropPrompt">
+          <div class="dropzone-icon">📸</div>
+          <div style="font-size: 16px; font-weight: 800; color: #FFF;">วางรูปภาพที่นี่ (Drag &amp; Drop)</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin: 6px 0 16px;">
+            ระบบจะอัปโหลดภาพทั้งรูปและสร้าง Direct Result Links อัตโนมัติทันที
+          </div>
           <div style="display: flex; gap: 10px; z-index: 5;">
-            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📂 เลือกไฟล์รูปภาพ</button>
-            <button class="btn btn-secondary" onclick="pasteFromClipboard()">📋 วางรูป (Ctrl+V)</button>
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📂 เลือกไฟล์ภาพ</button>
+            <button class="btn btn-secondary" onclick="pasteClipboard()">📋 วางจากคลิปบอร์ด (Ctrl+V)</button>
           </div>
         </div>
 
-        <div class="preview-wrapper" id="previewWrapper">
+        <div class="preview-box" id="previewBox">
           <img id="previewImg" src="" alt="Target">
-          <div class="preview-badge-status" id="previewBadge">✓ วิเคราะห์สำเร็จ</div>
         </div>
       </div>
-      <input type="file" id="fileInput" accept="image/*">
+      <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
-      <!-- AI VISION TAGS & FORENSICS -->
-      <div class="insights-card">
-        <div class="card-heading">
-          <span>🧠 การวิเคราะห์อัตลักษณ์ภาพด้วย AI</span>
-          <span style="font-size: 11px; color: var(--accent-emerald);" id="aiStatusText">AI Ready</span>
+      <!-- URL UPLOAD STATUS -->
+      <div class="upload-status-card">
+        <div class="status-row">
+          <strong style="color: #38BDF8;">🔗 Direct Image URL สำหรับส่งเข้า Search Engine:</strong>
+          <span id="uploadBadge" style="color: var(--accent-amber); font-weight: 700;">รอรูปภาพ...</span>
         </div>
-
-        <div class="stat-row">
-          <span class="stat-lbl">ความละเอียด:</span>
-          <span class="stat-val" id="statDim">-</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-lbl">ขนาดไฟล์:</span>
-          <span class="stat-val" id="statSize">-</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-lbl">ชนิดไฟล์:</span>
-          <span class="stat-val" id="statType">-</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-lbl">Digital Signature (SHA-256):</span>
-          <span class="stat-val" id="statSha">-</span>
+        
+        <div class="progress-bar-wrap" id="progWrap">
+          <div class="progress-bar-inner" id="progBar"></div>
         </div>
 
-        <div style="margin-top: 10px; font-size: 11px; color: var(--text-secondary);">หมวดหมู่และวัตถุที่ตรวจพบโดย AI:</div>
-        <div class="ai-tags-container" id="aiTags">
-          <span class="ai-tag">รอการอัปโหลดภาพ...</span>
-        </div>
+        <input type="text" class="url-display" id="directUrlInput" placeholder="หรือวางลิงก์รูปภาพ (URL) ตรงนี้ได้เลย..." onchange="handleUrlInput(this.value)">
+      </div>
+
+      <!-- OSINT ADVICE BOX -->
+      <div class="tip-box">
+        <strong>💡 ทำไมเมื่อกี้ Google Lens ถึงตรวจเฉพาะเสื้อผ้า?</strong><br>
+        Google Lens มีระบบ AI ตรวจจับสินค้า/เสื้อผ้าเป็นค่าเริ่มต้น 
+        แต่เมื่อเปิดผ่านลิงก์ตรงของระบบนี้ คุณสามารถกดปุ่ม <strong>"ค้นหาแหล่งที่มาของภาพ" (Find image source)</strong> บน Google Lens เพื่อสแกน <strong>ทั้งรูป 100%</strong> ได้ทันที<br><br>
+        นอกจากนี้ <strong>Yandex Visual Search</strong> และ <strong>TinEye</strong> จะสแกนโครงสร้างทั้งรูปภาพโดยไม่ตัดเฉพาะเสื้อผ้า และจับคู่กับโปรไฟล์ <strong>Instagram / Facebook</strong> ได้แม่นยำที่สุด
       </div>
 
     </section>
 
-    <!-- RIGHT PANEL: AUTONOMOUS SCANNER & SIDE-BY-SIDE MATCHES -->
-    <section class="right-panel">
+    <!-- RIGHT COLUMN -->
+    <section class="right-col">
 
-      <!-- SCANNER CONTROL BAR -->
-      <div class="scanner-dashboard">
-        <div class="scanner-top">
-          <div class="scanner-info">
-            <h2><span class="radar-pulse"></span> Autonomous Multi-Platform Scanner</h2>
-            <p>ระบบ AI สแกนอัตโนมัติ: ดึงภาพจากฐานข้อมูลและเซิร์ฟเวอร์ แล้วนำรูปมาประกบแจ้งเตือนเมื่อพบภาพตรงกัน</p>
+      <!-- MASTER LAUNCH BAR -->
+      <div class="master-action-banner">
+        <div class="master-header">
+          <div>
+            <h2 style="font-size: 18px; font-weight: 800; color: #FFF;">🚀 เปิดหน้าผลลัพธ์ตรง (ไม่ต้องลากรูปซ้ำ)</h2>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+              กดแล้วจะเปิดหน้าผลลัพธ์ที่รูปภาพถูกวิเคราะห์เรียบร้อย เห็นทันทีว่ารูปนี้เคยไปปรากฏอยู่ที่ไหนบ้าง
+            </p>
           </div>
-          <button class="btn-auto-scan" id="btnScan" onclick="startAutonomousScan()">
-            <span>⚡ เริ่มสแกน AI อัตโนมัติ</span>
+          <button class="btn-search-master" onclick="searchAllEngines()">
+            <span>🚀 เปิดผลลัพธ์ทุกแพลตฟอร์มพร้อมกัน</span>
           </button>
         </div>
 
-        <!-- TELEMETRY & PROGRESS -->
-        <div class="telemetry-box">
-          <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <div class="telemetry-log">
-            <div class="log-step">
-              <span id="logIcon">💤</span>
-              <span id="logMessage">พร้อมทำงาน: กรุณาใส่รูปภาพเพื่อเริ่มการค้นหาอัตโนมัติ</span>
+        <div class="keyword-bar">
+          <span style="font-size: 12px; color: var(--text-muted); white-space: nowrap;">🏷️ คำค้นหาเจาะจง:</span>
+          <input type="text" class="keyword-input" id="kwInput" placeholder="พิมพ์ชื่อคน, username, หรือข้อความในรูป เพื่อเจาะลึก Instagram / Facebook">
+          <button class="btn btn-secondary" onclick="searchSocialDorks()">🔍 ค้นหา</button>
+        </div>
+      </div>
+
+      <!-- ENGINE CARDS -->
+      <div class="engine-list">
+
+        <!-- 1. YANDEX (BEST FOR FULL IMAGE MATCHING) -->
+        <div class="engine-card featured">
+          <div class="engine-left">
+            <div class="engine-icon">🌐</div>
+            <div class="engine-info">
+              <h3>Yandex Visual Search <span class="pill-tag pill-red">แนะนำสูงสุด: สแกนทั้งรูป 100%</span></h3>
+              <p>ระบบที่ดีที่สุดในโลกสำหรับหาบัญชี Instagram, Facebook, VK โดยใช้ภาพทั้งรูป (ไม่ตัดเฉพาะเสื้อผ้า)</p>
             </div>
-            <div id="progressPercent" style="font-weight: 700;">0%</div>
           </div>
+          <button class="btn btn-primary" style="background: #E11D48;" onclick="openYandex()">🌐 เปิดผลลัพธ์ Yandex ทันที</button>
         </div>
-      </div>
 
-      <!-- MATCHES FEED HEADER -->
-      <div class="matches-section-header">
-        <h3>🎯 รายการรูปภาพที่ตรวจพบ (Visual Match Feed)</h3>
-        <span style="font-size: 12px; color: var(--text-secondary);" id="matchCounter">พบ 0 รายการ</span>
-      </div>
-
-      <!-- SIDE-BY-SIDE MATCH RESULTS CONTAINER -->
-      <div class="matches-feed" id="matchesFeed">
-        <!-- Placeholder Empty State -->
-        <div style="text-align: center; padding: 40px; background: rgba(15,23,42,0.5); border-radius: 14px; border: 1px dashed rgba(255,255,255,0.1);" id="emptyFeedState">
-          <div style="font-size: 38px; margin-bottom: 8px;">🔍</div>
-          <div style="font-size: 15px; font-weight: 700; color: #FFF;">ยังไม่มีผลการค้นหา</div>
-          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">เมื่อใส่รูปภาพ ระบบ AI จะค้นหาทุกแพลตฟอร์มและนำภาพที่พบมาประกบคู่แจ้งเตือนตรงนี้ทันที</div>
+        <!-- 2. GOOGLE LENS (FIND IMAGE SOURCE) -->
+        <div class="engine-card">
+          <div class="engine-left">
+            <div class="engine-icon">🔍</div>
+            <div class="engine-info">
+              <h3>Google Lens (ค้นหาแหล่งที่มาของภาพทั้งรูป) <span class="pill-tag pill-blue">Direct Result</span></h3>
+              <p>เปิดหน้าผลลัพธ์ Google ที่ภาพถูกสแกนแล้ว พร้อมลิงก์ไปยังเว็บและข่าวสารที่เคยลงรูปนี้</p>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="openGoogleLens()">🔍 เปิดผลลัพธ์ Google Lens</button>
         </div>
+
+        <!-- 3. TINEYE (EXACT DUPLICATE SEARCH) -->
+        <div class="engine-card">
+          <div class="engine-left">
+            <div class="engine-icon">👁️</div>
+            <div class="engine-info">
+              <h3>TinEye Reverse Search <span class="pill-tag pill-green">Original Source Tracker</span></h3>
+              <p>สแกนลายนิ้วมือดิจิทัลทั้งภาพ แสดงรายชื่อทุกเว็บที่เคยมีรูปนี้ และวันที่รูปนี้ปรากฏบนอินเทอร์เน็ตครั้งแรก</p>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="openTinEye()">👁️ เปิดผลลัพธ์ TinEye</button>
+        </div>
+
+        <!-- 4. BING VISUAL -->
+        <div class="engine-card">
+          <div class="engine-left">
+            <div class="engine-icon">🟦</div>
+            <div class="engine-info">
+              <h3>Microsoft Bing Visual Search <span class="pill-tag pill-purple">Pages With Image</span></h3>
+              <p>เปิดแท็บ 'Pages With This Image' ของ Microsoft ดูเว็บและโซเชียลมีเดียที่เคยใช้รูปนี้</p>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="openBing()">🟦 เปิดผลลัพธ์ Bing</button>
+        </div>
+
+        <!-- 5. INSTAGRAM (META) -->
+        <div class="engine-card">
+          <div class="engine-left">
+            <div class="engine-icon">📸</div>
+            <div class="engine-info">
+              <h3>Instagram OSINT Matcher <span class="pill-tag pill-red">Instagram</span></h3>
+              <p>เจาะลึกค้นหาโปรไฟล์, ภาพถ่าย และโพสต์บน Instagram ที่เกี่ยวข้องกับภาพนี้</p>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="openInstagram()">📸 เจาะหาบน Instagram</button>
+        </div>
+
+        <!-- 6. FACEBOOK -->
+        <div class="engine-card">
+          <div class="engine-left">
+            <div class="engine-icon">👥</div>
+            <div class="engine-info">
+              <h3>Facebook Photos &amp; Profile Lookups <span class="pill-tag pill-blue">Facebook</span></h3>
+              <p>ค้นหาภาพโปรไฟล์, อัลบั้ม และโพสต์บน Facebook ที่เคยมีรูปนี้ปรากฏ</p>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="openFacebook()">👥 เจาะหาบน Facebook</button>
+        </div>
+
+        <!-- 7. DISCORD -->
+        <div class="engine-card">
+          <div class="engine-left">
+            <div class="engine-icon">💬</div>
+            <div class="engine-info">
+              <h3>Discord CDN &amp; Server Attachment Matcher <span class="pill-tag pill-purple">Discord</span></h3>
+              <p>ค้นหาไฟล์แนบบน Discord CDN และเซิร์ฟเวอร์สาธารณะที่เคยแชร์รูปนี้</p>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="openDiscord()">💬 ตรวจสอบบน Discord</button>
+        </div>
+
       </div>
 
     </section>
 
   </main>
 
-  <!-- GEMINI API MODAL -->
-  <div class="modal-backdrop" id="apiModal">
-    <div class="modal-box">
-      <h3>🔑 เชื่อมต่อ Google Gemini Vision API (ทางเลือก)</h3>
-      <p>คุณสามารถใส่ Gemini API Key (ฟรี) เพื่อให้ AI วิเคราะห์รายละเอียดเชิงลึกและดึงข้อมูลบุคคลในรูปภาพได้ละเอียดสูงสุด หากไม่ใส่ ระบบจะใช้ Autonomous Vision Engine ภายในเครื่องทำงานแทนอัตโนมัติครับ</p>
-      <input type="password" class="modal-input" id="apiKeyInput" placeholder="AIzaSy...">
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeApiModal()">ยกเลิก</button>
-        <button class="btn btn-primary" onclick="saveApiKey()">บันทึก API Key</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- POPUP ALERT CONTAINER -->
-  <div id="popupAlertContainer"></div>
-
   <!-- FOOTER -->
   <footer>
-    <div>OmniReverse Autonomous AI Vision v3.0 | Real-Time Cross-Platform Detection Engine</div>
-    <div id="engineStatus">Ready</div>
+    <div>OmniReverse Full Image OSINT Pro v3.5 | Direct Reverse Search Results Engine</div>
+    <div id="footerStatus">พร้อมใช้งาน</div>
   </footer>
 
   <script>
-    // Audio Context (Synthesized Cyber SFX)
-    let audioEnabled = true;
-    let audioCtx = null;
-
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-    }
-
-    function playBeep(freq = 600, duration = 0.08, type = 'sine') {
-      if (!audioEnabled) return;
-      try {
-        initAudio();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-      } catch(e) {}
-    }
-
-    function playSuccessChime() {
-      if (!audioEnabled) return;
-      playBeep(523.25, 0.12);
-      setTimeout(() => playBeep(659.25, 0.12), 100);
-      setTimeout(() => playBeep(783.99, 0.25), 200);
-    }
-
-    function toggleAudio() {
-      audioEnabled = !audioEnabled;
-      document.getElementById('btnAudioToggle').innerText = audioEnabled ? '🔊 เสียงไซเบอร์: เปิด' : '🔇 เสียงไซเบอร์: ปิด';
-    }
-
-    // State Variables
+    let currentPublicUrl = "";
     let currentImageFile = null;
-    let currentImageDataUrl = "";
-    let isScanning = false;
-    let detectedMatches = [];
 
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
-    const dropContent = document.getElementById('dropContent');
-    const previewWrapper = document.getElementById('previewWrapper');
+    const previewBox = document.getElementById('previewBox');
     const previewImg = document.getElementById('previewImg');
-    const matchesFeed = document.getElementById('matchesFeed');
-    const emptyFeedState = document.getElementById('emptyFeedState');
-    const progressFill = document.getElementById('progressFill');
-    const progressPercent = document.getElementById('progressPercent');
-    const logIcon = document.getElementById('logIcon');
-    const logMessage = document.getElementById('logMessage');
+    const dropPrompt = document.getElementById('dropPrompt');
+    const directUrlInput = document.getElementById('directUrlInput');
+    const uploadBadge = document.getElementById('uploadBadge');
+    const progWrap = document.getElementById('progWrap');
+    const progBar = document.getElementById('progBar');
+    const footerStatus = document.getElementById('footerStatus');
 
-    // Drag and Drop Listeners
+    // Drag & Drop
     dropzone.addEventListener('dragover', (e) => {
       e.preventDefault();
       dropzone.classList.add('drag-over');
@@ -1012,354 +641,231 @@
       e.preventDefault();
       dropzone.classList.remove('drag-over');
       if (e.dataTransfer.files.length > 0) {
-        handleFileSelect(e.dataTransfer.files[0]);
+        handleFile(e.dataTransfer.files[0]);
       }
     });
 
     fileInput.addEventListener('change', (e) => {
       if (e.target.files.length > 0) {
-        handleFileSelect(e.target.files[0]);
+        handleFile(e.target.files[0]);
       }
     });
 
-    // Paste from clipboard
     window.addEventListener('paste', (e) => {
       const items = e.clipboardData.items;
       for (let i = 0; i < items.length; i++) {
         if (items[i].type.indexOf('image') !== -1) {
           const blob = items[i].getAsFile();
-          handleFileSelect(blob);
+          handleFile(blob);
           break;
         }
       }
     });
 
-    async function pasteFromClipboard() {
+    async function pasteClipboard() {
       try {
         const clipboardItems = await navigator.clipboard.read();
         for (const item of clipboardItems) {
           for (const type of item.types) {
             if (type.startsWith('image/')) {
               const blob = await item.getType(type);
-              handleFileSelect(new File([blob], "clipboard_image.png", { type }));
+              handleFile(new File([blob], "target.png", { type }));
               return;
             }
           }
         }
         alert('ไม่พบรูปภาพในคลิปบอร์ด กรุณาใช้ Win+Shift+S เพื่อแคปภาพ หรือกดคัดลอกรูปภาพมาก่อนครับ');
-      } catch (err) {
+      } catch(e) {
         alert('กรุณากดปุ่ม Ctrl+V บนคีย์บอร์ดเพื่อวางรูปภาพโดยตรง');
       }
     }
 
-    // Process Image Selection
-    function handleFileSelect(file) {
-      if (!file || !file.type.startsWith('image/')) {
-        alert('กรุณาเลือกไฟล์ที่เป็นรูปภาพเท่านั้น');
-        return;
-      }
-
+    function handleFile(file) {
       currentImageFile = file;
       const reader = new FileReader();
       reader.onload = (e) => {
-        currentImageDataUrl = e.target.result;
-        previewImg.src = currentImageDataUrl;
-        previewWrapper.style.display = 'flex';
-        dropContent.style.display = 'none';
-
-        // Dimensions
-        const img = new Image();
-        img.onload = () => {
-          document.getElementById('statDim').innerText = `${img.naturalWidth} × ${img.naturalHeight} px`;
-        };
-        img.src = currentImageDataUrl;
-
-        // Stats
-        document.getElementById('statSize').innerText = `${(file.size / 1024).toFixed(1)} KB`;
-        document.getElementById('statType').innerText = file.type || 'image/jpeg';
-        computeSha256(file);
-
-        playBeep(880, 0.15);
-
-        // Auto Start Autonomous Scan!
-        startAutonomousScan();
+        previewImg.src = e.target.result;
+        previewBox.style.display = 'flex';
+        dropPrompt.style.display = 'none';
+        uploadImageToHost(file);
       };
       reader.readAsDataURL(file);
     }
 
-    // SHA-256 Hash
-    async function computeSha256(file) {
-      const buffer = await file.arrayBuffer();
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const sha256Hex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      document.getElementById('statSha').innerText = sha256Hex.substring(0, 24) + '...';
-    }
-
-    // POPUP NOTIFICATION ALERT
-    function showMatchPopupAlert(match) {
-      playSuccessChime();
-
-      const container = document.getElementById('popupAlertContainer');
-      const alertBox = document.createElement('div');
-      alertBox.className = 'match-popup-alert';
-      alertBox.innerHTML = `
-        <img src="${match.matchedImgUrl || currentImageDataUrl}" class="alert-thumb" alt="Match">
-        <div class="alert-content">
-          <h4>🚨 ตรวจพบรูปภาพตรงกัน! (${match.platform})</h4>
-          <p>ความเหมือน: <strong>${match.confidence}%</strong> | ${match.accountName}</p>
-        </div>
-      `;
-
-      container.appendChild(alertBox);
-
-      setTimeout(() => {
-        alertBox.style.transition = 'opacity 0.4s, transform 0.4s';
-        alertBox.style.opacity = '0';
-        alertBox.style.transform = 'translateX(60px)';
-        setTimeout(() => alertBox.remove(), 400);
-      }, 4500);
-    }
-
-    // RENDER SIDE-BY-SIDE MATCH CARD
-    function renderMatchCard(match) {
-      if (emptyFeedState) {
-        emptyFeedState.style.display = 'none';
+    function handleUrlInput(url) {
+      url = url.trim();
+      if (url.startsWith('http')) {
+        currentPublicUrl = url;
+        previewImg.src = url;
+        previewBox.style.display = 'flex';
+        dropPrompt.style.display = 'none';
+        uploadBadge.innerText = '✓ URL พร้อมใช้งาน';
+        uploadBadge.style.color = '#10B981';
+        footerStatus.innerText = 'พร้อมเปิดผลลัพธ์โดยตรง';
       }
-
-      const card = document.createElement('div');
-      card.className = 'match-card';
-      
-      let platformClass = 'tag-ig';
-      let platformIcon = '📸';
-      if (match.platform.includes('Facebook')) { platformClass = 'tag-fb'; platformIcon = '👥'; }
-      else if (match.platform.includes('Discord')) { platformClass = 'tag-dc'; platformIcon = '💬'; }
-      else if (match.platform.includes('Google')) { platformClass = 'tag-gg'; platformIcon = '🔍'; }
-      else if (match.platform.includes('Yandex')) { platformClass = 'tag-yd'; platformIcon = '🌐'; }
-
-      card.innerHTML = `
-        <div class="match-header">
-          <div class="platform-tag ${platformClass}">
-            <span>${platformIcon}</span>
-            <span>${match.platform}</span>
-            <span style="color: var(--text-secondary); font-size: 11px; font-weight: normal;">• ${match.timestamp}</span>
-          </div>
-          <div class="confidence-badge conf-high">
-            <span>⚡ MATCH: ${match.confidence}%</span>
-          </div>
-        </div>
-
-        <!-- SIDE-BY-SIDE COMPARISON IMAGES -->
-        <div class="compare-grid">
-          <!-- Left: User Uploaded Image -->
-          <div class="compare-side">
-            <span class="compare-side-label">รูปภาพที่คุณใส่ (Target)</span>
-            <div class="compare-img-box">
-              <img src="${currentImageDataUrl}" alt="Original">
-            </div>
-          </div>
-
-          <!-- Middle: VS Indicator -->
-          <div class="compare-divider">
-            <div class="compare-vs">VS</div>
-            <div style="font-size: 10px; color: var(--accent-emerald); font-weight: 700;">ตรงกัน</div>
-          </div>
-
-          <!-- Right: Discovered Image on Platform -->
-          <div class="compare-side">
-            <span class="compare-side-label">ตรวจพบบน ${match.platform}</span>
-            <div class="compare-img-box">
-              <img src="${match.matchedImgUrl}" alt="Discovered">
-            </div>
-          </div>
-        </div>
-
-        <!-- MATCH DETAILS & ACTION LINK -->
-        <div class="match-details">
-          <div class="match-meta-text">
-            <div>แหล่งที่มา: <strong>${match.accountName}</strong></div>
-            <div style="font-size: 11px; color: #94A3B8;">${match.contextDescription}</div>
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <a href="${match.sourceUrl}" target="_blank" class="match-link-btn">
-              <span>🔗 เปิดดูที่มาบน ${match.platform}</span>
-            </a>
-          </div>
-        </div>
-      `;
-
-      matchesFeed.prepend(card);
-      document.getElementById('matchCounter').innerText = `พบ ${detectedMatches.length} รายการ`;
     }
 
-    // AUTONOMOUS SCANNING PIPELINE
-    async function startAutonomousScan() {
-      if (!currentImageDataUrl) {
-        alert('กรุณาเลือกหรือวางรูปภาพก่อนครับ');
+    async function uploadImageToHost(file) {
+      uploadBadge.innerText = '⏳ กำลังอัปโหลดภาพทั้งรูป...';
+      uploadBadge.style.color = '#38BDF8';
+      progWrap.style.display = 'block';
+      progBar.style.width = '30%';
+
+      try {
+        // Litterbox (Auto-deletes in 1 hour)
+        const formData = new FormData();
+        formData.append('reqtype', 'fileupload');
+        formData.append('time', '1h');
+        formData.append('fileToUpload', file);
+
+        progBar.style.width = '60%';
+        const res = await fetch('https://litterbox.catbox.moe/resources/internals/api.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (res.ok) {
+          const url = (await res.text()).trim();
+          if (url.startsWith('http')) {
+            currentPublicUrl = url;
+            directUrlInput.value = url;
+            uploadBadge.innerText = '✓ อัปโหลดสำเร็จ (ลิงก์ตรงพร้อมค้นหา)';
+            uploadBadge.style.color = '#10B981';
+            progBar.style.width = '100%';
+            setTimeout(() => { progWrap.style.display = 'none'; }, 600);
+            footerStatus.innerText = 'ภาพทั้งรูปพร้อมเปิดดูผลลัพธ์แล้ว!';
+            return;
+          }
+        }
+      } catch (err) {}
+
+      // Fallback: tmpfiles.org
+      try {
+        progBar.style.width = '75%';
+        const formData = new FormData();
+        formData.append('input', file);
+        const res = await fetch('https://tmpfiles.org/api/v1/upload', {
+          method: 'POST',
+          body: formData
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.data && data.data.url) {
+            const url = data.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+            currentPublicUrl = url;
+            directUrlInput.value = url;
+            uploadBadge.innerText = '✓ อัปโหลดสำเร็จ (tmpfiles)';
+            uploadBadge.style.color = '#10B981';
+            progBar.style.width = '100%';
+            setTimeout(() => { progWrap.style.display = 'none'; }, 600);
+            return;
+          }
+        }
+      } catch (err) {}
+
+      uploadBadge.innerText = '⚠️ ใช้โหมดเดสก์ท็อปเพื่ออัปโหลดอัตโนมัติ';
+      uploadBadge.style.color = '#F59E0B';
+      progWrap.style.display = 'none';
+    }
+
+    function getKeyword() {
+      return document.getElementById('kwInput').value.trim();
+    }
+
+    // DIRECT SEARCH LINKS WITH IMAGE LOADED
+    function openYandex() {
+      if (currentPublicUrl) {
+        window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      } else {
+        alert('กรุณารอระบบอัปโหลดภาพสักครู่ หรือวาง URL รูปภาพก่อนครับ');
+        window.open('https://yandex.com/images/', '_blank');
+      }
+    }
+
+    function openGoogleLens() {
+      if (currentPublicUrl) {
+        // Direct Lens Result link
+        window.open(`https://lens.google.com/uploadbyurl?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      } else {
+        alert('กรุณารอระบบอัปโหลดภาพสักครู่ หรือวาง URL รูปภาพก่อนครับ');
+        window.open('https://lens.google.com/', '_blank');
+      }
+    }
+
+    function openTinEye() {
+      if (currentPublicUrl) {
+        window.open(`https://tineye.com/search?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      } else {
+        alert('กรุณารอระบบอัปโหลดภาพสักครู่ หรือวาง URL รูปภาพก่อนครับ');
+        window.open('https://tineye.com/', '_blank');
+      }
+    }
+
+    function openBing() {
+      if (currentPublicUrl) {
+        window.open(`https://www.bing.com/images/search?view=detailv2&iss=sbi&imgurl=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      } else {
+        window.open('https://www.bing.com/visualsearch', '_blank');
+      }
+    }
+
+    function openInstagram() {
+      const kw = getKeyword();
+      if (currentPublicUrl) {
+        window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      }
+      const q = kw ? `site:instagram.com "${kw}"` : `site:instagram.com`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function openFacebook() {
+      const kw = getKeyword();
+      if (currentPublicUrl) {
+        window.open(`https://www.bing.com/images/search?view=detailv2&iss=sbi&imgurl=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      }
+      const q = kw ? `site:facebook.com "${kw}"` : `site:facebook.com`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function openDiscord() {
+      const kw = getKeyword();
+      const q = kw ? `site:discord.com OR site:discord.gg "${kw}"` : `site:discord.com OR site:discord.gg`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function searchSocialDorks() {
+      const kw = getKeyword();
+      if (!kw) {
+        alert('กรุณาพิมพ์ชื่อคน หรือ username ก่อนครับ');
         return;
       }
-      if (isScanning) return;
+      const q = `(site:instagram.com OR site:facebook.com OR site:discord.com) "${kw}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
 
-      isScanning = true;
-      dropzone.classList.add('scanning');
-      document.getElementById('btnScan').disabled = true;
-      document.getElementById('btnScan').innerText = '⏳ AI กำลังค้นหาอัตโนมัติ...';
-
-      // Reset Feed
-      matchesFeed.innerHTML = '';
-      detectedMatches = [];
-      document.getElementById('matchCounter').innerText = 'กำลังสแกน...';
-
-      // Update AI Tags
-      const tagsBox = document.getElementById('aiTags');
-      tagsBox.innerHTML = `
-        <span class="ai-tag">กำลังสกัดโครงสร้างใบหน้า & สี...</span>
-        <span class="ai-tag">Visual Embeddings 512D</span>
-        <span class="ai-tag">Feature Map</span>
-      `;
-
-      // Step-by-Step Autonomous Scanning Workflow
-      const steps = [
-        { pct: 15, msg: 'วิเคราะห์โครงสร้างเวกเตอร์และลักษณะเฉพาะของภาพ...', icon: '🧠', delay: 400 },
-        { 
-          pct: 35, 
-          msg: 'กำลังค้นหาบน Google Lens & Reverse Index...', 
-          icon: '🔍', 
-          delay: 800,
-          match: {
-            platform: 'Google Lens / Web Index',
-            confidence: 99.1,
-            accountName: 'Public Web Index (google.com/lens)',
-            contextDescription: 'พบรูปภาพดั้งเดิมและเว็บที่นำภาพนี้ไปเผยแพร่สาธารณะ',
-            sourceUrl: 'https://lens.google.com/',
-            matchedImgUrl: currentImageDataUrl,
-            timestamp: 'พบเมื่อสักครู่'
-          }
-        },
-        { 
-          pct: 58, 
-          msg: 'กำลังเจาะลึกโปรไฟล์และโพสต์บน Instagram...', 
-          icon: '📸', 
-          delay: 1000,
-          match: {
-            platform: 'Instagram (Meta)',
-            confidence: 97.4,
-            accountName: '@target_profile on Instagram',
-            contextDescription: 'ตรวจพบใบหน้า/รูปภาพตรงกันในโพสต์โปรไฟล์สาธารณะ',
-            sourceUrl: 'https://www.google.com/search?q=site:instagram.com',
-            matchedImgUrl: currentImageDataUrl,
-            timestamp: 'โพสต์เมื่อ 3 วันที่แล้ว'
-          }
-        },
-        { 
-          pct: 78, 
-          msg: 'กำลังตรวจสอบไฟล์แนบบน Discord CDN และเซิร์ฟเวอร์...', 
-          icon: '💬', 
-          delay: 900,
-          match: {
-            platform: 'Discord CDN',
-            confidence: 96.8,
-            accountName: 'cdn.discordapp.com/attachments/...',
-            contextDescription: 'พบไฟล์รูปภาพและค่า Hash ตรงกันในระบบแคช Discord',
-            sourceUrl: 'https://www.google.com/search?q=site:discord.com+OR+site:discord.gg',
-            matchedImgUrl: currentImageDataUrl,
-            timestamp: 'อัปโหลดในแชทเมื่อวาน'
-          }
-        },
-        { 
-          pct: 92, 
-          msg: 'กำลังตรวจค้นรูปภาพบน Facebook (กลุ่มและโพสต์สาธารณะ)...', 
-          icon: '👥', 
-          delay: 900,
-          match: {
-            platform: 'Facebook',
-            confidence: 95.2,
-            accountName: 'Facebook Media & Albums',
-            contextDescription: 'ตรวจพบภาพที่ตรงกันในเพจหรืออัลบั้มรูปภาพ Facebook',
-            sourceUrl: 'https://www.google.com/search?q=site:facebook.com',
-            matchedImgUrl: currentImageDataUrl,
-            timestamp: 'โพสต์สาธารณะ'
-          }
-        },
-        { 
-          pct: 100, 
-          msg: 'สแกนเสร็จสมบูรณ์! ตรวจพบรูปภาพบนทุกแพลตฟอร์มเรียบร้อย', 
-          icon: '✅', 
-          delay: 500 
-        }
-      ];
-
-      for (const step of steps) {
-        await new Promise(r => setTimeout(r, step.delay));
-        progressFill.style.width = `${step.pct}%`;
-        progressPercent.innerText = `${step.pct}%`;
-        logIcon.innerText = step.icon;
-        logMessage.innerText = step.msg;
-        playBeep(440 + step.pct * 5, 0.05);
-
-        if (step.match) {
-          detectedMatches.push(step.match);
-          renderMatchCard(step.match);
-          showMatchPopupAlert(step.match);
-        }
+    function searchAllEngines() {
+      if (!currentPublicUrl && !currentImageFile) {
+        alert('กรุณาใส่รูปภาพก่อนเริ่มค้นหาครับ');
+        return;
       }
 
-      // Finalize
-      isScanning = false;
-      dropzone.classList.remove('scanning');
-      document.getElementById('btnScan').disabled = false;
-      document.getElementById('btnScan').innerText = '⚡ เริ่มสแกน AI อัตโนมัติอีกครั้ง';
-      document.getElementById('matchCounter').innerText = `พบทั้งหมด ${detectedMatches.length} รายการ`;
-      
-      // Update AI Tag Summary
-      tagsBox.innerHTML = `
-        <span class="ai-tag">✓ ยืนยันพบภาพตรงกัน</span>
-        <span class="ai-tag">Google Lens (99.1%)</span>
-        <span class="ai-tag">Instagram (97.4%)</span>
-        <span class="ai-tag">Discord (96.8%)</span>
-        <span class="ai-tag">Facebook (95.2%)</span>
-      `;
+      openYandex();
+      setTimeout(openGoogleLens, 350);
+      setTimeout(openTinEye, 700);
+      setTimeout(openBing, 1050);
+      setTimeout(openInstagram, 1400);
     }
 
-    // Reset Function
-    function resetAll() {
+    function resetForm() {
+      currentPublicUrl = "";
       currentImageFile = null;
-      currentImageDataUrl = "";
-      previewWrapper.style.display = 'none';
-      dropContent.style.display = 'flex';
+      previewBox.style.display = 'none';
+      dropPrompt.style.display = 'block';
       previewImg.src = '';
-      document.getElementById('statDim').innerText = '-';
-      document.getElementById('statSize').innerText = '-';
-      document.getElementById('statType').innerText = '-';
-      document.getElementById('statSha').innerText = '-';
-      document.getElementById('aiTags').innerHTML = '<span class="ai-tag">รอการอัปโหลดภาพ...</span>';
-      progressFill.style.width = '0%';
-      progressPercent.innerText = '0%';
-      logIcon.innerText = '💤';
-      logMessage.innerText = 'พร้อมทำงาน: กรุณาใส่รูปภาพเพื่อเริ่มการค้นหาอัตโนมัติ';
-      matchesFeed.innerHTML = '';
-      matchesFeed.appendChild(emptyFeedState);
-      emptyFeedState.style.display = 'block';
-      document.getElementById('matchCounter').innerText = 'พบ 0 รายการ';
-      playBeep(400, 0.1);
-    }
-
-    // Gemini API Modal logic
-    function openApiModal() {
-      document.getElementById('apiModal').style.display = 'flex';
-      const key = localStorage.getItem('omni_gemini_key') || '';
-      document.getElementById('apiKeyInput').value = key;
-    }
-
-    function closeApiModal() {
-      document.getElementById('apiModal').style.display = 'none';
-    }
-
-    function saveApiKey() {
-      const key = document.getElementById('apiKeyInput').value.trim();
-      localStorage.setItem('omni_gemini_key', key);
-      closeApiModal();
-      alert('บันทึกการตั้งค่า Gemini AI เรียบร้อยแล้ว');
+      directUrlInput.value = '';
+      uploadBadge.innerText = 'รอรูปภาพ...';
+      uploadBadge.style.color = 'var(--accent-amber)';
+      footerStatus.innerText = 'พร้อมใช้งาน';
     }
   </script>
 </body>
