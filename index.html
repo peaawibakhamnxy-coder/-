@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniReverse Pro — สแกนทั้งรูปภาพข้ามทุกแพลตฟอร์ม (Direct Search Results)</title>
+  <title>OmniReverse Ultra — Pro OSINT Reverse Image Search & Facial Matcher</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #070B14;
-      --bg-card: rgba(17, 24, 39, 0.85);
-      --bg-card-hover: rgba(31, 41, 55, 0.95);
-      --border: rgba(56, 189, 248, 0.2);
+      --bg-dark: #060911;
+      --bg-card: rgba(15, 23, 42, 0.85);
+      --bg-card-hover: rgba(30, 41, 59, 0.95);
+      --border: rgba(56, 189, 248, 0.22);
       --accent-cyan: #06B6D4;
       --accent-blue: #2563EB;
+      --accent-purple: #8B5CF6;
       --accent-emerald: #10B981;
       --accent-rose: #F43F5E;
       --accent-amber: #F59E0B;
@@ -34,9 +35,12 @@
     body {
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.18) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(225, 29, 72, 0.12) 0px, transparent 50%),
-        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.2) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.18) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
       color: var(--text-main);
       font-family: var(--font-sans);
       min-height: 100vh;
@@ -44,8 +48,9 @@
       flex-direction: column;
     }
 
+    /* HEADER */
     header {
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(11, 17, 32, 0.9);
       backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       padding: 14px 28px;
@@ -64,12 +69,12 @@
     }
 
     .brand-logo {
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #06B6D4, #2563EB);
+      background: linear-gradient(135deg, #06B6D4, #3B82F6, #8B5CF6);
       padding: 2px;
-      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.45);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -83,7 +88,7 @@
     }
 
     .brand-text h1 {
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 800;
       letter-spacing: -0.5px;
       display: flex;
@@ -91,15 +96,15 @@
       gap: 10px;
     }
 
-    .badge-full {
-      background: #10B981;
+    .badge-ultra {
+      background: linear-gradient(90deg, #8B5CF6, #EC4899);
       color: #FFF;
       font-size: 10px;
       font-weight: 800;
       padding: 3px 8px;
       border-radius: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      box-shadow: 0 0 10px rgba(236, 72, 153, 0.4);
     }
 
     .brand-text p {
@@ -118,7 +123,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       border: none;
       outline: none;
     }
@@ -130,7 +135,7 @@
     }
 
     .btn-primary:hover {
-      box-shadow: 0 6px 22px rgba(6, 182, 212, 0.65);
+      box-shadow: 0 6px 24px rgba(6, 182, 212, 0.7);
       transform: translateY(-1px);
     }
 
@@ -148,7 +153,7 @@
     .main-grid {
       flex: 1;
       padding: 24px;
-      max-width: 1540px;
+      max-width: 1560px;
       margin: 0 auto;
       width: 100%;
       display: grid;
@@ -160,6 +165,7 @@
       .main-grid { grid-template-columns: 1fr; }
     }
 
+    /* LEFT COLUMN */
     .left-col {
       display: flex;
       flex-direction: column;
@@ -187,13 +193,7 @@
     .dropzone-box:hover, .dropzone-box.drag-over {
       border-color: var(--accent-cyan);
       background: rgba(20, 29, 50, 0.95);
-      box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
-    }
-
-    .dropzone-icon {
-      font-size: 50px;
-      margin-bottom: 10px;
-      filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
+      box-shadow: 0 0 35px rgba(6, 182, 212, 0.3);
     }
 
     .preview-box {
@@ -214,6 +214,58 @@
       max-height: 100%;
       object-fit: contain;
       border-radius: 8px;
+      transition: transform 0.2s;
+    }
+
+    /* IMAGE OPTIMIZATION TOOLS BAR */
+    .image-tools-card {
+      background: #0F172A;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    .tools-heading {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tools-btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-tool {
+      background: #1E293B;
+      color: #E2E8F0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-tool:hover {
+      background: #334155;
+      border-color: var(--accent-cyan);
+    }
+
+    .btn-tool.active {
+      background: rgba(6, 182, 212, 0.2);
+      border-color: var(--accent-cyan);
+      color: #38BDF8;
     }
 
     .upload-status-card {
@@ -244,23 +296,6 @@
       margin-top: 4px;
     }
 
-    .progress-bar-wrap {
-      width: 100%;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      overflow: hidden;
-      margin: 8px 0;
-      display: none;
-    }
-
-    .progress-bar-inner {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #06B6D4, #3B82F6, #10B981);
-      transition: width 0.3s ease;
-    }
-
     .tip-box {
       background: rgba(30, 41, 59, 0.6);
       border-left: 3px solid #06B6D4;
@@ -273,6 +308,7 @@
 
     .tip-box strong { color: #38BDF8; }
 
+    /* RIGHT COLUMN */
     .right-col {
       display: flex;
       flex-direction: column;
@@ -336,6 +372,7 @@
 
     .keyword-input:focus { border-color: var(--accent-cyan); }
 
+    /* ENGINE LIST */
     .engine-list {
       display: flex;
       flex-direction: column;
@@ -364,6 +401,11 @@
     .engine-card.featured {
       border: 1.5px solid #E11D48;
       background: linear-gradient(135deg, rgba(225, 29, 72, 0.15), rgba(17, 24, 39, 0.85));
+    }
+
+    .engine-card.ai-special {
+      border: 1.5px solid #8B5CF6;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(17, 24, 39, 0.85));
     }
 
     .engine-left {
@@ -405,8 +447,8 @@
 
     .pill-red { background: #E11D48; color: #FFF; }
     .pill-blue { background: #2563EB; color: #FFF; }
-    .pill-green { background: #10B981; color: #FFF; }
     .pill-purple { background: #8B5CF6; color: #FFF; }
+    .pill-green { background: #10B981; color: #FFF; }
 
     footer {
       background: #06090F;
@@ -429,17 +471,17 @@
         <img src="assets/logo.jpg" alt="Logo" onerror="this.onerror=null; this.parentElement.innerText='🔍';">
       </div>
       <div class="brand-text">
-        <h1>OmniReverse <span style="color: #38BDF8;">Full Image OSINT</span> <span class="badge-full">สแกนทั้งรูปภาพ 100%</span></h1>
-        <p>เปิดหน้าผลลัพธ์การค้นหาทันที (เห็นภาพและเว็บที่มา ไม่ต้องลากรูปซ้ำ) บน Google, IG, FB, Discord, Yandex, TinEye</p>
+        <h1>OmniReverse <span style="color: #38BDF8;">Ultra OSINT Pro</span> <span class="badge-ultra">MAX ACCURACY v4.0</span></h1>
+        <p>ยกระดับการค้นหารูปภาพข้ามทุกแพลตฟอร์ม: Yandex, Google Lens, FaceCheck AI, TinEye, Bing, Baidu, IG, FB, Discord</p>
       </div>
     </div>
     <div>
       <button class="btn btn-secondary" onclick="resetForm()">🗑️ ล้างภาพ</button>
-      <button class="btn btn-primary" onclick="searchAllEngines()">🚀 เปิดผลลัพธ์ทุกแพลตฟอร์ม</button>
+      <button class="btn btn-primary" onclick="searchAllEngines()">🚀 เปิดผลลัพธ์ทุกเครื่องมือพร้อมกัน</button>
     </div>
   </header>
 
-  <!-- MAIN -->
+  <!-- MAIN GRID -->
   <main class="main-grid">
 
     <!-- LEFT COLUMN -->
@@ -448,10 +490,10 @@
       <!-- DROPZONE -->
       <div class="dropzone-box" id="dropzone">
         <div id="dropPrompt">
-          <div class="dropzone-icon">📸</div>
+          <div style="font-size: 48px; margin-bottom: 10px;">📸</div>
           <div style="font-size: 16px; font-weight: 800; color: #FFF;">วางรูปภาพที่นี่ (Drag &amp; Drop)</div>
           <div style="font-size: 12px; color: var(--text-muted); margin: 6px 0 16px;">
-            ระบบจะอัปโหลดภาพทั้งรูปและสร้าง Direct Result Links อัตโนมัติทันที
+            ระบบจะอัปโหลดภาพและสร้าง Direct Search Links เข้าสู่ผลลัพธ์ทันที
           </div>
           <div style="display: flex; gap: 10px; z-index: 5;">
             <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📂 เลือกไฟล์ภาพ</button>
@@ -465,136 +507,161 @@
       </div>
       <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
-      <!-- URL UPLOAD STATUS -->
-      <div class="upload-status-card">
-        <div class="status-row">
-          <strong style="color: #38BDF8;">🔗 Direct Image URL สำหรับส่งเข้า Search Engine:</strong>
-          <span id="uploadBadge" style="color: var(--accent-amber); font-weight: 700;">รอรูปภาพ...</span>
+      <!-- IMAGE OPTIMIZATION TOOLS (เคล็ดลับเพิ่มผลการค้นหา 300%) -->
+      <div class="image-tools-card">
+        <div class="tools-heading">
+          <span>⚡ ฟังก์ชันช่วยเพิ่มความแม่นยำในการค้นหา (OSINT Tools)</span>
         </div>
-        
-        <div class="progress-bar-wrap" id="progWrap">
-          <div class="progress-bar-inner" id="progBar"></div>
+        <div class="tools-btn-grid">
+          <button class="btn-tool" id="btnFlip" onclick="toggleFlipHorizontal()">
+            <span>🔄 กลับภาพซ้าย-ขวา (Mirror)</span>
+          </button>
+          <button class="btn-tool" id="btnSharpen" onclick="toggleSharpen()">
+            <span>✨ เพิ่มความคมชัด (Sharpen)</span>
+          </button>
         </div>
-
-        <input type="text" class="url-display" id="directUrlInput" placeholder="หรือวางลิงก์รูปภาพ (URL) ตรงนี้ได้เลย..." onchange="handleUrlInput(this.value)">
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px;">
+          *เคล็ดลับ: รูปเซลฟี่จาก Instagram/TikTok มักถูกกลับด้าน การกด <strong>กลับภาพซ้าย-ขวา (Mirror)</strong> จะช่วยให้ค้นเจอต้นฉบับได้ง่ายขึ้นอย่างมาก!
+        </div>
       </div>
 
-      <!-- OSINT ADVICE BOX -->
+      <!-- DIRECT URL -->
+      <div class="upload-status-card">
+        <div class="status-row">
+          <strong style="color: #38BDF8;">🔗 Direct Image URL:</strong>
+          <span id="uploadBadge" style="color: var(--accent-amber); font-weight: 700;">รอรูปภาพ...</span>
+        </div>
+        <input type="text" class="url-display" id="directUrlInput" placeholder="หรือวางลิงก์รูปภาพ (URL) ตรงนี้เพื่อค้นหาทันที..." onchange="handleUrlInput(this.value)">
+      </div>
+
+      <!-- TIP BOX -->
       <div class="tip-box">
-        <strong>💡 ทำไมเมื่อกี้ Google Lens ถึงตรวจเฉพาะเสื้อผ้า?</strong><br>
-        Google Lens มีระบบ AI ตรวจจับสินค้า/เสื้อผ้าเป็นค่าเริ่มต้น 
-        แต่เมื่อเปิดผ่านลิงก์ตรงของระบบนี้ คุณสามารถกดปุ่ม <strong>"ค้นหาแหล่งที่มาของภาพ" (Find image source)</strong> บน Google Lens เพื่อสแกน <strong>ทั้งรูป 100%</strong> ได้ทันที<br><br>
-        นอกจากนี้ <strong>Yandex Visual Search</strong> และ <strong>TinEye</strong> จะสแกนโครงสร้างทั้งรูปภาพโดยไม่ตัดเฉพาะเสื้อผ้า และจับคู่กับโปรไฟล์ <strong>Instagram / Facebook</strong> ได้แม่นยำที่สุด
+        <strong>💡 เทคนิคค้นหาคนจากรูปให้เจอตัวจริง:</strong><br>
+        1. <strong>Yandex Images</strong> = ระบบอันดับ 1 ที่สแกนใบหน้าทั้งรูปแล้วพาไปถึง IG / Facebook / VK จริง<br>
+        2. <strong>FaceCheck.id</strong> = ระบบ AI สแกนใบหน้าโดยเฉพาะสำหรับหาบัญชีโซเชียล (Instagram, Facebook, TikTok, Twitter/X)<br>
+        3. <strong>TinEye</strong> = ใช้เช็คว่ารูปนี้เป็นรูปหลอก/ภาพขโมยมาจากเน็ตไหม และโพสต์ครั้งแรกเมื่อไหร่
       </div>
 
     </section>
 
-    <!-- RIGHT COLUMN -->
+    <!-- RIGHT COLUMN: ENGINES -->
     <section class="right-col">
 
-      <!-- MASTER LAUNCH BAR -->
+      <!-- MASTER SEARCH BAR -->
       <div class="master-action-banner">
         <div class="master-header">
           <div>
-            <h2 style="font-size: 18px; font-weight: 800; color: #FFF;">🚀 เปิดหน้าผลลัพธ์ตรง (ไม่ต้องลากรูปซ้ำ)</h2>
+            <h2 style="font-size: 18px; font-weight: 800; color: #FFF;">🚀 เปิดหน้าผลการค้นหาตรง (รูปถูกสแกนเรียบร้อย)</h2>
             <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
-              กดแล้วจะเปิดหน้าผลลัพธ์ที่รูปภาพถูกวิเคราะห์เรียบร้อย เห็นทันทีว่ารูปนี้เคยไปปรากฏอยู่ที่ไหนบ้าง
+              กดแล้วจะเปิดหน้าผลลัพธ์ที่นำภาพนี้ไปค้นหาในฐานข้อมูลทั่วโลกทันที
             </p>
           </div>
           <button class="btn-search-master" onclick="searchAllEngines()">
-            <span>🚀 เปิดผลลัพธ์ทุกแพลตฟอร์มพร้อมกัน</span>
+            <span>🚀 เปิดผลลัพธ์ทุกเครื่องมือพร้อมกัน</span>
           </button>
         </div>
 
         <div class="keyword-bar">
           <span style="font-size: 12px; color: var(--text-muted); white-space: nowrap;">🏷️ คำค้นหาเจาะจง:</span>
-          <input type="text" class="keyword-input" id="kwInput" placeholder="พิมพ์ชื่อคน, username, หรือข้อความในรูป เพื่อเจาะลึก Instagram / Facebook">
-          <button class="btn btn-secondary" onclick="searchSocialDorks()">🔍 ค้นหา</button>
+          <input type="text" class="keyword-input" id="kwInput" placeholder="พิมพ์ชื่อคน, username, หรือข้อความในรูป เพื่อเจาะลึก Instagram / Facebook / Discord">
+          <button class="btn btn-secondary" onclick="searchSocialDorks()">🔍 ค้นหาเจาะจง</button>
         </div>
       </div>
 
-      <!-- ENGINE CARDS -->
+      <!-- ENGINE LIST -->
       <div class="engine-list">
 
-        <!-- 1. YANDEX (BEST FOR FULL IMAGE MATCHING) -->
+        <!-- 1. YANDEX VISUAL (BEST FOR FACES & SOCIAL) -->
         <div class="engine-card featured">
           <div class="engine-left">
             <div class="engine-icon">🌐</div>
             <div class="engine-info">
-              <h3>Yandex Visual Search <span class="pill-tag pill-red">แนะนำสูงสุด: สแกนทั้งรูป 100%</span></h3>
-              <p>ระบบที่ดีที่สุดในโลกสำหรับหาบัญชี Instagram, Facebook, VK โดยใช้ภาพทั้งรูป (ไม่ตัดเฉพาะเสื้อผ้า)</p>
+              <h3>Yandex Visual Search <span class="pill-tag pill-red">แม่นยำสูงสุดสำหรับหาคน &amp; โซเชียล</span></h3>
+              <p>เครื่องมือค้นหาใบหน้าอันดับ 1 ของโลก! จับคู่หาบัญชี Instagram, Facebook, VK และเว็บบอร์ดที่เคยลงรูปนี้</p>
             </div>
           </div>
           <button class="btn btn-primary" style="background: #E11D48;" onclick="openYandex()">🌐 เปิดผลลัพธ์ Yandex ทันที</button>
         </div>
 
-        <!-- 2. GOOGLE LENS (FIND IMAGE SOURCE) -->
+        <!-- 2. FACECHECK.ID (AI FACIAL RECOGNITION) -->
+        <div class="engine-card ai-special">
+          <div class="engine-left">
+            <div class="engine-icon">👤</div>
+            <div class="engine-info">
+              <h3>FaceCheck.id (AI Facial Recognition OSINT) <span class="pill-tag pill-purple">AI Face Search</span></h3>
+              <p>สแกนใบหน้าโดยเฉพาะ เพื่อค้นหาโปรไฟล์บน Instagram, Facebook, TikTok, Twitter/X, OnlyFans, LinkedIn</p>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="background: #8B5CF6;" onclick="openFaceCheck()">👤 สแกนใบหน้า FaceCheck</button>
+        </div>
+
+        <!-- 3. GOOGLE LENS (FIND IMAGE SOURCE) -->
         <div class="engine-card">
           <div class="engine-left">
             <div class="engine-icon">🔍</div>
             <div class="engine-info">
               <h3>Google Lens (ค้นหาแหล่งที่มาของภาพทั้งรูป) <span class="pill-tag pill-blue">Direct Result</span></h3>
-              <p>เปิดหน้าผลลัพธ์ Google ที่ภาพถูกสแกนแล้ว พร้อมลิงก์ไปยังเว็บและข่าวสารที่เคยลงรูปนี้</p>
+              <p>เปิดหน้าผลลัพธ์ Google ที่ภาพถูกสแกนเรียบร้อย พร้อมลิงก์ไปยังเว็บและข่าวสารที่เคยลงรูปนี้</p>
             </div>
           </div>
           <button class="btn btn-primary" onclick="openGoogleLens()">🔍 เปิดผลลัพธ์ Google Lens</button>
         </div>
 
-        <!-- 3. TINEYE (EXACT DUPLICATE SEARCH) -->
+        <!-- 4. TINEYE (ORIGINAL SOURCE TRACKER) -->
         <div class="engine-card">
           <div class="engine-left">
             <div class="engine-icon">👁️</div>
             <div class="engine-info">
-              <h3>TinEye Reverse Search <span class="pill-tag pill-green">Original Source Tracker</span></h3>
+              <h3>TinEye Reverse Search <span class="pill-tag pill-green">Original Tracker</span></h3>
               <p>สแกนลายนิ้วมือดิจิทัลทั้งภาพ แสดงรายชื่อทุกเว็บที่เคยมีรูปนี้ และวันที่รูปนี้ปรากฏบนอินเทอร์เน็ตครั้งแรก</p>
             </div>
           </div>
           <button class="btn btn-secondary" onclick="openTinEye()">👁️ เปิดผลลัพธ์ TinEye</button>
         </div>
 
-        <!-- 4. BING VISUAL -->
+        <!-- 5. BING VISUAL SEARCH -->
         <div class="engine-card">
           <div class="engine-left">
             <div class="engine-icon">🟦</div>
             <div class="engine-info">
-              <h3>Microsoft Bing Visual Search <span class="pill-tag pill-purple">Pages With Image</span></h3>
+              <h3>Microsoft Bing Visual Search <span class="pill-tag pill-blue">Pages With Image</span></h3>
               <p>เปิดแท็บ 'Pages With This Image' ของ Microsoft ดูเว็บและโซเชียลมีเดียที่เคยใช้รูปนี้</p>
             </div>
           </div>
           <button class="btn btn-secondary" onclick="openBing()">🟦 เปิดผลลัพธ์ Bing</button>
         </div>
 
-        <!-- 5. INSTAGRAM (META) -->
+        <!-- 6. BAIDU VISUAL (ASIA INDEX) -->
+        <div class="engine-card">
+          <div class="engine-left">
+            <div class="engine-icon">🐉</div>
+            <div class="engine-info">
+              <h3>Baidu Visual Search <span class="pill-tag pill-blue">Asia Database</span></h3>
+              <p>ฐานข้อมูลภาพที่ใหญ่ที่สุดในเอเชีย ช่วยค้นหาภาพที่ถูกนำไปรีโพสต์หรือใช้ในโซเชียลมีเดียฝั่งเอเชีย</p>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="openBaidu()">🐉 เปิดผลลัพธ์ Baidu</button>
+        </div>
+
+        <!-- 7. INSTAGRAM & FACEBOOK DIRECT DORK -->
         <div class="engine-card">
           <div class="engine-left">
             <div class="engine-icon">📸</div>
             <div class="engine-info">
-              <h3>Instagram OSINT Matcher <span class="pill-tag pill-red">Instagram</span></h3>
-              <p>เจาะลึกค้นหาโปรไฟล์, ภาพถ่าย และโพสต์บน Instagram ที่เกี่ยวข้องกับภาพนี้</p>
+              <h3>Instagram &amp; Facebook Targeted Finder <span class="pill-tag pill-red">Meta OSINT</span></h3>
+              <p>เจาะลึกค้นหาโพสต์และโปรไฟล์บน Instagram / Facebook ที่เกี่ยวข้องกับภาพนี้</p>
             </div>
           </div>
-          <button class="btn btn-secondary" onclick="openInstagram()">📸 เจาะหาบน Instagram</button>
+          <button class="btn btn-secondary" onclick="openInstagram()">📸 เจาะหาบน IG/FB</button>
         </div>
 
-        <!-- 6. FACEBOOK -->
-        <div class="engine-card">
-          <div class="engine-left">
-            <div class="engine-icon">👥</div>
-            <div class="engine-info">
-              <h3>Facebook Photos &amp; Profile Lookups <span class="pill-tag pill-blue">Facebook</span></h3>
-              <p>ค้นหาภาพโปรไฟล์, อัลบั้ม และโพสต์บน Facebook ที่เคยมีรูปนี้ปรากฏ</p>
-            </div>
-          </div>
-          <button class="btn btn-secondary" onclick="openFacebook()">👥 เจาะหาบน Facebook</button>
-        </div>
-
-        <!-- 7. DISCORD -->
+        <!-- 8. DISCORD TRACKER -->
         <div class="engine-card">
           <div class="engine-left">
             <div class="engine-icon">💬</div>
             <div class="engine-info">
               <h3>Discord CDN &amp; Server Attachment Matcher <span class="pill-tag pill-purple">Discord</span></h3>
-              <p>ค้นหาไฟล์แนบบน Discord CDN และเซิร์ฟเวอร์สาธารณะที่เคยแชร์รูปนี้</p>
+              <p>ค้นหาไฟล์แนบ cdn.discordapp.com และเซิร์ฟเวอร์สาธารณะที่เคยแชร์รูปนี้</p>
             </div>
           </div>
           <button class="btn btn-secondary" onclick="openDiscord()">💬 ตรวจสอบบน Discord</button>
@@ -606,15 +673,20 @@
 
   </main>
 
+  <!-- CANVAS FOR IMAGE PROCESSING -->
+  <canvas id="procCanvas" style="display: none;"></canvas>
+
   <!-- FOOTER -->
   <footer>
-    <div>OmniReverse Full Image OSINT Pro v3.5 | Direct Reverse Search Results Engine</div>
+    <div>OmniReverse Ultra OSINT Pro v4.0 | Enhanced Cross-Platform Reverse Search Engine</div>
     <div id="footerStatus">พร้อมใช้งาน</div>
   </footer>
 
   <script>
     let currentPublicUrl = "";
     let currentImageFile = null;
+    let isFlipped = false;
+    let isSharpened = false;
 
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
@@ -623,9 +695,8 @@
     const dropPrompt = document.getElementById('dropPrompt');
     const directUrlInput = document.getElementById('directUrlInput');
     const uploadBadge = document.getElementById('uploadBadge');
-    const progWrap = document.getElementById('progWrap');
-    const progBar = document.getElementById('progBar');
     const footerStatus = document.getElementById('footerStatus');
+    const procCanvas = document.getElementById('procCanvas');
 
     // Drag & Drop
     dropzone.addEventListener('dragover', (e) => {
@@ -708,17 +779,13 @@
     async function uploadImageToHost(file) {
       uploadBadge.innerText = '⏳ กำลังอัปโหลดภาพทั้งรูป...';
       uploadBadge.style.color = '#38BDF8';
-      progWrap.style.display = 'block';
-      progBar.style.width = '30%';
 
       try {
-        // Litterbox (Auto-deletes in 1 hour)
         const formData = new FormData();
         formData.append('reqtype', 'fileupload');
         formData.append('time', '1h');
         formData.append('fileToUpload', file);
 
-        progBar.style.width = '60%';
         const res = await fetch('https://litterbox.catbox.moe/resources/internals/api.php', {
           method: 'POST',
           body: formData
@@ -731,17 +798,14 @@
             directUrlInput.value = url;
             uploadBadge.innerText = '✓ อัปโหลดสำเร็จ (ลิงก์ตรงพร้อมค้นหา)';
             uploadBadge.style.color = '#10B981';
-            progBar.style.width = '100%';
-            setTimeout(() => { progWrap.style.display = 'none'; }, 600);
             footerStatus.innerText = 'ภาพทั้งรูปพร้อมเปิดดูผลลัพธ์แล้ว!';
             return;
           }
         }
       } catch (err) {}
 
-      // Fallback: tmpfiles.org
+      // Fallback
       try {
-        progBar.style.width = '75%';
         const formData = new FormData();
         formData.append('input', file);
         const res = await fetch('https://tmpfiles.org/api/v1/upload', {
@@ -756,16 +820,42 @@
             directUrlInput.value = url;
             uploadBadge.innerText = '✓ อัปโหลดสำเร็จ (tmpfiles)';
             uploadBadge.style.color = '#10B981';
-            progBar.style.width = '100%';
-            setTimeout(() => { progWrap.style.display = 'none'; }, 600);
             return;
           }
         }
       } catch (err) {}
 
-      uploadBadge.innerText = '⚠️ ใช้โหมดเดสก์ท็อปเพื่ออัปโหลดอัตโนมัติ';
+      uploadBadge.innerText = '⚠️ ใช้โปรแกรม Desktop เพื่อความเร็วสูงสุด';
       uploadBadge.style.color = '#F59E0B';
-      progWrap.style.display = 'none';
+    }
+
+    // IMAGE TRANSFORMS (FLIP & SHARPEN)
+    function toggleFlipHorizontal() {
+      isFlipped = !isFlipped;
+      document.getElementById('btnFlip').classList.toggle('active', isFlipped);
+      applyImageTransforms();
+    }
+
+    function toggleSharpen() {
+      isSharpened = !isSharpened;
+      document.getElementById('btnSharpen').classList.toggle('active', isSharpened);
+      applyImageTransforms();
+    }
+
+    function applyImageTransforms() {
+      if (!previewImg.src) return;
+      let filter = '';
+      let transform = '';
+
+      if (isFlipped) {
+        transform += 'scaleX(-1) ';
+      }
+      if (isSharpened) {
+        filter += 'contrast(130%) brightness(105%) ';
+      }
+
+      previewImg.style.transform = transform;
+      previewImg.style.filter = filter;
     }
 
     function getKeyword() {
@@ -777,17 +867,19 @@
       if (currentPublicUrl) {
         window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
       } else {
-        alert('กรุณารอระบบอัปโหลดภาพสักครู่ หรือวาง URL รูปภาพก่อนครับ');
+        alert('กรุณารอระบบอัปโหลดภาพสักครู่ หรือเปิดผ่านโปรแกรม Desktop Launch-OmniReverse.bat เพื่อความเร็วสูงสุดครับ');
         window.open('https://yandex.com/images/', '_blank');
       }
     }
 
+    function openFaceCheck() {
+      window.open('https://facecheck.id/', '_blank');
+    }
+
     function openGoogleLens() {
       if (currentPublicUrl) {
-        // Direct Lens Result link
         window.open(`https://lens.google.com/uploadbyurl?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
       } else {
-        alert('กรุณารอระบบอัปโหลดภาพสักครู่ หรือวาง URL รูปภาพก่อนครับ');
         window.open('https://lens.google.com/', '_blank');
       }
     }
@@ -796,7 +888,6 @@
       if (currentPublicUrl) {
         window.open(`https://tineye.com/search?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
       } else {
-        alert('กรุณารอระบบอัปโหลดภาพสักครู่ หรือวาง URL รูปภาพก่อนครับ');
         window.open('https://tineye.com/', '_blank');
       }
     }
@@ -809,21 +900,20 @@
       }
     }
 
+    function openBaidu() {
+      if (currentPublicUrl) {
+        window.open(`https://graph.baidu.com/details?isfromsimilarity=1&image=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      } else {
+        window.open('https://graph.baidu.com/', '_blank');
+      }
+    }
+
     function openInstagram() {
       const kw = getKeyword();
       if (currentPublicUrl) {
         window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
       }
       const q = kw ? `site:instagram.com "${kw}"` : `site:instagram.com`;
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
-    function openFacebook() {
-      const kw = getKeyword();
-      if (currentPublicUrl) {
-        window.open(`https://www.bing.com/images/search?view=detailv2&iss=sbi&imgurl=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      }
-      const q = kw ? `site:facebook.com "${kw}"` : `site:facebook.com`;
       window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
     }
 
@@ -839,7 +929,7 @@
         alert('กรุณาพิมพ์ชื่อคน หรือ username ก่อนครับ');
         return;
       }
-      const q = `(site:instagram.com OR site:facebook.com OR site:discord.com) "${kw}"`;
+      const q = `(site:instagram.com OR site:facebook.com OR site:discord.com OR site:tiktok.com) "${kw}"`;
       window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
     }
 
@@ -850,19 +940,26 @@
       }
 
       openYandex();
-      setTimeout(openGoogleLens, 350);
-      setTimeout(openTinEye, 700);
-      setTimeout(openBing, 1050);
-      setTimeout(openInstagram, 1400);
+      setTimeout(openFaceCheck, 300);
+      setTimeout(openGoogleLens, 600);
+      setTimeout(openTinEye, 900);
+      setTimeout(openBing, 1200);
+      setTimeout(openInstagram, 1500);
     }
 
     function resetForm() {
       currentPublicUrl = "";
       currentImageFile = null;
+      isFlipped = false;
+      isSharpened = false;
       previewBox.style.display = 'none';
       dropPrompt.style.display = 'block';
       previewImg.src = '';
+      previewImg.style.transform = '';
+      previewImg.style.filter = '';
       directUrlInput.value = '';
+      document.getElementById('btnFlip').classList.remove('active');
+      document.getElementById('btnSharpen').classList.remove('active');
       uploadBadge.innerText = 'รอรูปภาพ...';
       uploadBadge.style.color = 'var(--accent-amber)';
       footerStatus.innerText = 'พร้อมใช้งาน';
