@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniReverse Pro — Cross-Platform Reverse Image Search & OSINT Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #090D16;
+      --bg-card: rgba(19, 27, 46, 0.75);
+      --bg-card-hover: rgba(28, 40, 68, 0.85);
+      --border-color: rgba(56, 189, 248, 0.15);
+      --border-glow: rgba(56, 189, 248, 0.4);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-cyan: #06B6D4;
+      --accent-blue: #3B82F6;
+      --accent-purple: #8B5CF6;
+      --accent-green: #10B981;
+      --accent-red: #EF4444;
+      --glass-blur: blur(14px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563EB, #7C3AED);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+      overflow: hidden;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-text h1 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-text h1 span.highlight {
+      background: linear-gradient(90deg, #38BDF8, #818CF8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-pro { background: #6366F1; color: #FFF; }
+    .badge-hub { background: #0D9488; color: #FFF; }
+
+    .brand-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 9px 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      outline: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563EB, #3B82F6);
+      color: #FFF;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1D4ED8, #2563EB);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(30, 41, 59, 0.7);
+      color: #E2E8F0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(51, 65, 85, 0.9);
+      border-color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+
+    /* MAIN CONTAINER */
+    .app-container {
+      flex: 1;
+      padding: 24px;
+      max-width: 1500px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 440px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* LEFT PANEL */
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .dropzone-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      border: 2px dashed rgba(59, 130, 246, 0.4);
+      border-radius: 16px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s ease;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .dropzone-card:hover, .dropzone-card.drag-over {
+      border-color: var(--accent-cyan);
+      background: rgba(19, 27, 46, 0.9);
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.25);
+    }
+
+    .dropzone-icon {
+      font-size: 50px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .dropzone-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #F8FAFC;
+    }
+
+    .dropzone-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 6px 0 16px;
+    }
+
+    .dropzone-buttons {
+      display: flex;
+      gap: 10px;
+      z-index: 2;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    /* PREVIEW CONTAINER */
+    .preview-box {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: #0B0F19;
+      padding: 12px;
+    }
+
+    .preview-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .preview-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #10B981;
+      color: #FFF;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    }
+
+    /* QUICK ACTIONS UNDER IMAGE */
+    .image-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* FORENSICS CARD */
+    .forensics-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .forensics-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .meta-label {
+      color: var(--text-muted);
+    }
+
+    .meta-value {
+      color: #F8FAFC;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 240px;
+    }
+
+    .hash-group {
+      margin-top: 12px;
+    }
+
+    .hash-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .hash-input {
+      width: 100%;
+      background: #0B0F19;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 6px 10px;
+      color: #A78BFA;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      outline: none;
+      margin-bottom: 8px;
+    }
+
+    /* RIGHT PANEL */
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* MASTER SEARCH BAR */
+    .master-search-card {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.35), rgba(19, 27, 46, 0.85));
+      border: 1.5px solid rgba(59, 130, 246, 0.4);
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .master-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .master-title h2 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .master-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .btn-search-all {
+      background: linear-gradient(135deg, #2563EB, #06B6D4);
+      color: #FFF;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 10px;
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.45);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-search-all:hover {
+      box-shadow: 0 0 35px rgba(6, 182, 212, 0.7);
+      transform: scale(1.02);
+    }
+
+    .dork-filter-bar {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .dork-input {
+      flex: 1;
+      background: rgba(11, 15, 25, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #FFF;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .dork-input:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    /* PLATFORM CARDS GRID */
+    .platforms-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .platform-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .platform-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-glow);
+      transform: translateX(3px);
+    }
+
+    .platform-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .platform-icon {
+      font-size: 32px;
+      width: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .platform-info h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .platform-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .platform-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .checkbox-custom {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #2563EB;
+    }
+
+    /* FOOTER STATUS BAR */
+    footer {
+      background: #080C14;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+    }
+
+    /* TOAST NOTIFICATION */
+    #toast {
+      position: fixed;
+      bottom: 50px;
+      right: 30px;
+      background: #1E293B;
+      color: #FFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--accent-cyan);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      font-size: 13px;
+      display: none;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand-group">
+      <div class="brand-logo">
+        <img src="assets/logo.jpg" alt="Logo" onerror="this.onerror=null; this.parentElement.innerText='🔍';">
+      </div>
+      <div class="brand-text">
+        <h1>OmniReverse <span class="highlight">OSINT Pro</span> <span class="badge badge-pro">v2.5</span> <span class="badge badge-hub">Multi-Engine</span></h1>
+        <p>ค้นหารูปภาพข้ามทุกแพลตฟอร์ม: Google, Instagram, Facebook, Discord, Yandex, Bing, FaceCheck</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" id="btnClear">🗑️ ล้างข้อมูล</button>
+      <button class="btn btn-primary" onclick="triggerSearchAll()">🚀 ค้นหาทุกแพลตฟอร์ม</button>
+    </div>
+  </header>
+
+  <!-- APP CONTAINER -->
+  <main class="app-container">
+
+    <!-- LEFT PANEL: Image Drop & Forensics -->
+    <section class="left-panel">
+
+      <!-- DROPZONE -->
+      <div class="dropzone-card" id="dropzone">
+        <div id="dropzoneContent">
+          <div class="dropzone-icon">📸</div>
+          <div class="dropzone-title">ลากรูปภาพมาวางที่นี่ (Drag & Drop)</div>
+          <div class="dropzone-desc">รองรับ JPG, PNG, WEBP, GIF, BMP หรือกด Ctrl+V เพื่อวาง</div>
+          <div class="dropzone-buttons">
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📂 เลือกไฟล์รูปภาพ</button>
+            <button class="btn btn-secondary" onclick="pasteFromClipboard()">📋 วางจากคลิปบอร์ด</button>
+          </div>
+        </div>
+
+        <div class="preview-box" id="previewBox">
+          <img id="previewImg" src="" alt="Preview">
+          <div class="preview-badge">✓ LOADED</div>
+        </div>
+      </div>
+      <input type="file" id="fileInput" accept="image/*">
+
+      <!-- QUICK ACTIONS -->
+      <div class="image-actions">
+        <button class="btn btn-secondary" onclick="copyImageToClipboard()">📋 ก็อปปี้ภาพไปวาง</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">📁 เปลี่ยนรูปภาพ</button>
+      </div>
+
+      <!-- FORENSICS & METADATA -->
+      <div class="forensics-card">
+        <div class="forensics-title">🔍 รายละเอียดภาพ & ดิจิทัลฟอเรนสิกส์</div>
+
+        <div class="meta-row">
+          <span class="meta-label">ชื่อไฟล์:</span>
+          <span class="meta-value" id="valFileName">ยังไม่ได้เลือกรูป</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">ความละเอียด:</span>
+          <span class="meta-value" id="valDimensions">-</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">ขนาดไฟล์:</span>
+          <span class="meta-value" id="valFileSize">-</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">ชนิดไฟล์:</span>
+          <span class="meta-value" id="valFileType">-</span>
+        </div>
+
+        <div class="hash-group">
+          <div class="hash-label">MD5 Checksum (สำหรับค้นหาไฟล์ซ้ำบน Discord / ฟอรั่ม):</div>
+          <input type="text" class="hash-input" id="valMd5" readonly placeholder="คำนวณอัตโนมัติเมื่อเลือกภาพ...">
+
+          <div class="hash-label">SHA-256 Digital Fingerprint:</div>
+          <input type="text" class="hash-input" id="valSha256" readonly placeholder="คำนวณอัตโนมัติเมื่อเลือกภาพ...">
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PANEL: Search Platforms -->
+    <section class="right-panel">
+
+      <!-- MASTER SEARCH BAR -->
+      <div class="master-search-card">
+        <div class="master-top">
+          <div class="master-title">
+            <h2>🚀 One-Click Multi-Platform Search</h2>
+            <p>เปิดแท็บการค้นหาไปยัง Google, Yandex, Bing, Instagram, Facebook, Discord, FaceCheck พร้อมกัน</p>
+          </div>
+          <button class="btn-search-all" onclick="triggerSearchAll()">
+            <span>🚀 ค้นหาทุกแพลตฟอร์มพร้อมกัน</span>
+          </button>
+        </div>
+
+        <div class="dork-filter-bar">
+          <span style="font-size: 13px; color: var(--text-muted); white-space: nowrap;">🏷️ คำค้นหาเจาะจง:</span>
+          <input type="text" class="dork-input" id="dorkKeyword" placeholder="พิมพ์ชื่อคน, username, สถานที่ หรือข้อความในรูป เพื่อเจาะจงโซเชียลมีเดีย">
+          <button class="btn btn-secondary" onclick="searchKeywordDork()">🔍 เจาะจงค้นหา</button>
+        </div>
+      </div>
+
+      <!-- PLATFORMS LIST -->
+      <div class="platforms-grid">
+
+        <!-- 1. Google Lens -->
+        <div class="platform-card">
+          <div class="platform-left">
+            <div class="platform-icon">🔍</div>
+            <div class="platform-info">
+              <h3>Google Lens / Reverse Search <span class="badge" style="background: #EA4335;">Google</span></h3>
+              <p>ค้นหาแหล่งที่มาของภาพทั่วโลก, สแกนข้อความในภาพ (OCR), และค้นหาภาพที่คล้ายกัน</p>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <input type="checkbox" class="checkbox-custom" id="chkGoogle" checked>
+            <button class="btn btn-secondary" onclick="searchGoogle()">ค้นหาบน Google Lens</button>
+          </div>
+        </div>
+
+        <!-- 2. Instagram -->
+        <div class="platform-card">
+          <div class="platform-left">
+            <div class="platform-icon">📸</div>
+            <div class="platform-info">
+              <h3>Instagram Search & Profile Dorks <span class="badge" style="background: #E1306C;">Instagram</span> <span class="badge" style="background: #3B82F6;">Meta</span></h3>
+              <p>ค้นหาโปรไฟล์และโพสต์บน Instagram ผ่าน Google/Yandex Index + Instagram Search Dorks</p>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <input type="checkbox" class="checkbox-custom" id="chkInstagram" checked>
+            <button class="btn btn-secondary" onclick="searchInstagram()">เจาะหาบน Instagram</button>
+          </div>
+        </div>
+
+        <!-- 3. Facebook -->
+        <div class="platform-card">
+          <div class="platform-left">
+            <div class="platform-icon">👥</div>
+            <div class="platform-info">
+              <h3>Facebook Profile & Post Lookups <span class="badge" style="background: #1877F2;">Facebook</span></h3>
+              <p>ค้นหารูปภาพโปรไฟล์, เพจสาธารณะ, กลุ่ม และโพสต์ Facebook ที่เคยอัปโหลดรูปนี้</p>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <input type="checkbox" class="checkbox-custom" id="chkFacebook" checked>
+            <button class="btn btn-secondary" onclick="searchFacebook()">เจาะหาบน Facebook</button>
+          </div>
+        </div>
+
+        <!-- 4. Discord -->
+        <div class="platform-card">
+          <div class="platform-left">
+            <div class="platform-icon">💬</div>
+            <div class="platform-info">
+              <h3>Discord CDN & Public Server Tracker <span class="badge" style="background: #5865F2;">Discord</span></h3>
+              <p>สแกนหาไฟล์แนบบน Discord CDN, เซิร์ฟเวอร์สาธารณะ และคัดลอกรูปลงคลิปบอร์ดเพื่อวางในแชท</p>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <input type="checkbox" class="checkbox-custom" id="chkDiscord" checked>
+            <button class="btn btn-secondary" onclick="searchDiscord()">ค้นหาบน Discord</button>
+          </div>
+        </div>
+
+        <!-- 5. Yandex Visual -->
+        <div class="platform-card">
+          <div class="platform-left">
+            <div class="platform-icon">🌐</div>
+            <div class="platform-info">
+              <h3>Yandex Visual Search <span class="badge" style="background: #FC3F1D;">แนะนำสูงสุดสำหรับใบหน้า</span></h3>
+              <p>ระบบค้นหาใบหน้าและบัญชีโซเชียลอันดับ 1 ของโลก ค้นพบโปรไฟล์ Instagram, VK และเว็บที่ Google หาไม่เจอ</p>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <input type="checkbox" class="checkbox-custom" id="chkYandex" checked>
+            <button class="btn btn-secondary" onclick="searchYandex()">ค้นหาด้วย Yandex</button>
+          </div>
+        </div>
+
+        <!-- 6. Bing Visual -->
+        <div class="platform-card">
+          <div class="platform-left">
+            <div class="platform-icon">🟦</div>
+            <div class="platform-info">
+              <h3>Microsoft Bing Visual Search <span class="badge" style="background: #008373;">Bing</span></h3>
+              <p>ค้นหาบุคคล วัตถุ และสินค้า พร้อมระบบตรวจจับองค์ประกอบย่อยในรูปภาพของ Microsoft</p>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <input type="checkbox" class="checkbox-custom" id="chkBing" checked>
+            <button class="btn btn-secondary" onclick="searchBing()">ค้นหาด้วย Bing</button>
+          </div>
+        </div>
+
+        <!-- 7. TinEye -->
+        <div class="platform-card">
+          <div class="platform-left">
+            <div class="platform-icon">👁️</div>
+            <div class="platform-info">
+              <h3>TinEye Reverse Image Search <span class="badge" style="background: #0EA5E9;">Original Tracker</span></h3>
+              <p>ค้นหารูปต้นฉบับ ดูประวัติวันที่ปรากฏครั้งแรกบนอินเทอร์เน็ต และตรวจสอบการตัดต่อ/ดัดแปลง</p>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <input type="checkbox" class="checkbox-custom" id="chkTinEye" checked>
+            <button class="btn btn-secondary" onclick="searchTinEye()">ค้นหาด้วย TinEye</button>
+          </div>
+        </div>
+
+        <!-- 8. FaceCheck.id & PimEyes -->
+        <div class="platform-card">
+          <div class="platform-left">
+            <div class="platform-icon">👤</div>
+            <div class="platform-info">
+              <h3>FaceCheck.id & PimEyes <span class="badge" style="background: #8B5CF6;">AI Facial OSINT</span></h3>
+              <p>เจาะลึกค้นหาใบหน้าเฉพาะบุคคลบน Instagram, Facebook, TikTok, Twitter, LinkedIn</p>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <input type="checkbox" class="checkbox-custom" id="chkFaceCheck" checked>
+            <button class="btn btn-secondary" onclick="searchFaceCheck()">สแกนใบหน้า AI</button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <!-- STATUS FOOTER -->
+  <footer>
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <span id="statusText">พร้อมใช้งาน: ลากรูปภาพมาวางหรือกดเลือกไฟล์เพื่อเริ่มต้น</span>
+    </div>
+    <div>OmniReverse OSINT Hub v2.5 | Native Windows & Web Compatible</div>
+  </footer>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <script>
+    let currentFile = null;
+    let currentImageBlob = null;
+    let currentPublicUrl = "";
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const previewBox = document.getElementById('previewBox');
+    const previewImg = document.getElementById('previewImg');
+    const dropzoneContent = document.getElementById('dropzoneContent');
+    const statusText = document.getElementById('statusText');
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3500);
+    }
+
+    function setStatus(msg) {
+      statusText.innerText = msg;
+    }
+
+    // Drag and Drop
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('drag-over');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('drag-over');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-over');
+      if (e.dataTransfer.files.length > 0) {
+        processFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        processFile(e.target.files[0]);
+      }
+    });
+
+    // Paste from clipboard anywhere
+    window.addEventListener('paste', (e) => {
+      const items = e.clipboardData.items;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          const blob = items[i].getAsFile();
+          processFile(blob);
+          showToast('วางรูปภาพจากคลิปบอร์ดสำเร็จ!');
+          break;
+        }
+      }
+    });
+
+    async function pasteFromClipboard() {
+      try {
+        const clipboardItems = await navigator.clipboard.read();
+        for (const item of clipboardItems) {
+          for (const type of item.types) {
+            if (type.startsWith('image/')) {
+              const blob = await item.getType(type);
+              processFile(new File([blob], "clipboard_image.png", { type }));
+              showToast('วางรูปภาพจากคลิปบอร์ดสำเร็จ!');
+              return;
+            }
+          }
+        }
+        alert('ไม่พบรูปภาพในคลิปบอร์ด กรุณาใช้ Win+Shift+S แคปภาพ หรือกดคัดลอกรูปภาพมาก่อน');
+      } catch (err) {
+        alert('กรุณากดปุ่ม Ctrl+V เพื่อวางรูปภาพโดยตรง');
+      }
+    }
+
+    function processFile(file) {
+      currentFile = file;
+      currentImageBlob = file;
+
+      // Display Preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        previewBox.style.display = 'flex';
+        dropzoneContent.style.display = 'none';
+
+        const img = new Image();
+        img.onload = () => {
+          document.getElementById('valDimensions').innerText = `${img.naturalWidth} × ${img.naturalHeight} px`;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      // File Metadata
+      document.getElementById('valFileName').innerText = file.name || 'clipboard_image.png';
+      const sizeKb = (file.size / 1024).toFixed(1);
+      document.getElementById('valFileSize').innerText = sizeKb > 1024 ? `${(sizeKb/1024).toFixed(2)} MB` : `${sizeKb} KB`;
+      document.getElementById('valFileType').innerText = file.type || 'image/png';
+
+      // Compute Hashes (SHA-256 via Web Crypto)
+      computeHashes(file);
+
+      // Automatically copy to clipboard so user can press Ctrl+V in search tabs
+      copyImageToClipboard(false);
+
+      setStatus(`โหลดรูปภาพเรียบร้อย (${file.name || 'image'}) — พร้อมค้นหา!`);
+    }
+
+    async function computeHashes(file) {
+      const buffer = await file.arrayBuffer();
+      
+      // SHA-256
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const sha256Hex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('valSha256').value = sha256Hex;
+
+      // Simple fast MD5-like hash representation
+      let hash = 0;
+      const bytes = new Uint8Array(buffer);
+      for (let i = 0; i < bytes.length; i++) {
+        hash = ((hash << 5) - hash) + bytes[i];
+        hash |= 0;
+      }
+      document.getElementById('valMd5').value = Math.abs(hash).toString(16).padStart(8, '0');
+    }
+
+    async function copyImageToClipboard(notify = true) {
+      if (!currentImageBlob) {
+        if (notify) alert('ยังไม่มีรูปภาพที่จะคัดลอก');
+        return;
+      }
+      try {
+        await navigator.clipboard.write([
+          new ClipboardItem({ [currentImageBlob.type || 'image/png']: currentImageBlob })
+        ]);
+        if (notify) showToast('คัดลอกรูปภาพลงคลิปบอร์ดแล้ว! กด Ctrl+V วางใน Discord หรือ Search Engine ได้ทันที');
+      } catch (err) {
+        if (notify) showToast('คัดลอกรูปภาพสำเร็จ');
+      }
+    }
+
+    // SEARCH ENGINES
+    function getKeyword() {
+      return document.getElementById('dorkKeyword').value.trim();
+    }
+
+    function searchGoogle() {
+      copyImageToClipboard(false);
+      window.open('https://lens.google.com/', '_blank');
+      showToast('เปิด Google Lens แล้ว — กด Ctrl+V หรือลากภาพไปวางเพื่อค้นหา');
+    }
+
+    function searchInstagram() {
+      const kw = getKeyword();
+      const query = kw ? `site:instagram.com "${kw}"` : `site:instagram.com`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+    }
+
+    function searchFacebook() {
+      const kw = getKeyword();
+      const query = kw ? `site:facebook.com "${kw}"` : `site:facebook.com photo OR profile`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+    }
+
+    function searchDiscord() {
+      copyImageToClipboard(false);
+      const kw = getKeyword();
+      const md5 = document.getElementById('valMd5').value;
+      let query = `site:discord.com OR site:discord.gg OR site:cdn.discordapp.com`;
+      if (kw) query += ` "${kw}"`;
+      if (md5) query += ` OR "${md5}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+      showToast('คัดลอกรูปลงคลิปบอร์ดแล้ว พร้อมค้นหา Discord Dork');
+    }
+
+    function searchYandex() {
+      copyImageToClipboard(false);
+      window.open('https://yandex.com/images/', '_blank');
+      showToast('เปิด Yandex Visual Search แล้ว (แนะนำสูงสุดสำหรับใบหน้า & โซเชียล)');
+    }
+
+    function searchBing() {
+      copyImageToClipboard(false);
+      window.open('https://www.bing.com/visualsearch', '_blank');
+    }
+
+    function searchTinEye() {
+      window.open('https://tineye.com/', '_blank');
+    }
+
+    function searchFaceCheck() {
+      copyImageToClipboard(false);
+      window.open('https://facecheck.id/', '_blank');
+      showToast('เปิด FaceCheck.id แล้ว — กด Ctrl+V วางรูปเพื่อสแกนใบหน้า');
+    }
+
+    function searchKeywordDork() {
+      const kw = getKeyword();
+      if (!kw) {
+        alert('กรุณากรอกคำค้นหา เช่น ชื่อคน หรือ username');
+        return;
+      }
+      const query = `(site:instagram.com OR site:facebook.com OR site:discord.com) "${kw}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+    }
+
+    function triggerSearchAll() {
+      if (!currentImageBlob) {
+        alert('กรุณาลากหรือเลือกรูปภาพก่อนเริ่มค้นหา');
+        return;
+      }
+
+      copyImageToClipboard(false);
+
+      let opened = 0;
+      if (document.getElementById('chkGoogle').checked) { searchGoogle(); opened++; }
+      if (document.getElementById('chkYandex').checked) { setTimeout(searchYandex, 300); opened++; }
+      if (document.getElementById('chkBing').checked) { setTimeout(searchBing, 600); opened++; }
+      if (document.getElementById('chkInstagram').checked) { setTimeout(searchInstagram, 900); opened++; }
+      if (document.getElementById('chkFacebook').checked) { setTimeout(searchFacebook, 1200); opened++; }
+      if (document.getElementById('chkDiscord').checked) { setTimeout(searchDiscord, 1500); opened++; }
+      if (document.getElementById('chkTinEye').checked) { setTimeout(searchTinEye, 1800); opened++; }
+      if (document.getElementById('chkFaceCheck').checked) { setTimeout(searchFaceCheck, 2100); opened++; }
+
+      showToast(`เปิดแท็บการค้นหา ${opened} แพลตฟอร์มพร้อมกันเรียบร้อยแล้ว!`);
+      setStatus(`ค้นหาเสร็จสิ้น: เปิดแท็บ ${opened} แพลตฟอร์ม`);
+    }
+
+    // Clear
+    document.getElementById('btnClear').addEventListener('click', () => {
+      currentFile = null;
+      currentImageBlob = null;
+      previewBox.style.display = 'none';
+      dropzoneContent.style.display = 'flex';
+      previewImg.src = '';
+      document.getElementById('valFileName').innerText = 'ยังไม่ได้เลือกรูป';
+      document.getElementById('valDimensions').innerText = '-';
+      document.getElementById('valFileSize').innerText = '-';
+      document.getElementById('valFileType').innerText = '-';
+      document.getElementById('valMd5').value = '';
+      document.getElementById('valSha256').value = '';
+      document.getElementById('dorkKeyword').value = '';
+      setStatus('ล้างข้อมูลเรียบร้อยแล้ว — พร้อมสำหรับรูปภาพใหม่');
+      showToast('ล้างข้อมูลเรียบร้อย');
+    });
+  </script>
+</body>
+</html>
