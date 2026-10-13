@@ -521,7 +521,83 @@ $xamlString = @"
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel>
 
-                                <!-- 1. WHOSCALL -->
+                                <!-- 1. FACEBOOK -->
+                                <Border Style="{StaticResource PlatformCard}" BorderBrush="#1877F2" BorderThickness="1.2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="👥" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Facebook Phone Search (เจาะหาบัญชี &amp; โพสต์)" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                <Border Background="#1877F2" CornerRadius="4" Padding="5,1" Margin="8,0,0,0"><TextBlock Text="Facebook" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF"/></Border>
+                                            </StackPanel>
+                                            <TextBlock Text="สแกนหาโพสต์สาธารณะ, โปรไฟล์ผู้ใช้, เพจร้านค้า และกลุ่มซื้อขายบน Facebook ที่เคยลงเบอร์นี้ไว้" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Button Name="BtnLookupFacebookDirect" Content="👥 ค้นหาบน FB ตรง" Style="{StaticResource GlowBtn}" Margin="0,0,6,0"/>
+                                            <Button Name="BtnLookupFacebook" Content="🔍 เจาะหาโพสต์/กลุ่ม" Style="{StaticResource SecondaryBtn}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- 2. LINE -->
+                                <Border Style="{StaticResource PlatformCard}" BorderBrush="#06C755" BorderThickness="1.2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="💬" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="LINE Messenger Profile (ดูรูปและชื่อบัญชี LINE)" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                <Border Background="#06C755" CornerRadius="4" Padding="5,1" Margin="8,0,0,0"><TextBlock Text="LINE Profile" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF"/></Border>
+                                            </StackPanel>
+                                            <TextBlock Text="เปิดค้นหาบัญชี LINE ที่ผูกเบอร์โทรนี้ เพื่อดูรูปโปรไฟล์และชื่อแสดงตนที่ใช้บนแอป LINE" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Button Name="BtnLookupLineApp" Content="💬 เปิดแอป LINE เพิ่มเพื่อน" Style="{StaticResource EmeraldBtn}" Margin="0,0,6,0"/>
+                                            <Button Name="BtnLookupLine" Content="🔍 เจาะหา LINE ID" Style="{StaticResource SecondaryBtn}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- 3. INSTAGRAM & TIKTOK -->
+                                <Border Style="{StaticResource PlatformCard}" BorderBrush="#E1306C" BorderThickness="1.2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="📸" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Instagram &amp; TikTok Phone Search" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                <Border Background="#E1306C" CornerRadius="4" Padding="5,1" Margin="8,0,0,0"><TextBlock Text="IG / TikTok" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF"/></Border>
+                                            </StackPanel>
+                                            <TextBlock Text="ค้นหาคำอธิบายโปรไฟล์ (Bio), แคปชั่นคลิปวิดีโอ และลิงก์ติดต่อที่เคยใส่เบอร์นี้" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Button Name="BtnLookupInstagram" Content="📸 เจาะหาบน IG" Style="{StaticResource SecondaryBtn}" Margin="0,0,6,0"/>
+                                            <Button Name="BtnLookupTikTok" Content="🎵 เจาะหาบน TikTok" Style="{StaticResource SecondaryBtn}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- 4. DISCORD -->
+                                <Border Style="{StaticResource PlatformCard}" BorderBrush="#5865F2" BorderThickness="1.2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="🎮" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Discord Phone OSINT (เซิร์ฟเวอร์ดิสคอร์ด &amp; ไฟล์แนบ)" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                <Border Background="#5865F2" CornerRadius="4" Padding="5,1" Margin="8,0,0,0"><TextBlock Text="Discord OSINT" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF"/></Border>
+                                            </StackPanel>
+                                            <TextBlock Text="สแกนหาข้อความในเซิร์ฟเวอร์ดิสคอร์ดสาธารณะ, ประวัติแลกเบอร์วอลเล็ต, และไฟล์แนบ cdn.discordapp" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Button Name="BtnLookupDiscord" Content="🎮 เจาะหาใน Discord" Style="{StaticResource GlowBtn}" Background="#5865F2" Margin="0,0,6,0"/>
+                                            <Button Name="BtnLookupDiscordCdn" Content="📁 หา cdn.discordapp" Style="{StaticResource SecondaryBtn}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- 5. WHOSCALL -->
                                 <Border Style="{StaticResource PlatformCard}" BorderBrush="#10B981" BorderThickness="1.2">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
@@ -537,7 +613,7 @@ $xamlString = @"
                                     </Grid>
                                 </Border>
 
-                                <!-- 2. TRUECALLER -->
+                                <!-- 6. TRUECALLER -->
                                 <Border Style="{StaticResource PlatformCard}" BorderBrush="#2563EB" BorderThickness="1.2">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
@@ -553,23 +629,7 @@ $xamlString = @"
                                     </Grid>
                                 </Border>
 
-                                <!-- 3. LINE -->
-                                <Border Style="{StaticResource PlatformCard}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="💬" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="LINE Messenger Profile (ดูรูปและชื่อบัญชี LINE)" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
-                                                <Border Background="#06C755" CornerRadius="4" Padding="5,1" Margin="8,0,0,0"><TextBlock Text="LINE Profile" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF"/></Border>
-                                            </StackPanel>
-                                            <TextBlock Text="เปิดค้นหาบัญชี LINE ที่ผูกเบอร์โทรนี้ เพื่อดูรูปโปรไฟล์และชื่อแสดงตนที่ใช้บนแอป LINE" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
-                                        </StackPanel>
-                                        <Button Name="BtnLookupLine" Grid.Column="2" Content="💬 เจาะหาบัญชี LINE" Style="{StaticResource SecondaryBtn}"/>
-                                    </Grid>
-                                </Border>
-
-                                <!-- 4. WHATSAPP -->
+                                <!-- 7. WHATSAPP -->
                                 <Border Style="{StaticResource PlatformCard}">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
@@ -585,7 +645,7 @@ $xamlString = @"
                                     </Grid>
                                 </Border>
 
-                                <!-- 5. BLACKLISTSELLER -->
+                                <!-- 8. BLACKLISTSELLER -->
                                 <Border Style="{StaticResource PlatformCard}" BorderBrush="#E11D48" BorderThickness="1.2">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
@@ -601,39 +661,7 @@ $xamlString = @"
                                     </Grid>
                                 </Border>
 
-                                <!-- 6. FACEBOOK -->
-                                <Border Style="{StaticResource PlatformCard}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="👥" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Facebook Phone Dorking (โพสต์/เพจ/กลุ่ม)" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
-                                                <Border Background="#1877F2" CornerRadius="4" Padding="5,1" Margin="8,0,0,0"><TextBlock Text="Facebook" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF"/></Border>
-                                            </StackPanel>
-                                            <TextBlock Text="สแกนหาโพสต์สาธารณะ, โปรไฟล์ผู้ใช้, เพจร้านค้า และกลุ่มซื้อขายบน Facebook ที่เคยลงเบอร์นี้ไว้" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
-                                        </StackPanel>
-                                        <Button Name="BtnLookupFacebook" Grid.Column="2" Content="👥 เจาะหาบน Facebook" Style="{StaticResource SecondaryBtn}"/>
-                                    </Grid>
-                                </Border>
-
-                                <!-- 7. INSTAGRAM & TIKTOK -->
-                                <Border Style="{StaticResource PlatformCard}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="📸" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Instagram &amp; TikTok Bio &amp; Caption Search" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
-                                                <Border Background="#E1306C" CornerRadius="4" Padding="5,1" Margin="8,0,0,0"><TextBlock Text="IG / TikTok" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF"/></Border>
-                                            </StackPanel>
-                                            <TextBlock Text="ค้นหาคำอธิบายโปรไฟล์ (Bio) และแคปชั่นคลิปวิดีโอที่เคยใส่เบอร์นี้ไว้ติดต่อ" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
-                                        </StackPanel>
-                                        <Button Name="BtnLookupInstagram" Grid.Column="2" Content="📸 เจาะหาบน IG/TikTok" Style="{StaticResource SecondaryBtn}"/>
-                                    </Grid>
-                                </Border>
-
-                                <!-- 8. GOOGLE BROAD -->
+                                <!-- 9. GOOGLE BROAD -->
                                 <Border Style="{StaticResource PlatformCard}">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
@@ -646,6 +674,22 @@ $xamlString = @"
                                             <TextBlock Text="ค้นหาทุกหน้าเว็บ เว็บบอร์ด Pantip ฟอรัม และเอกสารบนอินเทอร์เน็ตที่เคยระบุหมายเลขนี้" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
                                         </StackPanel>
                                         <Button Name="BtnLookupGoogle" Grid.Column="2" Content="🔍 สแกนเว็บทั่วโลก" Style="{StaticResource SecondaryBtn}"/>
+                                    </Grid>
+                                </Border>
+
+                                <!-- 10. BRIDGE TO IMAGE TAB -->
+                                <Border Style="{StaticResource PlatformCard}" BorderBrush="#F59E0B" BorderThickness="1.2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="🖼️" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="ระบบสแกนรูปภาพข้ามทุกแพลตฟอร์ม (Image &amp; Face OSINT)" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                <Border Background="#F59E0B" CornerRadius="4" Padding="5,1" Margin="8,0,0,0"><TextBlock Text="Image Scanner" FontSize="9" FontWeight="Bold" Foreground="#000000"/></Border>
+                                            </StackPanel>
+                                            <TextBlock Text="ได้รูปโปรไฟล์จากเบอร์โทรแล้วใช่ไหม? สลับไปโหมดสแกนรูปภาพเพื่อค้นหาว่าคนนี้ปรากฏอยู่ที่ไหนอีกบ้างบนอินเทอร์เน็ต" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                                        </StackPanel>
+                                        <Button Name="BtnBridgeToImageTab" Grid.Column="2" Content="📸 สลับไปสแกนรูปภาพทันที" Style="{StaticResource GlowBtn}" Background="#F59E0B" Foreground="#000000"/>
                                     </Grid>
                                 </Border>
 
@@ -721,14 +765,20 @@ $txtCarrierDetect = $window.FindName("TxtCarrierDetect")
 $txtE164Format = $window.FindName("TxtE164Format")
 $btnMasterPhoneSearch = $window.FindName("BtnMasterPhoneSearch")
 
+$btnLookupFacebookDirect = $window.FindName("BtnLookupFacebookDirect")
+$btnLookupFacebook = $window.FindName("BtnLookupFacebook")
+$btnLookupLineApp = $window.FindName("BtnLookupLineApp")
+$btnLookupLine = $window.FindName("BtnLookupLine")
+$btnLookupInstagram = $window.FindName("BtnLookupInstagram")
+$btnLookupTikTok = $window.FindName("BtnLookupTikTok")
+$btnLookupDiscord = $window.FindName("BtnLookupDiscord")
+$btnLookupDiscordCdn = $window.FindName("BtnLookupDiscordCdn")
 $btnLookupWhoscall = $window.FindName("BtnLookupWhoscall")
 $btnLookupTruecaller = $window.FindName("BtnLookupTruecaller")
-$btnLookupLine = $window.FindName("BtnLookupLine")
 $btnLookupWhatsApp = $window.FindName("BtnLookupWhatsApp")
 $btnLookupBlacklist = $window.FindName("BtnLookupBlacklist")
-$btnLookupFacebook = $window.FindName("BtnLookupFacebook")
-$btnLookupInstagram = $window.FindName("BtnLookupInstagram")
 $btnLookupGoogle = $window.FindName("BtnLookupGoogle")
+$btnBridgeToImageTab = $window.FindName("BtnBridgeToImageTab")
 
 $statusDot = $window.FindName("StatusDot")
 $txtStatus = $window.FindName("TxtStatus")
@@ -1050,11 +1100,74 @@ function Exec-Truecaller {
     Open-Url "https://www.truecaller.com/search/th/$e164"
 }
 
+function Exec-FacebookPhoneDirect {
+    $num = Get-CleanPhone
+    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    $enc = [System.Web.HttpUtility]::UrlEncode($num)
+    Open-Url "https://www.facebook.com/search/top/?q=$enc"
+}
+
+function Exec-FacebookPhone {
+    $num = Get-CleanPhone
+    $e164 = Get-PhoneE164
+    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    $enc = [System.Web.HttpUtility]::UrlEncode("site:facebook.com (`"$num`" OR `"+$e164`")")
+    Open-Url "https://www.google.com/search?q=$enc"
+}
+
+function Exec-LineApp {
+    $num = Get-CleanPhone
+    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    Open-Url "https://line.me/R/nv/addFriends"
+}
+
 function Exec-LinePhone {
     $num = Get-CleanPhone
     if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
-    $enc = [System.Web.HttpUtility]::UrlEncode("site:line.me `"$num`"")
+    $enc = [System.Web.HttpUtility]::UrlEncode("(site:line.me OR site:lin.ee OR `"line id`") `"$num`"")
     Open-Url "https://www.google.com/search?q=$enc"
+}
+
+function Exec-InstagramPhone {
+    $num = Get-CleanPhone
+    $e164 = Get-PhoneE164
+    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    $enc = [System.Web.HttpUtility]::UrlEncode("site:instagram.com (`"$num`" OR `"+$e164`")")
+    Open-Url "https://www.google.com/search?q=$enc"
+}
+
+function Exec-TikTokPhone {
+    $num = Get-CleanPhone
+    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    $enc = [System.Web.HttpUtility]::UrlEncode("site:tiktok.com `"$num`"")
+    Open-Url "https://www.google.com/search?q=$enc"
+}
+
+function Exec-DiscordPhone {
+    $num = Get-CleanPhone
+    $e164 = Get-PhoneE164
+    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    $enc = [System.Web.HttpUtility]::UrlEncode("(site:discord.com OR site:discord.gg OR `"discord.com/users/`") (`"$num`" OR `"+$e164`")")
+    Open-Url "https://www.google.com/search?q=$enc"
+}
+
+function Exec-DiscordCdn {
+    $num = Get-CleanPhone
+    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    $enc = [System.Web.HttpUtility]::UrlEncode("site:cdn.discordapp.com `"$num`"")
+    Open-Url "https://www.google.com/search?q=$enc"
+}
+
+function Exec-Whoscall {
+    $num = Get-CleanPhone
+    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    Open-Url "https://whoscall.com/th/search/$num"
+}
+
+function Exec-Truecaller {
+    $e164 = Get-PhoneE164
+    if (-not $e164) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
+    Open-Url "https://www.truecaller.com/search/th/$e164"
 }
 
 function Exec-WhatsAppPhone {
@@ -1070,21 +1183,6 @@ function Exec-Blacklistseller {
     Open-Url "https://www.blacklistseller.com/report/report_search_page?search=$enc"
 }
 
-function Exec-FacebookPhone {
-    $num = Get-CleanPhone
-    $e164 = Get-PhoneE164
-    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
-    $enc = [System.Web.HttpUtility]::UrlEncode("site:facebook.com (`"$num`" OR `"+$e164`")")
-    Open-Url "https://www.google.com/search?q=$enc"
-}
-
-function Exec-InstagramPhone {
-    $num = Get-CleanPhone
-    if (-not $num) { [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนครับ", "แจ้งเตือน"); return }
-    $enc = [System.Web.HttpUtility]::UrlEncode("(site:instagram.com OR site:tiktok.com) `"$num`"")
-    Open-Url "https://www.google.com/search?q=$enc"
-}
-
 function Exec-GooglePhone {
     $num = Get-CleanPhone
     $e164 = Get-PhoneE164
@@ -1093,14 +1191,25 @@ function Exec-GooglePhone {
     Open-Url "https://www.google.com/search?q=$enc"
 }
 
+$btnLookupFacebookDirect.Add_Click({ Exec-FacebookPhoneDirect })
+$btnLookupFacebook.Add_Click({ Exec-FacebookPhone })
+$btnLookupLineApp.Add_Click({ Exec-LineApp })
+$btnLookupLine.Add_Click({ Exec-LinePhone })
+$btnLookupInstagram.Add_Click({ Exec-InstagramPhone })
+$btnLookupTikTok.Add_Click({ Exec-TikTokPhone })
+$btnLookupDiscord.Add_Click({ Exec-DiscordPhone })
+$btnLookupDiscordCdn.Add_Click({ Exec-DiscordCdn })
+
 $btnLookupWhoscall.Add_Click({ Exec-Whoscall })
 $btnLookupTruecaller.Add_Click({ Exec-Truecaller })
-$btnLookupLine.Add_Click({ Exec-LinePhone })
 $btnLookupWhatsApp.Add_Click({ Exec-WhatsAppPhone })
 $btnLookupBlacklist.Add_Click({ Exec-Blacklistseller })
-$btnLookupFacebook.Add_Click({ Exec-FacebookPhone })
-$btnLookupInstagram.Add_Click({ Exec-InstagramPhone })
 $btnLookupGoogle.Add_Click({ Exec-GooglePhone })
+
+$btnBridgeToImageTab.Add_Click({
+    $mainTabControl.SelectedIndex = 0
+    Set-AppStatus "สลับมาที่โหมดค้นหารูปภาพแล้ว กรุณาเลือกหรือวางรูปภาพที่ต้องการสแกน" "#38BDF8"
+})
 
 $btnMasterPhoneSearch.Add_Click({
     $num = Get-CleanPhone
@@ -1108,14 +1217,20 @@ $btnMasterPhoneSearch.Add_Click({
         [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนเริ่มค้นหาครับ", "แจ้งเตือน", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
         return
     }
-    Set-AppStatus "กำลังเปิดหน้าตรวจสอบเบอร์โทรทุกระบบ..." "#10B981"
+    Set-AppStatus "กำลังเปิดหน้าตรวจสอบเบอร์โทร (Facebook, LINE, IG, Discord, Whoscall, Truecaller)..." "#10B981"
+    Exec-FacebookPhone
+    Start-Sleep -Milliseconds 300
+    Exec-LinePhone
+    Start-Sleep -Milliseconds 300
+    Exec-InstagramPhone
+    Start-Sleep -Milliseconds 300
+    Exec-DiscordPhone
+    Start-Sleep -Milliseconds 300
     Exec-Whoscall
     Start-Sleep -Milliseconds 300
     Exec-Truecaller
     Start-Sleep -Milliseconds 300
     Exec-Blacklistseller
-    Start-Sleep -Milliseconds 300
-    Exec-FacebookPhone
     Start-Sleep -Milliseconds 300
     Exec-WhatsAppPhone
     Set-AppStatus "เปิดผลลัพธ์การค้นหาเบอร์โทรเรียบร้อยแล้ว!" "#10B981"

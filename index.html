@@ -620,12 +620,27 @@
           <span>🚀 ค้นหาเบอร์นี้ข้ามทุกระบบ (One-Click Phone OSINT)</span>
         </button>
 
+        <!-- BRIDGE CARD: FOUND A PHOTO? SCAN IT NOW -->
+        <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px dashed #06B6D4; border-radius: 12px; padding: 14px; margin-top: 10px;">
+          <div style="font-size: 13px; font-weight: 800; color: #38BDF8; display: flex; align-items: center; gap: 6px;">
+            <span>📸</span> <span>เจอรูปโปรไฟล์จากเบอร์โทรแล้ว?</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); margin: 4px 0 10px 0;">
+            เมื่อได้รูปโปรไฟล์จาก LINE, Facebook, IG, WhatsApp นำมาวางที่นี่เพื่อสแกนหาตัวตนต่อทันที!
+          </div>
+          <input type="file" id="phoneBridgeFileInput" accept="image/*" style="display: none;" onchange="handlePhoneBridgeFile(event)">
+          <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 9px; font-size: 12px;" onclick="document.getElementById('phoneBridgeFileInput').click()">
+            🖼️ โหลดรูปโปรไฟล์เข้าสู่ระบบสแกนรูปทันที
+          </button>
+        </div>
+
         <!-- TIPS BOX -->
-        <div style="background: rgba(30, 41, 59, 0.6); border-left: 3px solid #10B981; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #CBD5E1; line-height: 1.5;">
-          <strong style="color: #34D399;">💡 ค้นหาเบอร์โทรศัพท์ดูอะไรได้บ้าง?</strong><br>
-          • <strong>LINE &amp; WhatsApp:</strong> เปิดดูรูปโปรไฟล์และชื่อแสดงตนที่ผูกกับเบอร์<br>
-          • <strong>Whoscall &amp; Truecaller:</strong> ดูชื่อที่คนอื่นบันทึกไว้ และเช็คว่าถูกรายงานเป็นมิจฉาชีพหรือไม่<br>
-          • <strong>Blacklistseller:</strong> ตรวจสอบประวัติการโกงเงิน ซื้อขายของออนไลน์ในไทย
+        <div style="background: rgba(30, 41, 59, 0.6); border-left: 3px solid #10B981; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #CBD5E1; line-height: 1.5; margin-top: 10px;">
+          <strong style="color: #34D399;">💡 ระบบเบอร์โทรเจาะอะไรได้บ้าง?</strong><br>
+          • <strong>Facebook &amp; IG:</strong> โพสต์, มาร์เก็ตเพลส, โปรไฟล์ที่ลงเบอร์ติดต่อ<br>
+          • <strong>LINE &amp; WhatsApp:</strong> ค้นหาบัญชีแชทเพื่อดึงชื่อและรูปโปรไฟล์<br>
+          • <strong>Discord:</strong> เซิร์ฟเวอร์และประวัติแชทสาธารณะที่ระบุเบอร์นี้<br>
+          • <strong>Whoscall &amp; Blacklistseller:</strong> ตรวจสอบชื่อคนบันทึกและประวัติคนโกง
         </div>
       </div>
     </section>
@@ -634,15 +649,78 @@
     <section class="right-col">
       <div class="section-banner" style="border-color: rgba(16, 185, 129, 0.4);">
         <div>
-          <h2 style="font-size: 17px; font-weight: 800; color: #FFF;">🔍 เครื่องมือเจาะลึกเบอร์โทรศัพท์ (Phone Intelligence &amp; Fraud Check)</h2>
-          <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">ค้นหาชื่อเจ้าของเบอร์, บัญชีแชท, และประวัติการโกงเงิน</p>
+          <h2 style="font-size: 17px; font-weight: 800; color: #FFF;">🔍 ศูนย์รวมเจาะลึกเบอร์โทรศัพท์ (Facebook, LINE, IG, Discord &amp; Fraud)</h2>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">ค้นหาบัญชีโซเชียลมีเดีย, ข้อความดิสคอร์ด, รูปโปรไฟล์ และประวัติการโกงเงิน</p>
         </div>
-        <button class="btn btn-phone-master" onclick="searchAllPhoneTools()">🚀 เปิดค้นหาทุกเครื่องมือพร้อมกัน</button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn" style="background: #1E293B; color: #38BDF8; border: 1px solid #334155;" onclick="toggleMode('image')">📸 สลับไประบบสแกนรูป</button>
+          <button class="btn btn-phone-master" onclick="searchAllPhoneTools()">🚀 เปิดค้นหาทุกระบบพร้อมกัน</button>
+        </div>
       </div>
 
       <div class="engine-cards-grid">
 
-        <!-- 1. WHOSCALL (BEST IN THAILAND) -->
+        <!-- 1. FACEBOOK PHONE SEARCH -->
+        <div class="engine-card-item blue">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">👥</div>
+            <div class="engine-item-title">
+              <h3>Facebook Phone Search</h3>
+              <p>ค้นหาโพสต์, โปรไฟล์, เพจร้านค้า, มาร์เก็ตเพลส และกลุ่มบน Facebook ที่เคยลงเบอร์นี้</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px;">
+            <button class="btn-engine-open" style="flex: 1;" onclick="lookupFacebookPhoneDirect()">👥 ค้นหาบน FB ตรง</button>
+            <button class="btn-engine-open" style="flex: 1; background: #1E293B; border: 1px solid #334155; color: #93C5FD;" onclick="lookupFacebookPhone()">🔍 เจาะหาโพสต์/กลุ่ม</button>
+          </div>
+        </div>
+
+        <!-- 2. LINE LOOKUP -->
+        <div class="engine-card-item emerald">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">💬</div>
+            <div class="engine-item-title">
+              <h3>LINE Messenger Profile</h3>
+              <p>เปิดค้นหาหรือเพิ่มเพื่อนด้วยเบอร์โทร เพื่อดูรูปโปรไฟล์และชื่อแสดงตนบน LINE</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px;">
+            <button class="btn-engine-open emerald" style="flex: 1;" onclick="lookupLineApp()">💬 เปิดแอป LINE เพิ่มเพื่อน</button>
+            <button class="btn-engine-open emerald" style="flex: 1; background: #1E293B; border: 1px solid #334155; color: #6EE7B7;" onclick="lookupLine()">🔍 เจาะหา LINE ID/โปรไฟล์</button>
+          </div>
+        </div>
+
+        <!-- 3. INSTAGRAM & TIKTOK PHONE DORK -->
+        <div class="engine-card-item purple">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">📸</div>
+            <div class="engine-item-title">
+              <h3>Instagram (IG) &amp; TikTok</h3>
+              <p>ค้นหาคำอธิบายโปรไฟล์ (Bio), แคปชั่น และลิงก์ติดต่อบน Instagram หรือ TikTok</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px;">
+            <button class="btn-engine-open" style="flex: 1; background: #8B5CF6; color: #FFF;" onclick="lookupInstagramPhone()">📸 เจาะหาบน IG</button>
+            <button class="btn-engine-open" style="flex: 1; background: #1E293B; border: 1px solid #334155; color: #C4B5FD;" onclick="lookupTikTokPhone()">🎵 เจาะหาบน TikTok</button>
+          </div>
+        </div>
+
+        <!-- 4. DISCORD PHONE OSINT -->
+        <div class="engine-card-item blue" style="border: 1.5px solid #5865F2;">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🎮</div>
+            <div class="engine-item-title">
+              <h3>Discord Phone OSINT</h3>
+              <p>สแกนหาข้อความในเซิร์ฟเวอร์ดิสคอร์ดสาธารณะ, ประวัติแลกเบอร์วอลเล็ต, และไฟล์แนบ</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 10px;">
+            <button class="btn-engine-open" style="flex: 1; background: #5865F2; color: #FFF;" onclick="lookupDiscordPhone()">🎮 เจาะหาใน Discord</button>
+            <button class="btn-engine-open" style="flex: 1; background: #1E293B; border: 1px solid #334155; color: #A5B4FC;" onclick="lookupDiscordCdn()">📁 หา cdn.discordapp</button>
+          </div>
+        </div>
+
+        <!-- 5. WHOSCALL (BEST IN THAILAND) -->
         <div class="engine-card-item emerald">
           <div class="engine-item-top">
             <div class="engine-item-icon">📱</div>
@@ -654,7 +732,7 @@
           <button class="btn-engine-open emerald" onclick="lookupWhoscall()">📱 เช็คชื่อบน Whoscall</button>
         </div>
 
-        <!-- 2. TRUECALLER (GLOBAL IDENTIFIER) -->
+        <!-- 6. TRUECALLER (GLOBAL IDENTIFIER) -->
         <div class="engine-card-item blue">
           <div class="engine-item-top">
             <div class="engine-item-icon">📞</div>
@@ -666,19 +744,7 @@
           <button class="btn-engine-open" onclick="lookupTruecaller()">📞 ค้นหาบน Truecaller</button>
         </div>
 
-        <!-- 3. LINE LOOKUP -->
-        <div class="engine-card-item emerald">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">💬</div>
-            <div class="engine-item-title">
-              <h3>LINE Messenger Profile</h3>
-              <p>เปิดค้นหาหรือเพิ่มเพื่อนด้วยเบอร์โทร เพื่อดูรูปโปรไฟล์และชื่อแสดงบน LINE</p>
-            </div>
-          </div>
-          <button class="btn-engine-open emerald" onclick="lookupLine()">💬 ค้นหาบัญชี LINE</button>
-        </div>
-
-        <!-- 4. WHATSAPP DIRECT CHAT/PROFILE -->
+        <!-- 7. WHATSAPP DIRECT CHAT/PROFILE -->
         <div class="engine-card-item emerald">
           <div class="engine-item-top">
             <div class="engine-item-icon">🟢</div>
@@ -690,7 +756,7 @@
           <button class="btn-engine-open emerald" onclick="lookupWhatsApp()">🟢 ดูโปรไฟล์ WhatsApp</button>
         </div>
 
-        <!-- 5. BLACKLISTSELLER (THAI FRAUD CHECK) -->
+        <!-- 8. BLACKLISTSELLER (THAI FRAUD CHECK) -->
         <div class="engine-card-item highlight-red" style="border: 1.5px solid #E11D48;">
           <div class="engine-item-top">
             <div class="engine-item-icon">🚨</div>
@@ -702,31 +768,7 @@
           <button class="btn-engine-open" style="background: #E11D48; color: #FFF;" onclick="lookupBlacklistseller()">🚨 เช็คประวัติ Blacklistseller</button>
         </div>
 
-        <!-- 6. FACEBOOK PHONE SEARCH -->
-        <div class="engine-card-item blue">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">👥</div>
-            <div class="engine-item-title">
-              <h3>Facebook Phone Dorking</h3>
-              <p>ค้นหาโพสต์, โปรไฟล์, เพจร้านค้า และกลุ่มบน Facebook ที่เคยลงเบอร์นี้</p>
-            </div>
-          </div>
-          <button class="btn-engine-open" onclick="lookupFacebookPhone()">👥 เจาะหาบน Facebook</button>
-        </div>
-
-        <!-- 7. INSTAGRAM & TIKTOK PHONE DORK -->
-        <div class="engine-card-item purple">
-          <div class="engine-item-top">
-            <div class="engine-item-icon">📸</div>
-            <div class="engine-item-title">
-              <h3>Instagram &amp; TikTok Phone OSINT</h3>
-              <p>ค้นหา Bio และโพสต์บน Instagram หรือ TikTok ที่เคยใส่เบอร์นี้ไว้ติดต่อ</p>
-            </div>
-          </div>
-          <button class="btn-engine-open" onclick="lookupInstagramPhone()">📸 เจาะหาบน IG/TikTok</button>
-        </div>
-
-        <!-- 8. GOOGLE BROAD PHONE LOOKUP -->
+        <!-- 9. GOOGLE BROAD PHONE LOOKUP -->
         <div class="engine-card-item">
           <div class="engine-item-top">
             <div class="engine-item-icon">🔍</div>
@@ -736,6 +778,18 @@
             </div>
           </div>
           <button class="btn-engine-open" onclick="lookupGooglePhone()">🔍 สแกนเว็บทั่วโลก</button>
+        </div>
+
+        <!-- 10. BRIDGE TO IMAGE SEARCH -->
+        <div class="engine-card-item gold" style="border: 1.5px solid #F59E0B;">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🖼️</div>
+            <div class="engine-item-title">
+              <h3>ระบบสแกนรูปภาพข้ามแพลตฟอร์ม</h3>
+              <p>ได้รูปโปรไฟล์จากเบอร์โทรแล้ว สลับไปสแกนด้วย Yandex, FaceCheck AI, Google Lens ทันที</p>
+            </div>
+          </div>
+          <button class="btn-engine-open" style="background: #F59E0B; color: #000;" onclick="toggleMode('image')">📸 ไปที่ระบบสแกนรูปภาพ</button>
         </div>
 
       </div>
@@ -848,11 +902,61 @@
       window.open(`https://www.truecaller.com/search/th/${e164}`, '_blank');
     }
 
+    function lookupFacebookPhoneDirect() {
+      const num = getCleanPhoneNumber();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      window.open(`https://www.facebook.com/search/top/?q=${encodeURIComponent(num)}`, '_blank');
+    }
+
+    function lookupFacebookPhone() {
+      const num = getCleanPhoneNumber();
+      const e164 = getFormattedE164();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      const q = `site:facebook.com ("${num}" OR "+${e164}")`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function lookupLineApp() {
+      const num = getCleanPhoneNumber();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      window.open(`https://line.me/R/nv/addFriends`, '_blank');
+    }
+
     function lookupLine() {
       const num = getCleanPhoneNumber();
       if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
-      // Opens LINE search query & tips
-      window.open(`https://www.google.com/search?q=${encodeURIComponent('site:line.me "' + num + '"')}`, '_blank');
+      const q = `(site:line.me OR site:lin.ee OR "line id") "${num}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function lookupInstagramPhone() {
+      const num = getCleanPhoneNumber();
+      const e164 = getFormattedE164();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      const q = `site:instagram.com ("${num}" OR "+${e164}")`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function lookupTikTokPhone() {
+      const num = getCleanPhoneNumber();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      const q = `site:tiktok.com "${num}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function lookupDiscordPhone() {
+      const num = getCleanPhoneNumber();
+      const e164 = getFormattedE164();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      const q = `(site:discord.com OR site:discord.gg OR "discord.com/users/") ("${num}" OR "+${e164}")`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
+    function lookupDiscordCdn() {
+      const num = getCleanPhoneNumber();
+      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
+      const q = `site:cdn.discordapp.com "${num}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
     }
 
     function lookupWhatsApp() {
@@ -867,21 +971,6 @@
       window.open(`https://www.blacklistseller.com/report/report_search_page?search=${encodeURIComponent(num)}`, '_blank');
     }
 
-    function lookupFacebookPhone() {
-      const num = getCleanPhoneNumber();
-      const e164 = getFormattedE164();
-      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
-      const q = `site:facebook.com ("${num}" OR "+${e164}")`;
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
-    function lookupInstagramPhone() {
-      const num = getCleanPhoneNumber();
-      if (!num) { alert('กรุณาพิมพ์เบอร์โทรศัพท์ก่อนครับ'); return; }
-      const q = `(site:instagram.com OR site:tiktok.com) "${num}"`;
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
     function lookupGooglePhone() {
       const num = getCleanPhoneNumber();
       const e164 = getFormattedE164();
@@ -890,17 +979,28 @@
       window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
     }
 
+    function handlePhoneBridgeFile(event) {
+      if (event.target.files && event.target.files[0]) {
+        const file = event.target.files[0];
+        toggleMode('image');
+        handleFile(file);
+      }
+    }
+
     function searchAllPhoneTools() {
       const num = getCleanPhoneNumber();
       if (!num) {
         alert('กรุณาพิมพ์เบอร์โทรศัพท์ที่ต้องการค้นหาก่อนครับ');
         return;
       }
-      lookupWhoscall();
-      setTimeout(lookupTruecaller, 300);
-      setTimeout(lookupBlacklistseller, 600);
-      setTimeout(lookupFacebookPhone, 900);
-      setTimeout(lookupWhatsApp, 1200);
+      lookupFacebookPhone();
+      setTimeout(lookupLine, 300);
+      setTimeout(lookupInstagramPhone, 600);
+      setTimeout(lookupDiscordPhone, 900);
+      setTimeout(lookupWhoscall, 1200);
+      setTimeout(lookupTruecaller, 1500);
+      setTimeout(lookupBlacklistseller, 1800);
+      setTimeout(lookupWhatsApp, 2100);
     }
 
     // ================= IMAGE OSINT LOGIC =================
