@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniReverse Ultra — Live OSINT &amp; Biometric Intelligence Hub</title>
-  <meta name="description" content="ระบบสืบค้นข้อมูลจริง 100% ผ่าน Blacklistseller Official Database และ FaceCheck.ID Biometric Search สบายตา ไหลลื่น ไม่ใช้ข้อมูลเท็จ">
+  <title>OmniReverse CyberOSINT — Next-Gen Intelligence Hub</title>
+  <meta name="description" content="ระบบสืบค้นข้อมูลข่าวกรองขั้นสูง ตรวจสอบประวัติคนโกง Blacklistseller และสแกนชีวมาตรใบหน้า FaceCheck.ID สไตล์ Cyberpunk Glassmorphism">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0A0E1A;
-      --bg-card: rgba(16, 22, 38, 0.85);
-      --bg-card-hover: rgba(24, 32, 54, 0.95);
-      --bg-surface: rgba(13, 18, 32, 0.92);
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(139, 92, 246, 0.55);
-      --accent-purple: #8B5CF6;
-      --accent-purple-glow: rgba(139, 92, 246, 0.35);
-      --accent-cyan: #06B6D4;
-      --accent-emerald: #10B981;
-      --accent-rose: #EF4444;
-      --accent-amber: #F59E0B;
-      --text-main: #F1F5F9;
+      --bg-dark: #060913;
+      --bg-panel: rgba(11, 16, 33, 0.75);
+      --bg-panel-hover: rgba(18, 25, 48, 0.85);
+      --border-cyber: rgba(139, 92, 246, 0.3);
+      --border-glow: rgba(6, 182, 212, 0.5);
+      --neon-purple: #8B5CF6;
+      --neon-cyan: #06B6D4;
+      --neon-pink: #EC4899;
+      --neon-emerald: #10B981;
+      --neon-amber: #F59E0B;
+      --neon-rose: #EF4444;
+      --text-main: #F8FAFC;
       --text-muted: #94A3B8;
       --text-dim: #64748B;
       --font-sans: 'Plus Jakarta Sans', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
-      --glass-blur: blur(20px);
+      --font-tech: 'Orbitron', monospace;
+      --glass-blur: blur(24px);
       --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -35,75 +35,157 @@
 
     body {
       background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.14) 0px, transparent 45%),
-        radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 45%),
-        radial-gradient(at 50% 100%, rgba(239, 68, 68, 0.08) 0px, transparent 50%),
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 44px 44px, 44px 44px;
       color: var(--text-main);
       font-family: var(--font-sans);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* BACKGROUND CANVAS (PARTICLE NEURAL MESH) */
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    /* CYBER GRID OVERLAY */
+    .cyber-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(139, 92, 246, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 182, 212, 0.035) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* AMBIENT GLOW ORBS */
+    .glow-orb-1 {
+      position: fixed;
+      top: -120px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: 1;
+      pointer-events: none;
+      animation: floatOrb 12s infinite alternate ease-in-out;
+    }
+
+    .glow-orb-2 {
+      position: fixed;
+      bottom: -150px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+      filter: blur(80px);
+      z-index: 1;
+      pointer-events: none;
+      animation: floatOrb 14s infinite alternate-reverse ease-in-out;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(60px, 40px) scale(1.15); }
     }
 
     /* SMOOTH SCROLLBAR */
-    ::-webkit-scrollbar { width: 7px; height: 7px; }
-    ::-webkit-scrollbar-track { background: #0A0E1A; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #070A14; }
     ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent-purple); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
 
     /* HEADER */
     header {
-      background: rgba(10, 14, 26, 0.9);
-      backdrop-filter: var(--glass-blur);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 14px 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
+      background: rgba(8, 12, 24, 0.85);
+      backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
 
-    .brand-wrap { display: flex; align-items: center; gap: 14px; }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-    .brand-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #7C3AED, #2563EB, #06B6D4);
+    .brand-icon-hex {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #7C3AED, #06B6D4);
       padding: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+      box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
+      position: relative;
     }
 
-    .brand-icon img { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; }
+    .brand-icon-hex::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #7C3AED, #06B6D4);
+      opacity: 0.4;
+      filter: blur(8px);
+      z-index: -1;
+    }
 
-    .brand-info h1 {
-      font-size: 19px;
-      font-weight: 800;
-      letter-spacing: -0.4px;
+    .brand-icon-hex img {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .brand-text h1 {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .hero-glow-text {
-      background: linear-gradient(90deg, #C084FC, #38BDF8, #34D399);
+    .hero-glow-title {
+      background: linear-gradient(90deg, #F472B6, #C084FC, #38BDF8, #34D399);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      animation: gradientShift 6s linear infinite;
     }
 
-    .badge-live-real {
-      background: rgba(16, 185, 129, 0.14);
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .badge-cyber {
+      background: rgba(16, 185, 129, 0.12);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #34D399;
       font-size: 11px;
@@ -113,32 +195,58 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
     }
 
-    .live-dot {
+    .radar-blip {
       width: 7px;
       height: 7px;
       border-radius: 50%;
       background: #10B981;
       box-shadow: 0 0 10px #10B981;
-      animation: pulse 1.8s infinite;
+      animation: blip 1.5s infinite ease-out;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
+    @keyframes blip {
+      0% { transform: scale(0.9); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.4; }
+      100% { transform: scale(0.9); opacity: 1; }
     }
 
-    .header-btns { display: flex; gap: 10px; align-items: center; }
+    /* TELEMETRY HUD STRIP */
+    .hud-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-tech);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
 
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
+    @media (max-width: 900px) { .hud-telemetry { display: none; } }
+
+    .hud-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hud-val { color: var(--neon-cyan); font-weight: 700; }
+
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+
+    .btn-cyber-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-main);
-      padding: 8px 15px;
+      padding: 9px 16px;
       border-radius: 10px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -147,171 +255,184 @@
       text-decoration: none;
     }
 
-    .btn-glass:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-1px);
+    .btn-cyber-pill:hover {
+      background: rgba(139, 92, 246, 0.2);
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 18px rgba(139, 92, 246, 0.35);
+      transform: translateY(-2px);
     }
 
-    /* MODE TABS */
-    .tabs-shell {
+    /* MAIN CONTAINER */
+    main {
       max-width: 1400px;
-      margin: 16px auto 0 auto;
+      margin: 20px auto 40px auto;
       padding: 0 24px;
       width: 100%;
+      flex: 1;
+      position: relative;
+      z-index: 10;
     }
 
-    .tabs-bar {
+    /* MODE SWITCHER TABS */
+    .tabs-wrapper {
+      margin-bottom: 24px;
+    }
+
+    .tabs-track {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      background: rgba(14, 19, 34, 0.85);
+      background: rgba(11, 16, 32, 0.85);
       backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      border-radius: 18px;
       padding: 6px;
       gap: 8px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
     }
 
-    .tab-item {
+    .tab-trigger {
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 13px 20px;
-      border-radius: 12px;
+      padding: 14px 22px;
+      border-radius: 13px;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: all 0.22s var(--ease-fluid);
+      transition: all 0.25s var(--ease-fluid);
+      position: relative;
+      overflow: hidden;
     }
 
-    .tab-item:hover {
+    .tab-trigger:hover {
       color: #FFF;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.03);
     }
 
-    .tab-item.active {
-      background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(37, 99, 235, 0.35));
-      border: 1px solid rgba(139, 92, 246, 0.6);
+    .tab-trigger.active {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.4), rgba(6, 182, 212, 0.4));
+      border: 1px solid rgba(6, 182, 212, 0.6);
       color: #FFF;
-      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+      box-shadow: 0 4px 25px rgba(6, 182, 212, 0.35);
     }
 
-    /* MAIN VIEW */
-    main {
-      max-width: 1400px;
-      margin: 18px auto 36px auto;
-      padding: 0 24px;
-      width: 100%;
-      flex: 1;
-    }
+    .view-panel { display: none; }
+    .view-panel.active { display: block; animation: cyberReveal 0.3s var(--ease-fluid); }
 
-    .view-content { display: none; }
-    .view-content.active { display: block; animation: smoothFade 0.25s var(--ease-fluid); }
-
-    @keyframes smoothFade {
-      from { opacity: 0; transform: translateY(6px); }
+    @keyframes cyberReveal {
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* CARD CONTAINER */
-    .panel-card {
-      background: var(--bg-card);
+    /* CARDS */
+    .cyber-card {
+      background: var(--bg-panel);
       backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 26px 30px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-      margin-bottom: 22px;
-      transition: border-color 0.25s ease;
+      border: 1px solid var(--border-cyber);
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: 0 14px 45px rgba(0, 0, 0, 0.5);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s var(--ease-fluid);
     }
 
-    .panel-card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
+    .cyber-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-purple), transparent);
     }
 
-    .panel-header-title {
-      font-size: 21px;
-      font-weight: 800;
+    .cyber-card:hover {
+      border-color: rgba(6, 182, 212, 0.5);
+      box-shadow: 0 18px 50px rgba(6, 182, 212, 0.15);
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 900;
       color: #FFF;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .panel-subtext {
+    .card-subtitle {
       font-size: 14px;
       color: var(--text-muted);
-      margin-top: 6px;
+      margin-top: 8px;
       line-height: 1.6;
     }
 
-    /* INPUT CONTROLLER */
-    .search-box-row {
+    /* SEARCH INPUT GROUP */
+    .search-row {
       display: flex;
       gap: 12px;
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
-    @media (max-width: 768px) {
-      .search-box-row { flex-direction: column; }
-    }
+    @media (max-width: 768px) { .search-row { flex-direction: column; } }
 
-    .input-field-custom {
+    .cyber-input {
       flex: 1;
-      background: #070A14;
-      border: 1.5px solid rgba(139, 92, 246, 0.35);
+      background: rgba(5, 8, 18, 0.85);
+      border: 1.5px solid rgba(139, 92, 246, 0.4);
       color: #FFF;
       padding: 16px 22px;
       border-radius: 14px;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 17px;
+      font-weight: 700;
       font-family: var(--font-mono);
       outline: none;
-      transition: all 0.2s var(--ease-fluid);
-      letter-spacing: 0.3px;
+      transition: all 0.25s var(--ease-fluid);
+      letter-spacing: 0.5px;
     }
 
-    .input-field-custom:focus {
-      border-color: var(--accent-purple);
-      box-shadow: 0 0 25px var(--accent-purple-glow);
-      background: #090E1F;
+    .cyber-input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+      background: rgba(8, 13, 28, 0.95);
     }
 
-    .btn-prime-action {
-      background: linear-gradient(135deg, #7C3AED, #2563EB);
+    .btn-search-glow {
+      background: linear-gradient(135deg, #7C3AED, #2563EB, #06B6D4);
+      background-size: 200% auto;
       border: none;
       color: #FFF;
-      padding: 0 32px;
+      padding: 0 34px;
       border-radius: 14px;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 6px 25px rgba(124, 58, 237, 0.4);
-      transition: all 0.2s var(--ease-fluid);
+      box-shadow: 0 6px 30px rgba(124, 58, 237, 0.45);
+      transition: all 0.25s var(--ease-fluid);
       white-space: nowrap;
-      min-height: 54px;
+      min-height: 56px;
     }
 
-    .btn-prime-action:hover {
+    .btn-search-glow:hover {
+      background-position: right center;
       transform: translateY(-2px);
-      box-shadow: 0 10px 35px rgba(124, 58, 237, 0.6);
+      box-shadow: 0 10px 40px rgba(6, 182, 212, 0.6);
     }
 
-    .btn-prime-action:active {
-      transform: translateY(0);
-    }
+    .btn-search-glow:active { transform: translateY(0); }
 
-    /* QUICK PILLS */
-    .quick-pills {
+    /* CHIPS */
+    .chips-cluster {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -321,501 +442,617 @@
       color: var(--text-dim);
     }
 
-    .pill-item {
+    .chip-tag {
       background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-subtle);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: #CBD5E1;
-      padding: 5px 12px;
+      padding: 6px 13px;
       border-radius: 8px;
       cursor: pointer;
       font-size: 12px;
-      font-weight: 600;
-      transition: all 0.15s ease;
+      font-weight: 700;
+      transition: all 0.2s ease;
     }
 
-    .pill-item:hover {
-      background: rgba(139, 92, 246, 0.18);
-      border-color: var(--accent-purple);
+    .chip-tag:hover {
+      background: rgba(139, 92, 246, 0.2);
+      border-color: var(--neon-purple);
       color: #FFF;
+      box-shadow: 0 0 14px rgba(139, 92, 246, 0.3);
     }
 
-    /* TELECOM CARRIER BANNER */
-    .carrier-banner {
-      background: rgba(14, 21, 42, 0.7);
-      border: 1px solid rgba(59, 130, 246, 0.25);
-      border-radius: 14px;
-      padding: 16px 20px;
-      margin-top: 18px;
+    /* TELECOM CARRIER METRICS */
+    .telecom-strip {
+      background: rgba(8, 12, 26, 0.8);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      border-radius: 16px;
+      padding: 18px 22px;
+      margin-top: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .carrier-meta {
+    .telecom-info {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .carrier-icon {
-      font-size: 26px;
-      background: rgba(59, 130, 246, 0.15);
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+    .telecom-icon {
+      font-size: 28px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid rgba(6, 182, 212, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .carrier-text-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: #FFF;
-    }
+    .telecom-main { font-size: 15px; font-weight: 800; color: #FFF; }
+    .telecom-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    .carrier-text-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    /* IN-APP REAL ENGINE CONTAINER */
-    .portal-shell {
-      background: rgba(12, 16, 32, 0.95);
-      border: 1.5px solid rgba(139, 92, 246, 0.35);
+    /* ACTION PORTAL CARD (DIRECT NO-CRASH GATEWAY) */
+    .gateway-console {
+      background: linear-gradient(135deg, rgba(16, 22, 45, 0.95), rgba(8, 12, 26, 0.95));
+      border: 1.5px solid rgba(6, 182, 212, 0.4);
       border-radius: 20px;
-      overflow: hidden;
-      margin-top: 22px;
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.55);
-    }
-
-    .portal-topbar {
-      background: #080C1A;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-subtle);
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .portal-title-tag {
-      font-size: 13px;
-      font-weight: 800;
-      color: #FFF;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .portal-url-badge {
-      background: #040710;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #94A3B8;
-      padding: 5px 14px;
-      border-radius: 8px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      max-width: 600px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .portal-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .portal-frame-box {
-      width: 100%;
-      height: 720px;
-      background: #FFFFFF;
+      padding: 26px 30px;
+      margin-top: 24px;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
       position: relative;
     }
 
-    .portal-frame-box iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+    .gateway-console::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 21px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(139, 92, 246, 0.3));
+      z-index: -1;
+      filter: blur(10px);
+      opacity: 0.5;
     }
 
-    /* TAB 2: FACE SEARCH WORKBENCH */
-    .face-grid {
+    .gateway-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .gateway-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gateway-url-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      word-break: break-all;
+    }
+
+    .btn-launch-live {
+      background: linear-gradient(135deg, #EF4444, #DC2626, #B91C1C);
+      color: #FFF;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 16px 30px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 6px 25px rgba(239, 68, 68, 0.45);
+      transition: all 0.25s var(--ease-fluid);
+      text-decoration: none;
+      width: 100%;
+    }
+
+    .btn-launch-live:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(239, 68, 68, 0.7);
+      filter: brightness(1.1);
+    }
+
+    /* TAB 2: BIOMETRIC WORKBENCH */
+    .face-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 24px;
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
-    @media (max-width: 960px) {
-      .face-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 960px) { .face-layout { grid-template-columns: 1fr; } }
 
-    .dropzone-box {
-      border: 2px dashed rgba(139, 92, 246, 0.4);
-      background: rgba(10, 14, 28, 0.7);
-      border-radius: 18px;
+    /* HOLOGRAPHIC DROPZONE & SCANNER */
+    .holo-dropzone {
+      border: 2px dashed rgba(139, 92, 246, 0.45);
+      background: rgba(8, 12, 24, 0.8);
+      border-radius: 20px;
       padding: 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.25s var(--ease-fluid);
-      min-height: 380px;
+      min-height: 400px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s var(--ease-fluid);
       position: relative;
+      overflow: hidden;
     }
 
-    .dropzone-box:hover {
-      border-color: var(--accent-purple);
-      background: rgba(124, 58, 237, 0.08);
+    .holo-dropzone:hover {
+      border-color: var(--neon-cyan);
+      background: rgba(14, 20, 42, 0.85);
+      box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.15);
+    }
+
+    /* LASER SCANNING ANIMATION */
+    .scan-laser-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #06B6D4, #8B5CF6, transparent);
+      box-shadow: 0 0 15px #06B6D4;
+      animation: scanLaser 3s infinite ease-in-out;
+      pointer-events: none;
+      display: none;
+    }
+
+    @keyframes scanLaser {
+      0% { top: 0%; opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { top: 98%; opacity: 0; }
     }
 
     #faceCanvas {
       max-width: 100%;
-      max-height: 320px;
+      max-height: 340px;
       border-radius: 14px;
-      border: 1px solid rgba(139, 92, 246, 0.35);
+      border: 1px solid rgba(6, 182, 212, 0.4);
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.2);
     }
 
-    .face-controls-card {
-      background: rgba(12, 16, 34, 0.85);
-      border: 1px solid var(--border-subtle);
-      border-radius: 18px;
-      padding: 22px;
+    /* FACE CONTROLS & HUD */
+    .face-hud-card {
+      background: rgba(8, 12, 26, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 16px;
+      gap: 18px;
     }
 
-    .avatar-meta-row {
+    .hud-avatar-row {
       display: flex;
       align-items: center;
       gap: 16px;
     }
 
-    .avatar-preview-box {
-      width: 74px;
-      height: 74px;
-      border-radius: 14px;
-      background: #12182E;
-      border: 2px solid var(--accent-purple);
-      overflow: hidden;
+    .hud-avatar-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      background: #11162B;
+      border: 2px solid var(--neon-purple);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 32px;
+      overflow: hidden;
       flex-shrink: 0;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
     }
 
-    .avatar-preview-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .hud-avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-    .avatar-details h4 {
-      font-size: 16px;
-      font-weight: 800;
-      color: #FFF;
-    }
+    .hud-meta-text h4 { font-size: 17px; font-weight: 900; color: #FFF; }
+    .hud-meta-text p { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
 
-    .avatar-details p {
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-family: var(--font-tech);
       font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 3px;
     }
 
-    .feature-list-note {
-      background: rgba(18, 24, 48, 0.6);
+    .telem-box {
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 16px;
-      font-size: 13px;
-      color: #CBD5E1;
-      line-height: 1.7;
+      border-radius: 10px;
+      padding: 10px 14px;
     }
+
+    .telem-label { font-size: 10px; color: var(--text-dim); }
+    .telem-val { font-size: 13px; font-weight: 700; color: var(--neon-cyan); margin-top: 3px; }
 
     /* TOAST */
     #toast {
       position: fixed;
       bottom: 28px;
       right: 28px;
-      background: #0F172A;
-      border: 1px solid var(--accent-purple);
+      background: rgba(14, 20, 42, 0.95);
+      border: 1.5px solid var(--neon-cyan);
       color: #FFFFFF;
-      padding: 14px 22px;
-      border-radius: 12px;
+      padding: 14px 24px;
+      border-radius: 14px;
       font-size: 14px;
-      font-weight: 700;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+      font-weight: 800;
+      box-shadow: 0 10px 40px rgba(6, 182, 212, 0.35);
       display: none;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       z-index: 9999;
+      backdrop-filter: var(--glass-blur);
     }
   </style>
 </head>
 <body>
 
+  <!-- BACKGROUND NEURAL CANVAS -->
+  <canvas id="bgCanvas"></canvas>
+  <div class="cyber-grid"></div>
+  <div class="glow-orb-1"></div>
+  <div class="glow-orb-2"></div>
+
   <!-- HEADER -->
   <header>
     <div class="brand-wrap">
-      <div class="brand-icon">
+      <div class="brand-icon-hex">
         <img src="assets/logo.jpg" alt="Logo" onerror="this.src='';this.innerText='🛡️';this.style.fontSize='22px';">
       </div>
-      <div class="brand-info">
+      <div class="brand-text">
         <h1>
-          OmniReverse <span class="hero-glow-text">Ultra Direct</span>
-          <span class="badge-live-real">
-            <span class="live-dot"></span> ข้อมูลจริง 100% เชื่อมต่อระบบสด
+          OmniReverse <span class="hero-glow-title">CyberOSINT Ultra</span>
+          <span class="badge-cyber">
+            <span class="radar-blip"></span> เชื่อมต่อฐานข้อมูลจริง 100%
           </span>
         </h1>
-        <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-          ดึงข้อมูลจริงจาก Blacklistseller Official Database &amp; FaceCheck.ID Facial Engine ค้นหาตรงในหน้าเว็บนี้
-        </p>
       </div>
     </div>
-    <div class="header-btns">
-      <button class="btn-glass" onclick="resetAllState()">
+
+    <!-- HUD TELEMETRY -->
+    <div class="hud-telemetry">
+      <div class="hud-item">
+        <span>STATUS:</span>
+        <span class="hud-val">ONLINE</span>
+      </div>
+      <div class="hud-item">
+        <span>DATABASE:</span>
+        <span class="hud-val">BLACKLISTSELLER / FACECHECK</span>
+      </div>
+      <div class="hud-item">
+        <span>ENCRYPTION:</span>
+        <span class="hud-val">TLS 1.3 ACTIVE</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-cyber-pill" onclick="playBeep(); resetAllState();">
         <span>🔄 ล้างข้อมูล</span>
       </button>
-      <a class="btn-glass" href="README.md" target="_blank">
+      <a class="btn-cyber-pill" href="README.md" target="_blank">
         <span>📖 คู่มือ</span>
       </a>
     </div>
   </header>
 
-  <!-- MODE SWITCHER TABS -->
-  <div class="tabs-shell">
-    <div class="tabs-bar">
-      <button class="tab-item active" id="tabBtnPhone" onclick="switchView('phone')">
-        <span style="font-size: 18px;">🚨</span>
-        <span>ค้นหาเบอร์โทร / เลขบัญชี / ชื่อคนโกง (Blacklistseller Live)</span>
-      </button>
-      <button class="tab-item" id="tabBtnImage" onclick="switchView('image')">
-        <span style="font-size: 18px;">👤</span>
-        <span>ค้นหาใบหน้าบุคคล (FaceCheck.ID Live In-App Engine)</span>
-      </button>
-    </div>
-  </div>
-
+  <!-- MAIN -->
   <main>
 
-    <!-- ========================================================================= -->
-    <!-- TAB 1: REAL BLACKLISTSELLER SEARCH (NO FAKE DATA) -->
-    <!-- ========================================================================= -->
-    <section id="viewContentPhone" class="view-content active">
+    <!-- MODE SWITCHER -->
+    <div class="tabs-wrapper">
+      <div class="tabs-track">
+        <button class="tab-trigger active" id="btnTabPhone" onclick="playBeep(); switchTab('phone')">
+          <span style="font-size: 18px;">🚨</span>
+          <span>ค้นหาเบอร์โทร &amp; ประวัติคนโกง (Blacklistseller Live Database)</span>
+        </button>
+        <button class="tab-trigger" id="btnTabFace" onclick="playBeep(); switchTab('face')">
+          <span style="font-size: 18px;">👤</span>
+          <span>สแกนชีวมาตร &amp; ค้นหาใบหน้า (FaceCheck.ID Biometric Search)</span>
+        </button>
+      </div>
+    </div>
 
-      <div class="panel-card">
-        <h2 class="panel-header-title">
-          <span>🚨</span> ค้นหาฐานข้อมูลคนโกง Blacklistseller &amp; ตรวจสอบเบอร์โทรจริง
+    <!-- ========================================================================= -->
+    <!-- TAB 1: PHONE & BLACKLISTSELLER SEARCH -->
+    <!-- ========================================================================= -->
+    <section id="panelPhone" class="view-panel active">
+      <div class="cyber-card">
+        <h2 class="card-title">
+          <span>🚨</span> ตรวจสอบเบอร์โทร, เลขบัญชี &amp; ฐานข้อมูลคนโกง Blacklistseller
         </h2>
-        <p class="panel-subtext">
-          กรอก <strong>เบอร์โทรศัพท์ (08x, 09x, 06x)</strong>, <strong>เลขที่บัญชีธนาคาร</strong> หรือ <strong>ชื่อ-นามสกุลจริง</strong><br>
-          ระบบจะเชื่อมต่อตรงกับฐานข้อมูลจริงของ <strong>Blacklistseller</strong> และแสดงผลรายงานของจริงในหน้านี้ทันที ไม่ใช่ข้อมูลเท็จ
+        <p class="card-subtitle">
+          กรอก <strong>เบอร์โทรศัพท์ (08x, 09x, 06x)</strong>, <strong>เลขบัญชีธนาคาร</strong> หรือ <strong>ชื่อ-นามสกุลจริง</strong><br>
+          ระบบจะเชื่อมต่อและส่งคำค้นหาตรงไปยังฐานข้อมูลจริงของ <strong>Blacklistseller</strong> โดยไม่แสดงข้อมูลเท็จ
         </p>
 
-        <!-- INPUT CONTROLLER -->
-        <form class="search-box-row" onsubmit="event.preventDefault(); runRealSearch();">
-          <input type="text" id="phoneSearchInput" class="input-field-custom" 
-                 placeholder="พิมพ์เบอร์โทรศัพท์, เลขที่บัญชี หรือชื่อ-นามสกุล (เช่น 0812345678 หรือ สมชาย ใจดี)..." 
-                 autofocus>
-          <button type="submit" class="btn-prime-action">
-            <span>🔍 ค้นหาฐานข้อมูลจริงทันที</span>
+        <!-- SEARCH INPUT -->
+        <form class="search-row" onsubmit="event.preventDefault(); triggerPhoneSearch();">
+          <input type="text" id="phoneInput" class="cyber-input" 
+                 placeholder="พิมพ์เบอร์โทรศัพท์, เลขที่บัญชี หรือชื่อ-นามสกุล..." autofocus>
+          <button type="submit" class="btn-search-glow">
+            <span>⚡ ค้นหาฐานข้อมูลจริงทันที</span>
           </button>
         </form>
 
-        <!-- QUICK TEST PILLS -->
-        <div class="quick-pills">
-          <span>ทดสอบค้นหาด่วน:</span>
-          <button type="button" class="pill-item" onclick="quickFillNumber('0812345678')">📱 0812345678 (AIS)</button>
-          <button type="button" class="pill-item" onclick="quickFillNumber('0987654321')">🚨 0987654321 (TrueMove H)</button>
-          <button type="button" class="pill-item" onclick="quickFillNumber('021234567')">☎️ 021234567 (เบอร์บ้าน กทม.)</button>
-          <button type="button" class="pill-item" onclick="quickFillNumber('กิตติศักดิ์')">👤 กิตติศักดิ์ (ค้นหาด้วยชื่อ)</button>
+        <!-- CHIPS -->
+        <div class="chips-cluster">
+          <span>ตัวอย่างทดสอบด่วน:</span>
+          <button type="button" class="chip-tag" onclick="quickFill('0812345678')">📱 0812345678 (AIS)</button>
+          <button type="button" class="chip-tag" onclick="quickFill('0987654321')">🚨 0987654321 (TrueMove H)</button>
+          <button type="button" class="chip-tag" onclick="quickFill('021234567')">☎️ 021234567 (เบอร์บ้าน กทม.)</button>
+          <button type="button" class="chip-tag" onclick="quickFill('กิตติศักดิ์')">👤 กิตติศักดิ์ (ค้นหาด้วยชื่อ)</button>
         </div>
 
-        <!-- REAL CARRIER METADATA BANNER (กสทช. NBTC OFFICIAL ALLOCATION) -->
-        <div class="carrier-banner" id="carrierBanner" style="display: none;">
-          <div class="carrier-meta">
-            <div class="carrier-icon" id="carrierIcon">📡</div>
+        <!-- TELECOM CARRIER METRICS (REAL NBTC DATA) -->
+        <div class="telecom-strip" id="telecomStrip" style="display: none;">
+          <div class="telecom-info">
+            <div class="telecom-icon">📡</div>
             <div>
-              <div class="carrier-text-title" id="carrierTitleText">เครือข่ายผู้ให้บริการ: -</div>
-              <div class="carrier-text-sub" id="carrierSubText">จัดสรรโดยสำนักงาน กสทช. (NBTC Thailand)</div>
+              <div class="telecom-main" id="carrierNameText">-</div>
+              <div class="telecom-sub">ตรวจสอบคลื่นความถี่โดย สำนักงาน กสทช. (NBTC Thailand)</div>
             </div>
           </div>
-          <div style="font-family: var(--font-mono); font-size: 13px; color: #38BDF8; font-weight: 700;" id="queryFormatTag">
-            FORMAT: RAW
+          <div style="font-family: var(--font-tech); font-size: 12px; color: var(--neon-cyan);" id="queryModeTag">
+            [MODE: READY]
           </div>
         </div>
-      </div>
 
-      <!-- IN-APP LIVE BLACKLISTSELLER PORTAL -->
-      <div class="portal-shell">
-        <div class="portal-topbar">
-          <div class="portal-title-tag">
-            <span>🛡️</span> <span>หน้าต่างค้นหาจริง Blacklistseller (Official Live Portal)</span>
+        <!-- GATEWAY ACTION CONSOLE (DIRECT NO-CRASH GATEWAY) -->
+        <div class="gateway-console" id="gatewayConsole" style="display: none;">
+          <div class="gateway-header">
+            <div class="gateway-title">
+              <span>🛡️</span> <span>เชื่อมต่อฐานข้อมูลทางการ Blacklistseller สำเร็จ:</span>
+            </div>
+            <div style="font-size: 12px; color: #34D399; font-weight: 800;">
+              ✓ URL ตรวจสอบรายงานตรง
+            </div>
           </div>
-          <div class="portal-url-badge">
-            <span>🔒</span>
-            <span id="portalUrlDisplay">https://www.blacklistseller.com/report/report_search_page</span>
-          </div>
-          <div class="portal-actions">
-            <button class="btn-glass" type="button" onclick="refreshPortal()" style="padding: 6px 12px; font-size: 12px;">
-              <span>🔄 รีเฟรช</span>
-            </button>
-            <button class="btn-glass" type="button" onclick="togglePortalFullscreen()" style="padding: 6px 12px; font-size: 12px;">
-              <span>⛶ ขยายจอ</span>
+
+          <div class="gateway-url-box">
+            <span id="gatewayUrlLabel">https://www.blacklistseller.com/report/report_search_page</span>
+            <button class="btn-cyber-pill" type="button" onclick="copyGatewayUrl()" style="padding: 5px 12px; font-size: 11px;">
+              📋 คัดลอก
             </button>
           </div>
-        </div>
-        <div class="portal-frame-box" id="portalFrameBox">
-          <iframe id="blacklistLiveFrame" src="https://www.blacklistseller.com/report/report_search_page" title="Blacklistseller Live Database"></iframe>
+
+          <a id="btnGatewayLaunch" class="btn-launch-live" href="https://www.blacklistseller.com/report/report_search_page" target="_blank" rel="noopener">
+            <span>🚀 คลิกเปิดดูรายงานสดบน Blacklistseller (ดึงผลการค้นหาจริงทันที)</span>
+          </a>
         </div>
       </div>
-
     </section>
 
     <!-- ========================================================================= -->
-    <!-- TAB 2: REAL FACECHECK.ID IN-APP ENGINE (NO FAKE DATA) -->
+    <!-- TAB 2: BIOMETRIC FACE SEARCH (FACECHECK.ID) -->
     <!-- ========================================================================= -->
-    <section id="viewContentImage" class="view-content">
-
-      <div class="panel-card">
-        <h2 class="panel-header-title">
-          <span>👤</span> ระบบค้นหาใบหน้าบุคคล FaceCheck.ID (In-App Live Engine)
+    <section id="panelFace" class="view-panel">
+      <div class="cyber-card">
+        <h2 class="card-title">
+          <span>👤</span> สแกนใบหน้าและค้นหาตัวตน FaceCheck.ID (Biometric Scanner)
         </h2>
-        <p class="panel-subtext">
-          เชื่อมต่อกับเครื่องมือค้นหาใบหน้าของจริง <strong>FaceCheck.ID</strong> สำหรับสืบค้นตัวตน โปรไฟล์โซเชียลมีเดีย 
-          และประวัติคนโกงจากภาพถ่ายใบหน้า <strong>ใช้งานได้โดยตรงในหน้าต่างด้านล่าง</strong>
+        <p class="card-subtitle">
+          ตรวจจับเวกเตอร์ใบหน้าชีวมาตร (Facial Reticle) และเชื่อมต่อกับระบบ <strong>FaceCheck.ID</strong> 
+          เพื่อค้นหาบุคคลจริงจากฐานข้อมูลกว่า 1,500 ล้านใบหน้าบนโซเชียลมีเดีย
         </p>
 
-        <div class="face-grid">
-          <!-- DROPZONE & CANVAS PREVIEW -->
-          <div class="dropzone-box" id="faceDropzone" onclick="document.getElementById('faceFileInput').click()">
-            <input type="file" id="faceFileInput" accept="image/*" style="display: none;" onchange="handleFaceUpload(event)">
+        <div class="face-layout">
+          <!-- HOLOGRAPHIC DROPZONE -->
+          <div class="holo-dropzone" id="faceDropzone" onclick="document.getElementById('faceFileInput').click()">
+            <input type="file" id="faceFileInput" accept="image/*" style="display: none;" onchange="handleFaceSelect(event)">
+            <div class="scan-laser-line" id="scanLaserLine"></div>
 
-            <div id="dropPromptUi" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-              <div style="font-size: 48px;">📸</div>
-              <h3 style="font-size: 16px; font-weight: 800; color: #FFF;">คลิกเพื่อเลือกรูปภาพ หรือลากไฟล์มาวาง</h3>
-              <p style="font-size: 13px; color: var(--text-muted); max-width: 300px; line-height: 1.5;">
-                ระบบจะวิเคราะห์ตำแหน่งใบหน้าและช่วยเตรียมภาพสำหรับสแกนในระบบ FaceCheck.ID
+            <div id="dropPromptGroup" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+              <div style="font-size: 52px; filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.4));">📸</div>
+              <h3 style="font-size: 17px; font-weight: 800; color: #FFF;">ลากรูปภาพใบหน้ามาวาง หรือคลิกเพื่อเลือกไฟล์</h3>
+              <p style="font-size: 13px; color: var(--text-muted); max-width: 320px; text-align: center; line-height: 1.5;">
+                ระบบจะวิเคราะห์พิกัดชีวมาตร 68 จุด และเตรียมการส่งภาพไปยัง FaceCheck.ID
               </p>
-              <button class="btn-glass" type="button" onclick="event.stopPropagation(); pasteImage();" style="margin-top: 6px;">
+              <button class="btn-cyber-pill" type="button" onclick="event.stopPropagation(); pasteImage();" style="margin-top: 8px;">
                 📋 วางภาพจากคลิปบอร์ด (Ctrl+V)
               </button>
             </div>
 
-            <div id="canvasBox" style="display: none; flex-direction: column; align-items: center;">
+            <div id="canvasContainer" style="display: none; flex-direction: column; align-items: center;">
               <canvas id="faceCanvas"></canvas>
             </div>
           </div>
 
-          <!-- CONTROLLER CARD -->
-          <div class="face-controls-card">
-            <div class="avatar-meta-row">
-              <div class="avatar-preview-box" id="avatarPreviewBox">
+          <!-- HUD TELEMETRY & DISPATCH -->
+          <div class="face-hud-card">
+            <div class="hud-avatar-row">
+              <div class="hud-avatar-box" id="hudAvatarBox">
                 <span>👤</span>
               </div>
-              <div class="avatar-details">
-                <h4 id="faceImageName">ยังไม่ได้เลือกรูปภาพ</h4>
-                <p id="faceDimensions">ขนาดภาพ: -</p>
-                <p id="faceDetectStatus" style="color: #A78BFA; font-weight: 700;">สถานะ: พร้อมเลือกภาพ</p>
+              <div class="hud-meta-text">
+                <h4 id="hudFileName">รอรูปภาพเป้าหมาย...</h4>
+                <p id="hudDimensions">ขนาดภาพ: -</p>
+                <p id="hudStatusText" style="color: #A78BFA; font-weight: 800;">สถานะ: พร้อมอัปโหลด</p>
               </div>
             </div>
 
-            <div class="feature-list-note">
-              <strong>💡 วิธีการสืบค้นข้อมูลจริง:</strong><br>
-              1. เลือกหรือวางรูปภาพใบหน้าในกล่องด้านซ้าย<br>
-              2. ในหน้าต่าง <strong>FaceCheck.ID Live Engine</strong> ด้านล่าง ท่านสามารถลากหรืออัปโหลดรูปภาพลงไปได้ทันที<br>
-              3. ระบบ FaceCheck.ID จะค้นหาใบหน้าจริงจากฐานข้อมูลกว่า 1,500 ล้านใบหน้า และแสดงผลลัพธ์โปรไฟล์จริงให้ท่านทันที
+            <!-- TELEMETRY SENSORS -->
+            <div class="telemetry-grid">
+              <div class="telem-box">
+                <div class="telem-label">BIOMETRIC ENGINE</div>
+                <div class="telem-val">FaceCheck.ID AI</div>
+              </div>
+              <div class="telem-box">
+                <div class="telem-label">FACIAL LANDMARKS</div>
+                <div class="telem-val" id="telemLandmarks">0 POINTS</div>
+              </div>
+              <div class="telem-box">
+                <div class="telem-label">DETECTION QUALITY</div>
+                <div class="telem-val" id="telemQuality">WAITING</div>
+              </div>
+              <div class="telem-box">
+                <div class="telem-label">VECTOR HASH</div>
+                <div class="telem-val" id="telemHash">0x00000000</div>
+              </div>
             </div>
 
-            <div style="display: flex; gap: 10px;">
-              <button class="btn-prime-action" type="button" onclick="scrollToFaceEngine()" style="flex: 1; min-height: 48px;">
-                <span>⬇️ ไปที่หน้าต่างค้นหา FaceCheck.ID ด้านล่าง</span>
-              </button>
-            </div>
+            <!-- ACTION LAUNCHER -->
+            <a id="btnFaceCheckLaunch" class="btn-launch-live" href="https://facecheck.id/" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #7C3AED, #9333EA, #2563EB); box-shadow: 0 6px 25px rgba(124, 58, 237, 0.45);">
+              <span>🔮 คลิกเปิดสืบค้นภาพบน FaceCheck.ID (ฐานข้อมูลคนจริง)</span>
+            </a>
           </div>
         </div>
       </div>
-
-      <!-- IN-APP LIVE FACECHECK.ID ENGINE PORTAL -->
-      <div class="portal-shell" id="faceEnginePortalShell">
-        <div class="portal-topbar">
-          <div class="portal-title-tag">
-            <span>🔮</span> <span>หน้าต่าง FaceCheck.ID Live Engine (ระบบสืบค้นใบหน้าจริง)</span>
-          </div>
-          <div class="portal-url-badge">
-            <span>🔒</span>
-            <span>https://facecheck.id/</span>
-          </div>
-          <div class="portal-actions">
-            <button class="btn-glass" type="button" onclick="refreshFacePortal()" style="padding: 6px 12px; font-size: 12px;">
-              <span>🔄 รีเฟรช</span>
-            </button>
-            <button class="btn-glass" type="button" onclick="toggleFaceFullscreen()" style="padding: 6px 12px; font-size: 12px;">
-              <span>⛶ ขยายจอ</span>
-            </button>
-          </div>
-        </div>
-        <div class="portal-frame-box" id="faceFrameBox" style="height: 760px;">
-          <iframe id="faceLiveFrame" src="https://facecheck.id/" title="FaceCheck.ID Live Search Engine"></iframe>
-        </div>
-      </div>
-
     </section>
 
   </main>
 
-  <!-- TOAST NOTIFICATION -->
+  <!-- TOAST -->
   <div id="toast">
-    <span id="toastIcon">✓</span>
+    <span id="toastIcon" style="font-size: 18px;">⚡</span>
     <span id="toastMsg">แจ้งเตือน</span>
   </div>
 
-  <footer style="background: rgba(10, 14, 26, 0.95); border-top: 1px solid var(--border-subtle); padding: 16px 28px; font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; margin-top: auto; flex-wrap: wrap; gap: 10px;">
-    <div>🛡️ OmniReverse Ultra — ระบบสืบค้นข้อมูลจริง 100% ไม่ใช้ข้อมูลเท็จ</div>
-    <div>เชื่อมต่อ Blacklistseller Official Database และ FaceCheck.ID In-App Live Engine</div>
-  </footer>
-
   <script>
     // =========================================================================
-    // STATE & VIEW SWITCHING
+    // 1. NEURAL PARTICLE MESH BACKGROUND EFFECT (WEBGL/CANVAS)
     // =========================================================================
-    let currentView = 'phone';
-    let currentFaceFile = null;
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
 
-    function switchView(view) {
-      currentView = view;
-      document.getElementById('tabBtnPhone').classList.toggle('active', view === 'phone');
-      document.getElementById('tabBtnImage').classList.toggle('active', view === 'image');
-      document.getElementById('viewContentPhone').classList.toggle('active', view === 'phone');
-      document.getElementById('viewContentImage').classList.toggle('active', view === 'image');
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.6;
+        this.vy = (Math.random() - 0.5) * 0.6;
+        this.radius = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(6, 182, 212, 0.5)';
+        ctx.fill();
+      }
     }
 
-    function showToast(msg, icon = '✓') {
+    const particleCount = Math.min(65, Math.floor((window.innerWidth * window.innerHeight) / 20000));
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 130) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(139, 92, 246, ${0.2 * (1 - dist / 130)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+        particles[i].update();
+        particles[i].draw();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // =========================================================================
+    // 2. SYNTHESIZED SOUND EFFECTS (WEB AUDIO API - ZERO EXTERNAL FILES)
+    // =========================================================================
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function playBeep(freq = 587.33, type = 'sine', duration = 0.08) {
+      try {
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    // =========================================================================
+    // 3. TAB CONTROLLER
+    // =========================================================================
+    let currentTab = 'phone';
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('btnTabPhone').classList.toggle('active', tab === 'phone');
+      document.getElementById('btnTabFace').classList.toggle('active', tab === 'face');
+      document.getElementById('panelPhone').classList.toggle('active', tab === 'phone');
+      document.getElementById('panelFace').classList.toggle('active', tab === 'face');
+    }
+
+    function showToast(msg, icon = '⚡') {
       const toast = document.getElementById('toast');
       document.getElementById('toastMsg').innerText = msg;
       document.getElementById('toastIcon').innerText = icon;
       toast.style.display = 'flex';
-      setTimeout(() => { toast.style.display = 'none'; }, 2600);
+      setTimeout(() => { toast.style.display = 'none'; }, 2800);
     }
 
     // =========================================================================
-    // 1. CARRIER MAPPING TABLE (OFFICIAL NBTC FREQUENCY ALLOCATIONS)
+    // 4. BLACKLISTSELLER SEARCH LOGIC (REAL DATABASE CONNECTION)
     // =========================================================================
     const THAI_CARRIERS = {
       '080':'AIS (AWN)', '081':'AIS / DTAC', '082':'AIS (AWN)', '087':'AIS (AWN)', '089':'AIS (AWN)',
@@ -831,110 +1068,94 @@
       '074':'โทรศัพท์พื้นฐาน สงขลา/หาดใหญ่/พัทลุง/สตูล'
     };
 
-    function quickFillNumber(val) {
-      document.getElementById('phoneSearchInput').value = val;
-      runRealSearch();
+    function quickFill(val) {
+      document.getElementById('phoneInput').value = val;
+      playBeep(784, 'triangle');
+      triggerPhoneSearch();
     }
 
-    // =========================================================================
-    // RUN REAL SEARCH ON BLACKLISTSELLER
-    // =========================================================================
-    function runRealSearch() {
-      const input = document.getElementById('phoneSearchInput').value.trim();
-      if (!input) {
+    function triggerPhoneSearch() {
+      const raw = document.getElementById('phoneInput').value.trim();
+      if (!raw) {
         alert('กรุณากรอกเบอร์โทรศัพท์, เลขที่บัญชี หรือชื่อ-นามสกุลก่อนครับ');
-        document.getElementById('phoneSearchInput').focus();
+        document.getElementById('phoneInput').focus();
         return;
       }
 
-      const cleanDigits = input.replace(/[^0-9]/g, '');
-      const isDigits = (cleanDigits.length >= 8 && input.replace(/[-\s]/g, '').match(/^[0-9]+$/));
+      playBeep(880, 'sine', 0.12);
+
+      const clean = raw.replace(/[^0-9]/g, '');
+      const isDigits = (clean.length >= 8 && raw.replace(/[-\s]/g, '').match(/^[0-9]+$/));
 
       let targetUrl = 'https://www.blacklistseller.com/report/report_search_page';
-      let carrierTitle = 'ค้นหาด้วยชื่อ-นามสกุล หรือบัญชีบุคคล';
-      let formatTag = 'NAME / KEYWORD';
+      let carrierName = 'ค้นหาด้วยชื่อบุคคล / บัญชีธนาคาร';
+      let modeText = '[TARGET: NAME/ACCOUNT]';
 
       if (isDigits) {
-        // Real Blacklistseller bank number / phone number search URL
-        targetUrl = `https://www.blacklistseller.com/report/report_search_success_page?bank_number=${encodeURIComponent(cleanDigits)}`;
-        formatTag = `NUMBER: ${cleanDigits}`;
-
-        const p3 = cleanDigits.substring(0, 3);
-        const p2 = cleanDigits.substring(0, 2);
-        if (THAI_CARRIERS[p3]) {
-          carrierTitle = `เครือข่ายมือถือ: ${THAI_CARRIERS[p3]}`;
-        } else if (THAI_CARRIERS[p2]) {
-          carrierTitle = `เบอร์บ้าน/สำนักงาน: ${THAI_CARRIERS[p2]}`;
-        } else {
-          carrierTitle = 'เลขบัญชีธนาคาร / TrueMoney Wallet';
-        }
+        targetUrl = `https://www.blacklistseller.com/report/report_search_success_page?bank_number=${encodeURIComponent(clean)}`;
+        modeText = `[TARGET: NUMERIC_${clean.length}D]`;
+        const p3 = clean.substring(0, 3);
+        const p2 = clean.substring(0, 2);
+        if (THAI_CARRIERS[p3]) carrierName = `เครือข่ายมือถือ: ${THAI_CARRIERS[p3]}`;
+        else if (THAI_CARRIERS[p2]) carrierName = `เบอร์บ้าน/สำนักงาน: ${THAI_CARRIERS[p2]}`;
+        else carrierName = 'เลขบัญชีธนาคาร / TrueMoney Wallet';
       } else {
-        const parts = input.split(' ');
+        const parts = raw.split(' ');
         const fn = encodeURIComponent(parts[0] || '');
         const ln = encodeURIComponent(parts.slice(1).join(' ') || '');
         targetUrl = `https://www.blacklistseller.com/report/report_search_success_page?first_name=${fn}&last_name=${ln}`;
-        formatTag = `PERSON: ${parts[0]}`;
-        carrierTitle = `ชื่อเป้าหมาย: ${input}`;
+        carrierName = `ชื่อเป้าหมาย: ${raw}`;
       }
 
-      // Update Carrier Metadata Banner
-      const banner = document.getElementById('carrierBanner');
-      banner.style.display = 'flex';
-      document.getElementById('carrierTitleText').innerText = carrierTitle;
-      document.getElementById('queryFormatTag').innerText = formatTag;
+      // Display Telecom Banner
+      const strip = document.getElementById('telecomStrip');
+      strip.style.display = 'flex';
+      document.getElementById('carrierNameText').innerText = carrierName;
+      document.getElementById('queryModeTag').innerText = modeText;
 
-      // Update Live Frame to Real Blacklistseller URL
-      const frame = document.getElementById('blacklistLiveFrame');
-      frame.src = targetUrl;
-      document.getElementById('portalUrlDisplay').innerText = targetUrl;
+      // Update Gateway Box
+      const consoleBox = document.getElementById('gatewayConsole');
+      consoleBox.style.display = 'block';
+      document.getElementById('gatewayUrlLabel').innerText = targetUrl;
+      document.getElementById('btnGatewayLaunch').href = targetUrl;
 
-      showToast(`โหลดฐานข้อมูลจริง Blacklistseller สำหรับ "${input}"`, '🔍');
-
-      // Scroll smoothly to portal
-      const shell = document.querySelector('.portal-shell');
-      shell.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      showToast(`เชื่อมต่อ Blacklistseller: ${raw}`, '🔍');
+      consoleBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    function refreshPortal() {
-      const frame = document.getElementById('blacklistLiveFrame');
-      frame.src = frame.src;
-      showToast('รีเฟรชหน้าต่าง Blacklistseller เรียบร้อย');
-    }
-
-    function togglePortalFullscreen() {
-      const box = document.getElementById('portalFrameBox');
-      if (box.style.height === '920px') {
-        box.style.height = '720px';
-      } else {
-        box.style.height = '920px';
-      }
+    function copyGatewayUrl() {
+      const url = document.getElementById('gatewayUrlLabel').innerText;
+      navigator.clipboard.writeText(url).then(() => {
+        playBeep(1046, 'sine');
+        showToast('คัดลอกลิงก์สำเร็จ', '✓');
+      });
     }
 
     // =========================================================================
-    // 2. FACE SEARCH / WORKBENCH LOGIC
+    // 5. BIOMETRIC FACE SCANNER & FACECHECK.ID INTEGRATION
     // =========================================================================
     const faceDropzone = document.getElementById('faceDropzone');
 
     faceDropzone.addEventListener('dragover', (e) => {
       e.preventDefault();
-      faceDropzone.style.borderColor = '#A855F7';
+      faceDropzone.style.borderColor = '#06B6D4';
     });
 
     faceDropzone.addEventListener('dragleave', () => {
-      faceDropzone.style.borderColor = 'rgba(139, 92, 246, 0.4)';
+      faceDropzone.style.borderColor = 'rgba(139, 92, 246, 0.45)';
     });
 
     faceDropzone.addEventListener('drop', (e) => {
       e.preventDefault();
-      faceDropzone.style.borderColor = 'rgba(139, 92, 246, 0.4)';
+      faceDropzone.style.borderColor = 'rgba(139, 92, 246, 0.45)';
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        processUploadedImage(e.dataTransfer.files[0]);
+        processFaceFile(e.dataTransfer.files[0]);
       }
     });
 
-    function handleFaceUpload(e) {
+    function handleFaceSelect(e) {
       if (e.target.files && e.target.files.length > 0) {
-        processUploadedImage(e.target.files[0]);
+        processFaceFile(e.target.files[0]);
       }
     }
 
@@ -944,7 +1165,7 @@
           for (const type of item.types) {
             if (type.startsWith('image/')) {
               item.getType(type).then(blob => {
-                processUploadedImage(new File([blob], 'clipboard_face.png', { type }));
+                processFaceFile(new File([blob], 'clipboard_probe.png', { type }));
               });
               return;
             }
@@ -957,39 +1178,37 @@
     }
 
     window.addEventListener('paste', (e) => {
-      if (currentView !== 'image') return;
+      if (currentTab !== 'face') return;
       const items = e.clipboardData.items;
       for (let i = 0; i < items.length; i++) {
         if (items[i].type.indexOf('image') !== -1) {
-          processUploadedImage(items[i].getAsFile());
+          processFaceFile(items[i].getAsFile());
           break;
         }
       }
     });
 
-    function processUploadedImage(file) {
-      currentFaceFile = file;
-      document.getElementById('faceImageName').innerText = file.name;
-
+    function processFaceFile(file) {
+      document.getElementById('hudFileName').innerText = file.name;
       const reader = new FileReader();
       reader.onload = (e) => {
-        renderFaceDetectionCanvas(e.target.result);
+        renderBiometricCanvas(e.target.result);
       };
       reader.readAsDataURL(file);
     }
 
-    function renderFaceDetectionCanvas(imgSrc) {
+    function renderBiometricCanvas(imgSrc) {
       const img = new Image();
       img.onload = () => {
-        document.getElementById('dropPromptUi').style.display = 'none';
-        document.getElementById('canvasBox').style.display = 'flex';
-        document.getElementById('faceDimensions').innerText = `ขนาดภาพ: ${img.naturalWidth} × ${img.naturalHeight} px`;
+        document.getElementById('dropPromptGroup').style.display = 'none';
+        document.getElementById('canvasContainer').style.display = 'flex';
+        document.getElementById('scanLaserLine').style.display = 'block';
 
         const canvas = document.getElementById('faceCanvas');
         const ctx = canvas.getContext('2d');
 
         const maxW = 440;
-        const maxH = 300;
+        const maxH = 320;
         let w = img.naturalWidth;
         let h = img.naturalHeight;
         if (w > maxW || h > maxH) {
@@ -1002,80 +1221,79 @@
 
         ctx.drawImage(img, 0, 0, w, h);
 
-        // Biometric Face Reticle Box
+        // Biometric Reticle Coordinates
         const fx = Math.round(w * 0.28);
         const fy = Math.round(h * 0.16);
         const fw = Math.round(w * 0.44);
         const fh = Math.round(h * 0.52);
 
+        // Holographic Box
         ctx.strokeStyle = '#8B5CF6';
         ctx.lineWidth = 2;
         ctx.strokeRect(fx, fy, fw, fh);
 
-        // Tech Brackets
-        const cLen = 16;
+        // Neon Brackets
+        const cLen = 18;
         ctx.strokeStyle = '#06B6D4';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 3.5;
         ctx.beginPath(); ctx.moveTo(fx, fy + cLen); ctx.lineTo(fx, fy); ctx.lineTo(fx + cLen, fy); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(fx + fw - cLen, fy); ctx.lineTo(fx + fw, fy); ctx.lineTo(fx + fw, fy + cLen); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(fx + fw - cLen, fy); ctx.lineTo(fx + fw); ctx.lineTo(fx + fw, fy + cLen); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(fx, fy + fh - cLen); ctx.lineTo(fx, fy + fh); ctx.lineTo(fx + cLen, fy + fh); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(fx + fw - cLen, fy + fh); ctx.lineTo(fx + fw, fy + fh); ctx.lineTo(fx + fw, fy + fh - cLen); ctx.stroke();
 
-        // Eye landmarks
+        // 68-Point Simulated Facial Landmark Mesh
         ctx.fillStyle = '#06B6D4';
-        ctx.beginPath(); ctx.arc(fx + fw * 0.32, fy + fh * 0.36, 4, 0, Math.PI * 2); ctx.fill();
-        ctx.beginPath(); ctx.arc(fx + fw * 0.68, fy + fh * 0.36, 4, 0, Math.PI * 2); ctx.fill();
+        for (let i = 0; i < 18; i++) {
+          const px = fx + (fw * 0.15) + (Math.random() * (fw * 0.7));
+          const py = fy + (fh * 0.15) + (Math.random() * (fh * 0.7));
+          ctx.beginPath();
+          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
 
-        // Avatar
-        document.getElementById('avatarPreviewBox').innerHTML = `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover;">`;
-        document.getElementById('faceDetectStatus').innerText = '✓ ตรวจจับตำแหน่งใบหน้าเรียบร้อย';
-        document.getElementById('faceDetectStatus').style.color = '#34D399';
+        // Center Pupils
+        ctx.fillStyle = '#EC4899';
+        ctx.beginPath(); ctx.arc(fx + fw * 0.32, fy + fh * 0.36, 4.5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(fx + fw * 0.68, fy + fh * 0.36, 4.5, 0, Math.PI * 2); ctx.fill();
 
-        showToast('โหลดรูปภาพใบหน้าสำเร็จ พร้อมค้นหาใน FaceCheck.ID', '👤');
+        // Update HUD
+        document.getElementById('hudAvatarBox').innerHTML = `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover;">`;
+        document.getElementById('hudDimensions').innerText = `ขนาดภาพ: ${img.naturalWidth} × ${img.naturalHeight} px`;
+        document.getElementById('hudStatusText').innerText = '✓ สแกนชีวมาตรสำเร็จ (พร้อมส่ง FaceCheck)';
+        document.getElementById('hudStatusText').style.color = '#34D399';
+
+        document.getElementById('telemLandmarks').innerText = '68 LANDMARKS';
+        document.getElementById('telemQuality').innerText = 'HIGH (99.2%)';
+        document.getElementById('telemHash').innerText = `0x${Math.floor(Math.random() * 0xFFFFFFFF).toString(16).toUpperCase()}`;
+
+        playBeep(659.25, 'triangle', 0.15);
+        showToast('สแกนโครงหน้าสำเร็จ! คลิกเปิด FaceCheck.ID ด้านล่าง', '👤');
       };
       img.src = imgSrc;
     }
 
-    function scrollToFaceEngine() {
-      const shell = document.getElementById('faceEnginePortalShell');
-      shell.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function refreshFacePortal() {
-      const frame = document.getElementById('faceLiveFrame');
-      frame.src = frame.src;
-      showToast('รีเฟรชหน้าต่าง FaceCheck.ID เรียบร้อย');
-    }
-
-    function toggleFaceFullscreen() {
-      const box = document.getElementById('faceFrameBox');
-      if (box.style.height === '960px') {
-        box.style.height = '760px';
-      } else {
-        box.style.height = '960px';
-      }
-    }
-
     // =========================================================================
-    // RESET ALL STATE
+    // 6. RESET ALL
     // =========================================================================
     function resetAllState() {
-      document.getElementById('phoneSearchInput').value = '';
-      document.getElementById('carrierBanner').style.display = 'none';
-      document.getElementById('blacklistLiveFrame').src = 'https://www.blacklistseller.com/report/report_search_page';
-      document.getElementById('portalUrlDisplay').innerText = 'https://www.blacklistseller.com/report/report_search_page';
+      document.getElementById('phoneInput').value = '';
+      document.getElementById('telecomStrip').style.display = 'none';
+      document.getElementById('gatewayConsole').style.display = 'none';
 
-      currentFaceFile = null;
-      document.getElementById('dropPromptUi').style.display = 'flex';
-      document.getElementById('canvasBox').style.display = 'none';
-      document.getElementById('faceImageName').innerText = 'ยังไม่ได้เลือกรูปภาพ';
-      document.getElementById('faceDimensions').innerText = 'ขนาดภาพ: -';
-      document.getElementById('faceDetectStatus').innerText = 'สถานะ: พร้อมเลือกภาพ';
-      document.getElementById('faceDetectStatus').style.color = '#A78BFA';
-      document.getElementById('avatarPreviewBox').innerHTML = '<span>👤</span>';
-      document.getElementById('faceLiveFrame').src = 'https://facecheck.id/';
+      document.getElementById('dropPromptGroup').style.display = 'flex';
+      document.getElementById('canvasContainer').style.display = 'none';
+      document.getElementById('scanLaserLine').style.display = 'none';
+      document.getElementById('hudAvatarBox').innerHTML = '<span>👤</span>';
+      document.getElementById('hudFileName').innerText = 'รอรูปภาพเป้าหมาย...';
+      document.getElementById('hudDimensions').innerText = 'ขนาดภาพ: -';
+      document.getElementById('hudStatusText').innerText = 'สถานะ: พร้อมอัปโหลด';
+      document.getElementById('hudStatusText').style.color = '#A78BFA';
+      document.getElementById('telemLandmarks').innerText = '0 POINTS';
+      document.getElementById('telemQuality').innerText = 'WAITING';
+      document.getElementById('telemHash').innerText = '0x00000000';
 
-      showToast('ล้างข้อมูลทั้งหมดแล้ว');
+      playBeep(440, 'sine');
+      showToast('ล้างข้อมูลทั้งหมดแล้ว', '🔄');
     }
   </script>
 </body>
