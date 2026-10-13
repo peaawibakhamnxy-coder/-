@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+<!-- OmniReverse Ultra v3 UPGRADED -->
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniReverse Ultra — Blacklistseller & FaceCheck.ID Direct Hub</title>
-  <meta name="description" content="ระบบค้นหาชื่อและประวัติ Blacklistseller โดยตรง (ไม่ต้องใช้ QR Code) และค้นหาใบหน้าผ่าน FaceCheck.ID โดยตรง ไม่ต้องใช้เว็บอื่น">
+  <title>OmniReverse Ultra v3 — Blacklistseller Direct + Multi-Platform Face Search</title>
+  <meta name="description" content="ระบบค้นหาชื่อ Blacklistseller + Truecaller + Whoscall + PromptPay และค้นหาใบหน้าด้วย FaceCheck.ID, Google Lens, Yandex, PimEyes โดยตรง">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -590,6 +591,61 @@
     .comp-img-box img { width: 100%; height: 100%; object-fit: cover; }
     .comp-label { position: absolute; bottom: 6px; left: 6px; background: rgba(0,0,0,0.85); color: #FFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; }
 
+    /* PLATFORM LOOKUP BUTTONS — PHONE TAB */
+    .platform-lookup-section {
+      margin-top: 22px;
+      background: rgba(6, 8, 24, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 20px 22px;
+    }
+    .platform-lookup-title {
+      font-size: 14px; font-weight: 800; color: #FFF;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 10px;
+    }
+    .platform-btn {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; border-radius: 12px; border: 1px solid;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      text-decoration: none; transition: var(--transition-smooth);
+    }
+    .platform-btn:hover { transform: translateY(-2px); filter: brightness(1.15); }
+    .platform-btn .p-icon { font-size: 20px; flex-shrink: 0; }
+    .platform-btn .p-info { display: flex; flex-direction: column; }
+    .platform-btn .p-name { font-size: 13px; font-weight: 800; line-height: 1.2; }
+    .platform-btn .p-desc { font-size: 10px; font-weight: 500; opacity: 0.75; margin-top: 1px; }
+    .pb-truecaller { background: rgba(0,128,96,0.2); border-color: #00A86B; color: #4ADE80; }
+    .pb-whoscall   { background: rgba(0,122,255,0.2); border-color: #007AFF; color: #60A5FA; }
+    .pb-promptpay  { background: rgba(26,46,116,0.25); border-color: #2563EB; color: #93C5FD; }
+    .pb-google     { background: rgba(66,133,244,0.2); border-color: #4285F4; color: #93C5FD; }
+    .pb-blacklist  { background: rgba(220,38,38,0.2); border-color: #DC2626; color: #FCA5A5; }
+    .pb-ktb        { background: rgba(0,94,184,0.22); border-color: #005EB8; color: #7DD3FC; }
+    .pb-scb        { background: rgba(82,12,168,0.25); border-color: #7C3AED; color: #C4B5FD; }
+    .pb-bkk        { background: rgba(0,40,130,0.25); border-color: #1D4ED8; color: #BFDBFE; }
+
+    /* PLATFORM BUTTONS — FACE TAB */
+    .face-platform-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 10px; margin-top: 12px;
+    }
+    .face-platform-btn {
+      display: flex; align-items: center; gap: 10px; padding: 11px 14px;
+      border-radius: 12px; border: 1px solid; font-size: 13px; font-weight: 700;
+      cursor: pointer; text-decoration: none; transition: var(--transition-smooth);
+    }
+    .face-platform-btn:hover:not([aria-disabled="true"]) { transform: translateY(-2px); filter: brightness(1.15); }
+    .face-platform-btn[aria-disabled="true"] { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+    .fpb-facecheck { background: rgba(124,58,237,0.2); border-color: #7C3AED; color: #C4B5FD; }
+    .fpb-google    { background: rgba(66,133,244,0.2); border-color: #4285F4; color: #93C5FD; }
+    .fpb-yandex    { background: rgba(255,204,0,0.15); border-color: #FFCC00; color: #FDE68A; }
+    .fpb-pimeyes   { background: rgba(220,38,38,0.2); border-color: #DC2626; color: #FCA5A5; }
+    .fpb-bing      { background: rgba(0,102,184,0.2); border-color: #0066B8; color: #7DD3FC; }
+    .fpb-tineye    { background: rgba(16,185,129,0.2); border-color: #10B981; color: #6EE7B7; }
+
     /* COMMON TOAST */
     #toast {
       position: fixed;
@@ -644,7 +700,7 @@
       </button>
       <button class="mode-tab" id="tabBtnImage" onclick="switchMainTab('image')">
         <span style="font-size: 20px;">👤</span>
-        <span>ระบบค้นหาใบหน้า (FaceCheck.ID Direct)</span>
+        <span>ระบบค้นหาใบหน้า (FaceCheck.ID + Google Lens + Yandex + PimEyes)</span>
       </button>
     </div>
   </div>
@@ -659,11 +715,11 @@
       <!-- SEARCH HERO -->
       <div class="bl-hero">
         <h2 class="bl-hero-title">
-          <span>🚨</span> ค้นหาชื่อและประวัติคนโกงโดยตรง (Blacklistseller Direct Search)
+          <span>🚨</span> ค้นหาชื่อ ประวัติคนโกง &amp; ตรวจสอบเบอร์โทรศัพท์โดยตรง
         </h2>
         <p class="bl-hero-desc">
           กรอก <strong>เบอร์โทรศัพท์ (08x, 09x, 06x)</strong>, <strong>เลขบัญชีธนาคาร / TrueMoney Wallet</strong>, หรือ <strong>ชื่อ-นามสกุล</strong><br>
-          ระบบจะทำการค้นหาชื่อเจ้าของบัญชีและประวัติการฉ้อโกงผ่าน <strong>Blacklistseller</strong> ให้ทันที 
+          ระบบค้นหาตรงใน <strong>Blacklistseller</strong> พร้อมปุ่มค้นหาชื่อเจ้าของบัญชีบน <strong>Truecaller, Whoscall, PromptPay, Google</strong> และอื่นๆ
           <span style="color: #FCA5A5; font-weight: 800;">(ไม่ต้องใช้ QR Code และไม่ต้องใช้เว็บอื่น)</span>
         </p>
 
@@ -721,14 +777,18 @@
         </div>
 
         <!-- EVIDENCE OR CLEAN DETAILS -->
-        <div id="dossierDetailText" style="margin-top: 18px; padding: 16px; background: rgba(8, 12, 28, 0.85); border-radius: 12px; font-size: 14px; line-height: 1.6;">
-          <!-- Detail text -->
+        <div id="dossierDetailText" style="margin-top: 18px; padding: 16px; background: rgba(8, 12, 28, 0.85); border-radius: 12px; font-size: 14px; line-height: 1.6;"></div>
+
+        <!-- ═══ PLATFORM LOOKUP BUTTONS ═══ -->
+        <div class="platform-lookup-section">
+          <div class="platform-lookup-title">🔗 ค้นหาชื่อเจ้าของตรงบน Platform จริง — คลิกเพื่อเปิดผลลัพธ์ทันที:</div>
+          <div class="platform-grid" id="platformGrid"><!-- Populated by JS --></div>
         </div>
 
-        <!-- ACTION ROW: DIRECT LINK BUTTONS TO LIVE BLACKLISTSELLER REPORT -->
+        <!-- ACTION ROW -->
         <div class="bl-action-row">
           <a id="btnLiveBlacklistLink" class="btn-bl-direct-open" href="https://www.blacklistseller.com/report/report_search_page" target="_blank">
-            <span>🌐 เปิดดูรายงานสดบน Blacklistseller (Official Page)</span>
+            <span>🌐 เปิดดูรายงานสดบน Blacklistseller</span>
           </a>
           <button class="btn-nav" type="button" onclick="reloadPortalFrame()" style="padding: 12px 18px; font-size: 14px;">
             <span>🔄 โหลดหน้าต่างด้านล่างใหม่</span>
@@ -759,18 +819,21 @@
     </section>
 
     <!-- ========================================================================= -->
-    <!-- TAB 2: FACECHECK.ID DIRECT SEARCH (NO OTHER SITES) -->
+    <!-- TAB 2: FACECHECK.ID + MULTI-PLATFORM FACE SEARCH -->
     <!-- ========================================================================= -->
     <section id="tabContentImage" class="tab-content">
 
       <div class="facecheck-hero">
         <div style="text-align: center; max-width: 820px; margin: 0 auto 20px auto;">
           <h2 style="font-size: 24px; font-weight: 800; color: #FFF; display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <span>👤</span> FaceCheck.ID Facial Recognition Search Engine
+            <span>👤</span> ระบบค้นหาใบหน้า Multi-Platform — FaceCheck.ID, Google Lens, Yandex, PimEyes
           </h2>
           <p style="font-size: 14px; color: #CBD5E1; margin-top: 8px; line-height: 1.6;">
-            ระบบสแกนและค้นหาบุคคลผ่านใบหน้าด้วย AI ของ <strong>FaceCheck.ID</strong> โดยตรง 
-            ค้นหาโปรไฟล์บนโซเชียลมีเดียและอินเทอร์เน็ต <span style="color: #C4B5FD; font-weight: 800;">(ไม่ใช้เว็บอื่น)</span>
+            อัปโหลดรูปใบหน้า 1 ครั้ง แล้วเลือกค้นหาตรงบน Platform ที่ต้องการ:
+            <strong style="color: #C4B5FD;">FaceCheck.ID</strong> (ค้นหาโซเชียลมีเดีย) •
+            <strong style="color: #93C5FD;">Google Lens</strong> (อินเทอร์เน็ต) •
+            <strong style="color: #FDE68A;">Yandex</strong> (แม่นยำสูงสำหรับใบหน้า) •
+            <strong style="color: #FCA5A5;">PimEyes</strong> (OSINT Face Search)
           </p>
         </div>
 
@@ -814,30 +877,48 @@
                 </span>
               </label>
 
-              <button class="btn-search-facecheck" id="btnRunFaceSearch" disabled onclick="executeFaceCheckSearch()" style="margin-top: 18px;">
-                <span>🔍 ค้นหาใบหน้าบน FaceCheck.ID ทันที</span>
+              <button class="btn-search-facecheck" id="btnRunFaceSearch" disabled onclick="openFaceCheckDirect()" style="margin-top: 18px;">
+                <span>🔍 ค้นหาบน FaceCheck.ID ทันที (เปิดตรงเลย)</span>
               </button>
             </div>
 
-            <div style="background: rgba(139, 92, 246, 0.12); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 14px; padding: 16px 20px; font-size: 13px; color: #C4B5FD; line-height: 1.6;">
-              🛡️ <strong>Direct FaceCheck.ID Search:</strong> ค้นหาบุคคลจากภาพถ่ายใบหน้าโดยตรง โดยไม่มีการสลับไปยังเว็บค้นหารูปอื่น
+            <!-- MULTI-PLATFORM BUTTONS -->
+            <div style="background: rgba(6, 8, 22, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 18px 20px;">
+              <div style="font-size: 13px; font-weight: 800; color: #FFF; margin-bottom: 12px;">🌐 ค้นหาบน Platform อื่นเพิ่มเติม (เปิดใช้ได้หลังอัปโหลดรูปและยอมรับเงื่อนไข):</div>
+              <div class="face-platform-grid" id="facePlatformGrid">
+                <a class="face-platform-btn fpb-facecheck" id="fpbFacecheck" href="https://facecheck.id/" target="_blank" aria-disabled="true" onclick="return handleFacePlatformClick(event,'facecheck')">
+                  <span style="font-size:20px;">🔮</span><span style="display:flex;flex-direction:column;"><span style="font-size:13px;font-weight:800;">FaceCheck.ID</span><span style="font-size:10px;opacity:0.75;">Social &amp; Web Search</span></span>
+                </a>
+                <a class="face-platform-btn fpb-google" id="fpbGoogle" href="https://lens.google.com/" target="_blank" aria-disabled="true" onclick="return handleFacePlatformClick(event,'google')">
+                  <span style="font-size:20px;">🔍</span><span style="display:flex;flex-direction:column;"><span style="font-size:13px;font-weight:800;">Google Lens</span><span style="font-size:10px;opacity:0.75;">Image Search</span></span>
+                </a>
+                <a class="face-platform-btn fpb-yandex" id="fpbYandex" href="https://yandex.com/images/" target="_blank" aria-disabled="true" onclick="return handleFacePlatformClick(event,'yandex')">
+                  <span style="font-size:20px;">🟡</span><span style="display:flex;flex-direction:column;"><span style="font-size:13px;font-weight:800;">Yandex Images</span><span style="font-size:10px;opacity:0.75;">แม่นยำสูงสำหรับใบหน้า</span></span>
+                </a>
+                <a class="face-platform-btn fpb-pimeyes" id="fpbPimeyes" href="https://pimeyes.com/" target="_blank" aria-disabled="true" onclick="return handleFacePlatformClick(event,'pimeyes')">
+                  <span style="font-size:20px;">👁️</span><span style="display:flex;flex-direction:column;"><span style="font-size:13px;font-weight:800;">PimEyes</span><span style="font-size:10px;opacity:0.75;">OSINT Face Search</span></span>
+                </a>
+                <a class="face-platform-btn fpb-bing" id="fpbBing" href="https://www.bing.com/visualsearch" target="_blank" aria-disabled="true" onclick="return handleFacePlatformClick(event,'bing')">
+                  <span style="font-size:20px;">🔷</span><span style="display:flex;flex-direction:column;"><span style="font-size:13px;font-weight:800;">Bing Visual</span><span style="font-size:10px;opacity:0.75;">Microsoft AI Search</span></span>
+                </a>
+                <a class="face-platform-btn fpb-tineye" id="fpbTineye" href="https://tineye.com/" target="_blank" aria-disabled="true" onclick="return handleFacePlatformClick(event,'tineye')">
+                  <span style="font-size:20px;">🟢</span><span style="display:flex;flex-direction:column;"><span style="font-size:13px;font-weight:800;">TinEye</span><span style="font-size:10px;opacity:0.75;">Reverse Image Trace</span></span>
+                </a>
+              </div>
+              <p id="faceNoImageNote" style="font-size:12px; color:#F87171; margin-top:10px; font-weight:600;">⚠️ กรุณาอัปโหลดรูปภาพและยอมรับเงื่อนไขก่อนใช้งานปุ่มด้านบน</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- IN-APP RESULTS GRID -->
+      <!-- FACE SEARCH RESULT PANEL -->
       <div id="faceResultsSection" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
-          <div style="font-size: 19px; font-weight: 800; color: #FFF;">
-            🎉 ผลการสืบค้นใบหน้า FaceCheck.ID
+        <div style="background: rgba(14,19,44,0.95); border: 1.5px solid rgba(139,92,246,0.4); border-radius: 20px; padding: 26px; animation: fadeIn 0.25s ease; box-shadow: 0 12px 40px rgba(0,0,0,0.5);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+            <div style="font-size: 19px; font-weight: 800; color: #FFF;" id="faceResultsTitle">🎉 ค้นหาเรียบร้อยแล้ว</div>
+            <a class="btn-nav" href="https://facecheck.id/" target="_blank" style="background: #6D28D9; border-color: #8B5CF6;"><span>🌐 เปิด FaceCheck.ID</span></a>
           </div>
-          <a class="btn-nav" href="https://facecheck.id/" target="_blank" style="background: #6D28D9; border-color: #8B5CF6;">
-            <span>🌐 เปิดเว็บไซต์ FaceCheck.ID โดยตรง</span>
-          </a>
-        </div>
-        <div class="facecheck-results-grid" id="facecheckResultsGrid">
-          <!-- Dynamically populated -->
+          <div id="facecheckResultsGrid" style="font-size: 14px; color: #CBD5E1; line-height: 1.8;"></div>
         </div>
       </div>
 
@@ -861,6 +942,7 @@
     // STATE & TAB SWITCHING
     // =========================================================================
     let currentMainTab = 'phone';
+    let currentSearchQuery = '';
     let currentFaceFile = null;
     let currentFaceDataUrl = '';
     let currentFaceDetected = false;
@@ -887,103 +969,106 @@
     }
 
     // =========================================================================
-    // 1. BLACKLISTSELLER DIRECT SEARCH (NO QR CODE, NO OTHER SITES)
+    // 1. BLACKLISTSELLER + REAL PLATFORM LOOKUP BUTTONS
     // =========================================================================
     const THAI_CARRIER_ALLOCATION = {
-      '080': 'AIS (AWN)', '081': 'AIS / DTAC', '082': 'AIS (AWN)', '087': 'AIS (AWN)', '089': 'AIS (AWN)',
-      '092': 'AIS (AWN)', '093': 'AIS (AWN)', '097': 'AIS (AWN)', '098': 'AIS (AWN)', '061': 'AIS (AWN)',
-      '062': 'AIS (AWN)', '063': 'AIS (AWN)', '066': 'AIS (AWN)',
-      '083': 'TrueMove H', '084': 'TrueMove H / DTAC', '085': 'DTAC / TrueMove H', '086': 'DTAC / TrueMove H',
-      '090': 'TrueMove H', '091': 'TrueMove H', '094': 'DTAC (True Corp)', '095': 'TrueMove H',
-      '096': 'TrueMove H', '099': 'DTAC / TrueMove H', '064': 'TrueMove H',
-      '088': 'NT Mobile (my by CAT)', '065': 'NT Mobile / TrueMove H',
-      '02': 'เบอร์บ้าน/สำนักงาน (กทม./นนทบุรี/ปทุมธานี/สมุทรปราการ)',
-      '038': 'เบอร์บ้าน/สำนักงาน (ชลบุรี, ระยอง, ฉะเชิงเทรา)',
-      '053': 'เบอร์บ้าน/สำนักงาน (เชียงใหม่, ลำพูน, ลำปาง, เชียงราย)',
-      '074': 'เบอร์บ้าน/สำนักงาน (สงขลา, หาดใหญ่, พัทลุง, สตูล)'
+      '080':'AIS (AWN)','081':'AIS / DTAC','082':'AIS (AWN)','087':'AIS (AWN)','089':'AIS (AWN)',
+      '092':'AIS (AWN)','093':'AIS (AWN)','097':'AIS (AWN)','098':'AIS (AWN)','061':'AIS (AWN)',
+      '062':'AIS (AWN)','063':'AIS (AWN)','066':'AIS (AWN)',
+      '083':'TrueMove H','084':'TrueMove H / DTAC','085':'DTAC / TrueMove H','086':'DTAC / TrueMove H',
+      '090':'TrueMove H','091':'TrueMove H','094':'DTAC (True Corp)','095':'TrueMove H',
+      '096':'TrueMove H','099':'DTAC / TrueMove H','064':'TrueMove H',
+      '088':'NT Mobile (my by CAT)','065':'NT Mobile / TrueMove H',
+      '02':'เบอร์บ้าน/สำนักงาน (กทม./นนทบุรี/ปทุมธานี/สมุทรปราการ)',
+      '038':'เบอร์บ้าน/สำนักงาน (ชลบุรี, ระยอง, ฉะเชิงเทรา)',
+      '053':'เบอร์บ้าน/สำนักงาน (เชียงใหม่, ลำพูน, ลำปาง, เชียงราย)',
+      '074':'เบอร์บ้าน/สำนักงาน (สงขลา, หาดใหญ่, พัทลุง, สตูล)'
     };
+
+    function buildPlatformButtons(query, isPhone, cleanNum) {
+      const enc = encodeURIComponent(query);
+      const encNum = encodeURIComponent(cleanNum);
+
+      let blUrl = 'https://www.blacklistseller.com/report/report_search_page';
+      if (isPhone) {
+        blUrl = `https://www.blacklistseller.com/report/report_search_success_page?bank_number=${encNum}`;
+      } else {
+        const parts = query.split(' ');
+        const fn = encodeURIComponent(parts[0] || ''), ln = encodeURIComponent(parts.slice(1).join(' ') || '');
+        blUrl = `https://www.blacklistseller.com/report/report_search_success_page?first_name=${fn}&last_name=${ln}`;
+      }
+
+      const buttons = [
+        { cls:'pb-blacklist', icon:'🚨', name:'Blacklistseller',    desc:'ฐานข้อมูลคนโกง', url: blUrl },
+        { cls:'pb-truecaller', icon:'📱', name:'Truecaller',        desc:'ค้นหาชื่อเจ้าของเบอร์', url: isPhone ? `https://www.truecaller.com/search/th/${encNum}` : `https://www.truecaller.com/search/th/${enc}` },
+        { cls:'pb-whoscall',  icon:'📞', name:'Whoscall',           desc:'ระบุตัวตนผู้โทร', url: isPhone ? `https://whoscall.com/en-US/number-lookup/?q=${encNum}` : `https://whoscall.com/en-US/number-lookup/?q=${enc}` },
+        { cls:'pb-promptpay', icon:'💳', name:'PromptPay',         desc:'ตรวจชื่อบัญชี PromptPay', url: isPhone ? `https://app.promptpay.io/${cleanNum}` : 'https://promptpay.io/' },
+        { cls:'pb-google',    icon:'🔍', name:'Google Search',     desc:'ค้นหาชื่อ/เบอร์บนอินเทอร์เน็ต', url: `https://www.google.com/search?q=${enc}` },
+        { cls:'pb-ktb',       icon:'🏦', name:'KTB Anti-Scam',    desc:'แจ้งเตือนกรุงไทย', url: 'https://krungthai.com/krungthai/th/anti-scam.html' },
+        { cls:'pb-scb',       icon:'🟣', name:'SCB Fraud Alert',  desc:'แจ้งเตือนไทยพาณิชย์', url: 'https://easy.scb.co.th/fraud' },
+        { cls:'pb-bkk',       icon:'🔵', name:'Bangkok Bank',     desc:'mBanking & แจ้งเตือน', url: 'https://www.bangkokbank.com/th-TH/Personal/Other-Services/Online-Banking-and-Mobile-Banking/Bualuang-mBanking' },
+      ];
+      return buttons.map(b => `
+        <a class="platform-btn ${b.cls}" href="${b.url}" target="_blank" rel="noopener">
+          <span class="p-icon">${b.icon}</span>
+          <span class="p-info"><span class="p-name">${b.name}</span><span class="p-desc">${b.desc}</span></span>
+        </a>`).join('');
+    }
 
     function executeBlacklistSearch() {
       const query = document.getElementById('blSearchInput').value.trim();
-      if (!query) {
-        alert('กรุณากรอกเบอร์โทรศัพท์, เลขที่บัญชี หรือชื่อ-นามสกุลก่อนครับ');
-        document.getElementById('blSearchInput').focus();
-        return;
-      }
+      if (!query) { alert('กรุณากรอกเบอร์โทรศัพท์, เลขที่บัญชี หรือชื่อ-นามสกุลก่อนครับ'); document.getElementById('blSearchInput').focus(); return; }
 
+      currentSearchQuery = query;
       const cleanNum = query.replace(/[^0-9]/g, '');
-      const isDigits = (cleanNum.length >= 8 && query.replace(/[- ]/g, '').match(/^[0-9]+$/));
+      const isPhone = (cleanNum.length >= 8 && query.replace(/[-\s]/g,'').match(/^[0-9]+$/));
 
-      // 1. Calculate Real Target Blacklistseller URL
-      let portalTargetUrl = `https://www.blacklistseller.com/report/report_search_page`;
-      if (isDigits) {
+      // Build direct Blacklistseller URL
+      let portalTargetUrl = 'https://www.blacklistseller.com/report/report_search_page';
+      if (isPhone) {
         portalTargetUrl = `https://www.blacklistseller.com/report/report_search_success_page?bank_number=${encodeURIComponent(cleanNum)}`;
       } else {
         const parts = query.split(' ');
-        const fName = parts[0] || '';
-        const lName = parts.slice(1).join(' ') || '';
-        portalTargetUrl = `https://www.blacklistseller.com/report/report_search_success_page?first_name=${encodeURIComponent(fName)}&last_name=${encodeURIComponent(lName)}`;
+        portalTargetUrl = `https://www.blacklistseller.com/report/report_search_success_page?first_name=${encodeURIComponent(parts[0]||'')}&last_name=${encodeURIComponent(parts.slice(1).join(' ')||'')}`;
       }
 
-      // Update in-app iframe and live link
       document.getElementById('blacklistFrame').src = portalTargetUrl;
       document.getElementById('portalUrlText').innerText = portalTargetUrl;
       document.getElementById('btnLiveBlacklistLink').href = portalTargetUrl;
 
-      // 2. Resolve Telecom & Network Carrier (NBTC)
+      // Carrier resolution
       let carrierText = 'ข้อมูลค้นหา: ชื่อบุคคล หรือ เลขบัญชีธนาคาร';
-      if (isDigits) {
-        const p3 = cleanNum.substring(0, 3);
-        const p2 = cleanNum.substring(0, 2);
+      if (isPhone) {
+        const p3 = cleanNum.substring(0,3), p2 = cleanNum.substring(0,2);
         if (THAI_CARRIER_ALLOCATION[p3]) carrierText = `เบอร์มือถือ: ${THAI_CARRIER_ALLOCATION[p3]}`;
         else if (THAI_CARRIER_ALLOCATION[p2]) carrierText = `โทรศัพท์พื้นฐาน: ${THAI_CARRIER_ALLOCATION[p2]}`;
         else carrierText = 'โครงข่ายโทรคมนาคม (NBTC กสทช.)';
       }
 
-      // 3. Render In-App Dossier Report Box
-      const dossierBox = document.getElementById('blDossierBox');
-      const nameHeading = document.getElementById('dossierFullName');
-      const badgeContainer = document.getElementById('dossierStatusBadgeContainer');
-      const queryVal = document.getElementById('dossierQueryVal');
-      const carrierVal = document.getElementById('dossierCarrierVal');
+      // Render dossier
+      document.getElementById('dossierQueryVal').innerText = query;
+      document.getElementById('dossierCarrierVal').innerText = carrierText;
+      document.getElementById('dossierFullName').innerText = isPhone ? `ตรวจสอบหมายเลข: ${query}` : query;
+      document.getElementById('dossierStatusBadgeContainer').innerHTML = `<span class="status-badge-clean">🔎 ส่งคำค้นหาไป Blacklistseller เรียบร้อย</span>`;
+
       const statusVal = document.getElementById('dossierStatusVal');
-      const fraudCasesVal = document.getElementById('dossierFraudCasesVal');
-      const detailText = document.getElementById('dossierDetailText');
+      statusVal.className = 'dossier-val success';
+      statusVal.innerText = 'ส่งคำค้นหาไปยังฐานข้อมูล Blacklistseller เรียบร้อย';
+      const fraudVal = document.getElementById('dossierFraudCasesVal');
+      fraudVal.className = 'dossier-val success';
+      fraudVal.innerText = 'กำลังดึงผลจาก Blacklistseller...';
 
-      queryVal.innerText = query;
-      carrierVal.innerText = carrierText;
+      document.getElementById('dossierDetailText').innerHTML = `
+        <strong style="color:#34D399;">✓ ค้นหาในฐานข้อมูล Blacklistseller โดยตรง:</strong><br>
+        ส่งคำค้นหา <strong>${query}</strong> ไปยัง Blacklistseller เรียบร้อยแล้ว — ดูผลในหน้าต่างด้านล่าง หรือคลิกปุ่มสีแดงเปิดในแท็บใหม่<br><br>
+        <strong style="color:#93C5FD;">📌 ใช้ปุ่มด้านล่างเพื่อตรวจสอบชื่อเจ้าของบัญชีผ่าน Truecaller, Whoscall, PromptPay, Google และธนาคารสำคัญได้เลย</strong>
+      `;
 
-      const isKnownScammer = (cleanNum.includes('9876') || cleanNum.endsWith('4321') || cleanNum.endsWith('666') || query.includes('กิตติศักดิ์'));
+      // Platform buttons
+      document.getElementById('platformGrid').innerHTML = buildPlatformButtons(query, isPhone, cleanNum);
 
-      if (isKnownScammer) {
-        nameHeading.innerText = isDigits ? `นายกิตติศักดิ์ มหาโชค (ตรวจพบประวัติในระบบ)` : query;
-        badgeContainer.innerHTML = `<span class="status-badge-scam">🚨 ตรวจพบประวัติคนโกง!</span>`;
-        statusVal.className = 'dossier-val danger';
-        statusVal.innerText = 'ติดสถานะ BLACKLIST / มีรายงานฉ้อโกง';
-        fraudCasesVal.className = 'dossier-val danger';
-        fraudCasesVal.innerText = 'ผู้เสียหายแจ้งความแล้ว 2 ราย | ยอดความเสียหาย 3,500 บาท';
-        detailText.innerHTML = `
-          <strong style="color:#F87171;">⚠️ รายละเอียดคดีใน Blacklistseller:</strong><br>
-          ตรวจพบประวัติร้องเรียนในระบบ: หลอกขายสินค้าออนไลน์ โอนเงินเข้าบัญชี/วอลเล็ตแล้วบล็อกหนีไม่ส่งสินค้า 
-          <em>(ท่านสามารถคลิกปุ่มเปิดดูรายงานสดบน Blacklistseller เพื่อดูหลักฐานสลิปและใบแจ้งความตัวจริงได้ทันที)</em>
-        `;
-      } else {
-        const identifiedName = isDigits ? `ตรวจสอบหมายเลข: ${query}` : query;
-        nameHeading.innerText = identifiedName;
-        badgeContainer.innerHTML = `<span class="status-badge-clean">🛡️ พร้อมตรวจสอบบน Blacklistseller</span>`;
-        statusVal.className = 'dossier-val success';
-        statusVal.innerText = 'ส่งคำค้นหาไปยังฐานข้อมูล Blacklistseller เรียบร้อย';
-        fraudCasesVal.className = 'dossier-val success';
-        fraudCasesVal.innerText = 'กำลังดึงผลการค้นหาจาก Blacklistseller...';
-        detailText.innerHTML = `
-          <strong style="color:#34D399;">✓ ดำเนินการค้นหาในฐานข้อมูล Blacklistseller โดยตรง:</strong><br>
-          ระบบได้ส่งคำค้นหาข้อมูล <strong>${query}</strong> ไปยังเซิร์ฟเวอร์ Blacklistseller เรียบร้อยแล้ว 
-          ท่านสามารถคลิกปุ่มสีแดง <strong>"เปิดดูรายงานสดบน Blacklistseller"</strong> หรือดูหน้าต่างด้านล่างเพื่อตรวจสอบผลลัพธ์แบบสดๆ ได้ทันที
-        `;
-      }
-
-      dossierBox.style.display = 'block';
-      dossierBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      document.getElementById('blDossierBox').style.display = 'block';
+      document.getElementById('blDossierBox').scrollIntoView({ behavior:'smooth', block:'nearest' });
       showToast('ค้นหาใน Blacklistseller เรียบร้อยแล้ว', '🔍');
     }
 
@@ -1122,79 +1207,80 @@
     }
 
     function toggleSearchButton() {
-      const isAgreed = document.getElementById('termsCheckbox').checked;
-      document.getElementById('btnRunFaceSearch').disabled = !(isAgreed && currentFaceDetected);
+      const ready = document.getElementById('termsCheckbox').checked && currentFaceDetected;
+      document.getElementById('btnRunFaceSearch').disabled = !ready;
+      document.querySelectorAll('#facePlatformGrid .face-platform-btn').forEach(btn => {
+        if (ready) { btn.removeAttribute('aria-disabled'); btn.style.opacity = '1'; }
+        else { btn.setAttribute('aria-disabled', 'true'); btn.style.opacity = '0.35'; }
+      });
+      const note = document.getElementById('faceNoImageNote');
+      if (note) note.style.display = ready ? 'none' : 'block';
     }
 
-    function executeFaceCheckSearch() {
-      if (!currentFaceDetected || !currentFaceDataUrl) return;
+    // =========================================================================
+    // 2. FACE SEARCH — OPEN REAL PLATFORMS
+    // =========================================================================
+    const PLATFORM_INFO = {
+      facecheck: { name:'FaceCheck.ID',       icon:'🔮', url:'https://facecheck.id/', desc:'ค้นหาโปรไฟล์บนโซเชียลมีเดีย (Facebook, Instagram, TikTok, Reddit และอื่นๆ) ด้วย AI Facial Recognition' },
+      google:    { name:'Google Lens',        icon:'🔍', url:'https://lens.google.com/', desc:'Google Image Search ที่แม่นยำสูง ค้นหาสิ่งของ บุคคล สถานที่ โดยใช้ AI ของ Google' },
+      yandex:    { name:'Yandex Images',      icon:'🟡', url:'https://yandex.com/images/', desc:'Yandex Face Recognition ที่แม่นยำสูงมากสำหรับใบหน้าคนไทยและเอเชีย ค้นหาแบบ Reverse Image Search' },
+      pimeyes:   { name:'PimEyes',            icon:'👁️', url:'https://pimeyes.com/', desc:'OSINT Face Search Engine ค้นหาใบหน้าบนอินเทอร์เน็ตทั่วโลก รวมถึงเว็บข่าว บล็อก และโซเชียลมีเดีย' },
+      bing:      { name:'Bing Visual Search', icon:'🔷', url:'https://www.bing.com/visualsearch', desc:'Microsoft AI Visual Search ค้นหารูปภาพที่คล้ายกัน และระบุตัวตนบุคคลบน Bing' },
+      tineye:    { name:'TinEye',             icon:'🟢', url:'https://tineye.com/', desc:'Reverse Image Search หาแหล่งที่มาของรูปภาพ ตรวจสอบว่ารูปถูกนำไปใช้ที่ไหนบ้าง' },
+    };
 
-      const grid = document.getElementById('facecheckResultsGrid');
-      grid.innerHTML = `
-        <div class="match-card certain-match">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="background:rgba(239,68,68,0.22); color:#F87171; border:1px solid #EF4444; padding:4px 10px; border-radius:6px; font-weight:800; font-size:12px;">
-              ● 97% Certain Match
-            </span>
-            <span style="font-size:11px; background:rgba(255,255,255,0.08); padding:4px 8px; border-radius:4px;">
-              📸 FaceCheck Social Match
-            </span>
+    function openFaceCheckDirect() {
+      if (!currentFaceDetected || !currentFaceFile) return;
+      // Open FaceCheck.ID — user will upload image there
+      window.open('https://facecheck.id/', '_blank');
+      showFaceSearchResult('facecheck');
+      showToast('เปิด FaceCheck.ID แล้ว — กรุณาอัปโหลดรูปภาพบนเว็บไซต์', '🔮');
+    }
+
+    function handleFacePlatformClick(event, platform) {
+      if (!currentFaceDetected || !document.getElementById('termsCheckbox').checked) {
+        event.preventDefault();
+        showToast('กรุณาอัปโหลดรูปภาพและยอมรับเงื่อนไขก่อน', '⚠️');
+        return false;
+      }
+      showFaceSearchResult(platform);
+      return true;
+    }
+
+    function showFaceSearchResult(platform) {
+      const info = PLATFORM_INFO[platform] || { name: platform, icon:'🌐', desc:'Platform ค้นหาภาพ', url:'#' };
+      document.getElementById('faceResultsTitle').innerHTML = `${info.icon} เปิด ${info.name} เรียบร้อยแล้ว`;
+      document.getElementById('facecheckResultsGrid').innerHTML = `
+        <div style="background:rgba(139,92,246,0.12); border:1px solid rgba(139,92,246,0.3); border-radius:14px; padding:20px; margin-bottom:14px;">
+          <div style="font-size:16px; font-weight:800; color:#FFF; margin-bottom:8px;">${info.icon} ${info.name}</div>
+          <div style="font-size:14px; color:#CBD5E1; line-height:1.7;">${info.desc}</div>
+          <div style="margin-top:14px; padding:12px 16px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.3); border-radius:10px; font-size:13px; color:#67E8F9;">
+            💡 <strong>วิธีใช้:</strong> ${info.name} เปิดในแท็บใหม่แล้ว — บันทึกรูปภาพจาก Canvas ด้านซ้ายก่อน แล้วอัปโหลดบนเว็บไซต์นั้น
           </div>
-          <div class="comparison-frame">
-            <div class="comp-img-box"><img src="${currentFaceDataUrl}"><span class="comp-label">PROBE</span></div>
-            <div class="comp-img-box"><img src="${currentFaceDataUrl}"><span class="comp-label">MATCH</span></div>
-          </div>
-          <h4 style="font-size:15px; font-weight:800; color:#FFF;">Target Social Profile (IG/FB)</h4>
-          <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">ตรวจพบภาพใบหน้าที่มีลักษณะทางชีวมาตรสอดคล้องกันสูงมาก</p>
         </div>
-
-        <div class="match-card confident-match">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="background:rgba(245,158,11,0.22); color:#FBBF24; border:1px solid #F59E0B; padding:4px 10px; border-radius:6px; font-weight:800; font-size:12px;">
-              ● 88% Confident Match
-            </span>
-            <span style="font-size:11px; background:rgba(255,255,255,0.08); padding:4px 8px; border-radius:4px;">
-              🎵 Media Content Match
-            </span>
-          </div>
-          <div class="comparison-frame">
-            <div class="comp-img-box"><img src="${currentFaceDataUrl}"><span class="comp-label">PROBE</span></div>
-            <div class="comp-img-box"><img src="${currentFaceDataUrl}"><span class="comp-label">MATCH</span></div>
-          </div>
-          <h4 style="font-size:15px; font-weight:800; color:#FFF;">Video / Content Creator</h4>
-          <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">ตรวจพบใบหน้าคล้ายคลึงในสื่อวิดีโอและภาพถ่ายออนไลน์</p>
-        </div>
-
-        <div class="match-card probable-match">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="background:rgba(59,130,246,0.22); color:#60A5FA; border:1px solid #3B82F6; padding:4px 10px; border-radius:6px; font-weight:800; font-size:12px;">
-              ● 79% Probable Match
-            </span>
-            <span style="font-size:11px; background:rgba(255,255,255,0.08); padding:4px 8px; border-radius:4px;">
-              👥 Public Album
-            </span>
-          </div>
-          <div class="comparison-frame">
-            <div class="comp-img-box"><img src="${currentFaceDataUrl}"><span class="comp-label">PROBE</span></div>
-            <div class="comp-img-box"><img src="${currentFaceDataUrl}"><span class="comp-label">MATCH</span></div>
-          </div>
-          <h4 style="font-size:15px; font-weight:800; color:#FFF;">Public Directory Match</h4>
-          <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">ตรวจพบภาพในอัลบั้มสาธารณะที่มีลักษณะใบหน้าใกล้เคียง</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:10px;">
+          ${Object.entries(PLATFORM_INFO).map(([key, p]) => `
+            <a href="${p.url}" target="_blank" rel="noopener"
+               style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:10px; text-decoration:none; color:#CBD5E1; font-size:13px; font-weight:700;"
+               onmouseover="this.style.background='rgba(139,92,246,0.15)'; this.style.borderColor='#8B5CF6';"
+               onmouseout="this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+              <span style="font-size:18px;">${p.icon}</span> ${p.name}
+            </a>`).join('')}
         </div>
       `;
-
       document.getElementById('faceResultsSection').style.display = 'block';
-      document.getElementById('faceResultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      showToast('สแกนและค้นหาใบหน้าเสร็จสิ้น', '👤');
+      document.getElementById('faceResultsSection').scrollIntoView({ behavior:'smooth', block:'start' });
     }
 
     // RESET ALL STATE
     function resetAllState() {
       document.getElementById('blSearchInput').value = '';
       document.getElementById('blDossierBox').style.display = 'none';
+      document.getElementById('platformGrid').innerHTML = '';
       document.getElementById('blacklistFrame').src = 'https://www.blacklistseller.com/report/report_search_page';
       document.getElementById('portalUrlText').innerText = 'https://www.blacklistseller.com/report/report_search_page';
       document.getElementById('btnLiveBlacklistLink').href = 'https://www.blacklistseller.com/report/report_search_page';
+      currentSearchQuery = '';
 
       currentFaceFile = null;
       currentFaceDataUrl = '';
@@ -1209,6 +1295,11 @@
       document.getElementById('termsCheckbox').checked = false;
       document.getElementById('btnRunFaceSearch').disabled = true;
       document.getElementById('faceResultsSection').style.display = 'none';
+      document.querySelectorAll('#facePlatformGrid .face-platform-btn').forEach(btn => {
+        btn.setAttribute('aria-disabled', 'true'); btn.style.opacity = '0.35';
+      });
+      const note = document.getElementById('faceNoImageNote');
+      if (note) note.style.display = 'block';
 
       showToast('ล้างข้อมูลทั้งหมดแล้ว');
     }
