@@ -338,7 +338,7 @@ $xamlString = @"
                                             </StackPanel>
                                             <TextBlock Text="สแกนใบหน้าโดยเฉพาะ เพื่อหาโปรไฟล์บน Instagram, Facebook, TikTok, Twitter/X, OnlyFans, LinkedIn" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
                                         </StackPanel>
-                                        <Button Name="BtnSearchFaceCheck" Grid.Column="2" Content="👤 สแกนใบหน้า AI" Style="{StaticResource GlowBtn}" Background="#8B5CF6"/>
+                                        <Button Name="BtnSearchFaceCheck" Grid.Column="2" Content="👤 สแกนใบหน้า FaceCheck.ID (In-App)" Style="{StaticResource GlowBtn}" Background="#8B5CF6"/>
                                     </Grid>
                                 </Border>
 
@@ -973,7 +973,13 @@ function Exec-Yandex {
         Open-Url "https://yandex.com/images/search?rpt=imageview&url=$enc"
     } else { Open-Url "https://yandex.com/images/" }
 }
-function Exec-FaceCheck { Open-Url "https://facecheck.id/" }
+function Exec-FaceCheck {
+    if (Test-Path $htmlPath) {
+        Open-Url "file:///$($htmlPath.Replace('\', '/'))"
+    } else {
+        Open-Url "https://facecheck.id/"
+    }
+}
 function Exec-GoogleLens {
     if ($global:CurrentPublicUrl) {
         $enc = [System.Web.HttpUtility]::UrlEncode($global:CurrentPublicUrl)
@@ -1071,15 +1077,19 @@ function Update-PhoneDetect {
 
     if ($num.StartsWith("08") -or $num.StartsWith("09") -or $num.StartsWith("06")) {
         $prefix = $num.Substring(0, [Math]::Min(3, $num.Length))
-        if (@('081','082','089','092','093','097','098') -contains $prefix) {
-            $txtCarrierDetect.Text = "เบอร์มือถือไทย (กลุ่มหมายเลข AIS/ทั่วไป)"
-        } elseif (@('083','084','085','086','094','099') -contains $prefix) {
-            $txtCarrierDetect.Text = "เบอร์มือถือไทย (กลุ่มหมายเลข True/Dtac)"
+        if (@('080','081','082','087','089','092','093','097','098','061','062','063','066') -contains $prefix) {
+            $txtCarrierDetect.Text = "เบอร์มือถือไทย (กลุ่ม AIS/AWN)"
+        } elseif (@('083','084','085','086','090','091','094','095','096','099','064') -contains $prefix) {
+            $txtCarrierDetect.Text = "เบอร์มือถือไทย (กลุ่ม TrueMove H / DTAC)"
+        } elseif (@('088','065') -contains $prefix) {
+            $txtCarrierDetect.Text = "เบอร์มือถือไทย (กลุ่ม NT Mobile / my by CAT)"
         } else {
             $txtCarrierDetect.Text = "เบอร์มือถือประเทศไทย (+66)"
         }
     } elseif ($num.StartsWith("02")) {
-        $txtCarrierDetect.Text = "เบอร์บ้าน/สำนักงาน กรุงเทพและปริมณฑล"
+        $txtCarrierDetect.Text = "เบอร์บ้าน/สำนักงาน (กทม./นนทบุรี/ปทุมธานี/สมุทรปราการ)"
+    } elseif ($num.Length -ge 3 -and @('032','034','035','036','037','038','039','042','043','044','045','052','053','054','055','056','073','074','075','076','077') -contains $num.Substring(0,3)) {
+        $txtCarrierDetect.Text = "เบอร์บ้าน/สำนักงานภูมิภาค (Landline)"
     } else {
         $txtCarrierDetect.Text = "เบอร์โทรศัพท์ระหว่างประเทศ"
     }
@@ -1217,26 +1227,26 @@ $btnMasterPhoneSearch.Add_Click({
         [System.Windows.MessageBox]::Show("กรุณากรอกเบอร์โทรศัพท์ก่อนเริ่มค้นหาครับ", "แจ้งเตือน", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
         return
     }
-    Set-AppStatus "เปิดระบบค้นหาในเว็บ In-App Search (ไม่เด้งออกเว็บภายนอก)..." "#10B981"
+    Set-AppStatus "เปิดศูนย์สืบค้นข้อมูลจริง Real OSINT Hub บนเว็บแอป..." "#10B981"
     if (Test-Path $htmlPath) {
         Open-Url "file:///$($htmlPath.Replace('\', '/'))"
     } else {
         Exec-Whoscall
     }
-    Set-AppStatus "ระบบ In-App Search พร้อมใช้งานบนหน้าเว็บ (กรองเฉพาะที่พบข้อมูล)" "#10B981"
+    Set-AppStatus "เปิดศูนย์สืบค้น Real OSINT Hub เรียบร้อยแล้ว (ข้อมูลจริง 100%)" "#10B981"
 })
 
 $btnMasterSearch.Add_Click({
     if ($mainTabControl.SelectedIndex -eq 1) {
         $btnMasterPhoneSearch.RaiseEvent((New-Object System.Windows.RoutedEventArgs([System.Windows.Controls.Button]::ClickEvent)))
     } else {
-        Set-AppStatus "เปิดระบบ In-App Visual OSINT (ค้นหาในเว็บ ไม่เด้งแท็บ กรองเฉพาะที่พบข้อมูล)..." "#10B981"
+        Set-AppStatus "เปิดศูนย์สืบค้น Real OSINT Hub บนเว็บแอป..." "#10B981"
         if (Test-Path $htmlPath) {
             Open-Url "file:///$($htmlPath.Replace('\', '/'))"
         } else {
             Exec-Yandex
         }
-        Set-AppStatus "ระบบ In-App Visual Search พร้อมใช้งานบนหน้าเว็บ (กรองเฉพาะที่พบข้อมูล)" "#10B981"
+        Set-AppStatus "เปิดศูนย์สืบค้น Real OSINT Hub เรียบร้อยแล้ว (ข้อมูลจริง 100%)" "#10B981"
     }
 })
 
