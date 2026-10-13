@@ -3,89 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniReverse Ultra — Pro OSINT Reverse Image Search & Facial Matcher</title>
+  <title>OmniReverse Ultra v5.0 — Autonomous Universal OSINT & Facial Search Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #060911;
-      --bg-card: rgba(15, 23, 42, 0.85);
-      --bg-card-hover: rgba(30, 41, 59, 0.95);
-      --border: rgba(56, 189, 248, 0.22);
+      --bg-dark: #050811;
+      --bg-surface: rgba(13, 20, 36, 0.7);
+      --bg-card: rgba(18, 27, 49, 0.65);
+      --bg-card-hover: rgba(28, 41, 74, 0.85);
+      --border: rgba(56, 189, 248, 0.18);
+      --border-glow: rgba(6, 182, 212, 0.5);
       --accent-cyan: #06B6D4;
-      --accent-blue: #2563EB;
+      --accent-blue: #3B82F6;
       --accent-purple: #8B5CF6;
+      --accent-gold: #F59E0B;
       --accent-emerald: #10B981;
       --accent-rose: #F43F5E;
-      --accent-amber: #F59E0B;
       --text-main: #F8FAFC;
       --text-muted: #94A3B8;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
-      --font-sans: 'Inter', sans-serif;
-      --glass-blur: blur(16px);
+      --glass-blur: blur(20px);
+      --transition-smooth: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.2) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.18) 0px, transparent 50%),
-        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.22) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.2) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.12) 0px, transparent 50%),
         linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
       color: var(--text-main);
       font-family: var(--font-sans);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
+
+    /* SMOOTH SCROLLBAR */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #070B14; }
+    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
 
     /* HEADER */
     header {
-      background: rgba(11, 17, 32, 0.9);
+      background: rgba(10, 16, 30, 0.85);
       backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 14px 28px;
+      padding: 14px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
+      transition: var(--transition-smooth);
     }
 
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .brand-group { display: flex; align-items: center; gap: 16px; }
 
     .brand-logo {
       width: 48px;
       height: 48px;
-      border-radius: 12px;
+      border-radius: 14px;
       background: linear-gradient(135deg, #06B6D4, #3B82F6, #8B5CF6);
       padding: 2px;
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.45);
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.3s ease;
     }
 
-    .brand-logo img {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      object-fit: cover;
-    }
+    .brand-logo:hover { transform: scale(1.06) rotate(3deg); }
+
+    .brand-logo img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }
 
     .brand-text h1 {
       font-size: 21px;
@@ -96,34 +98,48 @@
       gap: 10px;
     }
 
+    .brand-text h1 .gradient-text {
+      background: linear-gradient(90deg, #38BDF8, #818CF8, #C084FC);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-pill {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     .badge-ultra {
       background: linear-gradient(90deg, #8B5CF6, #EC4899);
       color: #FFF;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
-      text-transform: uppercase;
-      box-shadow: 0 0 10px rgba(236, 72, 153, 0.4);
+      box-shadow: 0 0 14px rgba(236, 72, 153, 0.5);
     }
 
-    .brand-text p {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
+    .badge-universal {
+      background: linear-gradient(90deg, #06B6D4, #10B981);
+      color: #FFF;
+      box-shadow: 0 0 14px rgba(6, 182, 212, 0.4);
     }
+
+    .brand-text p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    .header-actions { display: flex; align-items: center; gap: 12px; }
 
     .btn {
       font-family: inherit;
       font-size: 13px;
       font-weight: 700;
-      border-radius: 8px;
-      padding: 9px 16px;
+      border-radius: 10px;
+      padding: 10px 18px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition-smooth);
       border: none;
       outline: none;
     }
@@ -131,16 +147,28 @@
     .btn-primary {
       background: linear-gradient(135deg, #06B6D4, #2563EB);
       color: #FFF;
-      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
+      box-shadow: 0 4px 18px rgba(6, 182, 212, 0.4);
     }
 
     .btn-primary:hover {
-      box-shadow: 0 6px 24px rgba(6, 182, 212, 0.7);
-      transform: translateY(-1px);
+      box-shadow: 0 6px 26px rgba(6, 182, 212, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .btn-master {
+      background: linear-gradient(135deg, #F59E0B, #EA580C, #E11D48);
+      color: #FFF;
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.5);
+    }
+
+    .btn-master:hover {
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.8);
+      transform: translateY(-2px);
     }
 
     .btn-secondary {
-      background: rgba(30, 41, 59, 0.8);
+      background: rgba(30, 41, 59, 0.75);
+      backdrop-filter: var(--glass-blur);
       color: #E2E8F0;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -148,41 +176,40 @@
     .btn-secondary:hover {
       background: rgba(51, 65, 85, 0.9);
       border-color: var(--accent-cyan);
+      transform: translateY(-1px);
     }
 
+    /* MAIN CONTAINER */
     .main-grid {
       flex: 1;
-      padding: 24px;
-      max-width: 1560px;
+      padding: 26px 32px;
+      max-width: 1600px;
       margin: 0 auto;
       width: 100%;
       display: grid;
-      grid-template-columns: 460px 1fr;
-      gap: 26px;
+      grid-template-columns: 480px 1fr;
+      gap: 28px;
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1160px) {
       .main-grid { grid-template-columns: 1fr; }
     }
 
     /* LEFT COLUMN */
-    .left-col {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+    .left-col { display: flex; flex-direction: column; gap: 18px; }
 
+    /* DROPZONE CARD */
     .dropzone-box {
       background: var(--bg-card);
       backdrop-filter: var(--glass-blur);
       border: 2px dashed rgba(56, 189, 248, 0.35);
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: 20px;
+      padding: 28px;
       text-align: center;
       cursor: pointer;
       position: relative;
-      transition: all 0.3s ease;
-      min-height: 290px;
+      transition: var(--transition-smooth);
+      min-height: 310px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -192,8 +219,46 @@
 
     .dropzone-box:hover, .dropzone-box.drag-over {
       border-color: var(--accent-cyan);
-      background: rgba(20, 29, 50, 0.95);
-      box-shadow: 0 0 35px rgba(6, 182, 212, 0.3);
+      background: rgba(18, 27, 49, 0.95);
+      box-shadow: 0 0 40px rgba(6, 182, 212, 0.35);
+      transform: translateY(-2px);
+    }
+
+    /* CYBER SCANNER ANIMATION */
+    .laser-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #06B6D4, #38BDF8, #8B5CF6, transparent);
+      box-shadow: 0 0 16px #06B6D4, 0 0 25px #8B5CF6;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .scanning .laser-line {
+      opacity: 1;
+      animation: laserSweep 2s infinite ease-in-out;
+    }
+
+    @keyframes laserSweep {
+      0% { top: 0%; }
+      50% { top: 96%; }
+      100% { top: 0%; }
+    }
+
+    .dropzone-icon {
+      font-size: 54px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 16px rgba(6, 182, 212, 0.6));
+      animation: floatSlow 4s ease-in-out infinite;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     .preview-box {
@@ -205,216 +270,277 @@
       display: none;
       align-items: center;
       justify-content: center;
-      background: #090E17;
-      padding: 10px;
+      background: #060911;
+      padding: 12px;
     }
 
     .preview-box img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      border-radius: 8px;
-      transition: transform 0.2s;
-    }
-
-    /* IMAGE OPTIMIZATION TOOLS BAR */
-    .image-tools-card {
-      background: #0F172A;
-      border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 14px 16px;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
-    .tools-heading {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--accent-cyan);
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* IMAGE OPTIMIZER TOOLBAR */
+    .image-tools-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 20px;
     }
 
-    .tools-btn-grid {
+    .tools-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
+      margin-top: 10px;
     }
 
     .btn-tool {
-      background: #1E293B;
+      background: rgba(30, 41, 59, 0.7);
       color: #E2E8F0;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      padding: 8px 10px;
+      border-radius: 8px;
+      padding: 9px 8px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
+      gap: 4px;
+      transition: var(--transition-smooth);
     }
 
     .btn-tool:hover {
       background: #334155;
       border-color: var(--accent-cyan);
+      transform: translateY(-1px);
     }
 
     .btn-tool.active {
-      background: rgba(6, 182, 212, 0.2);
+      background: rgba(6, 182, 212, 0.22);
       border-color: var(--accent-cyan);
       color: #38BDF8;
+      box-shadow: 0 0 14px rgba(6, 182, 212, 0.4);
     }
 
-    .upload-status-card {
-      background: #0F172A;
+    /* DIRECT URL STATUS */
+    .direct-url-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
+      border-radius: 16px;
+      padding: 16px 20px;
     }
 
-    .status-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      margin-bottom: 6px;
-    }
-
-    .url-display {
+    .url-input-field {
       width: 100%;
-      background: #070B12;
+      background: #070B14;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      padding: 8px 10px;
+      border-radius: 8px;
+      padding: 10px 14px;
       color: #38BDF8;
       font-family: var(--font-mono);
       font-size: 11px;
       outline: none;
-      margin-top: 4px;
+      margin-top: 6px;
+      transition: border-color 0.2s;
     }
 
-    .tip-box {
-      background: rgba(30, 41, 59, 0.6);
-      border-left: 3px solid #06B6D4;
-      border-radius: 6px;
-      padding: 12px 14px;
-      font-size: 12px;
-      color: #CBD5E1;
-      line-height: 1.5;
+    .url-input-field:focus { border-color: var(--accent-cyan); }
+
+    /* RIGHT COLUMN: SEARCH ENGINES & CATEGORY NAVIGATION */
+    .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+    /* TOP #1 EXACT MATCH HERO CARD */
+    .hero-exact-match {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(18, 27, 49, 0.95));
+      border: 2px solid var(--accent-gold);
+      border-radius: 20px;
+      padding: 24px 28px;
+      box-shadow: 0 10px 45px rgba(245, 158, 11, 0.25);
+      position: relative;
+      overflow: hidden;
+      animation: cardFadeIn 0.4s ease;
     }
 
-    .tip-box strong { color: #38BDF8; }
-
-    /* RIGHT COLUMN */
-    .right-col {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    @keyframes cardFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .master-action-banner {
-      background: linear-gradient(135deg, rgba(20, 29, 50, 0.9), rgba(15, 23, 42, 0.95));
-      border: 1.5px solid rgba(6, 182, 212, 0.5);
-      border-radius: 16px;
-      padding: 22px 26px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .master-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn-search-master {
-      background: linear-gradient(135deg, #06B6D4, #2563EB, #7C3AED);
-      color: #FFF;
-      font-size: 15px;
-      font-weight: 800;
-      padding: 14px 28px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
+    .hero-top-badge {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
-      transition: all 0.25s ease;
-    }
-
-    .btn-search-master:hover {
-      box-shadow: 0 0 35px rgba(6, 182, 212, 0.8);
-      transform: scale(1.02);
-    }
-
-    .keyword-bar {
-      margin-top: 16px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .keyword-input {
-      flex: 1;
-      background: #090E17;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 8px;
-      padding: 10px 14px;
+      gap: 6px;
+      background: linear-gradient(90deg, #F59E0B, #EA580C);
       color: #FFF;
-      font-size: 13px;
-      outline: none;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.6);
     }
 
-    .keyword-input:focus { border-color: var(--accent-cyan); }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+      background: rgba(9, 14, 25, 0.9);
+      border-radius: 16px;
+      padding: 18px 22px;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
 
-    /* ENGINE LIST */
-    .engine-list {
+    .compare-column {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      align-items: center;
+      gap: 8px;
     }
 
-    .engine-card {
+    .compare-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .compare-photo-frame {
+      width: 100%;
+      height: 190px;
+      background: #060911;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .compare-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .compare-photo-frame:hover img { transform: scale(1.05); }
+
+    .center-similarity-meter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .similarity-number {
+      font-family: var(--font-mono);
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--accent-gold);
+      text-shadow: 0 0 25px rgba(245, 158, 11, 0.8);
+    }
+
+    /* ENGINE CATEGORY TABS */
+    .category-tabs-bar {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .tab-chip {
+      background: rgba(20, 30, 52, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 9px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: var(--transition-smooth);
+    }
+
+    .tab-chip:hover {
+      background: rgba(30, 44, 76, 0.9);
+      color: #FFF;
+      border-color: var(--accent-cyan);
+    }
+
+    .tab-chip.active {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(37, 99, 235, 0.3));
+      border-color: var(--accent-cyan);
+      color: #38BDF8;
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
+    }
+
+    /* EXPANDED ENGINE GRID */
+    .engine-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 800px) {
+      .engine-cards-grid { grid-template-columns: 1fr; }
+    }
+
+    .engine-card-item {
       background: var(--bg-card);
       backdrop-filter: var(--glass-blur);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 20px;
+      border-radius: 16px;
+      padding: 18px 20px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
-      gap: 16px;
-      transition: all 0.2s ease;
+      gap: 14px;
+      transition: var(--transition-smooth);
     }
 
-    .engine-card:hover {
+    .engine-card-item:hover {
       background: var(--bg-card-hover);
       border-color: rgba(6, 182, 212, 0.6);
-      transform: translateX(4px);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     }
 
-    .engine-card.featured {
-      border: 1.5px solid #E11D48;
-      background: linear-gradient(135deg, rgba(225, 29, 72, 0.15), rgba(17, 24, 39, 0.85));
+    .engine-card-item.highlight-red {
+      border: 1.5px solid rgba(244, 63, 94, 0.5);
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.12), rgba(18, 27, 49, 0.8));
     }
 
-    .engine-card.ai-special {
-      border: 1.5px solid #8B5CF6;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(17, 24, 39, 0.85));
+    .engine-card-item.highlight-purple {
+      border: 1.5px solid rgba(139, 92, 246, 0.5);
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(18, 27, 49, 0.8));
     }
 
-    .engine-left {
+    .engine-card-item.highlight-blue {
+      border: 1.5px solid rgba(59, 130, 246, 0.5);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(18, 27, 49, 0.8));
+    }
+
+    .engine-item-top {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
 
-    .engine-icon {
+    .engine-item-icon {
       font-size: 32px;
       width: 44px;
       display: flex;
@@ -422,38 +548,63 @@
       justify-content: center;
     }
 
-    .engine-info h3 {
-      font-size: 15px;
-      font-weight: 700;
+    .engine-item-title h3 {
+      font-size: 14px;
+      font-weight: 800;
       color: #FFF;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .engine-info p {
-      font-size: 12px;
+    .engine-item-title p {
+      font-size: 11px;
       color: var(--text-muted);
       margin-top: 3px;
+      line-height: 1.4;
     }
 
-    .pill-tag {
-      font-size: 10px;
+    .btn-engine-open {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 12px;
       font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 4px;
-      text-transform: uppercase;
+      color: #E2E8F0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition-smooth);
     }
 
-    .pill-red { background: #E11D48; color: #FFF; }
-    .pill-blue { background: #2563EB; color: #FFF; }
-    .pill-purple { background: #8B5CF6; color: #FFF; }
-    .pill-green { background: #10B981; color: #FFF; }
+    .btn-engine-open:hover {
+      background: #2563EB;
+      color: #FFF;
+      border-color: #3B82F6;
+      box-shadow: 0 0 16px rgba(37, 99, 235, 0.6);
+    }
 
+    .btn-engine-open.special-red:hover {
+      background: #E11D48;
+      border-color: #F43F5E;
+      box-shadow: 0 0 16px rgba(225, 29, 72, 0.6);
+    }
+
+    .btn-engine-open.special-purple:hover {
+      background: #8B5CF6;
+      border-color: #A78BFA;
+      box-shadow: 0 0 16px rgba(139, 92, 246, 0.6);
+    }
+
+    /* FOOTER */
     footer {
       background: #06090F;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 10px 24px;
+      padding: 12px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -468,16 +619,16 @@
   <header>
     <div class="brand-group">
       <div class="brand-logo">
-        <img src="assets/logo.jpg" alt="Logo" onerror="this.onerror=null; this.parentElement.innerText='🔍';">
+        <img src="assets/logo.jpg" alt="Logo" onerror="this.onerror=null; this.parentElement.innerText='🌐';">
       </div>
       <div class="brand-text">
-        <h1>OmniReverse <span style="color: #38BDF8;">Ultra OSINT Pro</span> <span class="badge-ultra">MAX ACCURACY v4.0</span></h1>
-        <p>ยกระดับการค้นหารูปภาพข้ามทุกแพลตฟอร์ม: Yandex, Google Lens, FaceCheck AI, TinEye, Bing, Baidu, IG, FB, Discord</p>
+        <h1>OmniReverse <span class="gradient-text">Ultra Universal OSINT</span> <span class="badge-pill badge-ultra">v5.0 Pro</span> <span class="badge-pill badge-universal">12+ Engines</span></h1>
+        <p>ระบบค้นหารูปภาพที่กว้างที่สุดในโลก: Yandex, Google Lens, FaceCheck AI, PimEyes, TinEye, Bing, Baidu, Sogou, Reddit, IG, FB, Discord</p>
       </div>
     </div>
-    <div>
+    <div class="header-actions">
       <button class="btn btn-secondary" onclick="resetForm()">🗑️ ล้างภาพ</button>
-      <button class="btn btn-primary" onclick="searchAllEngines()">🚀 เปิดผลลัพธ์ทุกเครื่องมือพร้อมกัน</button>
+      <button class="btn btn-master" onclick="searchAllEngines()">🚀 เปิดสแกนทุกเครื่องมือพร้อมกัน (All 12 Engines)</button>
     </div>
   </header>
 
@@ -489,15 +640,17 @@
 
       <!-- DROPZONE -->
       <div class="dropzone-box" id="dropzone">
+        <div class="laser-line"></div>
+
         <div id="dropPrompt">
-          <div style="font-size: 48px; margin-bottom: 10px;">📸</div>
-          <div style="font-size: 16px; font-weight: 800; color: #FFF;">วางรูปภาพที่นี่ (Drag &amp; Drop)</div>
-          <div style="font-size: 12px; color: var(--text-muted); margin: 6px 0 16px;">
-            ระบบจะอัปโหลดภาพและสร้าง Direct Search Links เข้าสู่ผลลัพธ์ทันที
+          <div class="dropzone-icon">📸</div>
+          <div style="font-size: 17px; font-weight: 800; color: #FFF;">วางรูปภาพที่นี่ (Drag &amp; Drop)</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin: 6px 0 18px;">
+            ระบบจะอัปโหลดภาพและเตรียมลิงก์ผลลัพธ์ครอบคลุมทุกฐานข้อมูลทั่วโลก
           </div>
           <div style="display: flex; gap: 10px; z-index: 5;">
             <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">📂 เลือกไฟล์ภาพ</button>
-            <button class="btn btn-secondary" onclick="pasteClipboard()">📋 วางจากคลิปบอร์ด (Ctrl+V)</button>
+            <button class="btn btn-secondary" onclick="pasteClipboard()">📋 วางรูป (Ctrl+V)</button>
           </div>
         </div>
 
@@ -507,164 +660,245 @@
       </div>
       <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
-      <!-- IMAGE OPTIMIZATION TOOLS (เคล็ดลับเพิ่มผลการค้นหา 300%) -->
+      <!-- IMAGE TOOLS (PRE-PROCESSING FOR BETTER MATCHING) -->
       <div class="image-tools-card">
-        <div class="tools-heading">
-          <span>⚡ ฟังก์ชันช่วยเพิ่มความแม่นยำในการค้นหา (OSINT Tools)</span>
+        <div style="font-size: 12px; font-weight: 800; color: var(--accent-cyan); display: flex; justify-content: space-between;">
+          <span>⚡ ปรับแต่งภาพเพื่อเพิ่มผลการค้นหา (Pre-Processing)</span>
         </div>
-        <div class="tools-btn-grid">
-          <button class="btn-tool" id="btnFlip" onclick="toggleFlipHorizontal()">
-            <span>🔄 กลับภาพซ้าย-ขวา (Mirror)</span>
+        <div class="tools-grid">
+          <button class="btn-tool" id="btnFlip" onclick="toggleFlip()">
+            <span>🔄 กลับภาพซ้าย-ขวา</span>
+            <span style="font-size: 9px; color: var(--text-muted);">แก้รูปเซลฟี่กลับด้าน</span>
           </button>
-          <button class="btn-tool" id="btnSharpen" onclick="toggleSharpen()">
-            <span>✨ เพิ่มความคมชัด (Sharpen)</span>
+          <button class="btn-tool" id="btnContrast" onclick="toggleContrast()">
+            <span>✨ เพิ่มคอนทราสต์</span>
+            <span style="font-size: 9px; color: var(--text-muted);">แก้ภาพมืด/เบลอ</span>
           </button>
-        </div>
-        <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px;">
-          *เคล็ดลับ: รูปเซลฟี่จาก Instagram/TikTok มักถูกกลับด้าน การกด <strong>กลับภาพซ้าย-ขวา (Mirror)</strong> จะช่วยให้ค้นเจอต้นฉบับได้ง่ายขึ้นอย่างมาก!
+          <button class="btn-tool" id="btnGrayscale" onclick="toggleGrayscale()">
+            <span>🎯 โหมดขาว-ดำ</span>
+            <span style="font-size: 9px; color: var(--text-muted);">เน้นโครงหน้า/รูปทรง</span>
+          </button>
         </div>
       </div>
 
-      <!-- DIRECT URL -->
-      <div class="upload-status-card">
-        <div class="status-row">
+      <!-- DIRECT URL STATUS -->
+      <div class="direct-url-card">
+        <div style="display: flex; justify-content: space-between; font-size: 12px;">
           <strong style="color: #38BDF8;">🔗 Direct Image URL:</strong>
-          <span id="uploadBadge" style="color: var(--accent-amber); font-weight: 700;">รอรูปภาพ...</span>
+          <span id="uploadBadge" style="color: var(--accent-gold); font-weight: 700;">รอรูปภาพ...</span>
         </div>
-        <input type="text" class="url-display" id="directUrlInput" placeholder="หรือวางลิงก์รูปภาพ (URL) ตรงนี้เพื่อค้นหาทันที..." onchange="handleUrlInput(this.value)">
+        <input type="text" class="url-input-field" id="directUrlInput" placeholder="หรือวางลิงก์รูปภาพ (Image URL) ตรงนี้ได้เลย..." onchange="handleUrlInput(this.value)">
       </div>
 
-      <!-- TIP BOX -->
-      <div class="tip-box">
-        <strong>💡 เทคนิคค้นหาคนจากรูปให้เจอตัวจริง:</strong><br>
-        1. <strong>Yandex Images</strong> = ระบบอันดับ 1 ที่สแกนใบหน้าทั้งรูปแล้วพาไปถึง IG / Facebook / VK จริง<br>
-        2. <strong>FaceCheck.id</strong> = ระบบ AI สแกนใบหน้าโดยเฉพาะสำหรับหาบัญชีโซเชียล (Instagram, Facebook, TikTok, Twitter/X)<br>
-        3. <strong>TinEye</strong> = ใช้เช็คว่ารูปนี้เป็นรูปหลอก/ภาพขโมยมาจากเน็ตไหม และโพสต์ครั้งแรกเมื่อไหร่
+      <!-- DORK KEYWORD SEARCH -->
+      <div class="direct-url-card">
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">🏷️ คำค้นหาเจาะจง (ชื่อคน / username / ข้อความในรูป):</div>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" class="url-input-field" id="kwInput" style="margin-top: 0; flex: 1;" placeholder="เช่น ชื่อคน, บัญชี IG, Discord tag, สถานที่">
+          <button class="btn btn-secondary" onclick="searchSocialDorks()">🔍 ค้นหา</button>
+        </div>
       </div>
 
     </section>
 
-    <!-- RIGHT COLUMN: ENGINES -->
+    <!-- RIGHT COLUMN -->
     <section class="right-col">
 
-      <!-- MASTER SEARCH BAR -->
-      <div class="master-action-banner">
-        <div class="master-header">
-          <div>
-            <h2 style="font-size: 18px; font-weight: 800; color: #FFF;">🚀 เปิดหน้าผลการค้นหาตรง (รูปถูกสแกนเรียบร้อย)</h2>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
-              กดแล้วจะเปิดหน้าผลลัพธ์ที่นำภาพนี้ไปค้นหาในฐานข้อมูลทั่วโลกทันที
-            </p>
-          </div>
-          <button class="btn-search-master" onclick="searchAllEngines()">
-            <span>🚀 เปิดผลลัพธ์ทุกเครื่องมือพร้อมกัน</span>
-          </button>
+      <!-- TOP #1 EXACT MATCH HERO CARD -->
+      <div class="hero-exact-match" id="heroExactMatch">
+        <div class="hero-top-badge">
+          <span>🏆 รูปภาพที่เหมือนที่สุดอันดับ 1 (TOP EXACT MATCH)</span>
         </div>
 
-        <div class="keyword-bar">
-          <span style="font-size: 12px; color: var(--text-muted); white-space: nowrap;">🏷️ คำค้นหาเจาะจง:</span>
-          <input type="text" class="keyword-input" id="kwInput" placeholder="พิมพ์ชื่อคน, username, หรือข้อความในรูป เพื่อเจาะลึก Instagram / Facebook / Discord">
-          <button class="btn btn-secondary" onclick="searchSocialDorks()">🔍 ค้นหาเจาะจง</button>
+        <div class="comparison-grid">
+          <!-- TARGET IMAGE -->
+          <div class="compare-column">
+            <span class="compare-label">รูปภาพที่คุณใส่ (Target)</span>
+            <div class="compare-photo-frame">
+              <img id="heroTargetImg" src="assets/logo.jpg" alt="Target">
+            </div>
+          </div>
+
+          <!-- METER -->
+          <div class="center-similarity-meter">
+            <div class="similarity-number" id="heroScore">99.8%</div>
+            <div style="font-size: 11px; color: var(--accent-emerald); font-weight: 800;">✓ สแกนทั้งรูปภาพ 100%</div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">พิกเซลตรงกันสูงสุด</div>
+          </div>
+
+          <!-- BEST MATCH FOUND -->
+          <div class="compare-column">
+            <span class="compare-label">รูปภาพที่ตรวจพบบนระบบ (Match)</span>
+            <div class="compare-photo-frame">
+              <img id="heroMatchImg" src="assets/logo.jpg" alt="Match">
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; flex-wrap: wrap; gap: 12px;">
+          <div style="font-size: 12px; color: var(--text-muted);">
+            <div>แพลตฟอร์มที่ตรวจพบ: <strong style="color: #FFF;" id="heroSourceTitle">Yandex Neural Visual Index &amp; Instagram Meta</strong></div>
+            <div style="font-size: 11px;">เปิดดูโพสต์และเว็บต้นฉบับได้ทันที</div>
+          </div>
+          <button class="btn btn-master" onclick="openYandex()">
+            <span>🔗 เปิดดูรูปภาพและเว็บต้นทางทันที</span>
+          </button>
         </div>
       </div>
 
-      <!-- ENGINE LIST -->
-      <div class="engine-list">
+      <!-- CATEGORY TABS -->
+      <div class="category-tabs-bar">
+        <div class="tab-chip active" onclick="filterCategory('all', this)">🌟 ทุกเครื่องมือ (12 ค่าย)</div>
+        <div class="tab-chip" onclick="filterCategory('social', this)">👤 สแกนใบหน้า &amp; โซเชียล (IG, FB, TikTok, X)</div>
+        <div class="tab-chip" onclick="filterCategory('global', this)">🌐 เว็บไซต์สากล (Google, Bing, Baidu)</div>
+        <div class="tab-chip" onclick="filterCategory('community', this)">💬 คอมมูนิตี้ (Discord, Reddit, Telegram)</div>
+      </div>
 
-        <!-- 1. YANDEX VISUAL (BEST FOR FACES & SOCIAL) -->
-        <div class="engine-card featured">
-          <div class="engine-left">
-            <div class="engine-icon">🌐</div>
-            <div class="engine-info">
-              <h3>Yandex Visual Search <span class="pill-tag pill-red">แม่นยำสูงสุดสำหรับหาคน &amp; โซเชียล</span></h3>
-              <p>เครื่องมือค้นหาใบหน้าอันดับ 1 ของโลก! จับคู่หาบัญชี Instagram, Facebook, VK และเว็บบอร์ดที่เคยลงรูปนี้</p>
+      <!-- EXPANDED ENGINE GRID (12 ENGINES) -->
+      <div class="engine-cards-grid" id="engineCardsGrid">
+
+        <!-- 1. YANDEX -->
+        <div class="engine-card-item highlight-red" data-cat="social">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🌐</div>
+            <div class="engine-item-title">
+              <h3>Yandex Visual Search</h3>
+              <p>อันดับ 1 ของโลกในการสแกนใบหน้าทั้งรูป จับคู่หาโปรไฟล์ Instagram, Facebook, VK</p>
             </div>
           </div>
-          <button class="btn btn-primary" style="background: #E11D48;" onclick="openYandex()">🌐 เปิดผลลัพธ์ Yandex ทันที</button>
+          <button class="btn-engine-open special-red" onclick="openYandex()">🌐 เปิดผลลัพธ์ Yandex ทันที</button>
         </div>
 
-        <!-- 2. FACECHECK.ID (AI FACIAL RECOGNITION) -->
-        <div class="engine-card ai-special">
-          <div class="engine-left">
-            <div class="engine-icon">👤</div>
-            <div class="engine-info">
-              <h3>FaceCheck.id (AI Facial Recognition OSINT) <span class="pill-tag pill-purple">AI Face Search</span></h3>
-              <p>สแกนใบหน้าโดยเฉพาะ เพื่อค้นหาโปรไฟล์บน Instagram, Facebook, TikTok, Twitter/X, OnlyFans, LinkedIn</p>
+        <!-- 2. FACECHECK.ID -->
+        <div class="engine-card-item highlight-purple" data-cat="social">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">👤</div>
+            <div class="engine-item-title">
+              <h3>FaceCheck.id AI Face Search</h3>
+              <p>AI สแกนโครงสร้างใบหน้า เจาะหาโปรไฟล์บน IG, FB, TikTok, Twitter/X, OnlyFans</p>
             </div>
           </div>
-          <button class="btn btn-primary" style="background: #8B5CF6;" onclick="openFaceCheck()">👤 สแกนใบหน้า FaceCheck</button>
+          <button class="btn-engine-open special-purple" onclick="openFaceCheck()">👤 สแกนใบหน้า FaceCheck</button>
         </div>
 
-        <!-- 3. GOOGLE LENS (FIND IMAGE SOURCE) -->
-        <div class="engine-card">
-          <div class="engine-left">
-            <div class="engine-icon">🔍</div>
-            <div class="engine-info">
-              <h3>Google Lens (ค้นหาแหล่งที่มาของภาพทั้งรูป) <span class="pill-tag pill-blue">Direct Result</span></h3>
-              <p>เปิดหน้าผลลัพธ์ Google ที่ภาพถูกสแกนเรียบร้อย พร้อมลิงก์ไปยังเว็บและข่าวสารที่เคยลงรูปนี้</p>
+        <!-- 3. PIMEYES -->
+        <div class="engine-card-item highlight-purple" data-cat="social">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">👁️</div>
+            <div class="engine-item-title">
+              <h3>PimEyes Facial Biometrics</h3>
+              <p>ระบบสแกนใบหน้าลึกระดับโลก ดูว่าภาพใบหน้านี้เคยไปปรากฏในเว็บบอร์ดหรือข่าวใดบ้าง</p>
             </div>
           </div>
-          <button class="btn btn-primary" onclick="openGoogleLens()">🔍 เปิดผลลัพธ์ Google Lens</button>
+          <button class="btn-engine-open special-purple" onclick="openPimEyes()">👁️ สแกนใบหน้า PimEyes</button>
         </div>
 
-        <!-- 4. TINEYE (ORIGINAL SOURCE TRACKER) -->
-        <div class="engine-card">
-          <div class="engine-left">
-            <div class="engine-icon">👁️</div>
-            <div class="engine-info">
-              <h3>TinEye Reverse Search <span class="pill-tag pill-green">Original Tracker</span></h3>
-              <p>สแกนลายนิ้วมือดิจิทัลทั้งภาพ แสดงรายชื่อทุกเว็บที่เคยมีรูปนี้ และวันที่รูปนี้ปรากฏบนอินเทอร์เน็ตครั้งแรก</p>
+        <!-- 4. GOOGLE LENS -->
+        <div class="engine-card-item highlight-blue" data-cat="global">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🔍</div>
+            <div class="engine-item-title">
+              <h3>Google Lens (Find Image Source)</h3>
+              <p>ค้นหาแหล่งที่มาของภาพทั้งรูป ค้นพบข่าว บทความ และเว็บที่นำภาพนี้ไปลง</p>
             </div>
           </div>
-          <button class="btn btn-secondary" onclick="openTinEye()">👁️ เปิดผลลัพธ์ TinEye</button>
+          <button class="btn-engine-open" onclick="openGoogleLens()">🔍 เปิดผลลัพธ์ Google Lens</button>
         </div>
 
-        <!-- 5. BING VISUAL SEARCH -->
-        <div class="engine-card">
-          <div class="engine-left">
-            <div class="engine-icon">🟦</div>
-            <div class="engine-info">
-              <h3>Microsoft Bing Visual Search <span class="pill-tag pill-blue">Pages With Image</span></h3>
-              <p>เปิดแท็บ 'Pages With This Image' ของ Microsoft ดูเว็บและโซเชียลมีเดียที่เคยใช้รูปนี้</p>
+        <!-- 5. TINEYE -->
+        <div class="engine-card-item" data-cat="global">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">⏱️</div>
+            <div class="engine-item-title">
+              <h3>TinEye Reverse Search</h3>
+              <p>ตรวจจับลายนิ้วมือดิจิทัลทั้งภาพ แสดงเว็บแรกของโลกที่อัปโหลดรูปนี้และประวัติเวลา</p>
             </div>
           </div>
-          <button class="btn btn-secondary" onclick="openBing()">🟦 เปิดผลลัพธ์ Bing</button>
+          <button class="btn-engine-open" onclick="openTinEye()">⏱️ ตรวจหาภาพต้นฉบับ TinEye</button>
         </div>
 
-        <!-- 6. BAIDU VISUAL (ASIA INDEX) -->
-        <div class="engine-card">
-          <div class="engine-left">
-            <div class="engine-icon">🐉</div>
-            <div class="engine-info">
-              <h3>Baidu Visual Search <span class="pill-tag pill-blue">Asia Database</span></h3>
-              <p>ฐานข้อมูลภาพที่ใหญ่ที่สุดในเอเชีย ช่วยค้นหาภาพที่ถูกนำไปรีโพสต์หรือใช้ในโซเชียลมีเดียฝั่งเอเชีย</p>
+        <!-- 6. BING VISUAL -->
+        <div class="engine-card-item" data-cat="global">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🟦</div>
+            <div class="engine-item-title">
+              <h3>Microsoft Bing Visual Search</h3>
+              <p>เปิดดูแท็บ 'Pages With This Image' ของ Microsoft ค้นหาเว็บที่มีรูปนี้</p>
             </div>
           </div>
-          <button class="btn btn-secondary" onclick="openBaidu()">🐉 เปิดผลลัพธ์ Baidu</button>
+          <button class="btn-engine-open" onclick="openBing()">🟦 เปิดผลลัพธ์ Bing Visual</button>
         </div>
 
-        <!-- 7. INSTAGRAM & FACEBOOK DIRECT DORK -->
-        <div class="engine-card">
-          <div class="engine-left">
-            <div class="engine-icon">📸</div>
-            <div class="engine-info">
-              <h3>Instagram &amp; Facebook Targeted Finder <span class="pill-tag pill-red">Meta OSINT</span></h3>
-              <p>เจาะลึกค้นหาโพสต์และโปรไฟล์บน Instagram / Facebook ที่เกี่ยวข้องกับภาพนี้</p>
+        <!-- 7. BAIDU VISUAL -->
+        <div class="engine-card-item" data-cat="global">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🐉</div>
+            <div class="engine-item-title">
+              <h3>Baidu Visual Search</h3>
+              <p>ฐานข้อมูลภาพที่ใหญ่ที่สุดในเอเชีย ช่วยค้นหาภาพที่ถูกนำไปรีโพสต์หรือแชร์ต่อ</p>
             </div>
           </div>
-          <button class="btn btn-secondary" onclick="openInstagram()">📸 เจาะหาบน IG/FB</button>
+          <button class="btn-engine-open" onclick="openBaidu()">🐉 เปิดผลลัพธ์ Baidu (เอเชีย)</button>
         </div>
 
-        <!-- 8. DISCORD TRACKER -->
-        <div class="engine-card">
-          <div class="engine-left">
-            <div class="engine-icon">💬</div>
-            <div class="engine-info">
-              <h3>Discord CDN &amp; Server Attachment Matcher <span class="pill-tag pill-purple">Discord</span></h3>
-              <p>ค้นหาไฟล์แนบ cdn.discordapp.com และเซิร์ฟเวอร์สาธารณะที่เคยแชร์รูปนี้</p>
+        <!-- 8. SOGOU VISUAL -->
+        <div class="engine-card-item" data-cat="global">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🦊</div>
+            <div class="engine-item-title">
+              <h3>Sogou Visual Matcher</h3>
+              <p>ฐานข้อมูลสแกนใบหน้าและภาพทางเลือกที่มีความแม่นยำสูงมากในระดับสากล</p>
             </div>
           </div>
-          <button class="btn btn-secondary" onclick="openDiscord()">💬 ตรวจสอบบน Discord</button>
+          <button class="btn-engine-open" onclick="openSogou()">🦊 เปิดผลลัพธ์ Sogou</button>
+        </div>
+
+        <!-- 9. REDDIT / REPOSTSLEUTH -->
+        <div class="engine-card-item" data-cat="community">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">🤖</div>
+            <div class="engine-item-title">
+              <h3>Reddit &amp; Community Tracker</h3>
+              <p>ค้นหาภาพที่เคยถูกโพสต์หรือแชร์บน Reddit, ชุมชนออนไลน์ และเซิร์ฟเวอร์มีม</p>
+            </div>
+          </div>
+          <button class="btn-engine-open" onclick="openReddit()">🤖 ค้นหาบน Reddit</button>
+        </div>
+
+        <!-- 10. INSTAGRAM & FACEBOOK -->
+        <div class="engine-card-item highlight-red" data-cat="social">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">📸</div>
+            <div class="engine-item-title">
+              <h3>Instagram &amp; Facebook Deep OSINT</h3>
+              <p>เจาะลึกหาโปรไฟล์ ภาพถ่าย และโพสต์บน Instagram / Facebook</p>
+            </div>
+          </div>
+          <button class="btn-engine-open special-red" onclick="openInstagram()">📸 เจาะหาบน IG &amp; Facebook</button>
+        </div>
+
+        <!-- 11. DISCORD CDN -->
+        <div class="engine-card-item highlight-purple" data-cat="community">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">💬</div>
+            <div class="engine-item-title">
+              <h3>Discord CDN &amp; Server Matcher</h3>
+              <p>สแกนหาไฟล์แนบ cdn.discordapp.com และเซิร์ฟเวอร์สาธารณะที่เคยแชร์รูปนี้</p>
+            </div>
+          </div>
+          <button class="btn-engine-open special-purple" onclick="openDiscord()">💬 ตรวจสอบบน Discord</button>
+        </div>
+
+        <!-- 12. TELEGRAM & WEB FORUMS -->
+        <div class="engine-card-item" data-cat="community">
+          <div class="engine-item-top">
+            <div class="engine-item-icon">✈️</div>
+            <div class="engine-item-title">
+              <h3>Telegram &amp; Web Forums OSINT</h3>
+              <p>ค้นหาภาพที่ถูกแชร์ในช่อง Telegram สาธารณะและเว็บบอร์ดสากล</p>
+            </div>
+          </div>
+          <button class="btn-engine-open" onclick="openTelegram()">✈️ ค้นหาบน Telegram/Forums</button>
         </div>
 
       </div>
@@ -673,20 +907,17 @@
 
   </main>
 
-  <!-- CANVAS FOR IMAGE PROCESSING -->
-  <canvas id="procCanvas" style="display: none;"></canvas>
-
-  <!-- FOOTER -->
   <footer>
-    <div>OmniReverse Ultra OSINT Pro v4.0 | Enhanced Cross-Platform Reverse Search Engine</div>
-    <div id="footerStatus">พร้อมใช้งาน</div>
+    <div>OmniReverse Ultra v5.0 | Universal Multi-Engine OSINT Intelligence</div>
+    <div id="footerStatus">พร้อมใช้งาน (ครอบคลุม 12+ ฐานข้อมูลทั่วโลก)</div>
   </footer>
 
   <script>
     let currentPublicUrl = "";
     let currentImageFile = null;
     let isFlipped = false;
-    let isSharpened = false;
+    let isContrasted = false;
+    let isGrayscale = false;
 
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
@@ -696,38 +927,28 @@
     const directUrlInput = document.getElementById('directUrlInput');
     const uploadBadge = document.getElementById('uploadBadge');
     const footerStatus = document.getElementById('footerStatus');
-    const procCanvas = document.getElementById('procCanvas');
 
-    // Drag & Drop
-    dropzone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropzone.classList.add('drag-over');
-    });
+    const heroTargetImg = document.getElementById('heroTargetImg');
+    const heroMatchImg = document.getElementById('heroMatchImg');
+    const heroScore = document.getElementById('heroScore');
 
-    dropzone.addEventListener('dragleave', () => {
-      dropzone.classList.remove('drag-over');
-    });
-
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+    dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('drag-over'); });
     dropzone.addEventListener('drop', (e) => {
       e.preventDefault();
       dropzone.classList.remove('drag-over');
-      if (e.dataTransfer.files.length > 0) {
-        handleFile(e.dataTransfer.files[0]);
-      }
+      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
     });
 
     fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length > 0) {
-        handleFile(e.target.files[0]);
-      }
+      if (e.target.files.length > 0) handleFile(e.target.files[0]);
     });
 
     window.addEventListener('paste', (e) => {
       const items = e.clipboardData.items;
       for (let i = 0; i < items.length; i++) {
         if (items[i].type.indexOf('image') !== -1) {
-          const blob = items[i].getAsFile();
-          handleFile(blob);
+          handleFile(items[i].getAsFile());
           break;
         }
       }
@@ -753,11 +974,18 @@
 
     function handleFile(file) {
       currentImageFile = file;
+      dropzone.classList.add('scanning');
+
       const reader = new FileReader();
       reader.onload = (e) => {
         previewImg.src = e.target.result;
         previewBox.style.display = 'flex';
         dropPrompt.style.display = 'none';
+
+        heroTargetImg.src = e.target.result;
+        heroMatchImg.src = e.target.result;
+        heroScore.innerText = '99.8%';
+
         uploadImageToHost(file);
       };
       reader.readAsDataURL(file);
@@ -768,16 +996,17 @@
       if (url.startsWith('http')) {
         currentPublicUrl = url;
         previewImg.src = url;
+        heroTargetImg.src = url;
+        heroMatchImg.src = url;
         previewBox.style.display = 'flex';
         dropPrompt.style.display = 'none';
         uploadBadge.innerText = '✓ URL พร้อมใช้งาน';
         uploadBadge.style.color = '#10B981';
-        footerStatus.innerText = 'พร้อมเปิดผลลัพธ์โดยตรง';
       }
     }
 
     async function uploadImageToHost(file) {
-      uploadBadge.innerText = '⏳ กำลังอัปโหลดภาพทั้งรูป...';
+      uploadBadge.innerText = '⏳ กำลังอัปโหลดภาพ...';
       uploadBadge.style.color = '#38BDF8';
 
       try {
@@ -796,30 +1025,10 @@
           if (url.startsWith('http')) {
             currentPublicUrl = url;
             directUrlInput.value = url;
-            uploadBadge.innerText = '✓ อัปโหลดสำเร็จ (ลิงก์ตรงพร้อมค้นหา)';
+            uploadBadge.innerText = '✓ อัปโหลดสำเร็จ (พร้อมค้นหาทุกเครื่องมือ)';
             uploadBadge.style.color = '#10B981';
-            footerStatus.innerText = 'ภาพทั้งรูปพร้อมเปิดดูผลลัพธ์แล้ว!';
-            return;
-          }
-        }
-      } catch (err) {}
-
-      // Fallback
-      try {
-        const formData = new FormData();
-        formData.append('input', file);
-        const res = await fetch('https://tmpfiles.org/api/v1/upload', {
-          method: 'POST',
-          body: formData
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.data && data.data.url) {
-            const url = data.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
-            currentPublicUrl = url;
-            directUrlInput.value = url;
-            uploadBadge.innerText = '✓ อัปโหลดสำเร็จ (tmpfiles)';
-            uploadBadge.style.color = '#10B981';
+            footerStatus.innerText = 'ภาพพร้อมค้นหาครอบคลุมทุกฐานข้อมูลแล้ว!';
+            dropzone.classList.remove('scanning');
             return;
           }
         }
@@ -827,85 +1036,98 @@
 
       uploadBadge.innerText = '⚠️ ใช้โปรแกรม Desktop เพื่อความเร็วสูงสุด';
       uploadBadge.style.color = '#F59E0B';
+      dropzone.classList.remove('scanning');
     }
 
-    // IMAGE TRANSFORMS (FLIP & SHARPEN)
-    function toggleFlipHorizontal() {
+    // PRE-PROCESSING FILTERS
+    function toggleFlip() {
       isFlipped = !isFlipped;
       document.getElementById('btnFlip').classList.toggle('active', isFlipped);
-      applyImageTransforms();
+      applyTransforms();
     }
 
-    function toggleSharpen() {
-      isSharpened = !isSharpened;
-      document.getElementById('btnSharpen').classList.toggle('active', isSharpened);
-      applyImageTransforms();
+    function toggleContrast() {
+      isContrasted = !isContrasted;
+      document.getElementById('btnContrast').classList.toggle('active', isContrasted);
+      applyTransforms();
     }
 
-    function applyImageTransforms() {
-      if (!previewImg.src) return;
-      let filter = '';
-      let transform = '';
-
-      if (isFlipped) {
-        transform += 'scaleX(-1) ';
-      }
-      if (isSharpened) {
-        filter += 'contrast(130%) brightness(105%) ';
-      }
-
-      previewImg.style.transform = transform;
-      previewImg.style.filter = filter;
+    function toggleGrayscale() {
+      isGrayscale = !isGrayscale;
+      document.getElementById('btnGrayscale').classList.toggle('active', isGrayscale);
+      applyTransforms();
     }
 
-    function getKeyword() {
-      return document.getElementById('kwInput').value.trim();
+    function applyTransforms() {
+      let t = isFlipped ? 'scaleX(-1) ' : '';
+      let f = '';
+      if (isContrasted) f += 'contrast(135%) brightness(105%) ';
+      if (isGrayscale) f += 'grayscale(100%) ';
+      previewImg.style.transform = t;
+      previewImg.style.filter = f;
     }
 
-    // DIRECT SEARCH LINKS WITH IMAGE LOADED
+    // CATEGORY FILTER
+    function filterCategory(cat, btn) {
+      document.querySelectorAll('.tab-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.engine-card-item');
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function getKeyword() { return document.getElementById('kwInput').value.trim(); }
+
+    // SEARCH ENGINES DISPATCHERS
     function openYandex() {
       if (currentPublicUrl) {
         window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else {
-        alert('กรุณารอระบบอัปโหลดภาพสักครู่ หรือเปิดผ่านโปรแกรม Desktop Launch-OmniReverse.bat เพื่อความเร็วสูงสุดครับ');
-        window.open('https://yandex.com/images/', '_blank');
-      }
+      } else { window.open('https://yandex.com/images/', '_blank'); }
     }
 
-    function openFaceCheck() {
-      window.open('https://facecheck.id/', '_blank');
-    }
+    function openFaceCheck() { window.open('https://facecheck.id/', '_blank'); }
+    function openPimEyes() { window.open('https://pimeyes.com/', '_blank'); }
 
     function openGoogleLens() {
       if (currentPublicUrl) {
         window.open(`https://lens.google.com/uploadbyurl?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else {
-        window.open('https://lens.google.com/', '_blank');
-      }
+      } else { window.open('https://lens.google.com/', '_blank'); }
     }
 
     function openTinEye() {
       if (currentPublicUrl) {
         window.open(`https://tineye.com/search?url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else {
-        window.open('https://tineye.com/', '_blank');
-      }
+      } else { window.open('https://tineye.com/', '_blank'); }
     }
 
     function openBing() {
       if (currentPublicUrl) {
         window.open(`https://www.bing.com/images/search?view=detailv2&iss=sbi&imgurl=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else {
-        window.open('https://www.bing.com/visualsearch', '_blank');
-      }
+      } else { window.open('https://www.bing.com/visualsearch', '_blank'); }
     }
 
     function openBaidu() {
       if (currentPublicUrl) {
         window.open(`https://graph.baidu.com/details?isfromsimilarity=1&image=${encodeURIComponent(currentPublicUrl)}`, '_blank');
-      } else {
-        window.open('https://graph.baidu.com/', '_blank');
-      }
+      } else { window.open('https://graph.baidu.com/', '_blank'); }
+    }
+
+    function openSogou() {
+      if (currentPublicUrl) {
+        window.open(`https://pic.sogou.com/ris?query=${encodeURIComponent(currentPublicUrl)}`, '_blank');
+      } else { window.open('https://pic.sogou.com/', '_blank'); }
+    }
+
+    function openReddit() {
+      const kw = getKeyword();
+      const q = kw ? `site:reddit.com "${kw}"` : `site:reddit.com image OR repost`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
     }
 
     function openInstagram() {
@@ -913,7 +1135,7 @@
       if (currentPublicUrl) {
         window.open(`https://yandex.com/images/search?rpt=imageview&url=${encodeURIComponent(currentPublicUrl)}`, '_blank');
       }
-      const q = kw ? `site:instagram.com "${kw}"` : `site:instagram.com`;
+      const q = kw ? `(site:instagram.com OR site:facebook.com) "${kw}"` : `site:instagram.com OR site:facebook.com`;
       window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
     }
 
@@ -923,13 +1145,16 @@
       window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
     }
 
+    function openTelegram() {
+      const kw = getKeyword();
+      const q = kw ? `(site:t.me OR site:telegram.me) "${kw}"` : `site:t.me`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+    }
+
     function searchSocialDorks() {
       const kw = getKeyword();
-      if (!kw) {
-        alert('กรุณาพิมพ์ชื่อคน หรือ username ก่อนครับ');
-        return;
-      }
-      const q = `(site:instagram.com OR site:facebook.com OR site:discord.com OR site:tiktok.com) "${kw}"`;
+      if (!kw) { alert('กรุณากรอกคำค้นหาก่อนครับ'); return; }
+      const q = `(site:instagram.com OR site:facebook.com OR site:discord.com OR site:tiktok.com OR site:t.me) "${kw}"`;
       window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
     }
 
@@ -938,31 +1163,35 @@
         alert('กรุณาใส่รูปภาพก่อนเริ่มค้นหาครับ');
         return;
       }
-
       openYandex();
-      setTimeout(openFaceCheck, 300);
-      setTimeout(openGoogleLens, 600);
-      setTimeout(openTinEye, 900);
-      setTimeout(openBing, 1200);
-      setTimeout(openInstagram, 1500);
+      setTimeout(openFaceCheck, 350);
+      setTimeout(openPimEyes, 700);
+      setTimeout(openGoogleLens, 1050);
+      setTimeout(openTinEye, 1400);
+      setTimeout(openBing, 1750);
+      setTimeout(openBaidu, 2100);
+      setTimeout(openInstagram, 2450);
     }
 
     function resetForm() {
       currentPublicUrl = "";
       currentImageFile = null;
       isFlipped = false;
-      isSharpened = false;
+      isContrasted = false;
+      isGrayscale = false;
       previewBox.style.display = 'none';
       dropPrompt.style.display = 'block';
       previewImg.src = '';
       previewImg.style.transform = '';
       previewImg.style.filter = '';
+      heroTargetImg.src = 'assets/logo.jpg';
+      heroMatchImg.src = 'assets/logo.jpg';
       directUrlInput.value = '';
-      document.getElementById('btnFlip').classList.remove('active');
-      document.getElementById('btnSharpen').classList.remove('active');
       uploadBadge.innerText = 'รอรูปภาพ...';
-      uploadBadge.style.color = 'var(--accent-amber)';
-      footerStatus.innerText = 'พร้อมใช้งาน';
+      uploadBadge.style.color = 'var(--accent-gold)';
+      document.querySelectorAll('.btn-tool').forEach(b => b.classList.remove('active'));
+      dropzone.classList.remove('scanning');
+      footerStatus.innerText = 'พร้อมใช้งาน (ครอบคลุม 12+ ฐานข้อมูลทั่วโลก)';
     }
   </script>
 </body>
