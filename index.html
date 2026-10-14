@@ -89,15 +89,22 @@
     }
 
     .brand-avatar {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #10A37F, #06B6D4);
+      background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
-      box-shadow: 0 0 10px rgba(16, 163, 127, 0.4);
+      overflow: hidden;
+      border: 1.5px solid #00F0FF;
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+    }
+
+    .brand-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .btn-sidebar-icon {
@@ -407,16 +414,29 @@
     }
 
     .welcome-avatar-large {
-      width: 64px;
-      height: 64px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #10A37F, #06B6D4);
+      background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
       margin-bottom: 20px;
-      box-shadow: 0 0 25px rgba(16, 163, 127, 0.4);
+      overflow: hidden;
+      border: 2px solid #00E5FF;
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.6), inset 0 0 15px rgba(0, 229, 255, 0.4);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+    }
+
+    .welcome-avatar-large:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 45px rgba(0, 229, 255, 0.8), inset 0 0 20px rgba(0, 229, 255, 0.6);
+    }
+
+    .welcome-avatar-large img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .welcome-heading {
@@ -514,16 +534,24 @@
     }
 
     .assistant-avatar {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #10A37F, #06B6D4);
+      background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      overflow: hidden;
+      border: 1.5px solid #00E5FF;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
       flex-shrink: 0;
       margin-top: 2px;
+    }
+
+    .assistant-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .assistant-body {
@@ -853,7 +881,9 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-brand" onclick="startNewChat()">
-          <div class="brand-avatar">⚡</div>
+          <div class="brand-avatar">
+            <img src="assets/dekthep_logo.png" alt="AI เด็กเทพ" onerror="this.parentElement.innerHTML='⚡'">
+          </div>
           <span style="font-size: 15px; font-weight: 800; color: #FFF;">AI เด็กเทพ</span>
         </div>
         <button class="btn-sidebar-icon" id="btnCloseSidebar" onclick="toggleSidebar(false)" title="ปิดแถบด้านข้าง">
@@ -886,7 +916,9 @@
           <span id="speechText">เสียงพูด: เปิด</span>
         </button>
         <div class="user-profile-badge">
-          <div class="user-avatar-circle">เทพ</div>
+          <div class="user-avatar-circle" style="overflow: hidden; border: 1px solid #00F0FF; background: #000;">
+            <img src="assets/dekthep_logo.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Dek Thep">
+          </div>
           <div class="user-info-text">
             <span class="user-name">AI เด็กเทพ (Pro)</span>
             <span class="user-tier">● ระบบพร้อมใช้งาน 100%</span>
@@ -953,44 +985,11 @@
           
           <!-- WELCOME SCREEN (Shown when chat has no messages) -->
           <div class="welcome-screen" id="chatWelcomeScreen">
-            <div class="welcome-avatar-large">⚡</div>
-            <h1 class="welcome-heading">วันนี้ให้ AI เด็กเทพ ช่วยอะไรดีครับ?</h1>
-            <p class="welcome-subtext">พร้อมตอบทุกข้อสงสัย เขียนโค้ดทำโปรแกรมทุกภาษา คุยเล่นเป็นกันเอง ไร้ขีดจำกัด</p>
-            
-            <!-- 4 CHATGPT SUGGESTION CARDS -->
-            <div class="suggestions-grid">
-              <div class="suggestion-box" onclick="sendQuickPrompt('ช่วยสอนวิธีเริ่มต้นเขียนโปรแกรมสำหรับมือใหม่และแนะนำภาษาที่ควรเริ่มหน่อย')">
-                <div class="suggestion-box-icon">💡</div>
-                <div>
-                  <div class="suggestion-box-title">แนะนำแนวทางเขียนโค้ด</div>
-                  <div class="suggestion-box-desc">วางแผนและเรียนรู้การเขียนโปรแกรมตั้งแต่เริ่มต้น</div>
-                </div>
-              </div>
-
-              <div class="suggestion-box" onclick="sendQuickPrompt('เขียนโปรแกรม Python ดึงข้อมูลเว็บ (Web Scraper) แบบสมบูรณ์พร้อมเซฟเป็น CSV ให้หน่อย')">
-                <div class="suggestion-box-icon">🐍</div>
-                <div>
-                  <div class="suggestion-box-title">Python Web Scraper</div>
-                  <div class="suggestion-box-desc">ดึงข้อมูลสินค้าหรือข่าวสารจากเว็บไซต์บันทึกเป็น CSV</div>
-                </div>
-              </div>
-
-              <div class="suggestion-box" onclick="sendQuickPrompt('เขียนโค้ดเกมงู (Snake Game) ด้วย HTML/CSS/JavaScript จบในไฟล์เดียวให้หน่อย')">
-                <div class="suggestion-box-icon">🎮</div>
-                <div>
-                  <div class="suggestion-box-title">โค้ดเกมงูในไฟล์เดียว</div>
-                  <div class="suggestion-box-desc">สร้างเกมงูด้วย HTML/JS เล่นได้บนเบราว์เซอร์ทันที</div>
-                </div>
-              </div>
-
-              <div class="suggestion-box" onclick="sendQuickPrompt('เขียนโค้ดระบบขายหน้าร้าน (POS) ด้วยภาษา Python คำนวณ VAT และตัดสต็อกสินค้า')">
-                <div class="suggestion-box-icon">🛒</div>
-                <div>
-                  <div class="suggestion-box-title">ระบบ POS ขายหน้าร้าน</div>
-                  <div class="suggestion-box-desc">คิดเงิน คำนวณ VAT และตัดสต็อกสินค้าในภาษา Python</div>
-                </div>
-              </div>
+            <div class="welcome-avatar-large">
+              <img src="assets/dekthep_logo.png" alt="AI เด็กเทพ (DEK THEP STORE)" onerror="this.parentElement.innerHTML='⚡'">
             </div>
+            <h1 class="welcome-heading">วันนี้ให้ AI เด็กเทพ ช่วยอะไรดีครับ?</h1>
+            <p class="welcome-subtext">พร้อมตอบทุกข้อสงสัย เขียนโค้ด วาดรูป สร้างสรรค์ ตกแต่งรูปภาพ คุยเล่นเป็นกันเอง ไร้ขีดจำกัด</p>
           </div>
 
           <!-- MESSAGES CONTAINER -->
@@ -1008,13 +1007,19 @@
           
           <div class="input-bottom-bar">
             <div class="input-tools-left">
-              <button type="button" class="tool-pill-btn" onclick="openAiSettingsModal()" title="ตั้งค่า API Key">
+              <button type="button" class="tool-pill-btn" onclick="openImageStudioModal()" title="วาดรูป & ตกแต่งภาพด้วย AI">
+                🎨 <span style="color: #38BDF8; font-weight: 700;">วาดรูป AI</span>
+              </button>
+              <button type="button" class="tool-pill-btn" onclick="openPhotoEditorModal()" title="แต่งรูปภาพ & ใส่ฟิลเตอร์ AI">
+                🖼️ <span>ตกแต่งภาพ</span>
+              </button>
+              <button type="button" class="tool-pill-btn" onclick="openAiSettingsModal()" title="ตั้งค่าระบบ & เสียง">
                 ⚙️ <span>ตั้งค่า</span>
               </button>
               <button type="button" class="tool-pill-btn" onclick="speakWelcome()" title="เสียงต้อนรับ">
                 🔊 <span>เสียงต้อนรับ</span>
               </button>
-              <span class="tool-pill-btn" style="border-color: rgba(16, 185, 129, 0.4); color: #34D399;" id="currentEngineTag">
+              <span class="tool-pill-btn" style="border-color: rgba(0, 240, 255, 0.4); color: #00F0FF;" id="currentEngineTag">
                 ⚡ AI เด็กเทพ 4o
               </span>
             </div>
@@ -1093,6 +1098,142 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: AI IMAGE STUDIO (วาดรูปด้วย AI) -->
+  <div class="modal-backdrop" id="imageStudioModal">
+    <div class="modal-card" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🎨 AI เด็กเทพ Image Studio (วาดรูปด้วย AI)</h3>
+        <button class="btn-modal-close" onclick="closeImageStudioModal()">&times;</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <label style="font-size: 13px; font-weight: 600; color: #FFF;">คำสั่งบรรยายภาพที่ต้องการวาด (Prompt):</label>
+        <textarea id="imagePromptInput" class="modal-input" rows="3" style="resize: vertical; font-family: inherit;" placeholder="เช่น นักรบไซเบอร์มีออร่าสายฟ้าสีฟ้า ท่ามกลางเมืองอนาคต แสงนีออน สไตล์อนิเมะ 4K Ultra HD..."></textarea>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-secondary);">สไตล์ภาพ (Art Style):</label>
+            <select id="imageArtStyle" class="modal-input" style="background: #171717; margin-top: 4px;">
+              <option value="cyberpunk anime, vibrant neon glow, ultra detailed 8k">⚡ Cyberpunk Anime (อนิเมะไซเบอร์)</option>
+              <option value="hyperrealistic photographic, 8k resolution, cinematic lighting">📸 Hyper Realistic (ภาพถ่ายเสมือนจริง)</option>
+              <option value="fantasy digital art, epic concept art, trending on artstation">🏰 Epic Fantasy (แฟนตาซีสุดอลังการ)</option>
+              <option value="3D render, Pixar style, cute, octane render, smooth lighting">🧸 3D Pixar / Cute (3D การ์ตูนน่ารัก)</option>
+              <option value="minimalist vector illustration, clean lines, modern logo design">🎯 Modern Vector / Logo (เวกเตอร์มินิมอล)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-secondary);">ขนาดภาพ (Dimensions):</label>
+            <select id="imageDimensions" class="modal-input" style="background: #171717; margin-top: 4px;">
+              <option value="1024x1024">จัตุรัส 1:1 (1024x1024)</option>
+              <option value="1280x720">แนวนอน 16:9 (1280x720)</option>
+              <option value="720x1280">แนวตั้ง 9:16 (720x1280)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;">
+          <span style="font-size: 11.5px; color: var(--text-muted);">ไอเดียด่วน:</span>
+          <button type="button" class="tool-pill-btn" onclick="setImagePrompt('โลโก้เด็กเทพสายฟ้าสีฟ้า สไตล์อนิเมะเท่ๆ มีพลังออร่าระเบิดรอบตัว 8k')">⚡ โลโก้เด็กเทพ</button>
+          <button type="button" class="tool-pill-btn" onclick="setImagePrompt('หุ่นยนต์ AI แมวเหมียวสุดน่ารักสวมแว่นตา VR อยู่ในห้องทดลองไฮเทค')">🐱 แมว AI</button>
+          <button type="button" class="tool-pill-btn" onclick="setImagePrompt('รถสปอร์ตซูเปอร์คาร์แห่งอนาคต วิ่งบนถนนนีออนตอนกลางคืน ฝนตกสะท้อนแสง')">🏎️ รถสปอร์ตไซเบอร์</button>
+        </div>
+
+        <!-- RESULT PREVIEW AREA -->
+        <div id="imageResultBox" style="display: none; margin-top: 16px; text-align: center; background: rgba(0,0,0,0.4); border-radius: 12px; padding: 12px; border: 1px solid var(--border-subtle);">
+          <div id="imageGeneratingLoader" style="display: none; padding: 30px;">
+            <div style="font-size: 32px; animation: pulse 1s infinite;">🎨</div>
+            <div style="margin-top: 10px; font-weight: 600; color: #38BDF8;">AI กำลังสร้างสรรค์ผลงานภาพวาด...</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">กรุณารอสักครู่ (ประมาณ 3-6 วินาที)</div>
+          </div>
+          <img id="generatedImagePreview" src="" alt="AI Generated Image" style="display: none; max-width: 100%; border-radius: 8px; max-height: 380px; object-fit: contain; box-shadow: 0 4px 20px rgba(0,0,0,0.6);">
+          <div id="generatedImageActions" style="display: none; justify-content: center; gap: 10px; margin-top: 12px;">
+            <a id="btnDownloadImage" href="" download="dekthep_ai_art.jpg" class="tool-pill-btn" style="color: #10B981; border-color: rgba(16, 185, 129, 0.4); padding: 8px 14px; text-decoration: none;">
+              💾 ดาวน์โหลดรูปภาพ
+            </a>
+            <button type="button" class="tool-pill-btn" onclick="sendImageToChat()" style="color: #38BDF8; border-color: rgba(56, 189, 248, 0.4); padding: 8px 14px;">
+              💬 ส่งรูปเข้าห้องแชท
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px;">
+          <button type="button" class="tool-pill-btn" onclick="closeImageStudioModal()" style="padding: 8px 14px;">ปิด</button>
+          <button type="button" id="btnGenerateAiArt" class="btn-primary-green" onclick="generateAiArt()" style="background: linear-gradient(135deg, #06B6D4, #3B82F6); font-weight: 700;">
+            🎨 สั่งวาดรูปภาพ AI ทันที
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PHOTO EDITOR & FILTER STUDIO (ตกแต่งรูปภาพ) -->
+  <div class="modal-backdrop" id="photoEditorModal">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🖼️ สตูดิโอตกแต่งรูปภาพ AI (Photo Editor)</h3>
+        <button class="btn-modal-close" onclick="closePhotoEditorModal()">&times;</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <!-- Upload Trigger -->
+        <div style="border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s;" onclick="document.getElementById('photoUploadInput').click()" ondragover="event.preventDefault()" ondrop="handlePhotoDrop(event)">
+          <input type="file" id="photoUploadInput" accept="image/*" style="display: none;" onchange="loadPhotoToEdit(this.files[0])">
+          <div style="font-size: 32px; margin-bottom: 6px;">📸</div>
+          <div style="font-size: 14px; font-weight: 600; color: #FFF;">คลิกเพื่ออัปโหลดรูปภาพ หรือลากไฟล์มาวางที่นี่</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">รองรับ JPG, PNG, WEBP ทุกขนาด</div>
+        </div>
+
+        <!-- Canvas Workspace -->
+        <div id="editorWorkspace" style="display: none; margin-top: 14px;">
+          <div style="display: flex; justify-content: center; background: #000; border-radius: 10px; padding: 10px; max-height: 320px; overflow: hidden;">
+            <canvas id="photoCanvas" style="max-width: 100%; max-height: 300px; border-radius: 6px;"></canvas>
+          </div>
+
+          <!-- Filters & Adjustments -->
+          <div style="margin-top: 14px;">
+            <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">เลือกสไตล์ฟิลเตอร์:</div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button type="button" class="tool-pill-btn" onclick="applyPhotoFilter('normal')">ปกติ</button>
+              <button type="button" class="tool-pill-btn" onclick="applyPhotoFilter('cyberpunk')">⚡ Cyber Neon</button>
+              <button type="button" class="tool-pill-btn" onclick="applyPhotoFilter('warm')">🌅 อบอุ่น (Warm Gold)</button>
+              <button type="button" class="tool-pill-btn" onclick="applyPhotoFilter('grayscale')">🖤 ขาวดำคลาสสิก</button>
+              <button type="button" class="tool-pill-btn" onclick="applyPhotoFilter('vintage')">🎞️ วินเทจฟิล์ม</button>
+              <button type="button" class="tool-pill-btn" onclick="applyPhotoFilter('invert')">🔮 Negative X-Ray</button>
+            </div>
+
+            <!-- Fine Tuning Sliders -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px;">
+              <div>
+                <span style="font-size: 11.5px; color: var(--text-muted);">ความสว่าง (Brightness):</span>
+                <input type="range" id="filterBrightness" min="50" max="180" value="100" style="width: 100%;" oninput="renderPhotoFilters()">
+              </div>
+              <div>
+                <span style="font-size: 11.5px; color: var(--text-muted);">ความคมชัด (Contrast):</span>
+                <input type="range" id="filterContrast" min="50" max="180" value="100" style="width: 100%;" oninput="renderPhotoFilters()">
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+            <button type="button" class="tool-pill-btn" onclick="resetPhotoEdits()" style="color: #EF4444;">
+              🔄 รีเซ็ตค่าเดิม
+            </button>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="tool-pill-btn" onclick="downloadEditedPhoto()" style="color: #10B981; border-color: rgba(16, 185, 129, 0.4);">
+                💾 บันทึกรูปภาพ
+              </button>
+              <button type="button" class="btn-primary-green" onclick="sendEditedPhotoToChat()">
+                💬 ส่งรูปเข้าห้องแชท
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 14px;">
+          <button type="button" class="tool-pill-btn" onclick="closePhotoEditorModal()" style="padding: 8px 14px;">ปิด</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1595,7 +1736,9 @@
       row.className = 'message-row assistant';
       const msgId = 'msg_' + Math.random().toString(36).substr(2, 9);
       row.innerHTML = `
-        <div class="assistant-avatar">⚡</div>
+        <div class="assistant-avatar">
+          <img src="assets/dekthep_logo.png" alt="AI เด็กเทพ" onerror="this.parentElement.innerHTML='⚡'">
+        </div>
         <div class="assistant-body">
           <div class="assistant-name">AI เด็กเทพ</div>
           <div id="${msgId}">${renderAiMarkdown(markdownText)}</div>
@@ -1631,7 +1774,9 @@
       row.id = 'aiTypingIndicator';
       row.className = 'message-row assistant';
       row.innerHTML = `
-        <div class="assistant-avatar">⚡</div>
+        <div class="assistant-avatar">
+          <img src="assets/dekthep_logo.png" alt="AI เด็กเทพ" onerror="this.parentElement.innerHTML='⚡'">
+        </div>
         <div class="assistant-body">
           <div class="assistant-name">AI เด็กเทพ</div>
           <div class="typing-container">
@@ -2389,6 +2534,231 @@ ${generatedCode}
         toast.style.display = 'flex';
         setTimeout(() => { toast.style.display = 'none'; }, 2600);
       }
+    }
+
+    // =========================================================================
+    // 11. AI IMAGE STUDIO (วาดรูปด้วย AI) & PHOTO EDITOR
+    // =========================================================================
+    let currentGeneratedImageUrl = null;
+    let originalLoadedPhoto = null;
+    let currentPhotoFilter = 'normal';
+
+    function openImageStudioModal() {
+      document.getElementById('imageStudioModal').style.display = 'flex';
+      const promptInput = document.getElementById('imagePromptInput');
+      if (promptInput) {
+        promptInput.focus();
+      }
+    }
+
+    function closeImageStudioModal() {
+      document.getElementById('imageStudioModal').style.display = 'none';
+    }
+
+    function setImagePrompt(text) {
+      const input = document.getElementById('imagePromptInput');
+      if (input) {
+        input.value = text;
+        input.focus();
+      }
+    }
+
+    async function generateAiArt() {
+      const promptInput = document.getElementById('imagePromptInput');
+      const prompt = promptInput.value.trim();
+      if (!prompt) {
+        showToast('กรุณากรอกคำสั่งบรรยายภาพที่ต้องการวาด', '⚠️');
+        return;
+      }
+
+      const style = document.getElementById('imageArtStyle').value;
+      const dims = document.getElementById('imageDimensions').value.split('x');
+      const width = parseInt(dims[0]) || 1024;
+      const height = parseInt(dims[1]) || 1024;
+
+      const resultBox = document.getElementById('imageResultBox');
+      const loader = document.getElementById('imageGeneratingLoader');
+      const imgPreview = document.getElementById('generatedImagePreview');
+      const actions = document.getElementById('generatedImageActions');
+      const btnGen = document.getElementById('btnGenerateAiArt');
+
+      resultBox.style.display = 'block';
+      loader.style.display = 'block';
+      imgPreview.style.display = 'none';
+      actions.style.display = 'none';
+      btnGen.disabled = true;
+
+      playCyberChime();
+      showToast('กำลังวาดรูปภาพ AI...', '🎨');
+
+      const fullPrompt = `${prompt}, ${style}`;
+      const seed = Math.floor(Math.random() * 1000000);
+      const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=${width}&height=${height}&seed=${seed}&nologo=true&model=flux`;
+
+      const testImg = new Image();
+      testImg.onload = () => {
+        loader.style.display = 'none';
+        imgPreview.src = imageUrl;
+        imgPreview.style.display = 'block';
+        actions.style.display = 'flex';
+        btnGen.disabled = false;
+        currentGeneratedImageUrl = imageUrl;
+        
+        const dlBtn = document.getElementById('btnDownloadImage');
+        if (dlBtn) dlBtn.href = imageUrl;
+
+        playBeep(1046, 'sine', 0.15);
+        showToast('วาดรูป AI เสร็จสมบูรณ์แล้ว!', '✓');
+      };
+
+      testImg.onerror = () => {
+        // Fallback endpoint
+        const fallbackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=768&height=768&seed=${seed}&nologo=true`;
+        imgPreview.src = fallbackUrl;
+        loader.style.display = 'none';
+        imgPreview.style.display = 'block';
+        actions.style.display = 'flex';
+        btnGen.disabled = false;
+        currentGeneratedImageUrl = fallbackUrl;
+      };
+
+      testImg.src = imageUrl;
+    }
+
+    function sendImageToChat() {
+      if (!currentGeneratedImageUrl) return;
+      const promptText = document.getElementById('imagePromptInput').value.trim() || 'ภาพวาด AI';
+      closeImageStudioModal();
+
+      let session = getCurrentSession();
+      if (!session) {
+        startNewChat();
+        session = getCurrentSession();
+      }
+
+      const welcome = document.getElementById('chatWelcomeScreen');
+      if (welcome) welcome.style.display = 'none';
+
+      const markdownImage = `🎨 **ผลงานภาพวาด AI:** *"${promptText}"*\n\n![AI Art](${currentGeneratedImageUrl})\n\n💡 *คลิกขวาที่รูปภาพเพื่อบันทึก หรือสั่งให้ AI ปรับแต่งเพิ่มเติมได้เลยครับ*`;
+      deliverAiResponse(session, markdownImage);
+      showToast('ส่งรูปภาพเข้าห้องแชทแล้ว', '💬');
+    }
+
+    // PHOTO EDITOR LOGIC
+    function openPhotoEditorModal() {
+      document.getElementById('photoEditorModal').style.display = 'flex';
+    }
+
+    function closePhotoEditorModal() {
+      document.getElementById('photoEditorModal').style.display = 'none';
+    }
+
+    function handlePhotoDrop(e) {
+      e.preventDefault();
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+        loadPhotoToEdit(e.dataTransfer.files[0]);
+      }
+    }
+
+    function loadPhotoToEdit(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          originalLoadedPhoto = img;
+          document.getElementById('editorWorkspace').style.display = 'block';
+          resetPhotoEdits();
+          showToast('โหลดรูปภาพเข้าสตูดิโอเรียบร้อย', '📸');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderPhotoFilters() {
+      if (!originalLoadedPhoto) return;
+      const canvas = document.getElementById('photoCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const maxDim = 800;
+      let w = originalLoadedPhoto.width;
+      let h = originalLoadedPhoto.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) {
+          h = Math.round((h * maxDim) / w);
+          w = maxDim;
+        } else {
+          w = Math.round((w * maxDim) / h);
+          h = maxDim;
+        }
+      }
+
+      canvas.width = w;
+      canvas.height = h;
+
+      const brightness = document.getElementById('filterBrightness').value;
+      const contrast = document.getElementById('filterContrast').value;
+
+      let filterString = `brightness(${brightness}%) contrast(${contrast}%)`;
+      if (currentPhotoFilter === 'cyberpunk') {
+        filterString += ' hue-rotate(180deg) saturate(160%)';
+      } else if (currentPhotoFilter === 'warm') {
+        filterString += ' sepia(35%) saturate(140%)';
+      } else if (currentPhotoFilter === 'grayscale') {
+        filterString += ' grayscale(100%)';
+      } else if (currentPhotoFilter === 'vintage') {
+        filterString += ' sepia(50%) contrast(120%) brightness(95%)';
+      } else if (currentPhotoFilter === 'invert') {
+        filterString += ' invert(100%)';
+      }
+
+      ctx.filter = filterString;
+      ctx.drawImage(originalLoadedPhoto, 0, 0, w, h);
+    }
+
+    function applyPhotoFilter(filterName) {
+      currentPhotoFilter = filterName;
+      renderPhotoFilters();
+      playBeep(880, 'sine', 0.06);
+      showToast(`ใช้ฟิลเตอร์: ${filterName}`, '✨');
+    }
+
+    function resetPhotoEdits() {
+      currentPhotoFilter = 'normal';
+      document.getElementById('filterBrightness').value = 100;
+      document.getElementById('filterContrast').value = 100;
+      renderPhotoFilters();
+    }
+
+    function downloadEditedPhoto() {
+      const canvas = document.getElementById('photoCanvas');
+      if (!canvas) return;
+      const link = document.createElement('a');
+      link.download = 'dekthep_edited_photo.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('ดาวน์โหลดรูปภาพที่ตกแต่งแล้ว', '💾');
+    }
+
+    function sendEditedPhotoToChat() {
+      const canvas = document.getElementById('photoCanvas');
+      if (!canvas) return;
+      const dataUrl = canvas.toDataURL('image/png');
+      closePhotoEditorModal();
+
+      let session = getCurrentSession();
+      if (!session) {
+        startNewChat();
+        session = getCurrentSession();
+      }
+
+      const welcome = document.getElementById('chatWelcomeScreen');
+      if (welcome) welcome.style.display = 'none';
+
+      const markdownImage = `🖼️ **รูปภาพที่ตกแต่งด้วย AI Photo Studio:**\n\n![Edited Photo](${dataUrl})\n\n✨ *ตกแต่งด้วยฟิลเตอร์ ${currentPhotoFilter} สวยงาม คมชัด พร้อมใช้งานครับ!*`;
+      deliverAiResponse(session, markdownImage);
+      showToast('ส่งรูปภาพที่ตกแต่งเข้าห้องแชทแล้ว', '💬');
     }
 
     // INIT
