@@ -1284,56 +1284,12 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
           </button>
           
-          <!-- MODEL PICKER DROPDOWN -->
-          <div class="model-picker-container">
-            <button class="btn-model-picker" onclick="toggleModelDropdown(event)">
-              <span id="selectedModelLabel">⚡ AI เด็กเทพ Omni All-in-One</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="model-dropdown" id="modelDropdownMenu">
-              <div class="dropdown-opt active" id="optModelDekthep" onclick="selectAiModel('dekthep-4o')">
-                <div class="dropdown-opt-title">
-                  <span>⚡ AI เด็กเทพ Omni All-in-One</span>
-                  <span style="font-size: 11px; color: #10B981; font-weight: bold;">(รวมทุกพลังระดับเทพ)</span>
-                </div>
-                <div class="dropdown-opt-desc">🌟 รวมทุกความสามารถในหนึ่งเดียว: DeepThink คิดวิเคราะห์ลึก + Coder Master โค้ดไร้ขีดจำกัด + Turbo ตอบไว + Gemini คลาวด์ + ส่งรูปภาพ & ส่งไฟล์ให้ทันที!</div>
-              </div>
-              <div class="dropdown-opt" id="optModelDeepseek" onclick="selectAiModel('deepseek-r1')">
-                <div class="dropdown-opt-title">
-                  <span>🧠 เด็กเทพ DeepThink</span>
-                  <span style="font-size: 11px; color: #38BDF8;">(โหมดคิดวิเคราะห์ลึก)</span>
-                </div>
-                <div class="dropdown-opt-desc">คิดวิเคราะห์เชิงลึกทีละขั้นตอน วางแผนโค้ดระดับสถาปนิกซอฟต์แวร์</div>
-              </div>
-              <div class="dropdown-opt" id="optModelQwenCoder" onclick="selectAiModel('qwen-coder')">
-                <div class="dropdown-opt-title">
-                  <span>💻 เด็กเทพ Coder Master</span>
-                  <span style="font-size: 11px; color: #F59E0B;">(โหมดเซียนโค้ด)</span>
-                </div>
-                <div class="dropdown-opt-desc">เซียนโค้ดไร้ขีดจำกัด เขียนได้ทุกภาษา ทุกเฟรมเวิร์ก แก้บั๊กและสร้างระบบใหญ่ได้ในครั้งเดียว</div>
-              </div>
-              <div class="dropdown-opt" id="optModelLlama" onclick="selectAiModel('llama-3.3')">
-                <div class="dropdown-opt-title">
-                  <span>🚀 เด็กเทพ Turbo</span>
-                  <span style="font-size: 11px; color: #EC4899;">(โหมดตอบเร็วพิเศษ)</span>
-                </div>
-                <div class="dropdown-opt-desc">โหมดตอบเร็วพิเศษ เหมาะกับคำถามสั้น คุยเล่น และงานเร่งด่วน</div>
-              </div>
-              <div class="dropdown-opt" id="optModelGeminiFlash" onclick="selectAiModel('gemini-2.5-flash')">
-                <div class="dropdown-opt-title">
-                  <span>✨ Gemini 2.5 Flash</span>
-                  <span style="font-size: 11px; color: #00E5FF;">(Google Cloud)</span>
-                </div>
-                <div class="dropdown-opt-desc">โมเดล Google Cloud ล่าสุด ตอบไวและความรู้กว้างขวาง</div>
-              </div>
-              <div class="dropdown-opt" id="optModelGeminiPro" onclick="selectAiModel('gemini-2.5-pro')">
-                <div class="dropdown-opt-title">
-                  <span>💎 Gemini 2.5 Pro</span>
-                  <span style="font-size: 11px; color: #A78BFA;">(Google Pro)</span>
-                </div>
-                <div class="dropdown-opt-desc">สมองระดับสูงสุดจาก Google วิเคราะห์โค้ดและโจทย์ซับซ้อนเชิงลึก (ต้องใช้ API Key)</div>
-              </div>
+          <!-- UNIFIED ALL-IN-ONE BRANDING (รวมทุกโหมดเป็นหนึ่งเดียว) -->
+          <div class="chat-header-brand" style="display: flex; align-items: center; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; color: #FFF;">
+              <span style="color: #00E5FF; font-size: 17px;">⚡</span> AI เด็กเทพ
             </div>
+            <span style="font-size: 10.5px; color: #10B981; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 999px; font-weight: 600; letter-spacing: 0.3px;">รวมทุกโหมดเป็นหนึ่งเดียว</span>
           </div>
         </div>
 
@@ -1341,8 +1297,8 @@
           <button class="btn-sidebar-icon" onclick="exportCurrentChat()" title="บันทึก/ส่งออกบทสนทนา (.md)">
             <span>📥</span>
           </button>
-          <button class="btn-sidebar-icon" onclick="speakWelcome()" title="ฟังเสียงต้อนรับ">
-            <span>🔊</span>
+          <button class="btn-sidebar-icon" id="btnHeaderVoiceToggle" onclick="toggleSpeechOutput()" title="เปิด/ปิด เสียงอ่านข้อความ AI (คลิกเพื่อสลับ)">
+            <span id="headerVoiceIcon">🔇</span>
           </button>
           <button class="btn-sidebar-icon" onclick="clearAiChatHistory()" title="ล้างแชทปัจจุบัน">
             <span>🗑️</span>
@@ -1406,9 +1362,9 @@
               <button type="button" class="tool-pill-btn" onclick="enhanceCurrentPrompt()" title="ขยายความและปรับแต่งคำสั่งให้ AI ตอบฉลาดที่สุด (Prompt Enhancer)" style="color: #F59E0B; border-color: rgba(245, 158, 11, 0.4);">
                 ✨ <span style="font-weight: 700;">ปรับคำสั่งเทพ</span>
               </button>
-              <span class="tool-pill-btn" style="border-color: rgba(0, 240, 255, 0.4); color: #00F0FF;" id="currentEngineTag">
-                ⚡ AI เด็กเทพ Omni All-in-One
-              </span>
+              <button type="button" class="tool-pill-btn" id="btnDockVoiceToggle" onclick="toggleSpeechOutput()" title="เปิด/ปิด ระบบอ่านออกเสียง AI อัตโนมัติ (คลิกเพื่อสลับ)">
+                <span id="dockVoiceIcon">🔇</span> <span id="dockVoiceText">เสียงอ่าน: ปิด</span>
+              </button>
             </div>
 
             <div style="display: flex; align-items: center; gap: 8px;">
@@ -1456,6 +1412,20 @@
         </select>
 
         <label style="font-size: 13px; font-weight: 600; color: #FFF; margin-top: 10px; display: block;">🔊 ระบบเสียงพูด AI เด็กเทพ (HD Natural Audio):</label>
+        
+        <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 12px 14px; margin-top: 8px; margin-bottom: 10px;">
+          <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;">
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: #FFF; display: flex; align-items: center; gap: 6px;">
+                <span>🔊</span> <span>เปิดระบบอ่านออกเสียงอัตโนมัติ (Auto-Read)</span>
+              </div>
+              <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 3px;">
+                ให้อ่านออกเสียงทุกครั้งที่ AI ตอบกลับ (หากปิดไว้ คุณยังสามารถกดปุ่ม 🔊 ใต้ข้อความเพื่อฟังเสียงได้ตลอดเวลา)
+              </div>
+            </div>
+            <input type="checkbox" id="modalSpeechEnabled" style="width: 20px; height: 20px; accent-color: #10B981; cursor: pointer;">
+          </label>
+        </div>
         
         <div style="margin-top: 6px;">
           <span style="font-size: 12px; color: var(--text-secondary);">เลือกเสียง AI ที่ต้องการ:</span>
@@ -1809,73 +1779,18 @@
     }
 
     // =========================================================================
-    // 2. MODEL SELECTION & DROPDOWN (ChatGPT 4o Style)
+    // 2. UNIFIED OMNI AI ENGINE (รวมทุกโหมดเป็นหนึ่งเดียว)
     // =========================================================================
-    let currentModelMode = localStorage.getItem('dekthep_model_mode') || 'dekthep-4o';
+    let currentModelMode = 'dekthep-all-in-one';
+    localStorage.setItem('dekthep_model_mode', 'dekthep-all-in-one');
 
     function toggleModelDropdown(e) {
-      if (e) e.stopPropagation();
-      const menu = document.getElementById('modelDropdownMenu');
-      if (menu) menu.classList.toggle('show');
+      // รวมทุกโหมดเป็นหนึ่งเดียวแล้ว ไม่ต้องมี Dropdown
     }
 
-    window.addEventListener('click', () => {
-      const menu = document.getElementById('modelDropdownMenu');
-      if (menu) menu.classList.remove('show');
-    });
-
-    function selectAiModel(mode, silent = false) {
-      currentModelMode = mode;
-      localStorage.setItem('dekthep_model_mode', mode);
-      
-      const label = document.getElementById('selectedModelLabel');
-      const tag = document.getElementById('currentEngineTag');
-      
-      document.querySelectorAll('.dropdown-opt').forEach(el => el.classList.remove('active'));
-
-      if (mode === 'dekthep-4o' || mode === 'dekthep-all-in-one') {
-        if (label) label.innerText = '⚡ AI เด็กเทพ Omni All-in-One';
-        if (tag) tag.innerHTML = '⚡ AI เด็กเทพ Omni All-in-One';
-        const opt = document.getElementById('optModelDekthep');
-        if (opt) opt.classList.add('active');
-        if (!silent) showToast('เปิดใช้งาน AI เด็กเทพ Omni All-in-One (รวมทุกพลัง: คิดลึก + โค้ด + ตอบไว + ส่งรูป & ส่งไฟล์)', '⚡');
-      } else if (mode === 'deepseek-r1') {
-        if (label) label.innerText = '🧠 เด็กเทพ DeepThink';
-        if (tag) tag.innerHTML = '🧠 เด็กเทพ DeepThink';
-        const opt = document.getElementById('optModelDeepseek');
-        if (opt) opt.classList.add('active');
-        if (!silent) showToast('เปลี่ยนเป็นโหมดเด็กเทพ DeepThink (คิดวิเคราะห์เชิงลึก)', '🧠');
-      } else if (mode === 'qwen-coder') {
-        if (label) label.innerText = '💻 เด็กเทพ Coder Master';
-        if (tag) tag.innerHTML = '💻 เด็กเทพ Coder Master';
-        const opt = document.getElementById('optModelQwenCoder');
-        if (opt) opt.classList.add('active');
-        if (!silent) showToast('เปลี่ยนเป็นโหมดเด็กเทพ Coder Master (เขียนโค้ดไร้ขีดจำกัด)', '💻');
-      } else if (mode === 'llama-3.3') {
-        if (label) label.innerText = '🚀 เด็กเทพ Turbo';
-        if (tag) tag.innerHTML = '🚀 เด็กเทพ Turbo';
-        const opt = document.getElementById('optModelLlama');
-        if (opt) opt.classList.add('active');
-        if (!silent) showToast('เปลี่ยนเป็นโหมดเด็กเทพ Turbo (ตอบเร็วพิเศษ)', '🚀');
-      } else if (mode === 'gemini-2.5-flash') {
-        if (label) label.innerText = '✨ Gemini 2.5 Flash';
-        if (tag) tag.innerHTML = '✨ Gemini 2.5 Flash';
-        const opt = document.getElementById('optModelGeminiFlash');
-        if (opt) opt.classList.add('active');
-        if (!silent) showToast('เปลี่ยนเป็นโหมด Google Gemini 2.5 Flash', '✨');
-      } else if (mode === 'gemini-2.5-pro') {
-        if (label) label.innerText = '💎 Gemini 2.5 Pro';
-        if (tag) tag.innerHTML = '💎 Gemini 2.5 Pro';
-        const opt = document.getElementById('optModelGeminiPro');
-        if (opt) opt.classList.add('active');
-        if (!silent) showToast('เปลี่ยนเป็นโหมด Gemini 2.5 Pro (ต้องใช้ API Key)', '💎');
-      } else {
-        if (label) label.innerText = '✨ Gemini 2.5 Flash';
-        if (tag) tag.innerHTML = '✨ Gemini 2.5 Flash';
-        const opt = document.getElementById('optModelGeminiFlash');
-        if (opt) opt.classList.add('active');
-        if (!silent) showToast('เปลี่ยนเป็นโหมด Google Gemini 2.5 Flash', '✨');
-      }
+    function selectAiModel(mode, silent = true) {
+      currentModelMode = 'dekthep-all-in-one';
+      localStorage.setItem('dekthep_model_mode', 'dekthep-all-in-one');
     }
 
     // =========================================================================
@@ -1908,6 +1823,7 @@
     let audioCtx = null;
     let currentSpeechUtterance = null;
     let isSpeakingAudio = false;
+    let isSpeechOutputEnabled = localStorage.getItem('omni_speech_enabled') === 'true';
 
     function getAudioContext() {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2133,32 +2049,107 @@
     }
 
     function updateSpeechControlsUI(speaking) {
-      const icon = document.getElementById('speechIcon');
-      const text = document.getElementById('speechText');
-      if (icon) icon.innerText = speaking ? '🔊' : (isSpeechOutputEnabled ? '🔈' : '🔇');
-      if (text) text.innerText = speaking ? 'กำลังพูด...' : (isSpeechOutputEnabled ? 'เสียงพูด: เปิด' : 'เสียงพูด: ปิด');
-    }
+      // Header voice button
+      const headerIcon = document.getElementById('headerVoiceIcon');
+      const btnHeader = document.getElementById('btnHeaderVoiceToggle');
+      if (headerIcon) {
+        if (speaking) {
+          headerIcon.innerText = '🔊';
+          headerIcon.style.color = '#00E5FF';
+        } else if (isSpeechOutputEnabled) {
+          headerIcon.innerText = '🔈';
+          headerIcon.style.color = '#10B981';
+        } else {
+          headerIcon.innerText = '🔇';
+          headerIcon.style.color = '#9CA3AF';
+        }
+      }
+      if (btnHeader) {
+        btnHeader.title = isSpeechOutputEnabled 
+          ? (speaking ? 'กำลังอ่านออกเสียง... (คลิกเพื่อหยุด)' : 'ระบบอ่านเสียง AI: เปิดอยู่ (คลิกเพื่อปิด)') 
+          : 'ระบบอ่านเสียง AI: ปิดอยู่ (คลิกเพื่อเปิด)';
+        if (isSpeechOutputEnabled) {
+          btnHeader.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+          btnHeader.style.background = 'rgba(16, 185, 129, 0.12)';
+        } else {
+          btnHeader.style.borderColor = 'transparent';
+          btnHeader.style.background = 'transparent';
+        }
+      }
 
-    function speakWelcome() {
-      playCyberChime();
-      const welcomeGreetings = [
-        'ยินดีต้อนรับสู่ AI เด็กเทพ ครับ วันนี้ให้ผมช่วยเขียนโค้ดหรือคุยเรื่องอะไรดีครับ?',
-        'สวัสดีครับ ผม AI เด็กเทพ ปัญญาประดิษฐ์สไตล์ ChatGPT พร้อมช่วยเหลือคุณเต็มที่ครับ'
-      ];
-      const pick = welcomeGreetings[Math.floor(Math.random() * welcomeGreetings.length)];
-      showToast('กำลังพูดเสียงต้อนรับ...', '🔊');
-      speakText(pick);
+      // Dock pill button
+      const dockIcon = document.getElementById('dockVoiceIcon');
+      const dockText = document.getElementById('dockVoiceText');
+      const btnDock = document.getElementById('btnDockVoiceToggle');
+      if (dockIcon) dockIcon.innerText = speaking ? '🔊' : (isSpeechOutputEnabled ? '🔈' : '🔇');
+      if (dockText) dockText.innerText = speaking ? 'กำลังพูด...' : (isSpeechOutputEnabled ? 'เสียงอ่าน: เปิด' : 'เสียงอ่าน: ปิด');
+      if (btnDock) {
+        if (isSpeechOutputEnabled) {
+          btnDock.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+          btnDock.style.color = '#10B981';
+          btnDock.style.background = 'rgba(16, 185, 129, 0.1)';
+        } else {
+          btnDock.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+          btnDock.style.color = 'var(--text-secondary)';
+          btnDock.style.background = 'transparent';
+        }
+      }
+
+      // Settings modal checkbox
+      const modalChk = document.getElementById('modalSpeechEnabled');
+      if (modalChk) modalChk.checked = isSpeechOutputEnabled;
     }
 
     function toggleSpeechOutput() {
       if (isSpeakingAudio) {
         stopSpeaking();
-        showToast('หยุดเสียงพูดแล้ว', '🔇');
+        showToast('⏹️ หยุดเสียงพูดเรียบร้อย', '🔇');
         return;
       }
       isSpeechOutputEnabled = !isSpeechOutputEnabled;
+      localStorage.setItem('omni_speech_enabled', isSpeechOutputEnabled ? 'true' : 'false');
       updateSpeechControlsUI(false);
-      showToast(isSpeechOutputEnabled ? 'เปิดเสียงอ่านข้อความ AI แล้ว' : 'ปิดเสียงอ่านข้อความ AI แล้ว', '🔊');
+      playBeep(isSpeechOutputEnabled ? 880 : 440, 'sine', 0.08);
+      showToast(isSpeechOutputEnabled ? '🔊 เปิดระบบอ่านออกเสียง AI เรียบร้อยแล้ว' : '🔇 ปิดระบบอ่านออกเสียง AI แล้ว (เงียบ)', 'TTS');
+    }
+
+    function togglePlayMessageAudio(btn) {
+      if (isSpeakingAudio) {
+        stopSpeaking();
+        document.querySelectorAll('.btn-msg-action .action-label').forEach(el => {
+          if (el.innerText.includes('กำลังพูด')) el.innerText = 'ฟังเสียง';
+        });
+        document.querySelectorAll('.btn-msg-action .action-icon').forEach(el => {
+          if (el.innerText === '⏹️') el.innerText = '🔊';
+        });
+        return;
+      }
+      const rawText = decodeURIComponent(btn.getAttribute('data-speech-text') || '');
+      if (!rawText) return;
+      const icon = btn.querySelector('.action-icon');
+      const label = btn.querySelector('.action-label');
+      if (icon) icon.innerText = '⏹️';
+      if (label) {
+        label.innerText = 'กำลังพูด... (กดเพื่อหยุด)';
+        label.style.color = '#00E5FF';
+      }
+      speakText(rawText, null, () => {
+        if (icon) icon.innerText = '🔊';
+        if (label) {
+          label.innerText = 'ฟังเสียง';
+          label.style.color = '';
+        }
+      });
+    }
+
+    function copyMessageText(btn) {
+      const rawText = decodeURIComponent(btn.getAttribute('data-copy-text') || '');
+      if (!rawText) return;
+      navigator.clipboard.writeText(rawText).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<span>✓</span> <span style="color:#10B981;">คัดลอกแล้ว!</span>';
+        setTimeout(() => { btn.innerHTML = orig; }, 1800);
+      });
     }
 
     // =========================================================================
@@ -3117,10 +3108,6 @@
       bodyDiv.className = 'assistant-body';
 
       let modelBadge = '⚡ เด็กเทพ';
-      if (currentModelMode === 'deepseek-r1') modelBadge = '🧠 DeepThink';
-      else if (currentModelMode === 'qwen-coder') modelBadge = '💻 Coder';
-      else if (currentModelMode === 'llama-3.3') modelBadge = '🚀 Turbo';
-      else if (currentModelMode.startsWith('gemini')) modelBadge = '✨ Gemini';
 
       const followUpChips = generateFollowUpChips(markdownText);
       let chipsHtml = '';
@@ -3138,6 +3125,14 @@
           <span style="font-size: 10.5px; color: #00E5FF; background: rgba(0, 229, 255, 0.15); border: 1px solid rgba(0, 229, 255, 0.3); padding: 1px 6px; border-radius: 4px; font-weight: normal;">${modelBadge}</span>
         </div>
         <div class="assistant-content-text">${renderAiMarkdown(markdownText)}</div>
+        <div class="assistant-actions-bar" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+          <button type="button" class="tool-pill-btn" onclick="togglePlayMessageAudio(this)" data-speech-text="${encodeURIComponent(markdownText)}" title="กดฟังเสียงอ่านข้อความนี้" style="padding: 4px 10px; font-size: 12px;">
+            <span class="action-icon">🔊</span> <span class="action-label">ฟังเสียง</span>
+          </button>
+          <button type="button" class="tool-pill-btn" onclick="copyMessageText(this)" data-copy-text="${encodeURIComponent(markdownText)}" title="คัดลอกคำตอบนี้" style="padding: 4px 10px; font-size: 12px;">
+            <span>📋</span> <span>คัดลอก</span>
+          </button>
+        </div>
         ${chipsHtml}
       `;
 
@@ -5627,6 +5622,9 @@ ${generatedCode}
       if (engineEl) engineEl.value = engine;
       if (genderEl) genderEl.value = gender;
 
+      const speechChk = document.getElementById('modalSpeechEnabled');
+      if (speechChk) speechChk.checked = isSpeechOutputEnabled;
+
       document.getElementById('aiSettingsModal').style.display = 'flex';
       document.getElementById('modalGeminiApiKey').focus();
     }
@@ -5642,6 +5640,12 @@ ${generatedCode}
       const pitch = document.getElementById('modalVoicePitch')?.value || '1.0';
       const engine = document.getElementById('modalVoiceEngine')?.value || 'cloud_online';
       const gender = document.getElementById('modalVoiceGender')?.value || 'female';
+      const speechChk = document.getElementById('modalSpeechEnabled');
+
+      if (speechChk) {
+        isSpeechOutputEnabled = speechChk.checked;
+        localStorage.setItem('omni_speech_enabled', isSpeechOutputEnabled ? 'true' : 'false');
+      }
 
       if (key) {
         localStorage.setItem('omni_gemini_api_key', key);
@@ -5654,6 +5658,7 @@ ${generatedCode}
       localStorage.setItem('omni_voice_engine', engine);
       localStorage.setItem('omni_voice_gender', gender);
 
+      updateSpeechControlsUI(false);
       closeAiSettingsModal();
       playCyberChime();
       showToast('บันทึกการตั้งค่าเสียงและระบบ AI เรียบร้อยแล้ว', '✓');
@@ -5908,6 +5913,7 @@ ${generatedCode}
     window.addEventListener('DOMContentLoaded', () => {
       loadSavedSessions();
       selectAiModel(currentModelMode, true);
+      updateSpeechControlsUI(false);
       if ('speechSynthesis' in window) {
         window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
       }
