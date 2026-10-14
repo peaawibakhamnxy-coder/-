@@ -160,7 +160,6 @@ $xamlString = @"
         <Grid.RowDefinitions>
             <RowDefinition Height="76"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="38"/>
         </Grid.RowDefinitions>
 
         <!-- HEADER -->
@@ -186,22 +185,23 @@ $xamlString = @"
                                 <TextBlock Text="FACECHECK.ID" FontSize="10" FontWeight="Bold" Foreground="#FFFFFF"/>
                             </Border>
                         </StackPanel>
-                        <TextBlock Text="ค้นหาชื่อ &amp; เช็คคนโกง Blacklistseller (ไม่ต้องใช้ QR Code) และค้นหาใบหน้า FaceCheck.ID โดยตรง ไม่ใช้เว็บอื่น" FontSize="11" Foreground="#94A3B8" Margin="0,3,0,0"/>
+                        <TextBlock Text="ค้นหาชื่อ &amp; เช็คคนโกง Blacklistseller (ไม่ต้องใช้ QR Code) และค้นหาใบหน้า FaceCheck.ID โดยตรง" FontSize="11" Foreground="#94A3B8" Margin="0,3,0,0"/>
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Name="BtnOpenWebApp" Content="🌐 เปิดเวอร์ชันเว็บ (In-App View)" Style="{StaticResource SecondaryBtn}" Margin="0,0,10,0"/>
-                    <Button Name="BtnClearAll" Content="🗑️ ล้างข้อมูล" Style="{StaticResource SecondaryBtn}"/>
+                    <Button Name="BtnSpeakWelcome" Content="🔊 ยินดีต้อนรับสู่เทพค้นหา" Style="{StaticResource SecondaryBtn}" Margin="0,0,10,0"/>
+                    <Button Name="BtnOpenWebApp" Content="เปิดเวอร์ชันเว็บ (In-App View)" Style="{StaticResource SecondaryBtn}" Margin="0,0,10,0"/>
+                    <Button Name="BtnClearAll" Content="ล้างข้อมูล" Style="{StaticResource SecondaryBtn}"/>
                 </StackPanel>
             </Grid>
         </Border>
 
         <!-- MAIN TABS -->
-        <TabControl Name="MainTabControl" Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="18,12,18,10">
+        <TabControl Name="MainTabControl" Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="18,12,18,14">
 
             <!-- ================= TAB 1: BLACKLISTSELLER PHONE & NAME SEARCH ================= -->
-            <TabItem Header="🚨  ค้นหาชื่อ &amp; เช็คประวัติคนโกง (Blacklistseller Direct)">
+            <TabItem Header="[SEARCH] ค้นหาชื่อ &amp; เช็คประวัติคนโกง (Blacklistseller Direct)">
                 <Grid Margin="0,14,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="480" MinWidth="400"/>
@@ -218,7 +218,7 @@ $xamlString = @"
                         <!-- Input Box -->
                         <Border Grid.Row="0" Background="#0F172A" BorderBrush="#EF4444" BorderThickness="1.5" CornerRadius="14" Padding="22">
                             <StackPanel>
-                                <TextBlock Text="🚨 ระบุข้อมูลที่ต้องการค้นหาบน Blacklistseller" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                <TextBlock Text="[ID CHECK] ระบุข้อมูลที่ต้องการค้นหาบน Blacklistseller" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
                                 <TextBlock Text="พิมพ์เบอร์โทรศัพท์ (08x, 09x, 06x), เลขบัญชี หรือชื่อ-นามสกุล โดยตรง (ไม่ต้องใช้ QR Code)" FontSize="11" Foreground="#CBD5E1" Margin="0,4,0,16" TextWrapping="Wrap"/>
 
                                 <TextBlock Text="ข้อมูลที่ต้องการค้นหา (เบอร์โทร / เลขบัญชี / ชื่อ):" FontSize="12" FontWeight="Bold" Foreground="#FCA5A5" Margin="0,0,0,6"/>
@@ -229,19 +229,19 @@ $xamlString = @"
                                     <StackPanel>
                                         <Grid>
                                             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="📡 เครือข่าย/ชนิด: " FontSize="11" FontWeight="Bold" Foreground="#38BDF8"/>
+                                            <TextBlock Grid.Column="0" Text="เครือข่าย/ชนิด: " FontSize="11" FontWeight="Bold" Foreground="#38BDF8"/>
                                             <TextBlock Name="TxtCarrierDetect" Grid.Column="1" Text="กรุณาพิมพ์เบอร์โทร หรือชื่อ..." FontSize="11" Foreground="#CBD5E1" TextTrimming="CharacterEllipsis"/>
                                         </Grid>
                                         <Grid Margin="0,6,0,0">
                                             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="🔍 ประเภทคำค้นหา: " FontSize="11" FontWeight="Bold" Foreground="#FCA5A5"/>
+                                            <TextBlock Grid.Column="0" Text="ประเภทคำค้นหา: " FontSize="11" FontWeight="Bold" Foreground="#FCA5A5"/>
                                             <TextBlock Name="TxtTargetFormat" Grid.Column="1" Text="-" FontSize="11" Foreground="#CBD5E1"/>
                                         </Grid>
                                     </StackPanel>
                                 </Border>
 
-                                <Button Name="BtnLookupBlacklist" Content="🚨 ค้นหาชื่อและประวัติคนโกงบน Blacklistseller ทันที" Style="{StaticResource GlowBtn}" Margin="0,0,0,10"/>
-                                <Button Name="BtnOpenBlacklistPage" Content="🌐 เปิดหน้าค้นหา Blacklistseller (report_search_page)" Style="{StaticResource SecondaryBtn}"/>
+                                <Button Name="BtnLookupBlacklist" Content="ค้นหาชื่อและประวัติคนโกงบน Blacklistseller ทันที" Style="{StaticResource GlowBtn}" Margin="0,0,0,10"/>
+                                <Button Name="BtnOpenBlacklistPage" Content="เปิดหน้าค้นหา Blacklistseller (report_search_page)" Style="{StaticResource SecondaryBtn}"/>
                             </StackPanel>
                         </Border>
 
@@ -270,7 +270,9 @@ $xamlString = @"
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="🚨" FontSize="36" VerticalAlignment="Center" Margin="0,0,14,0"/>
+                                            <Border Grid.Column="0" Background="#3B0764" CornerRadius="8" Width="44" Height="44" Margin="0,0,14,0" VerticalAlignment="Center">
+                                                <TextBlock Text="DB" FontWeight="Bold" FontSize="16" Foreground="#F43F5E" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
                                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="Blacklistseller Database" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
@@ -280,12 +282,12 @@ $xamlString = @"
                                                 </StackPanel>
                                                 <TextBlock Text="ตรวจสอบประวัติฉ้อโกง, บัญชีม้า, เบอร์โทรหลอกลวง, รายงานผู้เสียหาย และสำเนาแจ้งความ" FontSize="12" Foreground="#94A3B8" Margin="0,4,0,0"/>
                                             </StackPanel>
-                                            <Button Name="BtnSearchBlacklistDirect" Grid.Column="2" Content="🔍 ค้นหาทันที" Style="{StaticResource GlowBtn}"/>
+                                            <Button Name="BtnSearchBlacklistDirect" Grid.Column="2" Content="ค้นหาทันที" Style="{StaticResource GlowBtn}"/>
                                         </Grid>
 
                                         <Border Background="#090D1C" CornerRadius="10" Padding="16" BorderBrush="#334155" BorderThickness="1">
                                             <StackPanel>
-                                                <TextBlock Text="🔗 Target Query Endpoint:" FontSize="11" FontWeight="Bold" Foreground="#38BDF8" Margin="0,0,0,4"/>
+                                                <TextBlock Text="Target Query Endpoint:" FontSize="11" FontWeight="Bold" Foreground="#38BDF8" Margin="0,0,0,4"/>
                                                 <TextBlock Name="TxtBlacklistUrlPreview" Text="https://www.blacklistseller.com/report/report_search_page" FontSize="12" Foreground="#94A3B8" TextWrapping="Wrap"/>
                                             </StackPanel>
                                         </Border>
@@ -295,7 +297,7 @@ $xamlString = @"
                                 <!-- IN-APP NOTICE -->
                                 <Border Style="{StaticResource PlatformCard}" BorderBrush="#10B981">
                                     <StackPanel>
-                                        <TextBlock Text="🛡️ ค้นหาชื่อโดยตรง (Direct Identity Search)" FontSize="15" FontWeight="Bold" Foreground="#10B981" Margin="0,0,0,8"/>
+                                        <TextBlock Text="ค้นหาชื่อโดยตรง (Direct Identity Search)" FontSize="15" FontWeight="Bold" Foreground="#10B981" Margin="0,0,0,8"/>
                                         <TextBlock Text="เมื่อท่านกรอกเบอร์โทรหรือเลขบัญชี ระบบจะประมวลผลและเปิดหน้าค้นหาสำเร็จ (report_search_success_page) พร้อมแสดงชื่อและคดีฉ้อโกงให้ทันที โดยไม่ต้องสแกน QR Code อีกต่อไป" FontSize="12" Foreground="#CBD5E1" LineHeight="18" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </Border>
@@ -307,7 +309,7 @@ $xamlString = @"
             </TabItem>
 
             <!-- ================= TAB 2: FACECHECK.ID DIRECT SEARCH ================= -->
-            <TabItem Header="👤  ค้นหาใบหน้า (FaceCheck.ID Direct)">
+            <TabItem Header="[BIOMETRIC] ค้นหาใบหน้า (FaceCheck.ID Direct)">
                 <Grid Margin="0,14,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="480" MinWidth="400"/>
@@ -326,12 +328,14 @@ $xamlString = @"
                         <Border Name="DropZoneBorder" Grid.Row="0" Background="#0F172A" BorderBrush="#8B5CF6" BorderThickness="2" CornerRadius="14" Height="280" AllowDrop="True">
                             <Grid>
                                 <StackPanel Name="DropPlaceholder" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="📸" FontSize="44" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <Border Background="#1E1B4B" CornerRadius="10" Width="60" Height="50" Margin="0,0,0,10" HorizontalAlignment="Center">
+                                        <TextBlock Text="SCAN" FontSize="13" FontWeight="Bold" Foreground="#A78BFA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
                                     <TextBlock Text="ลากรูปภาพมาวางที่นี่ (Drag &amp; Drop)" FontSize="15" FontWeight="Bold" Foreground="#F3F4F6" HorizontalAlignment="Center"/>
                                     <TextBlock Text="หรือคลิกปุ่มเพื่อเลือกไฟล์รูปภาพใบหน้า" FontSize="12" Foreground="#64748B" HorizontalAlignment="Center" Margin="0,4,0,14"/>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Name="BtnBrowseFile" Content="📂 เลือกไฟล์รูปภาพ" Style="{StaticResource PurpleBtn}" Margin="0,0,8,0"/>
-                                        <Button Name="BtnPasteClipboard" Content="📋 วางภาพ (Ctrl+V)" Style="{StaticResource SecondaryBtn}"/>
+                                        <Button Name="BtnBrowseFile" Content="เลือกไฟล์รูปภาพ" Style="{StaticResource PurpleBtn}" Margin="0,0,8,0"/>
+                                        <Button Name="BtnPasteClipboard" Content="วางภาพ (Ctrl+V)" Style="{StaticResource SecondaryBtn}"/>
                                     </StackPanel>
                                 </StackPanel>
 
@@ -348,7 +352,7 @@ $xamlString = @"
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="🔗 Status:" FontSize="11" FontWeight="Bold" Foreground="#38BDF8" Margin="0,0,6,0"/>
+                                    <TextBlock Grid.Column="0" Text="Status:" FontSize="11" FontWeight="Bold" Foreground="#38BDF8" Margin="0,0,6,0"/>
                                     <TextBlock Name="TxtPublicUrl" Grid.Column="1" Text="พร้อมสำหรับสแกนใบหน้าบน FaceCheck.ID" FontSize="11" Foreground="#94A3B8" TextTrimming="CharacterEllipsis"/>
                                 </Grid>
                                 <ProgressBar Name="UploadProgressBar" Height="4" Margin="0,6,0,0" Background="#0F172A" Foreground="#8B5CF6" IsIndeterminate="False" Visibility="Collapsed"/>
@@ -358,7 +362,7 @@ $xamlString = @"
                         <!-- File Stats -->
                         <Border Grid.Row="2" Background="#0B1120" BorderBrush="#1F2937" BorderThickness="1" CornerRadius="10" Padding="14">
                             <StackPanel>
-                                <TextBlock Text="🔍 รายละเอียดภาพใบหน้า" FontSize="13" FontWeight="Bold" Foreground="#A78BFA" Margin="0,0,0,8"/>
+                                <TextBlock Text="รายละเอียดภาพใบหน้า" FontSize="13" FontWeight="Bold" Foreground="#A78BFA" Margin="0,0,0,8"/>
                                 <Grid Margin="0,2,0,4">
                                     <Grid.ColumnDefinitions><ColumnDefinition Width="80"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="ชื่อไฟล์:" Foreground="#94A3B8" FontSize="12"/>
@@ -392,7 +396,9 @@ $xamlString = @"
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="👤" FontSize="36" VerticalAlignment="Center" Margin="0,0,14,0"/>
+                                            <Border Grid.Column="0" Background="#2E1065" CornerRadius="8" Width="44" Height="44" Margin="0,0,14,0" VerticalAlignment="Center">
+                                                <TextBlock Text="AI" FontWeight="Bold" FontSize="16" Foreground="#C084FC" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
                                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="FaceCheck.ID Facial Recognition" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
@@ -402,12 +408,12 @@ $xamlString = @"
                                                 </StackPanel>
                                                 <TextBlock Text="สแกนใบหน้าโดยตรง เพื่อค้นหาโปรไฟล์บน Instagram, Facebook, TikTok, Twitter/X, OnlyFans, LinkedIn" FontSize="12" Foreground="#94A3B8" Margin="0,4,0,0"/>
                                             </StackPanel>
-                                            <Button Name="BtnSearchFaceCheck" Grid.Column="2" Content="👤 ค้นหาบน FaceCheck.ID ทันที" Style="{StaticResource PurpleBtn}"/>
+                                            <Button Name="BtnSearchFaceCheck" Grid.Column="2" Content="ค้นหาบน FaceCheck.ID ทันที" Style="{StaticResource PurpleBtn}"/>
                                         </Grid>
 
                                         <Border Background="#090D1C" CornerRadius="10" Padding="16" BorderBrush="#334155" BorderThickness="1">
                                             <StackPanel>
-                                                <TextBlock Text="🛡️ เฉพาะ FaceCheck.ID โดยตรง (ไม่ใช้เว็บอื่น)" FontSize="13" FontWeight="Bold" Foreground="#A78BFA" Margin="0,0,0,4"/>
+                                                <TextBlock Text="เฉพาะ FaceCheck.ID โดยตรง (ไม่ใช้เว็บอื่น)" FontSize="13" FontWeight="Bold" Foreground="#A78BFA" Margin="0,0,0,4"/>
                                                 <TextBlock Text="ระบบตัดเว็บค้นหารูปทั่วไป (Yandex, Google, TinEye, Bing, Baidu) ออกทั้งหมด เพื่อให้ท่านสืบค้นใบหน้าผ่าน FaceCheck.ID ได้โดยตรงอย่างแม่นยำ" FontSize="12" Foreground="#CBD5E1" LineHeight="18" TextWrapping="Wrap"/>
                                             </StackPanel>
                                         </Border>
@@ -422,17 +428,7 @@ $xamlString = @"
 
         </TabControl>
 
-        <!-- STATUS BAR -->
-        <Border Grid.Row="2" Background="#05080E" BorderBrush="#1F2937" BorderThickness="0,1,0,0" Padding="20,0">
-            <Grid VerticalAlignment="Center">
-                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <TextBlock Text="●" Name="StatusDot" Foreground="#10B981" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                    <TextBlock Name="TxtStatus" Text="พร้อมใช้งาน: ค้นหาชื่อบน Blacklistseller หรือสแกนใบหน้าบน FaceCheck.ID ได้ทันที" FontSize="12" Foreground="#94A3B8" VerticalAlignment="Center"/>
-                </StackPanel>
-                <TextBlock Grid.Column="1" Text="OmniReverse Direct v6.0 | Ready" FontSize="11" Foreground="#64748B" VerticalAlignment="Center"/>
-            </Grid>
-        </Border>
+        <!-- STATUS BAR REMOVED -->
     </Grid>
 </Window>
 "@
@@ -452,6 +448,7 @@ $dropPlaceholder = $window.FindName("DropPlaceholder")
 $previewImage = $window.FindName("PreviewImage")
 $imageLoadedBadge = $window.FindName("ImageLoadedBadge")
 
+$btnSpeakWelcome = $window.FindName("BtnSpeakWelcome")
 $btnOpenWebApp = $window.FindName("BtnOpenWebApp")
 $btnBrowseFile = $window.FindName("BtnBrowseFile")
 $btnPasteClipboard = $window.FindName("BtnPasteClipboard")
@@ -491,10 +488,29 @@ if (Test-Path $logoPath) {
 }
 
 function Set-AppStatus([string]$msg, [string]$color = "#10B981") {
-    $window.Dispatcher.Invoke([Action]{
-        $txtStatus.Text = $msg
-        $statusDot.Foreground = [System.Windows.Media.BrushConverter]::new().ConvertFromString($color)
-    })
+    if ($null -ne $txtStatus -and $null -ne $statusDot) {
+        $window.Dispatcher.Invoke([Action]{
+            $txtStatus.Text = $msg
+            $statusDot.Foreground = [System.Windows.Media.BrushConverter]::new().ConvertFromString($color)
+        })
+    }
+}
+
+function Speak-WelcomeVoice {
+    [System.Threading.ThreadPool]::QueueUserWorkItem({
+        try {
+            Add-Type -AssemblyName System.Speech -ErrorAction SilentlyContinue
+            $synth = New-Object System.Speech.Synthesis.SpeechSynthesizer
+            $synth.Rate = 0
+            $synth.Volume = 100
+            $synth.SpeakAsync("ยินดีต้อนรับสู่เทพค้นหา") | Out-Null
+        } catch {
+            try {
+                $sapi = New-Object -ComObject SAPI.SpVoice
+                $sapi.Speak("ยินดีต้อนรับสู่เทพค้นหา") | Out-Null
+            } catch {}
+        }
+    }) | Out-Null
 }
 
 function Open-Url([string]$url) {
@@ -699,5 +715,13 @@ function Exec-FaceCheckDirect {
 }
 
 $btnSearchFaceCheck.Add_Click({ Exec-FaceCheckDirect })
+
+if ($null -ne $btnSpeakWelcome) {
+    $btnSpeakWelcome.Add_Click({ Speak-WelcomeVoice })
+}
+
+$window.Add_Loaded({
+    Speak-WelcomeVoice
+})
 
 $window.ShowDialog() | Out-Null

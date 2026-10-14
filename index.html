@@ -262,6 +262,83 @@
       transform: translateY(-2px);
     }
 
+    .btn-voice-trigger {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15));
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
+    .btn-voice-trigger:hover {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(139, 92, 246, 0.3));
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+    }
+
+    /* SOUNDWAVE ANIMATION */
+    .soundwave-bars {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      height: 14px;
+    }
+
+    .soundwave-bar {
+      width: 2.5px;
+      height: 100%;
+      background: var(--neon-cyan);
+      border-radius: 2px;
+      animation: soundwavePulse 1.2s infinite ease-in-out;
+    }
+
+    .soundwave-bar:nth-child(2) { animation-delay: 0.2s; height: 75%; }
+    .soundwave-bar:nth-child(3) { animation-delay: 0.4s; height: 100%; }
+    .soundwave-bar:nth-child(4) { animation-delay: 0.1s; height: 50%; }
+
+    @keyframes soundwavePulse {
+      0%, 100% { transform: scaleY(0.3); }
+      50% { transform: scaleY(1); }
+    }
+
+    /* WELCOME CYBER BANNER */
+    .welcome-voice-banner {
+      background: linear-gradient(135deg, rgba(14, 22, 50, 0.85), rgba(8, 13, 30, 0.85));
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      border-radius: 14px;
+      padding: 10px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: var(--glass-blur);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-voice-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-purple), transparent);
+    }
+
+    .voice-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .voice-pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 12px #10B981;
+      animation: blip 1.4s infinite ease-in-out;
+    }
+
     /* MAIN CONTAINER */
     main {
       max-width: 1400px;
@@ -730,13 +807,13 @@
   <header>
     <div class="brand-wrap">
       <div class="brand-icon-hex">
-        <img src="assets/logo.jpg" alt="Logo" onerror="this.src='';this.innerText='🛡️';this.style.fontSize='22px';">
+        <img src="assets/logo.jpg" alt="Logo" onerror="this.src='';this.innerText='OSINT';this.style.fontSize='14px';">
       </div>
       <div class="brand-text">
         <h1>
           OmniReverse <span class="hero-glow-title">CyberOSINT Ultra</span>
           <span class="badge-cyber">
-            <span class="radar-blip"></span> เชื่อมต่อฐานข้อมูลจริง 100%
+            <span class="radar-blip"></span> LIVE DATABASE 100%
           </span>
         </h1>
       </div>
@@ -759,11 +836,20 @@
     </div>
 
     <div class="header-actions">
+      <button class="btn-cyber-pill btn-voice-trigger" id="btnHeaderVoice" onclick="speakWelcome();" title="กดฟังเสียงต้อนรับ">
+        <div class="soundwave-bars">
+          <div class="soundwave-bar"></div>
+          <div class="soundwave-bar"></div>
+          <div class="soundwave-bar"></div>
+          <div class="soundwave-bar"></div>
+        </div>
+        <span>ยินดีต้อนรับสู่เทพค้นหา</span>
+      </button>
       <button class="btn-cyber-pill" onclick="playBeep(); resetAllState();">
-        <span>🔄 ล้างข้อมูล</span>
+        <span>ล้างข้อมูล</span>
       </button>
       <a class="btn-cyber-pill" href="README.md" target="_blank">
-        <span>📖 คู่มือ</span>
+        <span>คู่มือ</span>
       </a>
     </div>
   </header>
@@ -771,15 +857,32 @@
   <!-- MAIN -->
   <main>
 
+    <!-- WELCOME CYBER BANNER -->
+    <div class="welcome-voice-banner" id="welcomeVoiceBanner">
+      <div class="voice-banner-left">
+        <div class="voice-pulse-dot"></div>
+        <div>
+          <span style="font-weight: 800; color: #FFF; font-size: 13px; letter-spacing: 0.5px;">CYBER INTELLIGENCE SYSTEM:</span>
+          <span style="color: var(--neon-cyan); font-weight: 700; margin-left: 6px; font-size: 13px;">"ยินดีต้อนรับสู่เทพค้นหา"</span>
+          <span style="color: var(--text-dim); font-size: 11px; margin-left: 8px;">(สืบค้นข้อมูลคนโกง Blacklistseller & สแกนใบหน้า FaceCheck.ID ตรง 100%)</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="btn-cyber-pill" onclick="speakWelcome();" style="padding: 5px 12px; font-size: 11px;">
+          <span>เปิดเสียงต้อนรับ</span>
+        </button>
+      </div>
+    </div>
+
     <!-- MODE SWITCHER -->
     <div class="tabs-wrapper">
       <div class="tabs-track">
         <button class="tab-trigger active" id="btnTabPhone" onclick="playBeep(); switchTab('phone')">
-          <span style="font-size: 18px;">🚨</span>
+          <span style="font-family: var(--font-tech); font-weight: 900; color: #EF4444;">[SEARCH]</span>
           <span>ค้นหาเบอร์โทร &amp; ประวัติคนโกง (Blacklistseller Live Database)</span>
         </button>
         <button class="tab-trigger" id="btnTabFace" onclick="playBeep(); switchTab('face')">
-          <span style="font-size: 18px;">👤</span>
+          <span style="font-family: var(--font-tech); font-weight: 900; color: #06B6D4;">[BIOMETRIC]</span>
           <span>สแกนชีวมาตร &amp; ค้นหาใบหน้า (FaceCheck.ID Biometric Search)</span>
         </button>
       </div>
@@ -791,7 +894,7 @@
     <section id="panelPhone" class="view-panel active">
       <div class="cyber-card">
         <h2 class="card-title">
-          <span>🚨</span> ตรวจสอบเบอร์โทร, เลขบัญชี &amp; ฐานข้อมูลคนโกง Blacklistseller
+          <span style="color: #EF4444; font-family: var(--font-tech);">[ID CHECK]</span> ตรวจสอบเบอร์โทร, เลขบัญชี &amp; ฐานข้อมูลคนโกง Blacklistseller
         </h2>
         <p class="card-subtitle">
           กรอก <strong>เบอร์โทรศัพท์ (08x, 09x, 06x)</strong>, <strong>เลขบัญชีธนาคาร</strong> หรือ <strong>ชื่อ-นามสกุลจริง</strong><br>
@@ -803,23 +906,23 @@
           <input type="text" id="phoneInput" class="cyber-input" 
                  placeholder="พิมพ์เบอร์โทรศัพท์, เลขที่บัญชี หรือชื่อ-นามสกุล..." autofocus>
           <button type="submit" class="btn-search-glow">
-            <span>⚡ ค้นหาฐานข้อมูลจริงทันที</span>
+            <span>ค้นหาฐานข้อมูลจริงทันที</span>
           </button>
         </form>
 
         <!-- CHIPS -->
         <div class="chips-cluster">
           <span>ตัวอย่างทดสอบด่วน:</span>
-          <button type="button" class="chip-tag" onclick="quickFill('0812345678')">📱 0812345678 (AIS)</button>
-          <button type="button" class="chip-tag" onclick="quickFill('0987654321')">🚨 0987654321 (TrueMove H)</button>
-          <button type="button" class="chip-tag" onclick="quickFill('021234567')">☎️ 021234567 (เบอร์บ้าน กทม.)</button>
-          <button type="button" class="chip-tag" onclick="quickFill('กิตติศักดิ์')">👤 กิตติศักดิ์ (ค้นหาด้วยชื่อ)</button>
+          <button type="button" class="chip-tag" onclick="quickFill('0812345678')">0812345678 (AIS)</button>
+          <button type="button" class="chip-tag" onclick="quickFill('0987654321')">0987654321 (TrueMove H)</button>
+          <button type="button" class="chip-tag" onclick="quickFill('021234567')">021234567 (เบอร์บ้าน กทม.)</button>
+          <button type="button" class="chip-tag" onclick="quickFill('กิตติศักดิ์')">กิตติศักดิ์ (ค้นหาด้วยชื่อ)</button>
         </div>
 
         <!-- TELECOM CARRIER METRICS (REAL NBTC DATA) -->
         <div class="telecom-strip" id="telecomStrip" style="display: none;">
           <div class="telecom-info">
-            <div class="telecom-icon">📡</div>
+            <div class="telecom-icon" style="font-family: var(--font-tech); font-weight: 900; color: #38BDF8;">NBTC</div>
             <div>
               <div class="telecom-main" id="carrierNameText">-</div>
               <div class="telecom-sub">ตรวจสอบคลื่นความถี่โดย สำนักงาน กสทช. (NBTC Thailand)</div>
@@ -834,7 +937,7 @@
         <div class="gateway-console" id="gatewayConsole" style="display: none;">
           <div class="gateway-header">
             <div class="gateway-title">
-              <span>🛡️</span> <span>เชื่อมต่อฐานข้อมูลทางการ Blacklistseller สำเร็จ:</span>
+              <span style="color: #38BDF8; font-family: var(--font-tech);">[DIRECT GATEWAY]</span> <span>เชื่อมต่อฐานข้อมูลทางการ Blacklistseller สำเร็จ:</span>
             </div>
             <div style="font-size: 12px; color: #34D399; font-weight: 800;">
               ✓ URL ตรวจสอบรายงานตรง
@@ -844,12 +947,12 @@
           <div class="gateway-url-box">
             <span id="gatewayUrlLabel">https://www.blacklistseller.com/report/report_search_page</span>
             <button class="btn-cyber-pill" type="button" onclick="copyGatewayUrl()" style="padding: 5px 12px; font-size: 11px;">
-              📋 คัดลอก
+              คัดลอกลิงก์
             </button>
           </div>
 
           <a id="btnGatewayLaunch" class="btn-launch-live" href="https://www.blacklistseller.com/report/report_search_page" target="_blank" rel="noopener">
-            <span>🚀 คลิกเปิดดูรายงานสดบน Blacklistseller (ดึงผลการค้นหาจริงทันที)</span>
+            <span>คลิกเปิดดูรายงานสดบน Blacklistseller (ดึงผลการค้นหาจริงทันที)</span>
           </a>
         </div>
       </div>
@@ -861,7 +964,7 @@
     <section id="panelFace" class="view-panel">
       <div class="cyber-card">
         <h2 class="card-title">
-          <span>👤</span> สแกนใบหน้าและค้นหาตัวตน FaceCheck.ID (Biometric Scanner)
+          <span style="color: #06B6D4; font-family: var(--font-tech);">[FACIAL SCAN]</span> สแกนใบหน้าและค้นหาตัวตน FaceCheck.ID (Biometric Scanner)
         </h2>
         <p class="card-subtitle">
           ตรวจจับเวกเตอร์ใบหน้าชีวมาตร (Facial Reticle) และเชื่อมต่อกับระบบ <strong>FaceCheck.ID</strong> 
@@ -875,13 +978,13 @@
             <div class="scan-laser-line" id="scanLaserLine"></div>
 
             <div id="dropPromptGroup" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-              <div style="font-size: 52px; filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.4));">📸</div>
+              <div style="font-family: var(--font-tech); font-size: 28px; font-weight: 900; color: var(--neon-cyan); letter-spacing: 2px;">SCANNER</div>
               <h3 style="font-size: 17px; font-weight: 800; color: #FFF;">ลากรูปภาพใบหน้ามาวาง หรือคลิกเพื่อเลือกไฟล์</h3>
               <p style="font-size: 13px; color: var(--text-muted); max-width: 320px; text-align: center; line-height: 1.5;">
                 ระบบจะวิเคราะห์พิกัดชีวมาตร 68 จุด และเตรียมการส่งภาพไปยัง FaceCheck.ID
               </p>
               <button class="btn-cyber-pill" type="button" onclick="event.stopPropagation(); pasteImage();" style="margin-top: 8px;">
-                📋 วางภาพจากคลิปบอร์ด (Ctrl+V)
+                วางภาพจากคลิปบอร์ด (Ctrl+V)
               </button>
             </div>
 
@@ -894,7 +997,7 @@
           <div class="face-hud-card">
             <div class="hud-avatar-row">
               <div class="hud-avatar-box" id="hudAvatarBox">
-                <span>👤</span>
+                <span style="font-family: var(--font-tech); font-size: 11px; color: var(--text-dim);">FACE</span>
               </div>
               <div class="hud-meta-text">
                 <h4 id="hudFileName">รอรูปภาพเป้าหมาย...</h4>
@@ -925,7 +1028,7 @@
 
             <!-- ACTION LAUNCHER -->
             <a id="btnFaceCheckLaunch" class="btn-launch-live" href="https://facecheck.id/" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #7C3AED, #9333EA, #2563EB); box-shadow: 0 6px 25px rgba(124, 58, 237, 0.45);">
-              <span>🔮 คลิกเปิดสืบค้นภาพบน FaceCheck.ID (ฐานข้อมูลคนจริง)</span>
+              <span>คลิกเปิดสืบค้นภาพบน FaceCheck.ID (ฐานข้อมูลคนจริง)</span>
             </a>
           </div>
         </div>
@@ -1008,27 +1111,110 @@
     animateParticles();
 
     // =========================================================================
-    // 2. SYNTHESIZED SOUND EFFECTS (WEB AUDIO API - ZERO EXTERNAL FILES)
+    // 2. SYNTHESIZED SOUND EFFECTS & WELCOME VOICE ("ยินดีต้อนรับสู่เทพค้นหา")
     // =========================================================================
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
+    let hasWelcomed = false;
+
+    function getAudioContext() {
+      if (!audioCtx) audioCtx = new AudioContext();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
 
     function playBeep(freq = 587.33, type = 'sine', duration = 0.08) {
       try {
-        if (!audioCtx) audioCtx = new AudioContext();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
         osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        gain.connect(ctx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + duration);
+        osc.stop(ctx.currentTime + duration);
       } catch (e) {}
     }
+
+    // High-tech sci-fi cyber chime chord
+    function playCyberChime() {
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        const freqs = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        freqs.forEach((f, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, now + (idx * 0.07));
+          gain.gain.setValueAtTime(0.035, now + (idx * 0.07));
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + (idx * 0.07) + 0.35);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + (idx * 0.07));
+          osc.stop(now + (idx * 0.07) + 0.35);
+        });
+      } catch (e) {}
+    }
+
+    // Voice synthesizer: "ยินดีต้อนรับสู่เทพค้นหา"
+    function speakWelcome() {
+      playCyberChime();
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Stop any pending utterances
+        const text = 'ยินดีต้อนรับสู่เทพค้นหา';
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'th-TH';
+        utterance.rate = 1.0;
+        utterance.pitch = 1.05;
+        utterance.volume = 1.0;
+
+        const voices = window.speechSynthesis.getVoices();
+        const thaiVoice = voices.find(v => v.lang.includes('th') || v.lang.includes('TH'));
+        if (thaiVoice) utterance.voice = thaiVoice;
+
+        utterance.onstart = () => {
+          showToast('กำลังพูด: "ยินดีต้อนรับสู่เทพค้นหา"', 'AUDIO');
+        };
+
+        window.speechSynthesis.speak(utterance);
+      } else {
+        showToast('ยินดีต้อนรับสู่เทพค้นหา', 'SYSTEM');
+      }
+    }
+
+    // Auto welcome trigger upon site entry / initial interaction
+    function triggerAutoWelcome() {
+      if (hasWelcomed) return;
+      hasWelcomed = true;
+      speakWelcome();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Pre-warm voices list for Web Speech API
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          window.speechSynthesis.getVoices();
+        };
+      }
+      // Attempt immediate auto-play
+      setTimeout(() => {
+        try {
+          speakWelcome();
+        } catch (e) {}
+      }, 500);
+    });
+
+    // Fallback: trigger on first user click anywhere if autoplay was restricted by browser
+    ['click', 'touchstart', 'keydown'].forEach(evtType => {
+      window.addEventListener(evtType, () => {
+        triggerAutoWelcome();
+      }, { once: true });
+    });
 
     // =========================================================================
     // 3. TAB CONTROLLER
@@ -1267,7 +1453,7 @@
         document.getElementById('telemHash').innerText = `0x${Math.floor(Math.random() * 0xFFFFFFFF).toString(16).toUpperCase()}`;
 
         playBeep(659.25, 'triangle', 0.15);
-        showToast('สแกนโครงหน้าสำเร็จ! คลิกเปิด FaceCheck.ID ด้านล่าง', '👤');
+        showToast('สแกนโครงหน้าสำเร็จ! คลิกเปิด FaceCheck.ID ด้านล่าง', 'BIOMETRIC');
       };
       img.src = imgSrc;
     }
@@ -1283,7 +1469,7 @@
       document.getElementById('dropPromptGroup').style.display = 'flex';
       document.getElementById('canvasContainer').style.display = 'none';
       document.getElementById('scanLaserLine').style.display = 'none';
-      document.getElementById('hudAvatarBox').innerHTML = '<span>👤</span>';
+      document.getElementById('hudAvatarBox').innerHTML = '<span style="font-family: var(--font-tech); font-size: 11px; color: var(--text-dim);">FACE</span>';
       document.getElementById('hudFileName').innerText = 'รอรูปภาพเป้าหมาย...';
       document.getElementById('hudDimensions').innerText = 'ขนาดภาพ: -';
       document.getElementById('hudStatusText').innerText = 'สถานะ: พร้อมอัปโหลด';
@@ -1293,7 +1479,7 @@
       document.getElementById('telemHash').innerText = '0x00000000';
 
       playBeep(440, 'sine');
-      showToast('ล้างข้อมูลทั้งหมดแล้ว', '🔄');
+      showToast('ล้างข้อมูลทั้งหมดแล้ว', 'SYSTEM');
     }
   </script>
 </body>
