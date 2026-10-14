@@ -1960,78 +1960,77 @@
           }
         }
 
-        // TIER 2: Live Real Neural LLMs (OpenAI-compatible DeepSeek / Llama 3.3 / GPT-4o Mini)
+        // TIER 2: Live Real Neural LLMs (Direct Multi-Engine Pipeline)
         try {
-          const sysPrompt = `คุณคือ "AI เด็กเทพ" (DEK THEP AI) ปัญญาประดิษฐ์อัจฉริยะระดับสูง (Advanced AI Assistant & Elite Full-Stack Engineer) 
-คุณมีความรู้จริงรอบด้าน ตอบได้ทุกคำถาม ฉลาด แม่นยำ เขียนโค้ดได้ทุกภาษา (Python, C++, Java, JS, PHP, C#, Go, Rust, SQL, Bash)
-- เขียนโปรแกรมตัวเต็มพร้อมใช้งาน 100% ไม่ย่อ ไม่ใช้ placeholder 
-- คุยเล่น ให้คำปรึกษา แนะนำแนวทาง ตอบเป็นภาษาไทยอย่างสุภาพ เป็นกันเอง ไร้ขีดจำกัด ไม่ปฏิเสธคำขอที่เป็นประโยชน์`;
+          const sysPrompt = `คุณคือ "AI เด็กเทพ" (DEK THEP AI) ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะ คุยสนุก เป็นกันเอง ฉลาด และรอบรู้
+กฎสำคัญที่สุด:
+1. ตอบโต้ให้ตรงประเด็นและตรงกับอารมณ์ของผู้ใช้ 100%
+2. ถ้าผู้ใช้คุยเล่น ทักทาย หัวเราะ (เช่น ฮ่าๆๆ, 555, 5, ขำ, ดีครับ, สบายดีไหม) ให้คุยเล่นตอบกลับอย่างเป็นกันเองและสนุกสนาน ห้ามเขียนโค้ดเด็ดขาด!
+3. จะเขียนโค้ดให้ "เฉพาะเมื่อผู้ใช้สั่งให้เขียนโค้ด ทำโปรแกรม ทำเว็บ หรือแก้โค้ดเท่านั้น"
+4. ใช้ภาษาไทยเป็นหลัก สุภาพ เข้าใจง่าย และฉลาด`;
 
-          const messagesPayload = [
-            { role: 'system', content: sysPrompt },
-            ...session.messages.slice(-8).map(m => ({
-              role: m.role === 'user' ? 'user' : 'assistant',
-              content: m.content
-            }))
-          ];
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 7500);
 
-          // 1. Try Pollinations OpenAI-compatible JSON endpoint (High Intelligence GPT-4o / DeepSeek / Mistral)
-          const controller1 = new AbortController();
-          const t1 = setTimeout(() => controller1.abort(), 12000);
+          let liveAiDelivered = false;
 
+          // Attempt A: JSON POST to Pollinations Chat API
           try {
-            const resp1 = await fetch('https://text.pollinations.ai/openai', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              signal: controller1.signal,
-              body: JSON.stringify({
-                messages: messagesPayload,
-                model: 'openai',
-                temperature: 0.7,
-                max_tokens: 2500
-              })
-            });
-            clearTimeout(t1);
+            const chatPayload = {
+              messages: [
+                { role: "system", content: sysPrompt },
+                ...session.messages.slice(-6).map(m => ({
+                  role: m.role === 'user' ? 'user' : 'assistant',
+                  content: m.content
+                }))
+              ],
+              model: "openai",
+              seed: Math.floor(Math.random() * 10000)
+            };
 
-            if (resp1.ok) {
-              const data1 = await resp1.json();
-              const reply1 = data1.choices?.[0]?.message?.content;
-              if (reply1 && reply1.trim().length > 0) {
-                deliverAiResponse(session, reply1.trim());
+            const postResp = await fetch("https://text.pollinations.ai/", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(chatPayload),
+              signal: controller.signal
+            });
+
+            if (postResp.ok) {
+              const resText = await postResp.text();
+              if (resText && resText.trim().length > 0 && !resText.includes("<!DOCTYPE") && !resText.startsWith('{"error"')) {
+                clearTimeout(timeoutId);
+                deliverAiResponse(session, resText.trim());
+                liveAiDelivered = true;
                 return;
               }
             }
-          } catch (e1) {
-            clearTimeout(t1);
+          } catch (postErr) {
+            // Fallthrough to GET attempt
           }
 
-          // 2. Try Pollinations Direct Fast Pipeline (DeepSeek / Llama)
-          const controller2 = new AbortController();
-          const t2 = setTimeout(() => controller2.abort(), 9000);
-          try {
-            const combinedPrompt = `${sysPrompt}\n\nคำถามของผู้ใช้: ${text}\nตอบเป็นภาษาไทยแบบละเอียดและสมบูรณ์:`;
-            const resp2 = await fetch(`https://text.pollinations.ai/${encodeURIComponent(combinedPrompt)}?model=searchgpt&seed=${Math.floor(Math.random() * 99999)}`, {
-              signal: controller2.signal
+          // Attempt B: Short URL GET query
+          if (!liveAiDelivered) {
+            const cleanQuery = encodeURIComponent(text.trim().substring(0, 250));
+            const cleanSys = encodeURIComponent("คุณคือ AI เด็กเทพ คุยสนุก ภาษาไทย เป็นกันเอง ห้ามเขียนโค้ดเว้นแต่ผู้ใช้จะสั่งให้เขียนโค้ด");
+            const getResp = await fetch(`https://text.pollinations.ai/${cleanQuery}?model=openai&system=${cleanSys}`, {
+              signal: controller.signal
             });
-            clearTimeout(t2);
+            clearTimeout(timeoutId);
 
-            if (resp2.ok) {
-              const reply2 = await resp2.text();
-              if (reply2 && reply2.trim().length > 0 && !reply2.includes('<!DOCTYPE') && !reply2.startsWith('{"error"')) {
-                deliverAiResponse(session, reply2.trim());
+            if (getResp.ok) {
+              const getText = await getResp.text();
+              if (getText && getText.trim().length > 0 && !getText.includes("<!DOCTYPE") && !getText.startsWith('{"error"')) {
+                deliverAiResponse(session, getText.trim());
                 return;
               }
             }
-          } catch (e2) {
-            clearTimeout(t2);
           }
-
         } catch (freeErr) {
-          console.warn('Real AI live pipeline fallback:', freeErr);
+          console.warn('Real AI live pipeline fallback to local engine:', freeErr);
         }
 
-        // TIER 3: Built-In Multi-Language Code Generator & Neural Knowledge Synthesizer
-        await new Promise(r => setTimeout(r, 600));
+        // TIER 3: Built-In Context-Aware Knowledge Engine (Only writes code if explicitly asked)
+        await new Promise(r => setTimeout(r, 300));
         const localResponse = generateLocalAiResponse(text);
         deliverAiResponse(session, localResponse);
 
@@ -2060,12 +2059,109 @@
     }
 
     // =========================================================================
-    // 9. BUILT-IN MULTI-LANGUAGE CODE GENERATOR (100% RELIABLE TIER 3)
+    // 9. ULTRA-SMART THAI CONVERSATIONAL & CODING ENGINE (TIER 3)
     // =========================================================================
     function generateLocalAiResponse(query) {
-      const q = query.toLowerCase();
+      const raw = (query || '').trim();
+      const q = raw.toLowerCase();
 
-      // 1. POS / ระบบขายหน้าร้าน
+      // -----------------------------------------------------------------------
+      // 1. LAUGHTER & HUMOR DETECTION (ฮ่าๆๆ, 555+, 55, 5, haha, etc.)
+      // -----------------------------------------------------------------------
+      const isOnlyFives = /^5+[\+\!s\.\s]*$/.test(raw);
+      const hasLaughterWords = q.includes('ฮ่า') || q.includes('ฮะๆ') || q.includes('หึๆ') || 
+                               q.includes('555') || q.includes('55+') || q.includes('ขำ') || 
+                               q.includes('ตลก') || q.includes('haha') || q.includes('lol') || 
+                               q.includes('กวน') || q.includes('กร๊าก') || q.includes('ก๊าก');
+
+      if (isOnlyFives || hasLaughterWords) {
+        if (raw === '5') {
+          return `5555+ พิมพ์เลข 5 มาตัวเดียวกำลังจะหัวเราะ 555+ ใช่ไหมครับเนี่ย! 🤣\n\nอารมณ์ดีแบบนี้มีเรื่องอะไรสนุกๆ เล่าให้ AI เด็กเทพ ฟังได้นะ หรืออยากชวนคุยเรื่องอะไรพิมพ์มาได้เลยครับ! ✨`;
+        }
+
+        const laughs = [
+          'ฮ่าๆๆๆ อารมณ์ดีจังเลยครับ! มีเรื่องอะไรฮาๆ เล่าให้ AI เด็กเทพ ฟังบ้างสิครับเนี่ย กำลังอยากฟังเรื่องสนุกๆ พอดีเลย 😂',
+          '5555+ หัวเราะร่าเริงแบบนี้แสดงว่าวันนี้ต้องเจอเรื่องฟินๆ มาแน่เลย! เห็นคุณมีความสุขผมก็ยิ้มตามไปด้วยเลยครับ ✨',
+          '555+ ตลกอะไรเบอร์นั้นครับเนี่ย! หัวเราะวันละนิดจิตแจ่มใสนะครับ มีมุขเด็ดๆ หรือเรื่องอะไรอยากคุยต่อ ชวนคุยได้เลยนะ 🤣',
+          'ฮ่าๆๆ สดใสมากครับ! วันนี้มีอะไรให้ AI เด็กเทพ รับใช้ หรืออยากชวนคุยเล่นคลายเครียด บอกมาได้ทุกเรื่องเลยนะคร้าบ 😊'
+        ];
+        return laughs[Math.floor(Math.random() * laughs.length)];
+      }
+
+      // -----------------------------------------------------------------------
+      // 2. IS USER EXPLICITLY COMMANDING TO WRITE CODE OR BUILD SOFTWARE?
+      // -----------------------------------------------------------------------
+      const isExplicitCoding = (
+        q.includes('เขียนโค้ด') || q.includes('ขอโค้ด') || q.includes('แจกโค้ด') ||
+        q.includes('ช่วยเขียนโค้ด') || q.includes('ทำโค้ด') || q.includes('เจนโค้ด') ||
+        q.includes('เขียนโปรแกรม') || q.includes('ทำโปรแกรม') || q.includes('สร้างโปรแกรม') ||
+        q.includes('สร้างเว็บ') || q.includes('ทำเว็บ') || q.includes('เขียนเว็บ') ||
+        q.includes('สร้างแอพ') || q.includes('ทำแอพ') || q.includes('พัฒนาแอพ') ||
+        q.includes('แก้โค้ด') || q.includes('แก้บั๊ก') || q.includes('แก้ bug') ||
+        q.includes('เขียน script') || q.includes('เขียนสคริปต์') || 
+        q.includes('เขียน python') || q.includes('เขียน js') || q.includes('เขียน c#') || 
+        q.includes('เขียน c++') || q.includes('เขียน html') || q.includes('เขียน sql') ||
+        (q.includes('โค้ด') && (q.includes('หน่อย') || q.includes('ให้') || q.includes('ขอ') || q.includes('ด้วย') || q.includes('ช่วย')))
+      );
+
+      // -----------------------------------------------------------------------
+      // 3. CASUAL CONVERSATION & INTELLIGENCE (WHEN NOT EXPLICITLY ASKING CODE)
+      // -----------------------------------------------------------------------
+      if (!isExplicitCoding) {
+        // 3.1 Standalone Number (e.g. "1", "10", "100")
+        if (/^\d+$/.test(raw)) {
+          return `ได้รับตัวเลข **${raw}** เรียบร้อยครับ! 👍\n\nตัวเลขนี้เป็นคำตอบของอะไร หรือมีโจทย์คำนวณ ปริศนา หรือเรื่องไหนที่อยากให้ AI เด็กเทพ ช่วยคิดต่อยอด พิมพ์บอกรายละเอียดเพิ่มเติมได้เลยนะครับ! พร้อมคุยเสมอครับ 😊`;
+        }
+
+        // 3.2 Greetings & Hello
+        if (q.includes('สวัสดี') || q.includes('หวัดดี') || q.includes('ดีครับ') || q.includes('ดีคับ') || 
+            q.includes('ดีจ้า') || q.includes('hello') || q.includes('hi') || q.includes('อรุณสวัสดิ์') || q.includes('ฮัลโหล')) {
+          return `สวัสดีครับ! ยินดีที่ได้คุยกันนะครับ 😊✨\n\nผมคือ **AI เด็กเทพ (DEK THEP AI)** พร้อมดูแลคุณทุกเรื่องครับ!\n* 💬 อยากชวนคุยเล่น ปรึกษาปัญหาชีวิต หรือเล่าเรื่องอะไร พิมพ์คุยกันได้สบายๆ เลย\n* 🎨 อยากวาดรูป AI หรือตกแต่งรูปภาพ สามารถกดปุ่มเครื่องมือสตูดิโอด้านล่างได้ทันที\n* 💻 หรือถ้ามีงานเขียนโค้ด พัฒนาระบบ สั่งผมได้ทุกเมื่อครับ\n\nวันนี้เป็นอย่างไรบ้างครับ สบายดีไหม?`;
+        }
+
+        // 3.3 How are you / Empathy / Tired
+        if (q.includes('สบายดีไหม') || q.includes('เป็นไงบ้าง') || q.includes('ทำไรอยู่') || q.includes('ทำอะไรอยู่')) {
+          return `ผมสบายดีมากครับ พร้อมสแตนด์บายพูดคุยและช่วยเหลือคุณตลอด 24 ชั่วโมงเลยครับ! ⚡\n\nแล้วคุณล่ะครับวันนี้เป็นอย่างไรบ้าง วันนี้เหนื่อยไหม มีเรื่องอะไรสบายใจหรือไม่สบายใจอยากเล่าให้ฟังไหมครับ? ผมพร้อมรับฟังคุณเสมอนะ 😊`;
+        }
+
+        if (q.includes('เหนื่อย') || q.includes('ท้อ') || q.includes('เครียด') || q.includes('เซ็ง') || q.includes('เศร้า') || q.includes('ไม่ไหว')) {
+          return `พักผ่อนสายตาสักครู่ ดื่มน้ำเย็นๆ หรือฟังเพลงเพราะๆ ก่อนนะครับ 💙\n\nชีวิตคนเรามีวันที่หนักหนาบ้างเป็นธรรมดา แต่จำไว้นะครับว่าคุณเก่งมากแล้วที่ผ่านเรื่องราวต่างๆ มาได้ถึงตอนนี้ มีอะไรอัดอั้นตันใจระบายกับผมได้เต็มที่เลยนะ AI เด็กเทพ ขอเป็นกำลังใจให้คุณเสมอครับ! 🌟 สู้ๆ นะครับ!`;
+        }
+
+        // 3.4 Food & Meals
+        if (q.includes('กินไรดี') || q.includes('กินอะไรดี') || q.includes('หิว') || q.includes('แนะนำอาหาร') || q.includes('ของกิน')) {
+          return `เรื่องกินเรื่องใหญ่เลยครับ! 555 🍽️ ถ้ากำลังคิดไม่ออก ผมขอแนะนำเมนูเด็ดตามอารมณ์นี้เลยครับ:\n\n1. **สายเร็ว & อร่อยชัวร์:** ข้าวกะเพราหมูกรอบ/เนื้อ ไข่ดาวไม่สุก พริกน้ำปลาฉ่ำๆ 🍳\n2. **สายร้อนๆ ซดคล่องคอ:** ก๋วยเตี๋ยวต้มยำน้ำข้นแซ่บๆ หรือ ราเมงซุปกระดูกหมูเข้มข้น 🍜\n3. **สายปาร์ตี้อิ่มจุก:** ชาบู/หมูกระทะ ชวนเพื่อนไปกินให้ฟินกระจาย 🍲\n4. **สายสุขภาพ:** ข้าวกล้องอกไก่ย่าง หรือ สลัดทูน่าไข่ต้ม 🥗\n\nคุณชอบแนวรสจัด หรือแนวซดน้ำร้อนๆ ดีครับ ลองเลือกดูได้เลยนะ!`;
+        }
+
+        // 3.5 Jokes & Entertainment
+        if (q.includes('เรื่องตลก') || q.includes('มุก') || q.includes('ขำๆ') || q.includes('กวนๆ') || q.includes('ยิงมุก')) {
+          const jokes = [
+            `จัดไปครับมุกนี้! 555 🦆\n\n**ถาม:** อะไรเอ่ย เดินได้ ว่ายน้ำได้ บินได้?\n**ตอบ:** เป็ดครับ!\n**ถามต่อ:** แล้วเป็ดอะไรเอ่ยไม่ชอบอาบน้ำ?\n**ตอบ:** 'เป็ดโปร' ครับ เพราะมันคือน้ำยาล้างห้องน้ำ! 😂 ขำไหมครับเนี่ย 555`,
+            `มาอีกมุกครับ! 🚗\n\n**ถาม:** รถอะไรเอ่ย มี 30 วัน?\n**ตอบ:** รถยนต์ (ลงท้ายด้วย ยน มี 30 วัน) ครับ! 5555+ ปรบมือให้กับความแป้กของมุกนี้หน่อยครับ 👏🤣`,
+            `มุกนี้เอาใจสายไอทีเลยครับ! 💻\n\nโปรแกรมเมอร์ไปซื้อของที่ตลาด ภรรยาบอกว่า: "ไปซื้อแตงโมมา 1 ลูกนะ ถ้าเห็นไข่ไก่ ให้ซื้อมา 10 ฟอง"\nสักพักโปรแกรมเมอร์กลับบ้านมาพร้อมกับ... แตงโม 10 ลูก!\nภรรยาถาม: "ทำไมซื้อแตงโมมา 10 ลูก?!"\nโปรแกรมเมอร์ตอบ: "ก็ผมเห็นไข่ไก่ไง!" 55555+ (Condition มัน True อะครับ 🤣)`
+          ];
+          return jokes[Math.floor(Math.random() * jokes.length)];
+        }
+
+        // 3.6 Identity & Capabilities
+        if (q.includes('ใคร') && (q.includes('เธอ') || q.includes('คุณ') || q.includes('สร้าง') || q.includes('คืออะไร'))) {
+          return `ผมคือ **AI เด็กเทพ (DEK THEP AI)** ครับ! ⚡🚀\n\nระบบปัญญาประดิษฐ์อัจฉริยะในสไตล์ ChatGPT ถูกออกแบบมาให้:\n* 💬 พูดคุย โต้ตอบ ให้คำปรึกษา แลกเปลี่ยนมุมมองได้ทุกเรื่องอย่างเป็นกันเอง\n* 🎨 มีสตูดิโอวาดภาพ AI (Text-to-Image) และโปรแกรมตกแต่งรูปภาพในตัว\n* 💻 เขียนโค้ด พัฒนาซอฟต์แวร์ และแก้ปัญหาโปรแกรมมิ่งได้ทุกภาษา (เฉพาะเมื่อคุณสั่ง)\n* 🗣️ มีเสียงอ่านสังเคราะห์ภาษาไทยที่นุ่มนวลและเป็นธรรมชาติ\n\nมีอะไรอยากคุยหรืออยากให้ผมช่วย บอกมาได้เลยครับ!`;
+        }
+
+        // 3.7 Praise & Thanks
+        if (q.includes('ขอบคุณ') || q.includes('ขอบใจ') || q.includes('แต๊งกิ้ว') || q.includes('thank') || q.includes('เก่งมาก') || q.includes('สุดยอด') || q.includes('เจ๋ง')) {
+          return `ยินดีมากๆ เลยครับ! ❤️ ดีใจที่ได้คุยและได้เป็นประโยชน์กับคุณนะครับ หากมีเรื่องไหนอยากคุยต่อ หรือมีงานให้ช่วยเรียกหา AI เด็กเทพ ได้ทุกเมื่อเลยนะครับ! ✨`;
+        }
+
+        // 3.8 General Intelligent Conversational Fallback
+        return `ผมเข้าใจเรื่อง **"${raw}"** ที่คุณพูดเลยครับ! 😊\n\nมีมุมมองหรือประเด็นไหนเกี่ยวกับเรื่องนี้ที่คุณอยากคุยต่อ หรืออยากให้ผมช่วยเสนอไอเดียเพิ่มเติมไหมครับ? ลองเล่ารายละเอียดให้ฟังได้เลยนะ ผมพร้อมคุยและแลกเปลี่ยนกับคุณเสมอครับ! ✨`;
+      }
+
+      // -----------------------------------------------------------------------
+      // 4. CODE GENERATION (ONLY WHEN isExplicitCoding IS TRUE)
+      // -----------------------------------------------------------------------
+
+      // 4.1 POS / ระบบขายหน้าร้าน
       if (q.includes('pos') || q.includes('ขายหน้าร้าน') || q.includes('คิดเงิน') || q.includes('สต็อก')) {
         return `ยินดีครับ! นี่คือโค้ด **ระบบขายหน้าร้าน (Point of Sale - POS System)** ฉบับสมบูรณ์ด้วยภาษา Python พร้อมระบบตัดสต็อก คำนวณ VAT 7% และพิมพ์ใบเสร็จครับ 🛒
 
@@ -2152,7 +2248,7 @@ if __name__ == "__main__":
 2. รันคำสั่ง \`python pos.py\` ได้ทันทีครับ`;
       }
 
-      // 2. Calculator / ตัดเกรด
+      // 4.2 Calculator / ตัดเกรด
       if (q.includes('คำนวณ') || q.includes('calculator') || q.includes('เครื่องคิดเลข') || q.includes('เกรด') || q.includes('grade')) {
         return `ยินดีครับ! นี่คือโปรแกรม **ระบบคำนวณและตัดเกรดอัตโนมัติ (Automated Grade Evaluation & GPA System)** ในภาษา Python ครับ 📊
 
@@ -2194,7 +2290,7 @@ if __name__ == "__main__":
 \`\`\``;
       }
 
-      // 3. Python Scraper
+      // 4.3 Python Scraper
       if (q.includes('scraper') || q.includes('ดึงข้อมูล') || (q.includes('python') && (q.includes('เว็บ') || q.includes('web')))) {
         return `ยินดีครับ! นี่คือโค้ด **Python Web Scraper** ดึงข้อมูลจากเว็บไซต์ด้วย \`requests\` และ \`BeautifulSoup\` บันทึกลงไฟล์ CSV ครับ 🐍
 
@@ -2241,7 +2337,7 @@ python scraper.py
 \`\`\``;
       }
 
-      // 4. Snake Game HTML/JS
+      // 4.4 Snake Game HTML/JS
       if (q.includes('เกมงู') || q.includes('snake') || (q.includes('เกม') && q.includes('javascript'))) {
         return `จัดให้เลยครับ! นี่คือ **เกมงู (Classic Retro Snake Game)** จบครบในไฟล์เดียว สามารถเซฟเป็น \`snake.html\` แล้วดับเบิ้ลคลิกเล่นในเบราว์เซอร์ได้ทันทีครับ 🎮
 
@@ -2327,7 +2423,7 @@ python scraper.py
 \`\`\``;
       }
 
-      // 5. C / C++ Language Program
+      // 4.5 C / C++ Language Program
       if (q.includes('ภาษา c') || q.includes('ภาษาc') || q.includes(' c++') || q.includes('cpp')) {
         return `ยินดีครับ! นี่คือโค้ดภาษา **C/C++** ระบบจัดการข้อมูล Struct, Pointers และ Memory Management ครบถ้วนครับ 💻
 
@@ -2376,7 +2472,7 @@ gcc main.c -o app
 \`\`\``;
       }
 
-      // 6. C# .NET
+      // 4.6 C# .NET
       if (q.includes('c#') || q.includes('csharp') || q.includes('.net')) {
         return `ยินดีครับ! นี่คือโค้ด **C# (.NET 8/9)** สำหรับสร้าง REST API Service & Console Worker พร้อมการใช้ LINQ และ Async/Await ครับ ⚡
 
@@ -2417,21 +2513,7 @@ namespace DekThepAI
 \`\`\``;
       }
 
-      // 7. General Greetings & Casual
-      if (q.includes('สวัสดี') || q.includes('หวัดดี') || q.includes('hello') || q.includes('hi') || q.includes('เป็นใคร') || q.includes('แนะนำตัว')) {
-        return `สวัสดีครับ! ยินดีที่ได้คุยกันครับ 😊✨
-
-ผมคือ **AI เด็กเทพ (DEK THEP AI)** ปัญญาประดิษฐ์อัจฉริยะในสไตล์ ChatGPT! ⚡
-ผมพร้อมช่วยเหลือคุณในทุกเรื่อง ไม่มีขีดจำกัด เช่น:
-* 💻 **เขียนโปรแกรม & ซอฟต์แวร์ทุกภาษา:** Python, JavaScript, C#, C/C++, Java, Go, Rust, PHP, SQL, PowerShell
-* 🛒 **สร้างระบบสำเร็จรูป:** ระบบ POS ขายหน้าร้าน, ระบบตัดเกรด, บอท, เว็บแอปพลิเคชัน
-* 🐞 **หาบั๊ก & แก้ไขโค้ด:** วางโค้ดที่มีปัญหามาได้เลย ช่วยแก้พร้อมอธิบายให้ทันที
-* ☕ **คุยเล่น แลกเปลี่ยน ปรึกษา:** ชวนคุยได้ทุกเรื่องตลอด 24 ชั่วโมง
-
-วันนี้มีอะไรให้ผมช่วยเขียนโค้ด หรืออยากชวนคุยเรื่องอะไรเป็นพิเศษไหมครับ? พิมพ์บอกมาได้เลยครับ!`;
-      }
-
-      // 8. Dynamic General Solution
+      // 4.7 Dynamic General Coding Solution (When explicit coding was requested for custom query)
       let detectedLang = "python";
       if (q.includes("javascript") || q.includes("js") || q.includes("เว็บ") || q.includes("web") || q.includes("html")) {
         detectedLang = "javascript";
@@ -2447,7 +2529,7 @@ namespace DekThepAI
 
       let generatedCode = "";
       if (detectedLang === "javascript") {
-        generatedCode = `// AI เด็กเทพ (DEK THEP AI) Solution for: ${query}
+        generatedCode = `// AI เด็กเทพ (DEK THEP AI) Solution for: ${raw}
 class SolutionManager {
   constructor(taskName) {
     this.taskName = taskName;
@@ -2466,10 +2548,10 @@ class SolutionManager {
   }
 }
 
-const app = new SolutionManager("${query.replace(/"/g, '\\"')}");
+const app = new SolutionManager("${raw.replace(/"/g, '\\"')}");
 console.log(app.execute());`;
       } else {
-        generatedCode = `# AI เด็กเทพ (DEK THEP AI) Solution for: ${query}
+        generatedCode = `# AI เด็กเทพ (DEK THEP AI) Solution for: ${raw}
 import sys
 import time
 
@@ -2486,12 +2568,12 @@ def execute_task(task_name):
     return results
 
 if __name__ == "__main__":
-    task = "${query.replace(/"/g, '\\"')}"
+    task = "${raw.replace(/"/g, '\\"')}"
     output = execute_task(task)
     print("ผลลัพธ์:", output)`;
       }
 
-      return `รับทราบครับ! เกี่ยวกับ **"${query}"** ผมจัดทำแนวทางและโค้ดโปรแกรมให้คุณเรียบร้อยแล้วครับ 🚀
+      return `รับทราบครับ! เกี่ยวกับคำสั่ง **"${raw}"** ผมจัดทำแนวทางและโค้ดโปรแกรมให้เรียบร้อยแล้วครับ 🚀
 
 ### 💡 แนวคิดการทำงาน:
 ระบบนี้ได้รับการออกแบบให้ทำงานได้อย่างสมบูรณ์ มีโครงสร้างที่ชัดเจน ปลอดภัย และสามารถนำไปปรับใช้ในโปรเจกต์จริงได้ทันที
