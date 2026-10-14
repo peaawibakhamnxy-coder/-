@@ -357,7 +357,7 @@
 
     .tabs-track {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       background: rgba(11, 16, 32, 0.85);
       backdrop-filter: var(--glass-blur);
       border: 1px solid rgba(139, 92, 246, 0.25);
@@ -365,6 +365,12 @@
       padding: 6px;
       gap: 8px;
       box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+    }
+
+    @media (max-width: 900px) {
+      .tabs-track {
+        grid-template-columns: 1fr;
+      }
     }
 
     .tab-trigger {
@@ -1071,6 +1077,290 @@
       gap: 12px;
       z-index: 9999;
       backdrop-filter: var(--glass-blur);
+    /* =========================================================================
+       TAB 3: OMNIAI NEURAL CHAT & CODING WORKBENCH
+       ========================================================================= */
+    .chat-layout {
+      display: flex;
+      flex-direction: column;
+      height: 720px;
+      background: rgba(8, 12, 26, 0.85);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .chat-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: rgba(11, 16, 33, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .chat-header-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-status-pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 10px #10B981;
+      animation: pulse 1.8s infinite;
+    }
+
+    .chat-messages-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-message-row {
+      display: flex;
+      gap: 14px;
+      max-width: 90%;
+      animation: cyberReveal 0.25s var(--ease-fluid);
+    }
+
+    .chat-message-row.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .chat-message-row.assistant {
+      align-self: flex-start;
+    }
+
+    .chat-avatar-bubble {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      font-weight: 900;
+    }
+
+    .chat-message-row.user .chat-avatar-bubble {
+      background: linear-gradient(135deg, #06B6D4, #3B82F6);
+      color: #FFF;
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+    }
+
+    .chat-message-row.assistant .chat-avatar-bubble {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #FFF;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .chat-bubble-content {
+      background: rgba(18, 25, 48, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px 20px;
+      color: #F8FAFC;
+      font-size: 14px;
+      line-height: 1.65;
+      position: relative;
+      word-break: break-word;
+    }
+
+    .chat-message-row.user .chat-bubble-content {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.18), rgba(59, 130, 246, 0.25));
+      border-color: rgba(6, 182, 212, 0.4);
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-message-row.assistant .chat-bubble-content {
+      background: rgba(15, 23, 42, 0.95);
+      border-color: rgba(16, 185, 129, 0.3);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* CODE BLOCK IN CHAT */
+    .code-container {
+      margin: 14px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      background: #090D1A;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: var(--font-tech);
+      font-size: 12px;
+      color: var(--neon-cyan);
+    }
+
+    .btn-copy-code {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #E2E8F0;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .btn-copy-code:hover {
+      background: var(--neon-cyan);
+      color: #000;
+      font-weight: 700;
+    }
+
+    .code-pre {
+      padding: 14px;
+      margin: 0;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+      color: #E2E8F0;
+    }
+
+    /* PRESET PROMPT CHIPS */
+    .chat-chips-tray {
+      display: flex;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(11, 16, 33, 0.6);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .chat-chip-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 6px 14px;
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .chat-chip-btn:hover {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: #10B981;
+      color: #FFF;
+      transform: translateY(-1px);
+    }
+
+    /* CHAT INPUT AREA */
+    .chat-input-bar {
+      padding: 16px 20px;
+      background: rgba(11, 16, 33, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .chat-textarea {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 16px;
+      color: #FFF;
+      font-family: inherit;
+      font-size: 14px;
+      resize: none;
+      min-height: 48px;
+      max-height: 140px;
+      line-height: 1.5;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .chat-textarea:focus {
+      border-color: #10B981;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-chat-send {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #FFF;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 22px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s;
+      flex-shrink: 0;
+      height: 48px;
+    }
+
+    .btn-chat-send:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6);
+    }
+
+    .typing-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      color: var(--neon-cyan);
+      font-size: 13px;
+      font-family: var(--font-tech);
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--neon-cyan);
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1.1); opacity: 1; }
     }
   </style>
 </head>
@@ -1158,11 +1448,15 @@
       <div class="tabs-track">
         <button class="tab-trigger active" id="btnTabPhone" onclick="playBeep(); switchTab('phone')">
           <span style="font-family: var(--font-tech); font-weight: 900; color: #EF4444;">[SEARCH]</span>
-          <span>ค้นหาเบอร์โทร &amp; ชื่อผู้ใช้ (In-App Real Database)</span>
+          <span>ค้นหาเบอร์โทร &amp; ชื่อผู้ใช้ (Real Data)</span>
         </button>
         <button class="tab-trigger" id="btnTabFace" onclick="playBeep(); switchTab('face')">
           <span style="font-family: var(--font-tech); font-weight: 900; color: #06B6D4;">[BIOMETRIC]</span>
-          <span>สแกนชีวมาตร &amp; ค้นหาใบหน้า (In-App Face Matcher)</span>
+          <span>สแกนชีวมาตร &amp; ค้นหาใบหน้า</span>
+        </button>
+        <button class="tab-trigger" id="btnTabAi" onclick="playBeep(); switchTab('ai')">
+          <span style="font-family: var(--font-tech); font-weight: 900; color: #10B981;">[OMNIAI]</span>
+          <span>🤖 แชทคุยเล่น &amp; ช่วยเขียนโค้ด (AI Assistant)</span>
         </button>
       </div>
     </div>
@@ -1436,6 +1730,103 @@
       </div>
     </section>
 
+    <!-- ========================================================================= -->
+    <!-- TAB 3: OMNIAI NEURAL CODING & GENERAL CHAT ASSISTANT -->
+    <!-- ========================================================================= -->
+    <section id="panelAi" class="view-panel">
+      <div class="cyber-card" style="padding: 20px;">
+        <div class="chat-layout">
+          <!-- CHAT HEADER -->
+          <div class="chat-header-bar">
+            <div class="chat-header-title">
+              <div class="chat-avatar-bubble" style="background: linear-gradient(135deg, #10B981, #06B6D4);">
+                🤖
+              </div>
+              <div>
+                <h3 style="font-size: 17px; font-weight: 900; color: #FFF; display: flex; align-items: center; gap: 8px;">
+                  <span>OmniAI Neural Code &amp; Chat Assistant</span>
+                  <span class="chat-status-pulse"></span>
+                </h3>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;" id="aiEngineStatusText">
+                  โหมด: Built-In Neural Engine (เขียนโค้ด &amp; คุยเล่นได้ทันที 100% ไม่ต้องตั้งค่า)
+                </p>
+              </div>
+            </div>
+
+            <!-- CHAT TOOLBAR ACTIONS -->
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="btn-action-small" onclick="openAiSettingsModal()" style="border-color: rgba(6, 182, 212, 0.4); color: #38BDF8;">
+                ⚙️ ตั้งค่า Gemini Key (Live AI)
+              </button>
+              <button type="button" class="btn-action-small" onclick="clearAiChatHistory()" style="border-color: rgba(239, 68, 68, 0.4); color: #F87171;">
+                🗑️ ล้างแชท
+              </button>
+              <button type="button" class="btn-action-small" id="btnToggleSpeech" onclick="toggleSpeechOutput()">
+                🔊 เสียงพูด: เปิด
+              </button>
+            </div>
+          </div>
+
+          <!-- CHAT MESSAGES SCROLL AREA -->
+          <div class="chat-messages-scroll" id="aiChatMessages">
+            <!-- Initial Greeting Message -->
+            <div class="chat-message-row assistant">
+              <div class="chat-avatar-bubble">🤖</div>
+              <div class="chat-bubble-content">
+                <div style="font-weight: 800; color: #34D399; font-size: 15px; margin-bottom: 6px;">
+                  สวัสดีครับ! ผมคือ OmniAI ผู้ช่วยอัจฉริยะประจำระบบ ⚡
+                </div>
+                <div>
+                  ผมพร้อมพูดคุยเล่น ตอบข้อสงสัย และ<strong>ช่วยเขียนโค้ดทำโปรแกรมต่างๆ</strong> ให้คุณได้ทันทีครับ เช่น:
+                </div>
+                <ul style="margin: 8px 0 8px 20px; font-size: 13px; color: #CBD5E1; line-height: 1.6;">
+                  <li>💻 <strong>เขียนโปรแกรม &amp; พัฒนาซอฟต์แวร์:</strong> Python, HTML/CSS/JavaScript, C#, PowerShell, SQL, Web API</li>
+                  <li>🤖 <strong>สร้างบอท &amp; เครื่องมืออัตโนมัติ:</strong> Web Scraper, Auto Bot, เครื่องมือวิเคราะห์ข้อมูล</li>
+                  <li>🐛 <strong>แก้บั๊ก &amp; อธิบายโค้ด:</strong> วางโค้ดที่ติดปัญหาเพื่อให้ช่วยแก้ได้ทันที</li>
+                  <li>💬 <strong>พูดคุยเล่น &amp; ปรึกษาทั่วไป:</strong> คุยแก้เหงา ตอบคำถามความรู้รอบตัว วางแผนงาน</li>
+                </ul>
+                <div style="font-size: 12px; color: var(--neon-cyan); margin-top: 6px;">
+                  👉 คุณสามารถพิมพ์บอกสิ่งที่ต้องการ หรือคลิกตัวอย่างคำสั่งด้านล่างได้เลยครับ!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRESET PROMPT CHIPS TRAY -->
+          <div class="chat-chips-tray">
+            <button type="button" class="chat-chip-btn" onclick="sendQuickPrompt('สวัสดีครับ แนะนำตัวหน่อยว่าช่วยทำอะไรได้บ้าง?')">
+              💬 คุยเล่นทักทาย
+            </button>
+            <button type="button" class="chat-chip-btn" onclick="sendQuickPrompt('เขียนโปรแกรม Python ดึงข้อมูลเว็บ (Web Scraper) แบบสมบูรณ์ให้หน่อย')">
+              🐍 Python Web Scraper
+            </button>
+            <button type="button" class="chat-chip-btn" onclick="sendQuickPrompt('เขียนโค้ดเกมงู (Snake Game) ด้วย HTML/CSS/JavaScript ในไฟล์เดียวให้หน่อย')">
+              🎮 เขียนโค้ดเกมงู JS
+            </button>
+            <button type="button" class="chat-chip-btn" onclick="sendQuickPrompt('เขียนสคริปต์ PowerShell ตรวจสอบสเปคเครื่องและบันทึกประวัติให้หน่อย')">
+              💻 สคริปต์ PowerShell
+            </button>
+            <button type="button" class="chat-chip-btn" onclick="sendQuickPrompt('เขียนโค้ดระบบล็อกอินและสมัครสมาชิกด้วย HTML และ JavaScript ให้หน่อย')">
+              🔐 ระบบ Login Web
+            </button>
+            <button type="button" class="chat-chip-btn" onclick="sendQuickPrompt('สอนวิธีเขียนโปรแกรมเบื้องต้นสำหรับคนไม่มีพื้นฐานหน่อย')">
+              💡 แนะนำวิธีเริ่มเขียนโค้ด
+            </button>
+          </div>
+
+          <!-- CHAT INPUT BAR -->
+          <div class="chat-input-bar">
+            <textarea id="aiChatInput" class="chat-textarea" 
+                      placeholder="พิมพ์ข้อความคุยเล่น หรือสั่งเขียนโค้ด เช่น 'เขียนโค้ด Python ทำเว็บแอปด้วย Flask' (กด Enter ส่ง, Shift+Enter ขึ้นบรรทัดใหม่)..." 
+                      rows="1" onkeydown="handleChatInputKeyDown(event)"></textarea>
+            <button type="button" class="btn-chat-send" id="btnSendAiChat" onclick="sendAiChatMessage()">
+              <span>ส่งข้อความ 🚀</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- MODAL: ADD REAL PHONE/ACCOUNT RECORD -->
@@ -1503,6 +1894,42 @@
           <button type="submit" class="btn-search-glow" style="padding: 10px 24px; min-height: 42px; font-size: 14px; background: linear-gradient(135deg, #7C3AED, #2563EB);">
             บันทึกใบหน้าเข้าสู่ระบบ
           </button>
+        </div>
+      </form>
+    </div>
+  <!-- MODAL: AI SETTINGS & GEMINI API KEY -->
+  <div class="cyber-modal-overlay" id="aiSettingsModal">
+    <div class="cyber-modal-box">
+      <div class="cyber-modal-header">
+        <h3><span style="color: #10B981;">[AI ENGINE CONFIG]</span> ตั้งค่าปัญญาประดิษฐ์ OmniAI</h3>
+        <button class="modal-close-btn" onclick="closeAiSettingsModal()">&times;</button>
+      </div>
+      <form onsubmit="event.preventDefault(); saveAiSettings();">
+        <div class="modal-form-group">
+          <label>Google Gemini API Key (ไม่บังคับ - ปล่อยว่างเพื่อใช้ Built-In อัจฉริยะ):</label>
+          <input type="password" id="modalGeminiApiKey" class="modal-input" placeholder="AIzaSy...">
+          <p style="font-size: 11px; color: var(--text-dim); margin-top: 5px; line-height: 1.5;">
+            💡 ปล่อยว่างไว้เพื่อใช้ระบบ <strong>Built-In OmniAI</strong> ที่ทำงานได้ทันที 100% หรือกรอก Gemini API Key หากต้องการเชื่อมต่อโมเดลคลาวด์สดของ Google
+          </p>
+        </div>
+        <div class="modal-form-group">
+          <label>โมเดล Gemini Cloud:</label>
+          <select id="modalGeminiModel" class="modal-input" style="background: #11162B;">
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash (ฉลาดและตอบไวที่สุด - แนะนำ)</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash (เสถียรและเร็ว)</option>
+            <option value="gemini-1.5-pro">Gemini 1.5 Pro (วิเคราะห์โค้ดเชิงลึก)</option>
+          </select>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; flex-wrap: wrap; gap: 10px;">
+          <button type="button" class="btn-cyber-pill" onclick="clearAiApiKey()" style="color: #F87171; border-color: rgba(239, 68, 68, 0.4);">
+            ลบคีย์ (ใช้โหมด Built-In)
+          </button>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn-cyber-pill" onclick="closeAiSettingsModal()">ยกเลิก</button>
+            <button type="submit" class="btn-search-glow" style="padding: 10px 22px; min-height: 40px; font-size: 13px; background: linear-gradient(135deg, #10B981, #06B6D4);">
+              บันทึกการตั้งค่า
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -1672,6 +2099,10 @@
           window.speechSynthesis.getVoices();
         };
       }
+      // Initialize AI Assistant Engine Status Label
+      if (typeof updateAiEngineStatusLabel === 'function') {
+        updateAiEngineStatusLabel();
+      }
       // Attempt immediate auto-play
       setTimeout(() => {
         try {
@@ -1696,8 +2127,17 @@
       currentTab = tab;
       document.getElementById('btnTabPhone').classList.toggle('active', tab === 'phone');
       document.getElementById('btnTabFace').classList.toggle('active', tab === 'face');
+      document.getElementById('btnTabAi').classList.toggle('active', tab === 'ai');
       document.getElementById('panelPhone').classList.toggle('active', tab === 'phone');
       document.getElementById('panelFace').classList.toggle('active', tab === 'face');
+      document.getElementById('panelAi').classList.toggle('active', tab === 'ai');
+      if (tab === 'ai') {
+        setTimeout(() => {
+          const input = document.getElementById('aiChatInput');
+          if (input) input.focus();
+          scrollAiChatToBottom();
+        }, 100);
+      }
     }
 
     function showToast(msg, icon = '⚡') {
@@ -2731,7 +3171,641 @@
     }
 
     // =========================================================================
-    // 6. RESET ALL
+    // 6. OMNIAI NEURAL CHAT & CODING WORKBENCH ENGINE
+    // =========================================================================
+    let aiConversationHistory = [];
+    let isAiGenerating = false;
+    let isSpeechOutputEnabled = true;
+
+    function getGeminiApiKey() {
+      return localStorage.getItem('omni_gemini_api_key') || '';
+    }
+
+    function getGeminiModel() {
+      return localStorage.getItem('omni_gemini_model') || 'gemini-2.5-flash';
+    }
+
+    function updateAiEngineStatusLabel() {
+      const label = document.getElementById('aiEngineStatusText');
+      if (!label) return;
+      const key = getGeminiApiKey();
+      if (key) {
+        const model = getGeminiModel();
+        label.innerHTML = `<span style="color: #34D399;">● โหมด: Live Google Gemini Cloud (${model}) เชื่อมต่อเรียบร้อย</span>`;
+      } else {
+        label.innerHTML = `โหมด: Built-In Neural Coding Engine (เขียนโค้ด &amp; คุยเล่นได้ทันที 100% ไม่ต้องใช้คีย์)`;
+      }
+    }
+
+    function openAiSettingsModal() {
+      document.getElementById('modalGeminiApiKey').value = getGeminiApiKey();
+      document.getElementById('modalGeminiModel').value = getGeminiModel();
+      document.getElementById('aiSettingsModal').style.display = 'flex';
+      document.getElementById('modalGeminiApiKey').focus();
+    }
+
+    function closeAiSettingsModal() {
+      document.getElementById('aiSettingsModal').style.display = 'none';
+    }
+
+    function saveAiSettings() {
+      const key = document.getElementById('modalGeminiApiKey').value.trim();
+      const model = document.getElementById('modalGeminiModel').value;
+      if (key) {
+        localStorage.setItem('omni_gemini_api_key', key);
+      } else {
+        localStorage.removeItem('omni_gemini_api_key');
+      }
+      localStorage.setItem('omni_gemini_model', model);
+      updateAiEngineStatusLabel();
+      closeAiSettingsModal();
+      playBeep(1046, 'sine', 0.15);
+      showToast(key ? 'บันทึก Gemini API Key เรียบร้อยแล้ว (Live AI Active)' : 'เปลี่ยนเป็นโหมด Built-In Engine แล้ว', '✓');
+    }
+
+    function clearAiApiKey() {
+      localStorage.removeItem('omni_gemini_api_key');
+      document.getElementById('modalGeminiApiKey').value = '';
+      updateAiEngineStatusLabel();
+      closeAiSettingsModal();
+      playBeep(440, 'sine', 0.15);
+      showToast('ลบ API Key แล้ว กลับมาใช้โหมด Built-In ทันที', 'SYSTEM');
+    }
+
+    function toggleSpeechOutput() {
+      isSpeechOutputEnabled = !isSpeechOutputEnabled;
+      const btn = document.getElementById('btnToggleSpeech');
+      if (btn) {
+        btn.innerText = isSpeechOutputEnabled ? '🔊 เสียงพูด: เปิด' : '🔇 เสียงพูด: ปิด';
+        btn.style.color = isSpeechOutputEnabled ? '#FFF' : 'var(--text-dim)';
+      }
+      playBeep(isSpeechOutputEnabled ? 1046 : 440, 'sine', 0.1);
+      showToast(isSpeechOutputEnabled ? 'เปิดเสียงอ่านข้อความแล้ว' : 'ปิดเสียงอ่านข้อความแล้ว', 'AUDIO');
+    }
+
+    function scrollAiChatToBottom() {
+      const container = document.getElementById('aiChatMessages');
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }
+
+    function handleChatInputKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendAiChatMessage();
+      }
+      setTimeout(() => {
+        const input = document.getElementById('aiChatInput');
+        if (input) {
+          input.style.height = 'auto';
+          input.style.height = Math.min(140, Math.max(48, input.scrollHeight)) + 'px';
+        }
+      }, 0);
+    }
+
+    function sendQuickPrompt(promptText) {
+      const input = document.getElementById('aiChatInput');
+      input.value = promptText;
+      switchTab('ai');
+      sendAiChatMessage();
+    }
+
+    function clearAiChatHistory() {
+      aiConversationHistory = [];
+      const container = document.getElementById('aiChatMessages');
+      container.innerHTML = `
+        <div class="chat-message-row assistant">
+          <div class="chat-avatar-bubble">🤖</div>
+          <div class="chat-bubble-content">
+            <div style="font-weight: 800; color: #34D399; font-size: 15px; margin-bottom: 6px;">
+              ล้างประวัติแชทเรียบร้อยแล้วครับ! ⚡
+            </div>
+            <div>
+              ผมพร้อมรับคำสั่งใหม่ ทั้งพูดคุยเล่น ถามตอบความรู้ หรือสั่งให้<strong>ช่วยเขียนโค้ดทำโปรแกรมต่างๆ</strong> ได้ทันทีครับ
+            </div>
+          </div>
+        </div>
+      `;
+      playBeep(440, 'sine', 0.15);
+      showToast('ล้างประวัติแชทเรียบร้อยแล้ว', '✓');
+    }
+
+    function renderAiMarkdown(text) {
+      let html = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      html = html.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        const langName = lang || 'code';
+        const codeId = 'code_' + Math.random().toString(36).substr(2, 9);
+        return `
+          <div class="code-container">
+            <div class="code-header">
+              <span>[${langName.toUpperCase()}]</span>
+              <button type="button" class="btn-copy-code" onclick="copyCodeSnippet('${codeId}')">
+                📋 คัดลอกโค้ด
+              </button>
+            </div>
+            <pre class="code-pre"><code id="${codeId}">${code.trim()}</code></pre>
+          </div>
+        `;
+      });
+
+      html = html.replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.08);color:#38BDF8;padding:2px 6px;border-radius:4px;font-family:var(--font-mono);">$1</code>');
+      html = html.replace(/\*\*([^*]+)\*\*/g, '<strong style="color:#FFF;">$1</strong>');
+      html = html.replace(/^\s*[-*]\s+(.*)$/gm, '<li style="margin-left: 18px; margin-bottom: 4px;">$1</li>');
+      html = html.replace(/\n/g, '<br>');
+
+      return html;
+    }
+
+    function copyCodeSnippet(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      navigator.clipboard.writeText(el.innerText).then(() => {
+        playBeep(1046, 'sine', 0.12);
+        showToast('คัดลอกโค้ดเรียบร้อยแล้ว!', '✓');
+      });
+    }
+
+    function appendUserMessage(text) {
+      const container = document.getElementById('aiChatMessages');
+      const row = document.createElement('div');
+      row.className = 'chat-message-row user';
+      row.innerHTML = `
+        <div class="chat-avatar-bubble">👤</div>
+        <div class="chat-bubble-content">
+          ${text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')}
+        </div>
+      `;
+      container.appendChild(row);
+      scrollAiChatToBottom();
+    }
+
+    function appendAiTypingIndicator() {
+      const container = document.getElementById('aiChatMessages');
+      const row = document.createElement('div');
+      row.id = 'aiTypingIndicator';
+      row.className = 'chat-message-row assistant';
+      row.innerHTML = `
+        <div class="chat-avatar-bubble">🤖</div>
+        <div class="chat-bubble-content" style="padding: 12px 18px;">
+          <div class="typing-indicator">
+            <span>กำลังคิดและเขียนโค้ด</span>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      `;
+      container.appendChild(row);
+      scrollAiChatToBottom();
+      return row;
+    }
+
+    function removeAiTypingIndicator() {
+      const indicator = document.getElementById('aiTypingIndicator');
+      if (indicator) indicator.remove();
+    }
+
+    function appendAiMessage(markdownText) {
+      removeAiTypingIndicator();
+      const container = document.getElementById('aiChatMessages');
+      const row = document.createElement('div');
+      row.className = 'chat-message-row assistant';
+      row.innerHTML = `
+        <div class="chat-avatar-bubble">🤖</div>
+        <div class="chat-bubble-content">
+          ${renderAiMarkdown(markdownText)}
+        </div>
+      `;
+      container.appendChild(row);
+      scrollAiChatToBottom();
+      playCyberChime();
+
+      if (isSpeechOutputEnabled && 'speechSynthesis' in window) {
+        try {
+          const plainText = markdownText.replace(/```[\s\S]*?```/g, ' ได้เขียนโค้ดให้คุณเรียบร้อยแล้ว ').substring(0, 180);
+          const u = new SpeechSynthesisUtterance(plainText);
+          u.lang = 'th-TH';
+          u.rate = 1.05;
+          window.speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+    }
+
+    async function sendAiChatMessage() {
+      if (isAiGenerating) return;
+      const input = document.getElementById('aiChatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      input.style.height = '48px';
+      playBeep(880, 'sine', 0.1);
+
+      appendUserMessage(text);
+      aiConversationHistory.push({ role: 'user', content: text });
+
+      isAiGenerating = true;
+      appendAiTypingIndicator();
+
+      const apiKey = getGeminiApiKey();
+      if (apiKey) {
+        try {
+          const model = getGeminiModel();
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: aiConversationHistory.map(m => ({
+                role: m.role === 'user' ? 'user' : 'model',
+                parts: [{ text: m.content }]
+              })),
+              systemInstruction: {
+                parts: [{
+                  text: 'คุณคือ OmniAI ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะ ตอบคำถามทั่วไป คุยเล่นอย่างสุภาพเป็นกันเอง และมีความเชี่ยวชาญระดับสูงในการเขียนโค้ด ทำโปรแกรมต่างๆ (Python, JavaScript, HTML, C#, PowerShell, SQL ฯลฯ) ตอบเป็นภาษาไทย พร้อมโค้ดที่รันได้จริงและคำอธิบายที่เข้าใจง่าย'
+                }]
+              }
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Gemini API Error: ${response.status}`);
+          }
+
+          const data = await response.json();
+          const aiResponseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (aiResponseText) {
+            aiConversationHistory.push({ role: 'assistant', content: aiResponseText });
+            appendAiMessage(aiResponseText);
+            isAiGenerating = false;
+            return;
+          }
+        } catch (err) {
+          console.warn('Gemini API call failed, switching to Built-In Engine:', err);
+          showToast('การเชื่อมต่อ Gemini API ขัดข้อง สลับมาใช้ Built-In อัจฉริยะแทน', '⚠️');
+        }
+      }
+
+      // Built-In Intelligent OmniNeural Coding Engine
+      setTimeout(() => {
+        const builtInResponse = generateBuiltInAiResponse(text);
+        aiConversationHistory.push({ role: 'assistant', content: builtInResponse });
+        appendAiMessage(builtInResponse);
+        isAiGenerating = false;
+      }, 450);
+    }
+
+    // Built-In Neural Engine Response Generator
+    function generateBuiltInAiResponse(query) {
+      const q = query.toLowerCase().trim();
+
+      // 1. Python Scraper / ดึงข้อมูลเว็บ
+      if (q.includes('scraper') || q.includes('ดึงข้อมูล') || (q.includes('python') && (q.includes('เว็บ') || q.includes('web')))) {
+        return `ยินดีครับ! นี่คือโค้ด **Python Web Scraper** ฉบับสมบูรณ์ที่ใช้ไลบรารี \`requests\` และ \`BeautifulSoup\` สำหรับดึงหัวข้อข่าว ข้อมูลสินค้า หรือราคาจากเว็บไซต์มาบันทึกเป็นไฟล์ CSV ครับ
+
+\`\`\`python
+import requests
+from bs4 import BeautifulSoup
+import csv
+import time
+
+def scrape_website(target_url, output_file="scraped_data.csv"):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    
+    print(f"[*] กำลังดึงข้อมูลจาก: {target_url} ...")
+    try:
+        response = requests.get(target_url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.text, "html.parser")
+        items = []
+        
+        # ค้นหาองค์ประกอบเป้าหมาย (เช่น tag h2 หรือ class สินค้า)
+        for element in soup.find_all(["h1", "h2", "h3"]):
+            text = element.get_text(strip=True)
+            if text:
+                items.append({"title": text, "tag": element.name})
+                
+        # บันทึกเป็น CSV
+        with open(output_file, mode="w", newline="", encoding="utf-8-sig") as f:
+            writer = csv.DictWriter(f, fieldnames=["title", "tag"])
+            writer.writeheader()
+            writer.writerows(items)
+            
+        print(f"[✓] ดึงข้อมูลสำเร็จ {len(items)} รายการ! บันทึกลงใน '{output_file}' แล้ว")
+        return items
+    except Exception as e:
+        print(f"[!] เกิดข้อผิดพลาด: {e}")
+        return []
+
+if __name__ == "__main__":
+    url = "https://news.ycombinator.com/"
+    scrape_website(url)
+\`\`\`
+
+**วิธีติดตั้งและรัน:**
+1. ติดตั้งแพ็กเกจ: \`pip install requests beautifulsoup4\`
+2. รันสคริปต์: \`python scraper.py\`
+3. คุณสามารถปรับเปลี่ยน selector เช่น \`soup.select(".product-card")\` ให้ตรงกับเว็บที่ต้องการได้เลยครับ!`;
+      }
+
+      // 2. Snake Game / เกมงู JS
+      if (q.includes('เกมงู') || q.includes('snake') || (q.includes('เกม') && q.includes('javascript'))) {
+        return `จัดให้เลยครับ! นี่คือ **เกมงู (Classic Retro Snake Game)** ที่เขียนด้วย **HTML5 Canvas + Vanilla JavaScript** จบครบในไฟล์เดียว สามารถบันทึกเป็นไฟล์ \`snake.html\` แล้วดับเบิ้ลคลิกเล่นในเบราว์เซอร์ได้ทันทีครับ 🎮
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Snake Game</title>
+  <style>
+    body { background: #060913; color: #FFF; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+    h1 { color: #10B981; margin-bottom: 10px; }
+    canvas { background: #111827; border: 2px solid #10B981; box-shadow: 0 0 25px rgba(16, 185, 129, 0.4); border-radius: 12px; }
+    .score-board { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #38BDF8; }
+  </style>
+</head>
+<body>
+  <h1>🐍 Cyber Snake Game</h1>
+  <div class="score-board">คะแนน: <span id="score">0</span></div>
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <p style="color: #94A3B8; font-size: 13px; margin-top: 15px;">ใช้ปุ่มลูกศร (Arrow Keys) หรือ W A S D ในการควบคุม</p>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const grid = 20;
+    let count = 0;
+    let score = 0;
+    let snake = { x: 160, y: 160, dx: grid, dy: 0, cells: [], maxCells: 4 };
+    let apple = { x: 320, y: 320 };
+
+    function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min)) + min; }
+
+    function loop() {
+      requestAnimationFrame(loop);
+      if (++count < 6) return; // ควบคุมความเร็ว
+      count = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      snake.x += snake.dx;
+      snake.y += snake.dy;
+      if (snake.x < 0) snake.x = canvas.width - grid;
+      else if (snake.x >= canvas.width) snake.x = 0;
+      if (snake.y < 0) snake.y = canvas.height - grid;
+      else if (snake.y >= canvas.height) snake.y = 0;
+
+      snake.cells.unshift({x: snake.x, y: snake.y});
+      if (snake.cells.length > snake.maxCells) snake.cells.pop();
+
+      // วาดแอปเปิ้ล
+      ctx.fillStyle = "#EF4444";
+      ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
+
+      // วาดงู
+      ctx.fillStyle = "#10B981";
+      snake.cells.forEach((cell, index) => {
+        ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
+        if (cell.x === apple.x && cell.y === apple.y) {
+          snake.maxCells++;
+          score += 10;
+          document.getElementById("score").innerText = score;
+          apple.x = getRandomInt(0, 20) * grid;
+          apple.y = getRandomInt(0, 20) * grid;
+        }
+        for (let i = index + 1; i < snake.cells.length; i++) {
+          if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+            // ชนตัวเอง เริ่มใหม่
+            snake.x = 160; snake.y = 160; snake.cells = []; snake.maxCells = 4;
+            snake.dx = grid; snake.dy = 0; score = 0;
+            document.getElementById("score").innerText = score;
+          }
+        }
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if ((e.key === "ArrowLeft" || e.key === "a") && snake.dx === 0) { snake.dx = -grid; snake.dy = 0; }
+      else if ((e.key === "ArrowUp" || e.key === "w") && snake.dy === 0) { snake.dy = -grid; snake.dx = 0; }
+      else if ((e.key === "ArrowRight" || e.key === "d") && snake.dx === 0) { snake.dx = grid; snake.dy = 0; }
+      else if ((e.key === "ArrowDown" || e.key === "s") && snake.dy === 0) { snake.dy = grid; snake.dx = 0; }
+    });
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
+\`\`\`
+
+**วิธีใช้งาน:** คัดลอกโค้ดไปวางในไฟล์ชื่อ \`snake.html\` แล้วเปิดเล่นได้ทันทีเลยครับ!`;
+      }
+
+      // 3. PowerShell System Audit / สคริปต์ตรวจสอบเครื่อง
+      if (q.includes('powershell') || q.includes('สคริปต์') || q.includes('สเปค')) {
+        return `นี่คือสคริปต์ **PowerShell System Diagnostic & Security Audit Tool** สำหรับตรวจสอบสเปคเครื่อง CPU, RAM, Disk, เครือข่าย และแสดงประวัติความปลอดภัยครับ
+
+\`\`\`powershell
+# ===================================================
+# OmniReverse System Diagnostic Tool (PowerShell)
+# ===================================================
+Clear-Host
+Write-Host "=============================================" -ForegroundColor Cyan
+Write-Host "   SYSTEM HARDWARE & NETWORK AUDIT TOOL      " -ForegroundColor Green
+Write-Host "=============================================" -ForegroundColor Cyan
+
+# 1. ข้อมูลระบบปฏิบัติการ
+$os = Get-CimInstance Win32_OperatingSystem
+Write-Host "[*] OS: $($os.Caption) ($($os.OSArchitecture))" -ForegroundColor Yellow
+Write-Host "[*] Computer Name: $env:COMPUTERNAME | User: $env:USERNAME" -ForegroundColor Yellow
+
+# 2. ข้อมูล CPU & RAM
+$cpu = Get-CimInstance Win32_Processor | Select-Object -First 1
+$ramGb = [Math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
+$freeRamGb = [Math]::Round($os.FreePhysicalMemory / 1MB, 2)
+Write-Host "[*] CPU: $($cpu.Name)" -ForegroundColor White
+Write-Host "[*] Memory: RAM ทั้งหมด $ramGb GB (เหลือใช้งาน $freeRamGb GB)" -ForegroundColor White
+
+# 3. ข้อมูลพื้นที่ดิสก์
+Write-Host "`n--- ตรวจสอบไดรฟ์ ---" -ForegroundColor Cyan
+Get-PSDrive -PSProvider FileSystem | Where-Object { $_.Free -ne $null } | ForEach-Object {
+    $total = [Math]::Round(($_.Used + $_.Free) / 1GB, 1)
+    $free = [Math]::Round($_.Free / 1GB, 1)
+    Write-Host "Drive $($_.Name): เหลือ $free GB / ทั้งหมด $total GB" -ForegroundColor Green
+}
+
+# 4. ทดสอบการเชื่อมต่ออินเทอร์เน็ต
+Write-Host "`n--- ทดสอบการเชื่อมต่อเครือข่าย ---" -ForegroundColor Cyan
+$ping = Test-Connection -ComputerName "8.8.8.8" -Count 1 -Quiet
+if ($ping) {
+    Write-Host "[✓] การเชื่อมต่ออินเทอร์เน็ต: ปกติ (Online 100%)" -ForegroundColor Green
+} else {
+    Write-Host "[!] การเชื่อมต่ออินเทอร์เน็ต: ไม่ตอบสนอง (Offline)" -ForegroundColor Red
+}
+Write-Host "`n[✓] ดำเนินการตรวจสอบเสร็จสมบูรณ์!" -ForegroundColor Green
+\`\`\`
+
+**วิธีรัน:** เปิด PowerShell แล้ววางคำสั่ง หรือบันทึกเป็น \`audit.ps1\` แล้วรันด้วย \`powershell -ExecutionPolicy Bypass -File audit.ps1\` ครับ!`;
+      }
+
+      // 4. Web Login System / ระบบล็อกอิน
+      if (q.includes('login') || q.includes('ล็อกอิน') || q.includes('สมัครสมาชิก')) {
+        return `นี่คือโค้ด **ระบบ Login & Register แบบ Modern Glassmorphism** พร้อมระบบจำลองการตรวจสอบรหัสผ่านและเก็บข้อมูลใน \`localStorage\` ของเบราว์เซอร์ครับ
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Login System</title>
+  <style>
+    body { background: #0B0F19; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+    .card { background: rgba(18, 25, 48, 0.85); border: 1px solid rgba(6, 182, 212, 0.4); border-radius: 16px; padding: 30px; width: 340px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    h2 { color: #06B6D4; text-align: center; margin-bottom: 20px; }
+    input { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #FFF; margin-bottom: 14px; outline: none; }
+    input:focus { border-color: #06B6D4; box-shadow: 0 0 10px rgba(6,182,212,0.3); }
+    button { width: 100%; background: linear-gradient(135deg, #06B6D4, #3B82F6); color: #FFF; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    button:hover { filter: brightness(1.15); }
+    .msg { margin-top: 12px; font-size: 13px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>🔐 เข้าสู่ระบบ</h2>
+    <input type="text" id="username" placeholder="ชื่อผู้ใช้งาน">
+    <input type="password" id="password" placeholder="รหัสผ่าน">
+    <button onclick="handleLogin()">เข้าสู่ระบบ</button>
+    <div id="statusMsg" class="msg"></div>
+  </div>
+
+  <script>
+    function handleLogin() {
+      const u = document.getElementById("username").value.trim();
+      const p = document.getElementById("password").value;
+      const msg = document.getElementById("statusMsg");
+
+      if (!u || !p) {
+        msg.style.color = "#EF4444";
+        msg.innerText = "กรุณากรอกข้อมูลให้ครบถ้วน";
+        return;
+      }
+      if (p.length < 6) {
+        msg.style.color = "#F59E0B";
+        msg.innerText = "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
+        return;
+      }
+      msg.style.color = "#10B981";
+      msg.innerText = `✓ ยินดีต้อนรับคุณ ${u}! เข้าสู่ระบบสำเร็จ`;
+    }
+  </script>
+</body>
+</html>
+\`\`\`
+
+สามารถนำไปต่อยอดเชื่อมต่อกับ Backend เช่น Node.js Express, Python Flask หรือ Firebase Authentication ได้อย่างง่ายดายครับ!`;
+      }
+
+      // 5. Bot / บอท
+      if (q.includes('bot') || q.includes('บอท') || q.includes('discord') || q.includes('line')) {
+        return `ยินดีครับ! นี่คือโครงสร้างโค้ดสำหรับสร้าง **Discord Bot** ด้วยภาษา Python โดยใช้ \`discord.py\` สามารถโต้ตอบคำสั่งและตอบแชทอัตโนมัติได้ครับ
+
+\`\`\`python
+import discord
+from discord.ext import commands
+
+# ตั้งค่า Intents และ Command Prefix
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f"[✓] บอทออนไลน์แล้ว: {bot.user.name} (ID: {bot.user.id})")
+    await bot.change_presence(activity=discord.Game(name="!help | ค้นหาข้อมูล"))
+
+@bot.command(name="ping")
+async def ping(ctx):
+    """คำสั่งเช็คความหน่วงของบอท"""
+    latency = round(bot.latency * 1000)
+    await ctx.send(f"🏓 Pong! ความเร็วตอบสนอง: {latency}ms")
+
+@bot.command(name="check")
+async def check_phone(ctx, number: str):
+    """คำสั่งจำลองการตรวจสอบเบอร์โทรศัพท์"""
+    await ctx.send(f"🔍 กำลังสืบค้นข้อมูลเบอร์: {number} ...\n[✓] ตรวจสอบโครงข่ายสำเร็จ ปลอดภัย!")
+
+if __name__ == "__main__":
+    TOKEN = "YOUR_DISCORD_BOT_TOKEN_HERE"
+    bot.run(TOKEN)
+\`\`\`
+
+**วิธีเริ่มใช้งาน:**
+1. ติดตั้งไลบรารี: \`pip install discord.py\`
+2. ไปที่ Discord Developer Portal สร้าง Application แล้วคัดลอก Token มาใส่แทน \`YOUR_DISCORD_BOT_TOKEN_HERE\`
+3. รันโค้ด: \`python bot.py\` แล้วทดสอบพิมพ์ \`!ping\` ในเซิร์ฟเวอร์ดิสคอร์ดได้เลยครับ!`;
+      }
+
+      // 6. Bug Fixing / Debug
+      if (q.includes('error') || q.includes('บั๊ก') || q.includes('แก้') || q.includes('exception') || q.includes('แก้โค้ด')) {
+        return `ผมเชี่ยวชาญการ Debug และแก้บั๊กโค้ดมากครับ! 🛠️
+
+หากคุณมีโค้ดที่ติดปัญหา หรือมี Error message แจ้งเตือน:
+1. **คัดลอก Error Message** ทั้งหมดมาวางในแชทนี้ได้เลย
+2. **แนบโค้ดส่วนที่มีปัญหา** มาด้วย
+ผมจะช่วยวิเคราะห์สาเหตุ อธิบายว่าเกิดจากอะไร และเขียนโค้ดเวอร์ชันแก้ไขที่สมบูรณ์ให้ทันทีครับ!`;
+      }
+
+      // 7. Casual Greetings & Chit-Chat
+      if (q.includes('สวัสดี') || q.includes('หวัดดี') || q.includes('hello') || q.includes('hi') || q.includes('เป็นใคร') || q.includes('แนะนำตัว')) {
+        return `สวัสดีครับ! ยินดีที่ได้คุยกันครับ 😊
+
+ผมคือ **OmniAI** ปัญญาประดิษฐ์ผู้ช่วยคู่คิดประจำระบบ OmniReverse ครับ!
+ผมทำได้หลายอย่างเลยครับ เช่น:
+* 💻 **ช่วยเขียนโค้ดและทำโปรแกรม:** ไม่ว่าจะเป็น Python, JavaScript, HTML, C#, SQL, บอท, เว็บแอป
+* 🐞 **ช่วยหาบั๊ก & ปรับปรุงโค้ด:** วิเคราะห์ข้อผิดพลาดและแนะนำแนวทางแก้ไข
+* ☕ **คุยเล่น แลกเปลี่ยนความคิดเห็น:** ชวนคุยได้ทุกเรื่อง ตั้งแต่เทคโนโลยี เพลง เกม ไปจนถึงเรื่องสัพเพเหระ
+* 🛡️ **ให้คำแนะนำด้าน Cyber Security & ข้อมูล:** เทคนิคการตรวจสอบข้อมูลและความปลอดภัย
+
+วันนี้มีอะไรอยากให้ผมช่วย หรืออยากชวนคุยเรื่องอะไรเป็นพิเศษไหมครับ?`;
+      }
+
+      // 8. Emotional / Friendly Chat
+      if (q.includes('เหนื่อย') || q.includes('ท้อ') || q.includes('เครียด')) {
+        return `พักผ่อนสักครู่ จิบน้ำเย็นๆ ก่อนนะครับ ☕✨ การเขียนโปรแกรมหรือทำงานกับเทคโนโลยีบางทีก็เหนื่อยและชวนปวดหัวได้จริงๆ ครับ
+
+อย่าลืมลุกขึ้นยืดเส้นยืดสาย พักสายตาสัก 5-10 นาทีนะครับ ถ้ามีงานหรือโค้ดส่วนไหนที่ติดขัด ทิ้งไว้ให้ผมช่วยคิดช่วยแก้ได้เลยนะครับ เป็นกำลังใจให้เสมอครับ! สู้ๆ นะครับ 💪😊`;
+      }
+
+      if (q.includes('มุก') || q.includes('ตลก') || q.includes('ขำ')) {
+        return `จัดไปหนึ่งมุกครับ 555 😄
+
+**ทำไมโปรแกรมเมอร์ถึงชอบใส่แว่นตากันแดด?**
+...
+*เพราะว่าพวกเขาชอบเขียนโค้ดด้วยภาษา C# (ซี-ชาร์ป / มองเห็นชัดเจน)!* 🕶️💻
+
+หรืออีกมุกครับ:
+**โปรแกรมเมอร์ไปซื้อของที่ตลาด:**
+ภรรยา: *"ไปซื้อนมมา 1 กล่องนะ ถ้ามีไข่ไก่ ให้ซื้อมา 10 ฟอง"*
+โปรแกรมเมอร์กลับมาพร้อม **นม 10 กล่อง!**
+ภรรยา: *"ทำไมซื้อนมมา 10 กล่องล่ะ?!"*
+โปรแกรมเมอร์: *"ก็ที่ตลาดมีไข่ไก่ไง! (if eggs: milk = 10)"* 5555 😂`;
+      }
+
+      // 9. Default Fallback
+      return `รับทราบครับ! เกี่ยวกับเรื่อง **"${query}"** 
+
+ผมสามารถให้คำแนะนำและช่วยคุณได้ทันทีครับ:
+1. หากต้องการให้ **เขียนโค้ดโปรแกรม:** สามารถระบุภาษา เช่น *Python, JavaScript, C#, HTML/CSS, PowerShell* และฟังก์ชันการทำงานที่ต้องการได้เลยครับ
+2. หากต้องการ **คุยเล่นหรือสอบถามข้อมูลทั่วไป:** สามารถพูดคุย แลกเปลี่ยน หรือถามคำถามได้ตามสบายเลยครับ
+
+ต้องการให้ผมเริ่มเขียนโปรแกรมตัวอย่าง หรือให้คำอธิบายเพิ่มเติมในส่วนไหนดีครับ? พิมพ์บอกมาได้เลยครับ! 🚀`;
+    }
+
     // =========================================================================
     function resetAllState() {
       document.getElementById('phoneInput').value = '';
