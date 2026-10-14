@@ -694,6 +694,150 @@
       font-size: 12.5px;
     }
 
+    /* AI RENDERED IMAGE CARD IN CHAT */
+    .ai-image-card {
+      margin: 12px 0;
+      background: #131E32;
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      max-width: 480px;
+      transition: all 0.3s ease;
+    }
+    .ai-image-card:hover {
+      border-color: #00E5FF;
+      box-shadow: 0 10px 30px rgba(0, 229, 255, 0.25);
+    }
+    .ai-chat-rendered-img {
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      background: #0A0F1D;
+    }
+    .ai-chat-rendered-img:hover {
+      transform: scale(1.02);
+    }
+    .ai-image-actions {
+      display: flex;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #0A0F1D;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+    }
+
+    /* AI FILE ATTACHMENT CARD IN CHAT */
+    .ai-file-attachment-card {
+      margin: 12px 0;
+      background: #131E32;
+      border: 1.5px solid rgba(0, 229, 255, 0.3);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      max-width: 480px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      transition: all 0.2s ease;
+    }
+    .ai-file-attachment-card:hover {
+      border-color: #00E5FF;
+      box-shadow: 0 8px 25px rgba(0, 229, 255, 0.25);
+      transform: translateY(-2px);
+    }
+    .ai-file-icon {
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      background: rgba(0, 229, 255, 0.12);
+      border-radius: 10px;
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      flex-shrink: 0;
+    }
+    .ai-file-meta {
+      flex: 1;
+      min-width: 0;
+    }
+    .ai-file-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: #FFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .ai-file-desc {
+      font-size: 11.5px;
+      color: #94A3B8;
+      line-height: 1.3;
+    }
+    .ai-file-download-btn {
+      background: linear-gradient(135deg, #00E5FF, #0284C7);
+      color: #000;
+      border: none;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .ai-file-download-btn:hover {
+      box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+      transform: translateY(-1px);
+    }
+    .ai-file-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: #E2E8F0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .ai-file-btn:hover {
+      background: #00E5FF;
+      color: #000;
+      border-color: #00E5FF;
+    }
+    .btn-download-code {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: #00E5FF;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-download-code:hover {
+      background: #00E5FF;
+      color: #000;
+    }
+
     /* TYPING INDICATOR (ChatGPT Pulse) */
     .typing-container {
       display: flex;
@@ -1120,46 +1264,49 @@
           <!-- MODEL PICKER DROPDOWN -->
           <div class="model-picker-container">
             <button class="btn-model-picker" onclick="toggleModelDropdown(event)">
-              <span id="selectedModelLabel">AI เด็กเทพ 4o</span>
+              <span id="selectedModelLabel">⚡ AI เด็กเทพ Omni All-in-One</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="model-dropdown" id="modelDropdownMenu">
               <div class="dropdown-opt active" id="optModelDekthep" onclick="selectAiModel('dekthep-4o')">
                 <div class="dropdown-opt-title">
-                  <span>⚡ AI เด็กเทพ 4o</span>
-                  <span style="font-size: 11px; color: #10B981;">(แนะนำ)</span>
+                  <span>⚡ AI เด็กเทพ Omni All-in-One</span>
+                  <span style="font-size: 11px; color: #10B981; font-weight: bold;">(รวมทุกพลังระดับเทพ)</span>
                 </div>
-                <div class="dropdown-opt-desc">🧠 สมอง GPT-OSS Reasoning ฉลาดขึ้น 3 เท่า ตอบไวแบบสตรีมเรียลไทม์ เขียนโค้ดได้ทุกภาษา</div>
+                <div class="dropdown-opt-desc">🌟 รวมทุกความสามารถในหนึ่งเดียว: DeepThink คิดวิเคราะห์ลึก + Coder Master โค้ดไร้ขีดจำกัด + Turbo ตอบไว + Gemini คลาวด์ + ส่งรูปภาพ & ส่งไฟล์ให้ทันที!</div>
               </div>
               <div class="dropdown-opt" id="optModelDeepseek" onclick="selectAiModel('deepseek-r1')">
                 <div class="dropdown-opt-title">
                   <span>🧠 เด็กเทพ DeepThink</span>
-                  <span style="font-size: 11px; color: #38BDF8;">(Deep Reasoning)</span>
+                  <span style="font-size: 11px; color: #38BDF8;">(โหมดคิดวิเคราะห์ลึก)</span>
                 </div>
                 <div class="dropdown-opt-desc">คิดวิเคราะห์เชิงลึกทีละขั้นตอน วางแผนโค้ดระดับสถาปนิกซอฟต์แวร์</div>
               </div>
               <div class="dropdown-opt" id="optModelQwenCoder" onclick="selectAiModel('qwen-coder')">
                 <div class="dropdown-opt-title">
                   <span>💻 เด็กเทพ Coder Master</span>
-                  <span style="font-size: 11px; color: #F59E0B;">(Unlimited Code)</span>
+                  <span style="font-size: 11px; color: #F59E0B;">(โหมดเซียนโค้ด)</span>
                 </div>
                 <div class="dropdown-opt-desc">เซียนโค้ดไร้ขีดจำกัด เขียนได้ทุกภาษา ทุกเฟรมเวิร์ก แก้บั๊กและสร้างระบบใหญ่ได้ในครั้งเดียว</div>
               </div>
               <div class="dropdown-opt" id="optModelLlama" onclick="selectAiModel('llama-3.3')">
                 <div class="dropdown-opt-title">
                   <span>🚀 เด็กเทพ Turbo</span>
+                  <span style="font-size: 11px; color: #EC4899;">(โหมดตอบเร็วพิเศษ)</span>
                 </div>
                 <div class="dropdown-opt-desc">โหมดตอบเร็วพิเศษ เหมาะกับคำถามสั้น คุยเล่น และงานเร่งด่วน</div>
               </div>
               <div class="dropdown-opt" id="optModelGeminiFlash" onclick="selectAiModel('gemini-2.5-flash')">
                 <div class="dropdown-opt-title">
                   <span>✨ Gemini 2.5 Flash</span>
+                  <span style="font-size: 11px; color: #00E5FF;">(Google Cloud)</span>
                 </div>
                 <div class="dropdown-opt-desc">โมเดล Google Cloud ล่าสุด ตอบไวและความรู้กว้างขวาง</div>
               </div>
               <div class="dropdown-opt" id="optModelGeminiPro" onclick="selectAiModel('gemini-2.5-pro')">
                 <div class="dropdown-opt-title">
                   <span>💎 Gemini 2.5 Pro</span>
+                  <span style="font-size: 11px; color: #A78BFA;">(Google Pro)</span>
                 </div>
                 <div class="dropdown-opt-desc">สมองระดับสูงสุดจาก Google วิเคราะห์โค้ดและโจทย์ซับซ้อนเชิงลึก (ต้องใช้ API Key)</div>
               </div>
@@ -1654,7 +1801,7 @@
       if (menu) menu.classList.remove('show');
     });
 
-    function selectAiModel(mode) {
+    function selectAiModel(mode, silent = false) {
       currentModelMode = mode;
       localStorage.setItem('dekthep_model_mode', mode);
       
@@ -1663,48 +1810,48 @@
       
       document.querySelectorAll('.dropdown-opt').forEach(el => el.classList.remove('active'));
 
-      if (mode === 'dekthep-4o') {
-        if (label) label.innerText = 'AI เด็กเทพ 4o';
-        if (tag) tag.innerHTML = '⚡ AI เด็กเทพ 4o';
+      if (mode === 'dekthep-4o' || mode === 'dekthep-all-in-one') {
+        if (label) label.innerText = '⚡ AI เด็กเทพ Omni All-in-One';
+        if (tag) tag.innerHTML = '⚡ AI เด็กเทพ Omni All-in-One';
         const opt = document.getElementById('optModelDekthep');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมด AI เด็กเทพ 4o (เร็ว & ไร้ขีดจำกัด)', '⚡');
+        if (!silent) showToast('เปิดใช้งาน AI เด็กเทพ Omni All-in-One (รวมทุกพลัง: คิดลึก + โค้ด + ตอบไว + ส่งรูป & ส่งไฟล์)', '⚡');
       } else if (mode === 'deepseek-r1') {
-        if (label) label.innerText = 'เด็กเทพ DeepThink';
+        if (label) label.innerText = '🧠 เด็กเทพ DeepThink';
         if (tag) tag.innerHTML = '🧠 เด็กเทพ DeepThink';
         const opt = document.getElementById('optModelDeepseek');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมดเด็กเทพ DeepThink (คิดวิเคราะห์เชิงลึก)', '🧠');
+        if (!silent) showToast('เปลี่ยนเป็นโหมดเด็กเทพ DeepThink (คิดวิเคราะห์เชิงลึก)', '🧠');
       } else if (mode === 'qwen-coder') {
-        if (label) label.innerText = 'เด็กเทพ Coder Master';
+        if (label) label.innerText = '💻 เด็กเทพ Coder Master';
         if (tag) tag.innerHTML = '💻 เด็กเทพ Coder Master';
         const opt = document.getElementById('optModelQwenCoder');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมดเด็กเทพ Coder Master (เขียนโค้ดไร้ขีดจำกัด)', '💻');
+        if (!silent) showToast('เปลี่ยนเป็นโหมดเด็กเทพ Coder Master (เขียนโค้ดไร้ขีดจำกัด)', '💻');
       } else if (mode === 'llama-3.3') {
-        if (label) label.innerText = 'เด็กเทพ Turbo';
+        if (label) label.innerText = '🚀 เด็กเทพ Turbo';
         if (tag) tag.innerHTML = '🚀 เด็กเทพ Turbo';
         const opt = document.getElementById('optModelLlama');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมดเด็กเทพ Turbo (ตอบเร็วพิเศษ)', '🚀');
+        if (!silent) showToast('เปลี่ยนเป็นโหมดเด็กเทพ Turbo (ตอบเร็วพิเศษ)', '🚀');
       } else if (mode === 'gemini-2.5-flash') {
-        if (label) label.innerText = 'Gemini 2.5 Flash';
+        if (label) label.innerText = '✨ Gemini 2.5 Flash';
         if (tag) tag.innerHTML = '✨ Gemini 2.5 Flash';
         const opt = document.getElementById('optModelGeminiFlash');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมด Google Gemini 2.5 Flash', '✨');
+        if (!silent) showToast('เปลี่ยนเป็นโหมด Google Gemini 2.5 Flash', '✨');
       } else if (mode === 'gemini-2.5-pro') {
-        if (label) label.innerText = 'Gemini 2.5 Pro';
+        if (label) label.innerText = '💎 Gemini 2.5 Pro';
         if (tag) tag.innerHTML = '💎 Gemini 2.5 Pro';
         const opt = document.getElementById('optModelGeminiPro');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมด Gemini 2.5 Pro (ต้องใช้ API Key)', '💎');
+        if (!silent) showToast('เปลี่ยนเป็นโหมด Gemini 2.5 Pro (ต้องใช้ API Key)', '💎');
       } else {
-        if (label) label.innerText = 'Gemini 2.5 Flash';
+        if (label) label.innerText = '✨ Gemini 2.5 Flash';
         if (tag) tag.innerHTML = '✨ Gemini 2.5 Flash';
         const opt = document.getElementById('optModelGeminiFlash');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมด Google Gemini 2.5 Flash', '✨');
+        if (!silent) showToast('เปลี่ยนเป็นโหมด Google Gemini 2.5 Flash', '✨');
       }
     }
 
@@ -2152,6 +2299,58 @@
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 
+      // 1. Downloadable File Attachment Tags [FILE:filename.ext|content]
+      html = html.replace(/\[FILE:([a-zA-Z0-9_\-\.]+)\|([\s\S]*?)\]/g, (match, filename, content) => {
+        const fileId = 'file_' + Math.random().toString(36).substr(2, 9);
+        const cleanName = filename.trim();
+        const cleanContent = content.trim()
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>');
+        globalFileDownloadMap[fileId] = { filename: cleanName, content: cleanContent };
+        
+        let icon = '📄';
+        const lowerName = cleanName.toLowerCase();
+        if (lowerName.endsWith('.csv') || lowerName.endsWith('.xlsx')) icon = '📊';
+        else if (lowerName.endsWith('.py')) icon = '🐍';
+        else if (lowerName.endsWith('.html') || lowerName.endsWith('.htm')) icon = '🌐';
+        else if (lowerName.endsWith('.js') || lowerName.endsWith('.ts')) icon = '⚡';
+        else if (lowerName.endsWith('.json')) icon = '📦';
+        else if (lowerName.endsWith('.png') || lowerName.endsWith('.jpg')) icon = '🖼️';
+        else if (lowerName.endsWith('.md')) icon = '📝';
+
+        return `
+          <div class="ai-file-attachment-card">
+            <div class="ai-file-icon">${icon}</div>
+            <div class="ai-file-meta">
+              <div class="ai-file-name">${cleanName}</div>
+              <div class="ai-file-desc">ไฟล์สร้างโดย AI เด็กเทพ พร้อมดาวน์โหลดลงคอมพิวเตอร์ของคุณ</div>
+            </div>
+            <button type="button" class="ai-file-download-btn" onclick="downloadFileById('${fileId}')">
+              <span>⬇️ ดาวน์โหลดไฟล์</span>
+            </button>
+          </div>
+        `;
+      });
+
+      // 2. Markdown Images -> AI Rendered Image Card with direct Download & Open in Photo Studio buttons
+      html = html.replace(/!\[([^\]]*)\]\((https?:\/\/[^\s\)]+)\)/g, (match, alt, url) => {
+        const altText = alt || 'รูปภาพ AI เด็กเทพ';
+        return `
+          <div class="ai-image-card">
+            <img src="${url}" alt="${altText}" class="ai-chat-rendered-img" onclick="window.open('${url}', '_blank')" title="คลิกเพื่อดูรูปภาพขนาดเต็ม">
+            <div class="ai-image-actions">
+              <a href="${url}" download="dekthep_image.png" target="_blank" class="ai-file-btn">
+                <span>💾 ดาวน์โหลดรูปภาพ</span>
+              </a>
+              <button type="button" class="ai-file-btn" onclick="loadImageUrlToEditor('${url}')">
+                <span>🎨 เปิดในสตูดิโอแต่งรูป</span>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
       const codeBlocks = [];
       html = html.replace(/```([a-zA-Z0-9_-]*)\r?\n([\s\S]*?)```/g, (match, lang, code) => {
         const index = codeBlocks.length;
@@ -2164,6 +2363,9 @@
               <div style="display: flex; gap: 6px; align-items: center;">
                 <button type="button" class="btn-run-code" onclick="runCodeInSandbox('${codeId}', '${langName}')" title="รันโค้ดและดูผลลัพธ์สด">
                   <span>▶️ รันโค้ดสด</span>
+                </button>
+                <button type="button" class="btn-download-code" onclick="downloadCodeAsFile('${codeId}', '${langName}')" title="ดาวน์โหลดโค้ดชิ้นนี้เป็นไฟล์ทันที">
+                  <span>📥 บันทึกไฟล์</span>
                 </button>
                 <button type="button" class="btn-copy-code" onclick="copyCodeSnippet('${codeId}', this)">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -2237,6 +2439,88 @@
     function escapeHtml(text) {
       if (!text) return '';
       return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // =========================================================================
+    // 7.05 AI FILE DOWNLOAD & IMAGE INTEGRATION HELPERS
+    // =========================================================================
+    const globalFileDownloadMap = {};
+
+    function downloadFileById(fileId) {
+      const fileData = globalFileDownloadMap[fileId];
+      if (!fileData) {
+        showToast('ไม่พบข้อมูลไฟล์ที่ต้องการดาวน์โหลด', '⚠️');
+        return;
+      }
+      downloadRawFile(fileData.filename, fileData.content);
+    }
+
+    function downloadRawFile(filename, content) {
+      try {
+        const blob = new Blob([content], { type: 'application/octet-stream;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename || 'dekthep_file.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        playBeep(1046, 'sine', 0.15);
+        showToast(`ดาวน์โหลดไฟล์ "${filename}" เรียบร้อยแล้ว!`, '💾');
+      } catch (err) {
+        console.error('File download error:', err);
+        showToast('เกิดข้อผิดพลาดในการดาวน์โหลดไฟล์', '⚠️');
+      }
+    }
+
+    function downloadCodeAsFile(codeId, lang) {
+      const el = document.getElementById(codeId);
+      if (!el) return;
+      const code = el.innerText || el.textContent;
+      let ext = 'txt';
+      const l = (lang || '').toLowerCase();
+      if (l.includes('html')) ext = 'html';
+      else if (l.includes('python') || l.includes('py')) ext = 'py';
+      else if (l.includes('javascript') || l.includes('js')) ext = 'js';
+      else if (l.includes('css')) ext = 'css';
+      else if (l.includes('json')) ext = 'json';
+      else if (l.includes('csv')) ext = 'csv';
+      else if (l.includes('csharp') || l.includes('c#')) ext = 'cs';
+      else if (l.includes('cpp') || l.includes('c++')) ext = 'cpp';
+      else if (l.includes('sql')) ext = 'sql';
+      else if (l.includes('md') || l.includes('markdown')) ext = 'md';
+      else if (l.includes('java')) ext = 'java';
+
+      downloadRawFile(`dekthep_code_${Date.now()}.${ext}`, code);
+    }
+
+    function loadImageUrlToEditor(url) {
+      openPhotoEditorModal();
+      showToast('กำลังโหลดภาพเข้าสตูดิโอแต่งรูป...', '🎨');
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        originalLoadedPhoto = img;
+        const workspace = document.getElementById('editorWorkspace');
+        if (workspace) workspace.style.display = 'block';
+        resetPhotoEdits();
+        playCyberChime();
+        showToast('เปิดรูปในสตูดิโอแต่งรูปเรียบร้อยแล้ว!', '✨');
+      };
+      img.onerror = () => {
+        // Fallback without crossOrigin
+        const fallbackImg = new Image();
+        fallbackImg.onload = () => {
+          originalLoadedPhoto = fallbackImg;
+          const workspace = document.getElementById('editorWorkspace');
+          if (workspace) workspace.style.display = 'block';
+          resetPhotoEdits();
+          showToast('เปิดรูปในสตูดิโอแต่งรูปเรียบร้อยแล้ว!', '✨');
+        };
+        fallbackImg.src = url;
+      };
+      img.src = url;
     }
 
     // =========================================================================
@@ -2597,7 +2881,7 @@
         // TIER 2: Live Real Neural LLMs (Multi-Model Engine Pipeline)
         try {
           let chosenModel = "openai";
-          let persona = "คุณคือ 'AI เด็กเทพ' (DEK THEP AI PRO) ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะอันดับ 1 ฉลาด ปราดเปรื่อง มีความรู้รอบด้านระดับเดียวกับ ChatGPT-4o";
+          let persona = "คุณคือ 'AI เด็กเทพ Omni All-in-One' (DEK THEP AI PRO OMNI) สุดยอดปัญญาประดิษฐ์อัจฉริยะขั้นสูงสุดที่รวมพลังของ GPT-4o, DeepSeek R1 (วิเคราะห์คิดลึก), Qwen 2.5 Coder (สถาปัตยกรรมโค้ดไร้ขีดจำกัด), และ Meta Llama 3.3 (ตอบไวทรงพลัง) เข้าด้วยกันอย่างสมบูรณ์แบบ";
 
           if (currentModelMode === 'deepseek-r1') {
             chosenModel = "deepseek-r1";
@@ -2611,11 +2895,13 @@
           }
 
           const systemPrompt = `${persona}
-กฎเหล็กในการตอบ:
-1. สนทนาด้วยภาษาไทยอย่างเป็นกันเอง สุภาพ มีชีวิตชีวา และฉลาดรอบรู้
-2. หากผู้ใช้ถามเรื่องอะไร ให้ตอบอย่างตรงไปตรงมา ลึกซึ้ง ให้สาระและคำแนะนำที่เป็นประโยชน์จริง
-3. หากผู้ใช้สั่งให้เขียนโค้ด ทำเว็บ ทำบัตร ทำเกม หรือพัฒนาระบบ ให้เขียนโค้ดที่สวยงาม สมบูรณ์ ใช้งานได้จริง พร้อมคำอธิบาย
-4. หากผู้ใช้ถามเรื่องการแต่งรูป ปรับสี หรือขอคำแนะนำ ให้ตอบอย่างตรงจุด ไม่ตอบคลุมเครือ`;
+กฎเหล็กในการตอบและส่งมอบผลงานให้ผู้ใช้:
+1. สนทนาด้วยภาษาไทยอย่างเป็นกันเอง สุภาพ มีชีวิตชีวา ฉลาดรอบรู้ และตรงประเด็น
+2. การส่งรูปภาพให้ผู้ใช้: หากผู้ใช้สั่งให้วาดรูป ขอรูป สร้างรูป หรือต้องการดูภาพ ให้สร้างภาพและส่งรูปภาพในข้อความทันทีด้วยรูปแบบมาร์กดาวน์:
+![คำอธิบายภาพ](https://image.pollinations.ai/prompt/<ENGLISH_PROMPT_DETAILED_ENHANCED>?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random() * 999999)}&model=flux)
+3. การส่งไฟล์ให้ผู้ใช้: หากผู้ใช้ขอไฟล์ (เช่น ขอไฟล์ csv, ขอไฟล์ python, ขอไฟล์ html, ส่งไฟล์ excel, ส่งไฟล์ json, ส่งไฟล์ text, บันทึกเป็นไฟล์) ให้ส่งไฟล์ให้ผู้ใช้สามารถกดดาวน์โหลดได้ทันทีด้วยรูปแบบ:
+[FILE:ชื่อไฟล์.นามสกุล|เนื้อหาข้อมูลในไฟล์แบบเต็ม]
+4. การเขียนโค้ด: ให้เขียนโค้ดที่สวยงาม สมบูรณ์ 100% อยู่ในบล็อกโค้ดเสมอ เพื่อให้ผู้ใช้สามารถกดปุ่ม "▶️ รันโค้ดสด", "📥 บันทึกไฟล์" หรือ "คัดลอกโค้ด" ได้ทันที`;
 
           const pastHistory = (session.messages || []).slice(0, -1).slice(-6);
           const conversationPayload = [
@@ -2965,6 +3251,64 @@
 \`\`\`
 
 > 💡 **Tip:** สามารถคลิกปุ่ม **▶️ รันโค้ดสด** ที่มุมขวาบนของกล่องโค้ด เพื่อทดสอบการทำงานของเครื่องมือย้อมสีภาพได้ทันทีครับ!`;
+      }
+
+      // -----------------------------------------------------------------------
+      // 1.5.5 AI IMAGE GENERATION & SENDING (e.g. "วาดรูป...", "ส่งรูป...", "ขอรูป...", "เจนรูป...", "สร้างภาพ...")
+      // -----------------------------------------------------------------------
+      const isImageRequest = q.includes('วาดรูป') || q.includes('ส่งรูป') || q.includes('ขอรูป') || 
+                             q.includes('สร้างรูป') || q.includes('เจนรูป') || q.includes('วาดภาพ') || 
+                             q.includes('สร้างภาพ') || q.includes('ขอภาพ') || q.includes('ส่งภาพ') ||
+                             (q.includes('รูป') && (q.includes('สวย') || q.includes('น่ารัก') || q.includes('เท่') || q.includes('ดูหน่อย') || q.includes('ให้หน่อย')));
+
+      if (isImageRequest) {
+        let promptClean = raw
+          .replace(/วาดรูป|ส่งรูป|ขอรูป|สร้างรูป|เจนรูป|วาดภาพ|สร้างภาพ|ขอภาพ|ส่งภาพ|รูปภาพ|รูป/gi, '')
+          .replace(/ให้หน่อย|ให้ดูหน่อย|ให้เราหน่อย|ให้เราดู|หน่อยครับ|หน่อยนะ|ครับ|ค่ะ|จ้า|นะ|สวยๆ|เท่ๆ|น่ารักๆ|เอา/gi, '')
+          .trim();
+        
+        if (!promptClean || promptClean.length < 2) {
+          promptClean = 'cyberpunk futuristic robot warrior hero glowing neon energy ultra detail';
+        }
+
+        const seed = Math.floor(Math.random() * 9999999);
+        const encodedPrompt = encodeURIComponent(promptClean + ', masterpiece, 8k resolution, highly detailed, vivid vibrant colors, photorealistic, cinematic 3d render');
+        const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&seed=${seed}&nologo=true&model=flux`;
+
+        return `🎨 **AI เด็กเทพสร้างรูปภาพและส่งตรงถึงคุณแล้วครับ!** ✨\n\n📌 **คอนเซ็ปต์ภาพ:** *${promptClean}*\n\n![${promptClean}](${imgUrl})\n\n> 💡 **ฟีเจอร์พร้อมใช้งานทันที:**\n> 1. คลิกปุ่ม **💾 ดาวน์โหลดรูปภาพ** ด้านล่างรูปเพื่อเซฟรูปลงเครื่องทันที\n> 2. หรือคลิก **🎨 เปิดในสตูดิโอแต่งรูป** เพื่อนำภาพนี้ไปเปิดใน **Canvas Photo Studio** ตัดต่อ วาดเขียน ใส่ฟิลเตอร์ หรือรีทัชได้ทันทีครับ!`;
+      }
+
+      // -----------------------------------------------------------------------
+      // 1.5.6 AI FILE GENERATION & SENDING (e.g. "ส่งไฟล์...", "ขอไฟล์...", "ดาวน์โหลดไฟล์...", "ทำไฟล์...")
+      // -----------------------------------------------------------------------
+      const isFileRequest = q.includes('ส่งไฟล์') || q.includes('ขอไฟล์') || q.includes('ดาวน์โหลดไฟล์') || 
+                            q.includes('สร้างไฟล์') || q.includes('ทำไฟล์') || q.includes('export file') ||
+                            q.includes('download file') || (q.includes('ไฟล์') && (q.includes('ให้หน่อย') || q.includes('ให้เรา') || q.includes('ส่งให้')));
+
+      if (isFileRequest) {
+        if (q.includes('csv') || q.includes('excel') || q.includes('ตาราง') || q.includes('ข้อมูล') || q.includes('ยอดขาย')) {
+          const csvContent = `ID,Product_Name,Category,Price_THB,Stock,Monthly_Sales,Status\n101,Cyber Gaming Laptop,Electronics,45900,25,120,In Stock\n102,Wireless Pro Headset,Audio,4290,80,340,In Stock\n103,UltraWide OLED Monitor,Display,18500,15,65,Low Stock\n104,Mechanical RGB Keyboard,Peripherals,3190,110,480,In Stock\n105,Ergonomic Gaming Mouse,Peripherals,2490,95,510,In Stock\n106,AI Smart Home Hub,Smart Devices,5990,40,190,In Stock\n107,4K Streaming Webcam,Camera,3890,30,140,In Stock`;
+          return `📦 **AI เด็กเทพสร้างและส่งไฟล์ข้อมูลให้คุณเรียบร้อยครับ!** 📊\n\nนี่คือไฟล์ **ชุดข้อมูลยอดขายและสต็อกสินค้า (sales_inventory_report.csv)** ในรูปแบบ CSV มาตรฐาน พร้อมเปิดใช้งานบน Excel / Google Sheets หรือนำเข้าฐานข้อมูลได้ทันทีครับ:\n\n[FILE:sales_inventory_report.csv|${csvContent}]\n\nคลิกปุ่ม **⬇️ ดาวน์โหลดไฟล์** ในกล่องด้านบนเพื่อบันทึกไฟล์ลงคอมพิวเตอร์ของคุณได้เลยครับ! 🚀`;
+        }
+
+        if (q.includes('python') || q.includes('py') || q.includes('ไพธอน')) {
+          const pyContent = `# ========================================================\n# AI DEKTHEP AUTOMATION & DATA PROCESSOR SCRIPT\n# ========================================================\nimport sys\nimport os\nimport time\nfrom datetime import datetime\n\ndef run_ai_task():\n    print("⚡ Starting AI Dekthep Automation Engine...")\n    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")\n    print(f"🕒 Current Timestamp: {timestamp}")\n    \n    data_points = [12, 45, 78, 23, 99, 56, 88]\n    avg = sum(data_points) / len(data_points)\n    print(f"📊 Processed {len(data_points)} nodes. Average Performance: {avg:.2f}")\n    print("✅ System Health: 100% Optimal! Task completed successfully.")\n\nif __name__ == '__main__':\n    run_ai_task()`;
+          return `📦 **AI เด็กเทพส่งไฟล์สคริปต์ให้คุณเรียบร้อยครับ!** 🐍\n\nนี่คือไฟล์สคริปต์ **Python Automation Engine (ai_automation_task.py)** ที่เขียนด้วยโครงสร้าง Clean Code พร้อมรันงานระบบได้ทันที:\n\n[FILE:ai_automation_task.py|${pyContent}]\n\nกดปุ่ม **⬇️ ดาวน์โหลดไฟล์** ด้านบนเพื่อนำไฟล์ไปรันด้วย \`python ai_automation_task.py\` ได้เลยครับ! 💻`;
+        }
+
+        if (q.includes('html') || q.includes('เว็บ') || q.includes('web')) {
+          const htmlContent = `<!DOCTYPE html>\n<html lang="th">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Cyber Launchpad</title>\n  <style>\n    body { margin:0; background: #0b0f19; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; }\n    .card { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; border: 1px solid #00f2ff44; text-align: center; box-shadow: 0 10px 40px rgba(0,242,255,0.2); }\n    h1 { color: #00f2ff; margin-bottom: 12px; }\n    p { color: #94a3b8; font-size: 16px; }\n    .btn { display: inline-block; margin-top: 20px; padding: 12px 28px; background: linear-gradient(135deg, #00f2ff, #7928ca); color: #fff; border-radius: 8px; text-decoration: none; font-weight: bold; }\n  </style>\n</head>\n<body>\n  <div class="card">\n    <h1>🚀 Powered by AI Dekthep</h1>\n    <p>เว็บแอปพลิเคชันแบบพร้อมใช้งาน ผลิตและส่งตรงจาก AI เด็กเทพ</p>\n    <a href="#" class="btn" onclick="alert('ยินดีต้อนรับสู่ระบบ!')">เริ่มต้นใช้งาน</a>\n  </div>\n</body>\n</html>`;
+          return `📦 **AI เด็กเทพส่งไฟล์หน้าเว็บ HTML ให้คุณเรียบร้อยครับ!** 🌐\n\nนี่คือไฟล์ **Modern Cyber Landing Page (index.html)** ที่รวมทั้งโครงสร้าง HTML และดีไซน์ CSS ล้ำยุคไว้ในไฟล์เดียว เปิดดูบนเบราว์เซอร์ได้ทันที:\n\n[FILE:index.html|${htmlContent}]\n\nคลิกปุ่ม **⬇️ ดาวน์โหลดไฟล์** ด้านบนแล้วดับเบิลคลิกเปิดไฟล์เพื่อดูผลงานได้เลยครับ! ✨`;
+        }
+
+        if (q.includes('json')) {
+          const jsonContent = `{\n  "system": "AI Dekthep Omni",\n  "version": "4.5.0",\n  "status": "online",\n  "nodes": [\n    { "id": 1, "name": "Quantum Reasoning", "load": "12%" },\n    { "id": 2, "name": "Code Synthesis", "load": "24%" },\n    { "id": 3, "name": "Visual Generator", "load": "8%" },\n    { "id": 4, "name": "File Exporter", "load": "5%" }\n  ],\n  "timestamp": "${new Date().toISOString()}"\n}`;
+          return `📦 **AI เด็กเทพส่งไฟล์ JSON Data ให้คุณแล้วครับ!** 📑\n\nไฟล์โครงสร้างข้อมูล **System Config & Node Metrics (system_nodes.json)** จัดฟอร์แมต JSON ถูกต้อง 100%:\n\n[FILE:system_nodes.json|${jsonContent}]\n\nกดปุ่ม **⬇️ ดาวน์โหลดไฟล์** ด้านบนเพื่อนำไฟล์ไปใช้งานร่วมกับ API หรือแอปพลิเคชันของคุณได้ทันทีครับ! 🚀`;
+        }
+
+        // Generic default file
+        const txtContent = `========================================================\nAI DEKTHEP OMNI ALL-IN-ONE SYSTEM EXPORT\n========================================================\n\nวันที่ส่งไฟล์: ${new Date().toLocaleDateString('th-TH')}\nผู้ร้องขอ: คุณผู้ใช้สุดพิเศษ\nสถานะ: ดำเนินการสร้างไฟล์และส่งมอบสำเร็จ 100%\n\nรายละเอียดระบบ:\n- สมองอัจฉริยะ Omni รวมทุกขุมพลัง (คิดวิเคราะห์ + เขียนโค้ด + ส่งรูป + สร้างไฟล์)\n- รองรับการดาวน์โหลดไฟล์ตรงผ่านกล่องโต้ตอบ\n- รองรับการส่งภาพความละเอียดสูง 8K ด้วย Flux/Pollinations AI\n- รองรับ Photo Studio แคนวาสแต่งรูปภาพแบบครบวงจร\n\nขอขอบคุณที่ใช้งาน AI เด็กเทพ ครับ! ✨\n========================================================`;
+        return `📦 **AI เด็กเทพจัดทำไฟล์และส่งให้คุณเรียบร้อยแล้วครับ!** 📁\n\nนี่คือไฟล์เอกสารสรุปข้อมูล **(dekthep_export_document.txt)** ที่สร้างขึ้นตามคำขอของคุณ:\n\n[FILE:dekthep_export_document.txt|${txtContent}]\n\nคุณสามารถคลิกปุ่ม **⬇️ ดาวน์โหลดไฟล์** ในการ์ดด้านบน เพื่อเซฟไฟล์ลงคอมพิวเตอร์ของคุณได้ทันทีครับ! 🎉`;
       }
 
       // -----------------------------------------------------------------------
@@ -5211,7 +5555,7 @@ ${generatedCode}
     // INIT
     window.addEventListener('DOMContentLoaded', () => {
       loadSavedSessions();
-      selectAiModel(currentModelMode);
+      selectAiModel(currentModelMode, true);
       if ('speechSynthesis' in window) {
         window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
       }
