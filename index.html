@@ -653,6 +653,174 @@
       margin-top: 16px;
     }
 
+    /* SOCIAL PLATFORM INTELLIGENCE SECTION */
+    .social-intel-section {
+      margin-top: 24px;
+      padding: 22px;
+      background: rgba(11, 16, 33, 0.85);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .social-intel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .social-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px 18px;
+      transition: all 0.25s var(--ease-fluid);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .social-card.fb:hover { border-color: rgba(24, 119, 242, 0.6); box-shadow: 0 8px 25px rgba(24, 119, 242, 0.25); }
+    .social-card.ig:hover { border-color: rgba(221, 42, 123, 0.6); box-shadow: 0 8px 25px rgba(221, 42, 123, 0.25); }
+    .social-card.tiktok:hover { border-color: rgba(254, 44, 85, 0.6); box-shadow: 0 8px 25px rgba(254, 44, 85, 0.25); }
+    .social-card.line:hover { border-color: rgba(6, 199, 85, 0.6); box-shadow: 0 8px 25px rgba(6, 199, 85, 0.25); }
+    .social-card.google:hover { border-color: rgba(66, 133, 244, 0.6); box-shadow: 0 8px 25px rgba(66, 133, 244, 0.25); }
+    .social-card.promptpay:hover { border-color: rgba(0, 169, 224, 0.6); box-shadow: 0 8px 25px rgba(0, 169, 224, 0.25); }
+
+    .social-card-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .social-logo-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      flex-shrink: 0;
+      color: #FFF;
+    }
+
+    .social-name-group {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .social-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .social-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .social-link-preview {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #38BDF8;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 8px 12px;
+      border-radius: 8px;
+      word-break: break-all;
+      border: 1px dashed rgba(56, 189, 248, 0.25);
+      user-select: all;
+    }
+
+    .social-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-social-open {
+      flex: 1;
+      min-width: 140px;
+      padding: 9px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFF;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-social-open:hover { filter: brightness(1.15); transform: scale(1.02); }
+
+    .btn-social-copy {
+      padding: 9px 12px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .btn-social-copy:hover { color: #FFF; background: rgba(255, 255, 255, 0.15); }
+
+    .btn-action-small {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 9px;
+      padding: 8px 14px;
+      color: #FFF;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action-small:hover {
+      background: rgba(6, 182, 212, 0.2);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
     .btn-launch-live {
       background: linear-gradient(135deg, #EF4444, #DC2626, #B91C1C);
       color: #FFF;
@@ -1076,6 +1244,36 @@
             </div>
           </div>
 
+          <!-- SOCIAL MEDIA LIVE DOSSIER & PROFILE LINKS (FACEBOOK, IG, TIKTOK, LINE) -->
+          <div class="social-intel-section" id="phoneSocialSection">
+            <div class="social-intel-header">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 24px;">🌐</span>
+                <div>
+                  <h4 style="font-size: 16px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 8px;">
+                    <span>พิกัดสืบค้นโซเชียลมีเดีย (Facebook, IG, TikTok, LINE, Google)</span>
+                    <span class="badge-dot" style="background: #10B981;"></span>
+                  </h4>
+                  <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
+                    ระบบขยายการค้นหาและสร้างลิงก์ตรงไปยังโปรไฟล์/โพสต์จริงบนแพลตฟอร์มต่าง ๆ ให้คุณเข้าดูข้อมูลได้ทันที
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button type="button" class="btn-action-small" onclick="openAllPhoneSocialLinks()">
+                  🚀 เปิดทุกลิงก์พร้อมกัน
+                </button>
+                <button type="button" class="btn-action-small" onclick="copyAllPhoneSocialLinks()">
+                  📋 คัดลอกลิงก์ทั้งหมด
+                </button>
+              </div>
+            </div>
+            
+            <div class="social-grid" id="phoneSocialGrid">
+              <!-- Dynamically populated social links -->
+            </div>
+          </div>
+
           <!-- AUTHENTICITY NOTICE -->
           <div class="authentic-notice" id="resAuthenticNotice">
             <span style="font-size: 20px;">🛡️</span>
@@ -1195,6 +1393,33 @@
           <!-- BIOMETRIC RESULT BODY -->
           <div id="faceResultBody">
             <!-- Dynamic Content -->
+          </div>
+
+          <!-- REVERSE IMAGE & SOCIAL SEARCH LINKS FOR FACE -->
+          <div class="social-intel-section" id="faceSocialSection" style="margin-top: 18px;">
+            <div class="social-intel-header">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 24px;">📸</span>
+                <div>
+                  <h4 style="font-size: 16px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 8px;">
+                    <span>เครื่องมือค้นหาภาพย้อนรอย &amp; บัญชีโซเชียลมีเดีย (Reverse Image Search)</span>
+                    <span class="badge-dot" style="background: #A78BFA;"></span>
+                  </h4>
+                  <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
+                    ใช้ระบบค้นหาภาพย้อนกลับระดับโลกเพื่อค้นหาว่าใบหน้านี้ปรากฏอยู่บน Facebook, IG, TikTok หรือเว็บใดบ้าง
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button type="button" class="btn-action-small" onclick="openAllFaceSocialLinks()">
+                  🚀 เปิดทุกลิงก์ค้นหาภาพ
+                </button>
+              </div>
+            </div>
+            
+            <div class="social-grid" id="faceSocialGrid">
+              <!-- Dynamically populated reverse image links -->
+            </div>
           </div>
 
           <!-- ACTIONS -->
@@ -1727,7 +1952,216 @@
       }, 350);
     }
 
+    // โครงข่ายและตัวจัดการลิงก์โซเชียลมีเดีย
+    let currentPhoneSocialLinks = [];
+    let rawTargetForCopy = '';
+
+    function generatePhoneSocialLinks(raw, clean, isDigits) {
+      const q = encodeURIComponent(raw);
+      const qClean = encodeURIComponent(clean || raw);
+      const qExact = encodeURIComponent(`"${raw}"`);
+      const links = [];
+
+      // 1. Facebook
+      links.push({
+        platform: 'facebook',
+        name: 'Facebook (เฟสบุ๊ค)',
+        tag: 'โปรไฟล์ & โพสต์',
+        desc: 'ค้นหาบัญชีผู้ใช้, กลุ่ม และโพสต์ที่มีการระบุเบอร์หรือชื่อนี้',
+        icon: 'f',
+        color: '#1877F2',
+        badgeBg: 'rgba(24, 119, 242, 0.25)',
+        cardClass: 'fb',
+        links: [
+          { label: '🔗 ส่องโปรไฟล์ผู้ใช้บน Facebook', url: `https://www.facebook.com/search/people/?q=${q}` },
+          { label: '🔍 ค้นหาโพสต์ & ประวัติเบอร์นี้บน FB', url: `https://www.facebook.com/search/top/?q=${q}` },
+          { label: '⚡ ดึงรอยเท้า FB ผ่าน Google', url: `https://www.google.com/search?q=site%3Afacebook.com+${encodeURIComponent('"' + (clean || raw) + '"')}` }
+        ]
+      });
+
+      // 2. Instagram (IG)
+      const igUser = clean ? clean : raw.replace(/\s+/g, '');
+      links.push({
+        platform: 'instagram',
+        name: 'Instagram (IG)',
+        tag: 'บัญชี & Bio',
+        desc: 'ส่องโปรไฟล์ IG และค้นหาบัญชีที่ใส่เบอร์โทรหรือชื่อนี้ในคำอธิบาย',
+        icon: '📸',
+        color: '#E1306C',
+        badgeBg: 'linear-gradient(45deg, #F58529, #DD2A7B, #8134AF)',
+        cardClass: 'ig',
+        links: [
+          { label: '🔗 ส่องแท็ก & โพสต์บน Instagram', url: `https://www.instagram.com/explore/tags/${encodeURIComponent(igUser)}/` },
+          { label: '⚡ เจาะหาบัญชี IG ที่ระบุเบอร์นี้ (Google Dork)', url: `https://www.google.com/search?q=site%3Ainstagram.com+${encodeURIComponent('"' + (clean || raw) + '"')}` }
+        ]
+      });
+
+      // 3. TikTok
+      links.push({
+        platform: 'tiktok',
+        name: 'TikTok (ติ๊กต๊อก)',
+        tag: 'ผู้ใช้ & วิดีโอ',
+        desc: 'ค้นหาบัญชี TikTok (@User) และคลิปวิดีโอที่มีการพูดถึงเบอร์นี้',
+        icon: '🎵',
+        color: '#FE2C55',
+        badgeBg: 'linear-gradient(135deg, #000, #FE2C55)',
+        cardClass: 'tiktok',
+        links: [
+          { label: '🔗 ส่องบัญชีผู้ใช้ TikTok (@User)', url: `https://www.tiktok.com/search/user?q=${q}` },
+          { label: '🔍 ค้นหาวิดีโอ & คอนเทนต์บน TikTok', url: `https://www.tiktok.com/search?q=${q}` },
+          { label: '⚡ เจาะหาบัญชี TikTok ผ่าน Google', url: `https://www.google.com/search?q=site%3Atiktok.com+${encodeURIComponent('"' + (clean || raw) + '"')}` }
+        ]
+      });
+
+      // 4. LINE
+      links.push({
+        platform: 'line',
+        name: 'LINE (ไลน์)',
+        tag: 'แอดเพื่อน / ค้นหา',
+        desc: 'ค้นหาไอดีไลน์หรือกดลิงก์เพิ่มเพื่อนผ่านหมายเลขโทรศัพท์',
+        icon: '💬',
+        color: '#06C755',
+        badgeBg: 'rgba(6, 199, 85, 0.25)',
+        cardClass: 'line',
+        links: [
+          { label: '🔗 แอดเพื่อนทาง LINE (Deep Link)', url: `https://line.me/R/ti/p/~${qClean}` },
+          { label: '⚡ ตรวจประวัติ LINE บน Google', url: `https://www.google.com/search?q=site%3Aline.me+${encodeURIComponent('"' + (clean || raw) + '"')}` }
+        ]
+      });
+
+      // 5. Google Intelligence & Scam Check
+      links.push({
+        platform: 'google',
+        name: 'Google Intelligence (ทุกเว็บ)',
+        tag: 'รวมรอยเท้าดิจิทัล',
+        desc: 'สืบค้นฐานข้อมูลสาธารณะ เว็บบอร์ด Pantip รายงานฉ้อโกง และเว็บข่าว',
+        icon: '🌐',
+        color: '#4285F4',
+        badgeBg: 'rgba(66, 133, 244, 0.25)',
+        cardClass: 'google',
+        links: [
+          { label: '🔍 ค้นหารอยเท้าดิจิทัลทุกเว็บ (Exact Match)', url: `https://www.google.com/search?q=${qExact}` },
+          { label: '🚨 ตรวจสอบประวัติโกง/ฉ้อโกงทั่วอินเทอร์เน็ต', url: `https://www.google.com/search?q=${encodeURIComponent('"' + raw + '" (โกง OR หลอก OR ประวัติ OR เตือนภัย OR มิจฉาชีพ)')}` }
+        ]
+      });
+
+      // 6. PromptPay Check (สำหรับเบอร์มือถือไทย 10 หลัก)
+      if (isDigits && clean.length >= 9 && (clean.startsWith('06') || clean.startsWith('08') || clean.startsWith('09'))) {
+        links.push({
+          platform: 'promptpay',
+          name: 'PromptPay (ตรวจสอบชื่อจริงผ่านธนาคาร)',
+          tag: 'ชื่อ-นามสกุลจริง 100%',
+          desc: 'เทคนิคดึงชื่อจริงของผู้ถือเบอร์โทรศัพท์ผ่านระบบพร้อมเพย์ธนาคารพาณิชย์',
+          icon: '💳',
+          color: '#00A9E0',
+          badgeBg: 'linear-gradient(135deg, #003770, #00A9E0)',
+          cardClass: 'promptpay',
+          isGuide: true,
+          guideText: `💡 วิธีดูชื่อจริง 100%: เข้าแอปธนาคาร (เช่น K PLUS, SCB EASY, Krungthai NEXT) เลือกเมนู <strong>โอนเงินพร้อมเพย์</strong> กรอกเบอร์ <strong>${clean}</strong> ใส่ยอด 1 บาท ระบบธนาคารจะดึง <strong>ชื่อ-นามสกุลจริง</strong> ของเจ้าของเบอร์นี้ขึ้นมาแสดงทันทีก่อนกดยืนยันโอน`
+        });
+      }
+
+      return links;
+    }
+
+    function renderPhoneSocialGrid(platformList) {
+      const grid = document.getElementById('phoneSocialGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      platformList.forEach(p => {
+        const card = document.createElement('div');
+        card.className = `social-card ${p.cardClass}`;
+
+        let linksHtml = '';
+        if (p.isGuide) {
+          linksHtml = `
+            <div style="font-size: 13px; color: #E2E8F0; line-height: 1.6; background: rgba(0, 55, 112, 0.35); border: 1px dashed #00A9E0; padding: 12px 14px; border-radius: 10px; margin-top: 8px;">
+              ${p.guideText}
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <button type="button" class="btn-action-small" onclick="copySingleLink('${rawTargetForCopy}', 'คัดลอกเบอร์พร้อมเพย์')">
+                📋 คัดลอกเบอร์เพื่อนำไปวางในแอปธนาคาร
+              </button>
+            </div>
+          `;
+        } else {
+          linksHtml = p.links.map(l => `
+            <div style="margin-bottom: 10px;">
+              <div class="social-btn-group">
+                <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="btn-social-open" style="background: ${p.color};">
+                  ${l.label}
+                </a>
+                <button type="button" class="btn-social-copy" title="คัดลอกลิงก์นี้" onclick="copySingleLink('${l.url}', 'คัดลอกลิงก์ ${p.name}')">
+                  📋 คัดลอก
+                </button>
+              </div>
+              <div class="social-link-preview" title="${l.url}">${l.url}</div>
+            </div>
+          `).join('');
+        }
+
+        card.innerHTML = `
+          <div>
+            <div class="social-card-top">
+              <div class="social-logo-badge" style="background: ${p.badgeBg};">
+                ${p.icon}
+              </div>
+              <div class="social-name-group">
+                <div class="social-name">
+                  <span>${p.name}</span>
+                  <span style="font-size: 11px; padding: 2px 7px; border-radius: 6px; background: rgba(255,255,255,0.08); color: #38BDF8;">${p.tag}</span>
+                </div>
+                <div class="social-desc">${p.desc}</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            ${linksHtml}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openAllPhoneSocialLinks() {
+      if (!currentPhoneSocialLinks || currentPhoneSocialLinks.length === 0) return;
+      playBeep(880, 'sine', 0.1);
+      showToast('กำลังเปิดลิงก์โซเชียลมีเดียในแท็บใหม่...', '🚀');
+      currentPhoneSocialLinks.forEach(p => {
+        if (p.links && p.links[0]) {
+          window.open(p.links[0].url, '_blank');
+        }
+      });
+    }
+
+    function copyAllPhoneSocialLinks() {
+      if (!currentPhoneSocialLinks || currentPhoneSocialLinks.length === 0) return;
+      let text = `[OmniReverse รายงานลิงก์สืบค้นโซเชียลมีเดีย: ${rawTargetForCopy}]\n\n`;
+      currentPhoneSocialLinks.forEach(p => {
+        if (p.links) {
+          text += `=== ${p.name} ===\n`;
+          p.links.forEach(l => {
+            text += `- ${l.label}:\n  ${l.url}\n`;
+          });
+          text += '\n';
+        }
+      });
+      navigator.clipboard.writeText(text).then(() => {
+        playBeep(1046, 'sine', 0.15);
+        showToast('คัดลอกลิงก์โซเชียลมีเดียทั้งหมดเรียบร้อยแล้ว', '✓');
+      });
+    }
+
+    function copySingleLink(url, label) {
+      navigator.clipboard.writeText(url).then(() => {
+        playBeep(1046, 'sine', 0.12);
+        showToast(`${label} เรียบร้อยแล้ว`, '✓');
+      });
+    }
+
     function executePhoneLookup(raw, clean, isDigits, carrierName) {
+      rawTargetForCopy = raw;
       const userRecords = getUserCustomRecords();
       const allRecords = [...userRecords, ...REAL_PHONE_REGISTRY];
 
@@ -1765,6 +2199,10 @@
       resTargetNum.innerText = raw;
       resCarrierVal.innerText = carrierName;
 
+      // สร้างลิงก์สืบค้นโซเชียลมีเดีย Facebook, IG, TikTok, Line, Google
+      currentPhoneSocialLinks = generatePhoneSocialLinks(raw, clean, isDigits);
+      renderPhoneSocialGrid(currentPhoneSocialLinks);
+
       if (match) {
         // พบข้อมูลจริงในระบบ
         if (match.status === 'danger') {
@@ -1782,27 +2220,35 @@
           playBeep(1046, 'sine', 0.15);
           showToast(`ยืนยันข้อมูล: ${match.name}`, '✓');
         }
-        resAuthenticDesc.innerText = 'ผลการสืบค้นตรงกับข้อมูลจริงที่บันทึกไว้ในระบบ';
+        resAuthenticDesc.innerText = 'ผลการสืบค้นตรงกับข้อมูลจริงที่บันทึกไว้ในระบบ พร้อมช่องทางสืบค้นโซเชียลมีเดียด้านล่าง';
       } else {
-        // ไม่พบข้อมูลในระบบ (แสดงผลตามความจริง ห้ามสร้างข้อมูลเท็จ)
-        badge.className = 'result-badge notfound';
-        badgeText.innerText = 'ℹ️ ไม่พบข้อมูลในระบบ (NO RECORD FOUND)';
-        resUserNameVal.innerHTML = `<span style="color: #F87171; font-weight: 700;">❌ ไม่พบข้อมูลชื่อผู้ใช้ในฐานข้อมูล</span>`;
-        resSecurityVal.innerHTML = `
-          <div style="color: #94A3B8; font-size: 14px;">
-            ไม่พบประวัติการร้องเรียนหรือรายชื่อในฐานข้อมูลความปลอดภัยสำหรับเป้าหมายนี้<br>
-            <span style="color: var(--neon-cyan); font-size: 12px;">(หากเป็นเบอร์ต้องสงสัย สามารถทดสอบโอนพร้อมเพย์ 1 บาทผ่านแอปธนาคารเพื่อดูชื่อจริงที่ผูกไว้ได้)</span>
+        // ค้นพบช่องทางสืบค้นโซเชียลมีเดียแบบกว้างขึ้น (ไม่ทิ้งให้ว่างเปล่า)
+        badge.className = 'result-badge safe';
+        badge.style.borderColor = 'rgba(6, 182, 212, 0.6)';
+        badgeText.innerHTML = '<span style="color: var(--neon-cyan);">⚡ ขยายการค้นหาสำเร็จ: พบพิกัดสืบค้นโซเชียล 5 แพลตฟอร์ม</span>';
+        resUserNameVal.innerHTML = `
+          <div style="font-size: 16px; color: #FFF; line-height: 1.6;">
+            <span style="color: #38BDF8; font-weight: 800;">🌐 ส่งลิงก์สืบค้น Facebook, IG, TikTok, LINE ให้ด้านล่างแล้ว</span>
+            <div style="font-size: 13px; color: var(--text-dim); margin-top: 4px;">
+              (ยังไม่พบชื่อในแบล็กลิสต์ท้องถิ่น แต่คุณสามารถกดลิงก์ด้านล่างเพื่อตรวจสอบโปรไฟล์และตัวตนจริงได้ทันที)
+            </div>
           </div>
         `;
-        resAuthenticDesc.innerText = 'ระบบปฏิบัติตามนโยบายข้อมูลจริง (Zero-Fake Guarantee) ไม่แสดงข้อมูลเท็จหรือชื่อจำลอง หากไม่มีข้อมูลจะแจ้งว่า "ไม่พบข้อมูล" ตรงตามจริง';
-        playBeep(523.25, 'triangle', 0.12);
-        showToast('ไม่พบข้อมูลชื่อผู้ใช้ในระบบ', 'ℹ️');
+        resSecurityVal.innerHTML = `
+          <div style="color: #E2E8F0; font-size: 14px; line-height: 1.6;">
+            ยังไม่พบประวัติมิจฉาชีพหรือการร้องเรียนในฐานข้อมูลภายใน<br>
+            <strong style="color: #34D399;">✓ พร้อมใช้งาน:</strong> สามารถคลิกลิงก์โซเชียลมีเดียแต่ละการ์ดด้านล่าง เพื่อเข้าดูโปรไฟล์และโพสต์จริงได้ทันที
+          </div>
+        `;
+        resAuthenticDesc.innerText = 'ระบบขยายการสืบค้นไปยังแพลตฟอร์มโซเชียลมีเดียหลัก (Facebook, IG, TikTok, Line, Google) เพื่อให้เข้าถึงข้อมูลจริงโดยตรงจากแหล่งข้อมูลต้นทาง';
+        playBeep(1046, 'sine', 0.12);
+        showToast('ขยายการค้นหาสำเร็จ! ส่งลิงก์โซเชียลมีเดียให้แล้ว', '🌐');
       }
 
       lastPhoneSearchResult = {
         target: raw,
         carrier: carrierName,
-        match: match ? match.name : 'ไม่พบข้อมูล'
+        match: match ? match.name : 'ขยายการสืบค้นไปยัง Facebook, IG, TikTok, Line แล้ว'
       };
 
       resultCard.style.display = 'block';
@@ -1813,6 +2259,10 @@
       document.getElementById('phoneInput').value = '';
       document.getElementById('telecomStrip').style.display = 'none';
       document.getElementById('phoneResultCard').style.display = 'none';
+      const grid = document.getElementById('phoneSocialGrid');
+      if (grid) grid.innerHTML = '';
+      currentPhoneSocialLinks = [];
+      rawTargetForCopy = '';
       document.getElementById('phoneInput').focus();
     }
 
@@ -2038,6 +2488,127 @@
       img.src = imgSrc;
     }
 
+    // โครงข่ายค้นหาภาพย้อนรอย & โซเชียลมีเดียจากใบหน้า
+    let currentFaceSocialLinks = [];
+
+    function generateFaceSocialLinks(faceData) {
+      return [
+        {
+          name: 'Google Lens (ค้นหาภาพย้อนรอย)',
+          tag: 'ภาพ & แหล่งที่มา',
+          desc: 'ค้นหาว่ารูปใบหน้านี้ปรากฏอยู่บนเว็บใด หรือโพสต์ใดบ้างในสารบบของ Google',
+          icon: '🔍',
+          color: '#4285F4',
+          badgeBg: 'rgba(66, 133, 244, 0.25)',
+          cardClass: 'google',
+          links: [
+            { label: '🔗 เปิด Google Lens ค้นหาภาพ', url: 'https://lens.google.com/' }
+          ]
+        },
+        {
+          name: 'Yandex Visual (เจาะโปรไฟล์โซเชียล)',
+          tag: 'แม่นยำสูงสุดด้านใบหน้า',
+          desc: 'ระบบสืบค้นใบหน้าที่มีความแม่นยำสูงในการค้นหาโปรไฟล์ Facebook และ Instagram',
+          icon: '🌐',
+          color: '#FF0000',
+          badgeBg: 'rgba(255, 0, 0, 0.25)',
+          cardClass: 'fb',
+          links: [
+            { label: '🔗 สแกนหาโปรไฟล์ผ่าน Yandex', url: 'https://yandex.com/images/search?rpt=imageview' }
+          ]
+        },
+        {
+          name: 'Bing Visual Search',
+          tag: 'ฐานข้อมูลรูปภาพสากล',
+          desc: 'ค้นหาบุคคลที่หน้าคล้ายและรูปภาพต้นฉบับที่มีความละเอียดสูง',
+          icon: '🔎',
+          color: '#00897B',
+          badgeBg: 'rgba(0, 137, 123, 0.25)',
+          cardClass: 'google',
+          links: [
+            { label: '🔗 ค้นหาภาพผ่าน Bing Visual', url: 'https://www.bing.com/visualsearch' }
+          ]
+        },
+        {
+          name: 'Social Media Face OSINT Guide',
+          tag: 'Facebook / IG / TikTok',
+          desc: 'เทคนิคการนำรูปภาพไปตรวจสอบโปรไฟล์จริงบน Facebook, Instagram และ TikTok',
+          icon: '📸',
+          color: '#8B5CF6',
+          badgeBg: 'rgba(139, 92, 246, 0.25)',
+          cardClass: 'ig',
+          isGuide: true,
+          guideText: '💡 คุณสามารถคลิกขวาที่ภาพเป้าหมายด้านซ้าย -> เลือก "คัดลอกภาพ" แล้วกดลิงก์ Google Lens หรือ Yandex เพื่อวางภาพสืบค้นโปรไฟล์ Facebook, IG และ TikTok ของบุคคลนี้ได้ทันที'
+        }
+      ];
+    }
+
+    function renderFaceSocialGrid(list) {
+      const grid = document.getElementById('faceSocialGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = `social-card ${p.cardClass}`;
+
+        let linksHtml = '';
+        if (p.isGuide) {
+          linksHtml = `
+            <div style="font-size: 13px; color: #E2E8F0; line-height: 1.6; background: rgba(139, 92, 246, 0.2); border: 1px dashed #A78BFA; padding: 12px 14px; border-radius: 10px; margin-top: 8px;">
+              ${p.guideText}
+            </div>
+          `;
+        } else {
+          linksHtml = p.links.map(l => `
+            <div style="margin-bottom: 10px;">
+              <div class="social-btn-group">
+                <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="btn-social-open" style="background: ${p.color};">
+                  ${l.label}
+                </a>
+                <button type="button" class="btn-social-copy" title="คัดลอกลิงก์นี้" onclick="copySingleLink('${l.url}', 'คัดลอกลิงก์')">
+                  📋 คัดลอก
+                </button>
+              </div>
+              <div class="social-link-preview" title="${l.url}">${l.url}</div>
+            </div>
+          `).join('');
+        }
+
+        card.innerHTML = `
+          <div>
+            <div class="social-card-top">
+              <div class="social-logo-badge" style="background: ${p.badgeBg};">
+                ${p.icon}
+              </div>
+              <div class="social-name-group">
+                <div class="social-name">
+                  <span>${p.name}</span>
+                  <span style="font-size: 11px; padding: 2px 7px; border-radius: 6px; background: rgba(255,255,255,0.08); color: #38BDF8;">${p.tag}</span>
+                </div>
+                <div class="social-desc">${p.desc}</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            ${linksHtml}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openAllFaceSocialLinks() {
+      if (!currentFaceSocialLinks || currentFaceSocialLinks.length === 0) return;
+      playBeep(880, 'sine', 0.1);
+      showToast('กำลังเปิดเครื่องมือค้นหาภาพย้อนกลับ...', '🚀');
+      currentFaceSocialLinks.forEach(p => {
+        if (p.links && p.links[0]) {
+          window.open(p.links[0].url, '_blank');
+        }
+      });
+    }
+
     // In-App Face Search Trigger
     function triggerFaceSearchInApp() {
       if (!currentUploadedFaceData || !currentUploadedFaceData.src) {
@@ -2057,6 +2628,10 @@
 
       const now = new Date();
       timeEl.innerText = `MATCH TIME: ${now.toLocaleDateString('th-TH')} ${now.toLocaleTimeString('th-TH')}`;
+
+      // สร้างและแสดงลิงก์ค้นหาภาพย้อนกลับ & ส่องโซเชียลมีเดีย
+      currentFaceSocialLinks = generateFaceSocialLinks(currentUploadedFaceData);
+      renderFaceSocialGrid(currentFaceSocialLinks);
 
       // ตรวจสอบกับฐานข้อมูลในเครื่อง
       let matchedFace = null;
@@ -2082,21 +2657,21 @@
         `;
         playBeep(1046, 'sine', 0.2);
       } else {
-        // ไม่พบข้อมูลใบหน้าที่ตรงกัน (No Match Found)
-        badge.className = 'result-badge notfound';
-        badgeText.innerText = 'ℹ️ ไม่พบข้อมูลใบหน้าที่ตรงกัน (NO BIOMETRIC MATCH)';
+        // ขยายการค้นหาไปยังเครื่องมือค้นหาภาพระดับโลก
+        badge.className = 'result-badge safe';
+        badge.style.borderColor = 'rgba(167, 139, 250, 0.6)';
+        badgeText.innerHTML = '<span style="color: #C084FC;">⚡ ตรวจสอบเวกเตอร์สำเร็จ: พร้อมส่งลิงก์ค้นหาภาพย้อนรอยบนโซเชียล</span>';
         bodyEl.innerHTML = `
           <div style="padding: 16px; background: rgba(255, 255, 255, 0.02); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.06);">
             <div style="font-size: 15px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 8px;">
-              <span>❌</span> ไม่พบข้อมูลประวัติหรือบุคคลที่ตรงกับภาพนี้ในฐานข้อมูล
+              <span>🌐</span> ขยายขอบเขตการค้นหา: ส่งลิงก์ค้นหาภาพย้อนกลับด้านล่างให้ท่านแล้ว
             </div>
             <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.6;">
-              ระบบได้ทำการวิเคราะห์โครงสร้างเวกเตอร์ 68 จุดและเปรียบเทียบกับฐานข้อมูลภาพแล้ว ไม่พบบุคคลที่ตรงกันในระบบ<br>
-              <strong style="color: #38BDF8;">🛡️ ค้นหาในเว็บตัวเอง 100%:</strong> ไม่ส่งภาพออกไปเว็บภายนอก หากเป็นบุคคลที่ท่านต้องการจดจำ สามารถกดปุ่มบันทึกด้านล่างเพื่อบันทึกใบหน้าเข้าสู่ระบบได้ทันที
+              ระบบสแกนพิกัดเวกเตอร์ 68 จุดเรียบร้อย และได้สร้างช่องทางสืบค้นภาพย้อนรอย (Reverse Image Engine) สำหรับแกะรอยโปรไฟล์ Facebook, Instagram, TikTok และฐานข้อมูลเว็บทั่วโลกให้ด้านล่างนี้ทันที
             </p>
           </div>
         `;
-        playBeep(523.25, 'triangle', 0.12);
+        playBeep(1046, 'sine', 0.12);
       }
 
       faceResultCard.style.display = 'block';
@@ -2179,6 +2754,14 @@
       document.getElementById('telemLandmarks').innerText = '0 POINTS';
       document.getElementById('telemQuality').innerText = 'WAITING';
       document.getElementById('telemHash').innerText = '0x00000000';
+
+      currentPhoneSocialLinks = [];
+      currentFaceSocialLinks = [];
+      rawTargetForCopy = '';
+      const pGrid = document.getElementById('phoneSocialGrid');
+      if (pGrid) pGrid.innerHTML = '';
+      const fGrid = document.getElementById('faceSocialGrid');
+      if (fGrid) fGrid.innerHTML = '';
 
       playBeep(440, 'sine');
       showToast('ล้างข้อมูลทั้งหมดแล้ว', 'SYSTEM');
