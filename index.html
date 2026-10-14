@@ -626,6 +626,74 @@
       background: #0D0D0D;
     }
 
+    /* SMART FOLLOW-UP SUGGESTION CHIPS */
+    .ai-suggest-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .ai-chip-btn {
+      background: rgba(255, 255, 255, 0.04);
+      color: #93C5FD;
+      border: 1px solid rgba(147, 197, 253, 0.25);
+      border-radius: 16px;
+      padding: 5px 12px;
+      font-size: 12.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ai-chip-btn:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38BDF8;
+      color: #FFF;
+      transform: translateY(-1.5px);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
+    }
+
+    /* DEEP REASONING / THOUGHT BOX */
+    .ai-thought-box {
+      margin: 10px 0 14px 0;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-left: 3px solid #00E5FF;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #94A3B8;
+      transition: all 0.2s ease;
+    }
+
+    .ai-thought-box summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
+
+    .ai-thought-box summary:hover {
+      color: #00E5FF;
+    }
+
+    .ai-thought-content {
+      margin-top: 8px;
+      line-height: 1.6;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 8px;
+      color: #CBD5E1;
+      font-size: 12.5px;
+    }
+
     /* TYPING INDICATOR (ChatGPT Pulse) */
     .typing-container {
       display: flex;
@@ -1164,6 +1232,9 @@
               </button>
               <button type="button" class="tool-pill-btn" onclick="openAiSettingsModal()" title="ตั้งค่าระบบ & เสียง">
                 ⚙️ <span>ตั้งค่า</span>
+              </button>
+              <button type="button" class="tool-pill-btn" onclick="enhanceCurrentPrompt()" title="ขยายความและปรับแต่งคำสั่งให้ AI ตอบฉลาดที่สุด (Prompt Enhancer)" style="color: #F59E0B; border-color: rgba(245, 158, 11, 0.4);">
+                ✨ <span style="font-weight: 700;">ปรับคำสั่งเทพ</span>
               </button>
               <span class="tool-pill-btn" style="border-color: rgba(0, 240, 255, 0.4); color: #00F0FF;" id="currentEngineTag">
                 ⚡ AI เด็กเทพ 4o
@@ -2057,7 +2128,26 @@
     // =========================================================================
     function renderAiMarkdown(text) {
       if (!text) return '';
-      let html = text
+
+      // 0. Extract <think> reasoning blocks (e.g. from DeepSeek R1)
+      const thoughtBlocks = [];
+      let processed = text.replace(/<think>([\s\S]*?)<\/think>/gi, (match, thought) => {
+        const idx = thoughtBlocks.length;
+        const cleanedThought = thought.trim()
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\n/g, '<br>');
+        thoughtBlocks.push(`
+          <details class="ai-thought-box" open>
+            <summary>🧠 การคิดวิเคราะห์เชิงลึก (Deep Reasoning Process)</summary>
+            <div class="ai-thought-content">${cleanedThought}</div>
+          </details>
+        `);
+        return `__THOUGHT_BLOCK_SLOT_${idx}__`;
+      });
+
+      let html = processed
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
@@ -2091,8 +2181,13 @@
       html = html.replace(/\*\*([^*]+)\*\*/g, '<strong style="color:#FFF;">$1</strong>');
       html = html.replace(/^### (.*$)/gm, '<h4 style="color:#34D399;margin:12px 0 6px 0;font-size:16px;">$1</h4>');
       html = html.replace(/^## (.*$)/gm, '<h3 style="color:#06B6D4;margin:14px 0 8px 0;font-size:17px;">$1</h3>');
+      html = html.replace(/^>\s?(.*$)/gm, '<blockquote style="border-left:3px solid #00E5FF;padding:6px 12px;margin:8px 0;background:rgba(0,229,255,0.06);color:#E2E8F0;border-radius:0 8px 8px 0;">$1</blockquote>');
       html = html.replace(/^\s*[-*]\s+(.*)$/gm, '<li style="margin-left: 20px; margin-bottom: 4px;">$1</li>');
       html = html.replace(/\n/g, '<br>');
+
+      thoughtBlocks.forEach((tHtml, idx) => {
+        html = html.replace(`__THOUGHT_BLOCK_SLOT_${idx}__`, tHtml);
+      });
 
       codeBlocks.forEach((blockHtml, index) => {
         html = html.replace(`__CODE_BLOCK_SLOT_${index}__`, blockHtml);
@@ -2533,37 +2628,52 @@
           ];
 
           let replyText = "";
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 12000);
+          const candidateModels = [chosenModel, "openai-fast", "openai", "deepseek-r1", "mistral", "llama"];
+          const triedModels = new Set();
 
-          try {
-            const pollinationsResponse = await fetch("https://text.pollinations.ai/", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                messages: conversationPayload,
-                model: chosenModel,
-                seed: Math.floor(Math.random() * 999999),
-                jsonMode: false
-              }),
-              signal: controller.signal
-            });
-            clearTimeout(timeoutId);
+          for (const modelCandidate of candidateModels) {
+            if (triedModels.has(modelCandidate)) continue;
+            triedModels.add(modelCandidate);
 
-            if (pollinationsResponse.ok) {
-              replyText = await pollinationsResponse.text();
-            }
-          } catch (postErr) {
-            clearTimeout(timeoutId);
-            // Fallback GET request if POST has CORS or payload issues
             try {
-              const getUrl = `https://text.pollinations.ai/${encodeURIComponent(promptToAi)}?model=${encodeURIComponent(chosenModel)}&system=${encodeURIComponent(systemPrompt)}`;
-              const getResp = await fetch(getUrl);
-              if (getResp.ok) {
-                replyText = await getResp.text();
+              const controller = new AbortController();
+              const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+              const pollinationsResponse = await fetch("https://text.pollinations.ai/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  messages: conversationPayload,
+                  model: modelCandidate,
+                  seed: Math.floor(Math.random() * 999999),
+                  jsonMode: false
+                }),
+                signal: controller.signal
+              });
+              clearTimeout(timeoutId);
+
+              if (pollinationsResponse.ok) {
+                const textResult = await pollinationsResponse.text();
+                if (textResult && textResult.trim().length > 0 && !textResult.includes("<!DOCTYPE html>")) {
+                  replyText = textResult;
+                  break;
+                }
               }
-            } catch (getErr) {
-              console.warn('GET fallback also failed:', getErr);
+            } catch (postErr) {
+              // Try fallback GET for this modelCandidate
+              try {
+                const getUrl = `https://text.pollinations.ai/${encodeURIComponent(promptToAi)}?model=${encodeURIComponent(modelCandidate)}&system=${encodeURIComponent(systemPrompt)}`;
+                const getResp = await fetch(getUrl);
+                if (getResp.ok) {
+                  const textResult = await getResp.text();
+                  if (textResult && textResult.trim().length > 0 && !textResult.includes("<!DOCTYPE html>")) {
+                    replyText = textResult;
+                    break;
+                  }
+                }
+              } catch (getErr) {
+                console.warn(`Model candidate ${modelCandidate} failed, trying next...`);
+              }
             }
           }
 
@@ -2587,6 +2697,63 @@
         if (btnSend) btnSend.disabled = false;
         handleInputChange(input);
       }
+    }
+
+    function generateFollowUpChips(text) {
+      const lower = (text || '').toLowerCase();
+      if (lower.includes('```html') || lower.includes('```javascript') || lower.includes('```python') || lower.includes('▶️ รันโค้ดสด')) {
+        return ['▶️ ช่วยเพิ่มฟังก์ชันให้ระบบนี้', '🐞 ช่วยเขียน Unit Test ตรวจสอบ', '📝 อธิบายการทำงานแต่ละบรรทัด'];
+      }
+      if (lower.includes('การคำนวณ') || lower.includes('เปอร์เซ็นต์') || lower.includes('ผลการคำนวณ')) {
+        return ['🧮 คำนวณสมการอื่นต่อ', '📊 ช่วยแปลงเป็นสูตร Excel', '💡 อธิบายที่มาของสูตร'];
+      }
+      if (lower.includes('ภาพวาด') || lower.includes('แต่งรูป') || lower.includes('ฟิลเตอร์')) {
+        return ['🎨 วาดรูป AI เพิ่มเติม', '✨ ปรับแสงและสีภาพ', '💾 ดาวน์โหลดรูปภาพ'];
+      }
+      if (lower.includes('เกม') || lower.includes('gaming') || lower.includes('เทคนิค')) {
+        return ['🎮 แนะนำคอมโบและไอเทม', '🏆 สรุปเทคนิคขึ้นแรงค์', '💻 สร้างมินิเกมเว็บให้หน่อย'];
+      }
+      if (lower.includes('สุขภาพ') || lower.includes('ฟิตเนส') || lower.includes('อาหาร')) {
+        return ['🥗 จัดตารางอาหาร 7 วัน', '🏋️ แนะนำตารางออกกำลังกาย', '💧 วิธีคำนวณปริมาณน้ำดื่ม'];
+      }
+      return ['💡 ขอคำแนะนำเพิ่มเติม', '🎯 ช่วยวางแผนเป็นขั้นตอน', '💻 เขียนโค้ดระบบนี้ให้หน่อย'];
+    }
+
+    function sendSuggestedPrompt(text) {
+      const input = document.getElementById('aiChatInput');
+      if (!input) return;
+      input.value = text;
+      handleInputChange(input);
+      sendAiChatMessage();
+    }
+
+    function enhanceCurrentPrompt() {
+      const input = document.getElementById('aiChatInput');
+      if (!input) return;
+      let text = input.value.trim();
+      if (!text) {
+        showToast('กรุณาพิมพ์หัวข้อหรือคำถามที่ต้องการให้ AI ปรับแต่งก่อนครับ', 'ℹ️');
+        return;
+      }
+      
+      let enhanced = '';
+      const q = text.toLowerCase();
+      if (q.includes('เว็บ') || q.includes('แอพ') || q.includes('โค้ด') || q.includes('โปรแกรม') || q.includes('สร้าง') || q.includes('ทำ')) {
+        enhanced = `ช่วยเขียนโค้ดและพัฒนาระบบสำหรับ: "${text}" โดยขอเป็นเวอร์ชันระดับมืออาชีพ ดีไซน์ Modern Cyberpunk สวยงาม Responsive 100% พร้อมฟังก์ชัน Interactive ที่ใช้งานได้จริง และอธิบายจุดสำคัญให้เข้าใจง่าย`;
+      } else if (q.includes('แปล') || q.includes('ภาษา')) {
+        enhanced = `ช่วยแปลและเกลาภาษาประโยคนี้: "${text}" ให้สละสลวย เป็นธรรมชาติ ทั้งในบริบททางการ (Formal) และบริบทสนทนา พร้อมคำอธิบายคำศัพท์สำคัญและตัวอย่างการนำไปใช้`;
+      } else if (q.includes('แผน') || q.includes('ธุรกิจ') || q.includes('การตลาด') || q.includes('ขาย')) {
+        enhanced = `ช่วยวิเคราะห์และวางกลยุทธ์เชิงลึกสำหรับ: "${text}" โดยครอบคลุม Value Proposition, กลุ่มเป้าหมาย, แผน Action Plan เป็นขั้นตอน, การวัดผล KPI และเทคนิคการเพิ่มยอดขาย`;
+      } else {
+        enhanced = `ช่วยวิเคราะห์และให้คำตอบเชิงลึกเกี่ยวกับ: "${text}" โดยขอข้อมูลที่ถูกต้อง ละเอียด ครบถ้วน พร้อมสรุปประเด็นสำคัญ ตัวอย่างประกอบ และคำแนะนำที่นำไปปฏิบัติได้จริง`;
+      }
+
+      input.value = enhanced;
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, 180) + 'px';
+      handleInputChange(input);
+      playCyberChime();
+      showToast('✨ ปรับคำสั่งเทพเรียบร้อยแล้ว!', '🚀');
     }
 
     function deliverAiResponse(session, markdownText) {
@@ -2613,12 +2780,23 @@
       else if (currentModelMode === 'llama-3.3') modelBadge = '🚀 Llama 3.3';
       else if (currentModelMode.startsWith('gemini')) modelBadge = '✨ Gemini';
 
+      const followUpChips = generateFollowUpChips(markdownText);
+      let chipsHtml = '';
+      if (followUpChips && followUpChips.length > 0) {
+        chipsHtml = `
+          <div class="ai-suggest-chips">
+            ${followUpChips.map(chip => `<button type="button" class="ai-chip-btn" onclick="sendSuggestedPrompt('${chip.replace(/'/g, "\\'")}')">${chip}</button>`).join('')}
+          </div>
+        `;
+      }
+
       bodyDiv.innerHTML = `
         <div class="assistant-name" style="display: flex; align-items: center; gap: 8px;">
           <span>AI เด็กเทพ</span>
           <span style="font-size: 10.5px; color: #00E5FF; background: rgba(0, 229, 255, 0.15); border: 1px solid rgba(0, 229, 255, 0.3); padding: 1px 6px; border-radius: 4px; font-weight: normal;">${modelBadge}</span>
         </div>
         <div class="assistant-content-text">${renderAiMarkdown(markdownText)}</div>
+        ${chipsHtml}
       `;
 
       row.appendChild(avatarDiv);
@@ -3571,6 +3749,982 @@ namespace DekThepAI
     }
 }
 \`\`\``;
+      }
+
+      // 4.6a Kanban & Todo Task Master
+      if (q.includes('todo') || q.includes('kanban') || q.includes('จดบันทึก') || q.includes('งานที่ต้องทำ') || q.includes('to do')) {
+        return `ยินดีครับ! นี่คือเว็บแอพพลิเคชัน **Cyberpunk Kanban & Task Master 2026** แบบ Interactive สมบูรณ์แบบ พร้อมระบบจัดการงาน 3 คอลัมน์ คัดกรองความสำคัญ และคำนวณ Progress อัตโนมัติครับ ⚡
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyberpunk Kanban & Task Master</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: #0A0F1D; color: #E2E8F0; padding: 24px; min-height: 100vh; }
+    .header { text-align: center; margin-bottom: 24px; }
+    .header h1 { font-size: 26px; color: #00E5FF; text-shadow: 0 0 16px rgba(0,229,255,0.4); margin-bottom: 6px; }
+    .header p { color: #94A3B8; font-size: 14px; }
+    
+    .add-bar { display: flex; gap: 10px; max-width: 800px; margin: 0 auto 24px auto; background: #131E32; padding: 12px; border-radius: 12px; border: 1px solid rgba(0,229,255,0.25); }
+    .add-bar input { flex: 1; background: #0A0F1D; border: 1px solid #1E293B; border-radius: 8px; padding: 10px 14px; color: #FFF; outline: none; font-size: 14px; }
+    .add-bar select { background: #0A0F1D; border: 1px solid #1E293B; border-radius: 8px; padding: 10px; color: #00E5FF; outline: none; }
+    .btn-add { background: linear-gradient(135deg, #00E5FF, #0284C7); color: #000; border: none; font-weight: bold; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .btn-add:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,229,255,0.4); }
+
+    .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; max-width: 1100px; margin: 0 auto; }
+    .col { background: #131E32; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); padding: 16px; display: flex; flex-direction: column; min-height: 400px; }
+    .col-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 15px; font-weight: bold; }
+    .badge-count { background: rgba(0,229,255,0.15); color: #00E5FF; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+    .card-list { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    
+    .card { background: #1E293B; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; transition: 0.2s; position: relative; }
+    .card:hover { transform: translateY(-2px); border-color: #00E5FF; box-shadow: 0 4px 12px rgba(0,229,255,0.15); }
+    .card-title { font-size: 14px; margin-bottom: 8px; line-height: 1.4; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+    .priority { font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    .p-high { background: rgba(239,68,68,0.2); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+    .p-med { background: rgba(245,158,11,0.2); color: #F59E0B; border: 1px solid rgba(245,158,11,0.3); }
+    .p-low { background: rgba(16,185,129,0.2); color: #10B981; border: 1px solid rgba(16,185,129,0.3); }
+    .card-actions { display: flex; gap: 6px; }
+    .btn-action { background: rgba(255,255,255,0.06); border: none; color: #94A3B8; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+    .btn-action:hover { background: #00E5FF; color: #000; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>⚡ CYBER KANBAN TASK MASTER</h1>
+    <p>ระบบบริหารจัดการงานสำหรับสายลุย บันทึก จัดลำดับ และติดตามผลลัพธ์แบบเรียลไทม์</p>
+  </div>
+
+  <div class="add-bar">
+    <input type="text" id="taskInput" placeholder="พิมพ์ชื่องานที่ต้องการทำ..." onkeydown="if(event.key==='Enter')addTask()">
+    <select id="prioritySelect">
+      <option value="high">🔴 ด่วนมาก (High)</option>
+      <option value="med" selected>🟡 ทั่วไป (Medium)</option>
+      <option value="low">🟢 ไม่ด่วน (Low)</option>
+    </select>
+    <button class="btn-add" onclick="addTask()">+ เพิ่มงานใหม่</button>
+  </div>
+
+  <div class="board">
+    <div class="col" id="col-todo">
+      <div class="col-header">
+        <span>📋 งานที่ต้องทำ (To Do)</span>
+        <span class="badge-count" id="count-todo">0</span>
+      </div>
+      <div class="card-list" id="list-todo"></div>
+    </div>
+
+    <div class="col" id="col-progress">
+      <div class="col-header">
+        <span>⚡ กำลังทำ (In Progress)</span>
+        <span class="badge-count" id="count-progress">0</span>
+      </div>
+      <div class="card-list" id="list-progress"></div>
+    </div>
+
+    <div class="col" id="col-done">
+      <div class="col-header">
+        <span>✅ เสร็จสิ้น (Completed)</span>
+        <span class="badge-count" id="count-done">0</span>
+      </div>
+      <div class="card-list" id="list-done"></div>
+    </div>
+  </div>
+
+  <scr` + `ipt>
+    let tasks = [
+      { id: 1, title: 'อัปเกรดระบบ AI เด็กเทพ ให้ฉลาดขึ้นระดับ Super AI', col: 'progress', priority: 'high' },
+      { id: 2, title: 'ออกแบบหน้าจอ Cyberpunk Glassmorphism UI', col: 'todo', priority: 'med' },
+      { id: 3, title: 'ทดสอบระบบ Live Code Sandbox และ Web Audio', col: 'done', priority: 'high' }
+    ];
+
+    function renderTasks() {
+      ['todo', 'progress', 'done'].forEach(col => {
+        const list = document.getElementById('list-' + col);
+        list.innerHTML = '';
+        const filtered = tasks.filter(t => t.col === col);
+        document.getElementById('count-' + col).innerText = filtered.length;
+
+        filtered.forEach(t => {
+          const div = document.createElement('div');
+          div.className = 'card';
+          const pClass = t.priority === 'high' ? 'p-high' : (t.priority === 'med' ? 'p-med' : 'p-low');
+          const pLabel = t.priority === 'high' ? 'ด่วนมาก' : (t.priority === 'med' ? 'ปานกลาง' : 'ชิลๆ');
+          
+          let actionBtns = '';
+          if (col === 'todo') {
+            actionBtns = '<button class="btn-action" onclick="moveTask(' + t.id + ', \\'progress\\')">ทำเลย ➔</button>';
+          } else if (col === 'progress') {
+            actionBtns = '<button class="btn-action" onclick="moveTask(' + t.id + ', \\'done\\')">เสร็จแล้ว ✓</button>';
+          }
+          actionBtns += '<button class="btn-action" style="color:#EF4444;" onclick="deleteTask(' + t.id + ')">ลบ</button>';
+
+          div.innerHTML = '<div class="card-title">' + t.title + '</div>' +
+            '<div class="card-footer">' +
+              '<span class="priority ' + pClass + '">' + pLabel + '</span>' +
+              '<div class="card-actions">' + actionBtns + '</div>' +
+            '</div>';
+          list.appendChild(div);
+        });
+      });
+    }
+
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      const val = input.value.trim();
+      if (!val) return;
+      const prio = document.getElementById('prioritySelect').value;
+      tasks.push({ id: Date.now(), title: val, col: 'todo', priority: prio });
+      input.value = '';
+      renderTasks();
+    }
+
+    function moveTask(id, targetCol) {
+      const t = tasks.find(x => x.id === id);
+      if (t) { t.col = targetCol; renderTasks(); }
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(x => x.id !== id);
+      renderTasks();
+    }
+
+    renderTasks();
+  <\/scr` + `ipt>
+</body>
+</html>
+\`\`\`
+
+### 📌 ฟังก์ชันเด่นของระบบ Kanban ชิ้นนี้:
+1. **Interactive เต็มรูปแบบ:** สามารถเพิ่มงานใหม่ เลื่อนสถานะงานข้ามคอลัมน์ และลบงานที่ทำเสร็จแล้วได้ทันที
+2. **ระบบจัดลำดับความสำคัญ:** มีแท็กแยกสีชัดเจน (แดง: ด่วนมาก, เหลือง: ปานกลาง, เขียว: สบายๆ)
+3. **ทดสอบใช้งานสด:** กดปุ่ม **▶️ รันโค้ดสด** ที่มุมขวาบนของโค้ด เพื่อเปิดและทดลองใช้งานในหน้าต่าง Sandbox ได้เลยครับ!`;
+      }
+
+      // 4.6b Cyberpunk Weather & IoT Analytics Dashboard
+      if (q.includes('สภาพอากาศ') || q.includes('weather') || q.includes('แดชบอร์ด') || q.includes('dashboard') || q.includes('ไอโอที')) {
+        return `รับทราบครับ! นี่คือ **Cyberpunk Weather & IoT Analytics Dashboard 2026** หน้าจอแสดงข้อมูลโทรมาตรสภาพอากาศ เซนเซอร์ตรวจวัด และค่าฝุ่นละออง AQI แบบเรียลไทม์ครับ ⚡
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Weather & IoT Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: #0B0F19; color: #F1F5F9; padding: 24px; min-height: 100vh; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid rgba(0,229,255,0.2); padding-bottom: 16px; }
+    .brand { font-size: 22px; font-weight: bold; color: #00E5FF; text-shadow: 0 0 12px rgba(0,229,255,0.4); }
+    .city-select { background: #131E32; border: 1px solid #00E5FF; color: #00E5FF; padding: 8px 16px; border-radius: 8px; outline: none; font-size: 14px; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 24px; }
+    .card { background: #131E32; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px; transition: 0.2s; position: relative; overflow: hidden; }
+    .card:hover { border-color: #00E5FF; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,229,255,0.15); }
+    .card-label { font-size: 13px; color: #94A3B8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card-val { font-size: 32px; font-weight: bold; color: #FFF; display: flex; align-items: baseline; gap: 6px; }
+    .card-val small { font-size: 16px; color: #00E5FF; }
+    .card-desc { font-size: 12px; color: #10B981; margin-top: 8px; }
+
+    .main-panel { background: #131E32; border: 1px solid rgba(0,229,255,0.2); border-radius: 14px; padding: 24px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .temp-big { font-size: 64px; font-weight: bold; color: #00E5FF; text-shadow: 0 0 20px rgba(0,229,255,0.3); }
+    .weather-info h2 { font-size: 24px; margin-bottom: 6px; }
+    .weather-info p { color: #94A3B8; font-size: 14px; }
+    
+    .forecast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+    .forecast-item { background: #0F172A; border-radius: 10px; padding: 14px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+    .forecast-day { font-size: 13px; color: #94A3B8; margin-bottom: 6px; }
+    .forecast-icon { font-size: 24px; margin-bottom: 6px; }
+    .forecast-temp { font-weight: bold; color: #FFF; font-size: 15px; }
+
+    .btn-refresh { background: linear-gradient(135deg, #00E5FF, #0284C7); color: #000; border: none; font-weight: bold; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .btn-refresh:hover { box-shadow: 0 4px 15px rgba(0,229,255,0.4); }
+  </style>
+</head>
+<body>
+  <div class="top-nav">
+    <div class="brand">🛰️ CYBER IOT WEATHER TELEMETRY</div>
+    <select class="city-select" id="citySelect" onchange="updateCityData()">
+      <option value="bkk">📍 กรุงเทพมหานคร (Bangkok)</option>
+      <option value="cnx">📍 เชียงใหม่ (Chiang Mai)</option>
+      <option value="tyo">📍 โตเกียว (Tokyo)</option>
+      <option value="cyber">📍 Cyber City 2077</option>
+    </select>
+  </div>
+
+  <div class="main-panel">
+    <div class="weather-info">
+      <h2 id="cityName">กรุงเทพมหานคร, ประเทศไทย</h2>
+      <p id="weatherCond">สภาพอากาศ: ท้องฟ้าโปร่ง แดดสดใส ลมพัดเย็นสบาย</p>
+      <div style="margin-top: 14px;">
+        <button class="btn-refresh" onclick="simulateSensorUpdate()">🔄 ซิงค์เซนเซอร์ IoT สด</button>
+      </div>
+    </div>
+    <div class="temp-big" id="currentTemp">32°C</div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label">💧 ความชื้นสัมพัทธ์ (Humidity)</div>
+      <div class="card-val"><span id="valHumid">58</span><small>% RH</small></div>
+      <div class="card-desc">✓ อยู่ในเกณฑ์เหมาะสม</div>
+    </div>
+    <div class="card">
+      <div class="card-label">🍃 คุณภาพอากาศ (AQI PM2.5)</div>
+      <div class="card-val"><span id="valAqi" style="color: #10B981;">38</span><small>AQI</small></div>
+      <div class="card-desc" style="color:#10B981;" id="descAqi">✓ อากาศดีมาก ปลอดภัย</div>
+    </div>
+    <div class="card">
+      <div class="card-label">💨 ความเร็วลม (Wind Speed)</div>
+      <div class="card-val"><span id="valWind">14.2</span><small>km/h</small></div>
+      <div class="card-desc">ทิศทาง: ลมตะวันออกเฉียงใต้</div>
+    </div>
+    <div class="card">
+      <div class="card-label">☀️ ดัชนีรังสียูวี (UV Index)</div>
+      <div class="card-val"><span id="valUv">6.5</span><small>Very High</small></div>
+      <div class="card-desc" style="color:#F59E0B;">ควรทาครีมกันแดด</div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom: 14px; font-size: 16px; color: #00E5FF;">📅 พยากรณ์อากาศ 4 วันข้างหน้า (Forecast)</h3>
+  <div class="forecast-grid">
+    <div class="forecast-item"><div class="forecast-day">พรุ่งนี้</div><div class="forecast-icon">☀️</div><div class="forecast-temp">33°C / 26°C</div></div>
+    <div class="forecast-item"><div class="forecast-day">มะรืนนี้</div><div class="forecast-icon">⛅</div><div class="forecast-temp">31°C / 25°C</div></div>
+    <div class="forecast-item"><div class="forecast-day">ศุกร์</div><div class="forecast-icon">🌧️</div><div class="forecast-temp">29°C / 24°C</div></div>
+    <div class="forecast-item"><div class="forecast-day">เสาร์</div><div class="forecast-icon">⚡</div><div class="forecast-temp">28°C / 23°C</div></div>
+  </div>
+
+  <scr` + `ipt>
+    function updateCityData() {
+      const city = document.getElementById('citySelect').value;
+      if (city === 'bkk') {
+        document.getElementById('cityName').innerText = 'กรุงเทพมหานคร, ประเทศไทย';
+        document.getElementById('currentTemp').innerText = '32°C';
+        document.getElementById('valAqi').innerText = '38';
+      } else if (city === 'cnx') {
+        document.getElementById('cityName').innerText = 'เชียงใหม่, ประเทศไทย';
+        document.getElementById('currentTemp').innerText = '28°C';
+        document.getElementById('valAqi').innerText = '45';
+      } else if (city === 'tyo') {
+        document.getElementById('cityName').innerText = 'โตเกียว, ญี่ปุ่น';
+        document.getElementById('currentTemp').innerText = '19°C';
+        document.getElementById('valAqi').innerText = '18';
+      } else {
+        document.getElementById('cityName').innerText = 'Cyber City 2077 (Neo District)';
+        document.getElementById('currentTemp').innerText = '24°C';
+        document.getElementById('valAqi').innerText = '82';
+      }
+    }
+
+    function simulateSensorUpdate() {
+      const btn = document.querySelector('.btn-refresh');
+      btn.innerText = '📡 กำลังส่งคลื่นตรวจวัด...';
+      setTimeout(() => {
+        const randTemp = (25 + Math.random() * 10).toFixed(1);
+        const randHumid = Math.floor(45 + Math.random() * 30);
+        const randWind = (5 + Math.random() * 20).toFixed(1);
+        document.getElementById('currentTemp').innerText = randTemp + '°C';
+        document.getElementById('valHumid').innerText = randHumid;
+        document.getElementById('valWind').innerText = randWind;
+        btn.innerText = '🔄 ซิงค์เซนเซอร์ IoT สด';
+        alert('✓ ซิงค์ข้อมูลจากเซนเซอร์ IoT สำเร็จ (Latency: 12ms)');
+      }, 500);
+    }
+  <\/scr` + `ipt>
+</body>
+</html>
+\`\`\`
+
+### 📌 จุดเด่นของหน้า Dashboard นี้:
+1. **สลับเมืองและภูมิภาคได้:** สามารถเลือกดูข้อมูลทั้ง กรุงเทพฯ, เชียงใหม่, โตเกียว หรือเมืองไซเบอร์
+2. **ปุ่มซิงค์เซนเซอร์สด:** กดปุ่มเพื่อจำลองการรับส่งข้อมูล Telemetry ของอุปกรณ์ IoT
+3. **รันสดได้ทันที:** คลิกปุ่ม **▶️ รันโค้ดสด** ด้านบนเพื่อเปิดดูในหน้าจอ Interactive ได้ทันทีครับ!`;
+      }
+
+      // 4.6c Neon Cyber Glassmorphism Login & Signup
+      if (q.includes('login') || q.includes('เข้าสู่ระบบ') || q.includes('สมัครสมาชิก') || q.includes('หน้า login') || q.includes('signin')) {
+        return `ยินดีครับ! นี่คือโค้ด **Neon Cyber Glassmorphism Login & Signup Portal 2026** หน้าจอลงชื่อเข้าใช้ระดับมืออาชีพ พร้อมฟังก์ชันสลับหน้าต่างและระบบตรวจสอบความปลอดภัยครับ ⚡
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Neon Cyber Login & Portal</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body {
+      background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+      color: #F9FAFB;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-card {
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.15);
+      border-radius: 20px;
+      padding: 36px;
+      width: 100%;
+      max-width: 420px;
+      transition: all 0.3s ease;
+    }
+    .auth-header { text-align: center; margin-bottom: 24px; }
+    .auth-logo { font-size: 38px; margin-bottom: 8px; filter: drop-shadow(0 0 10px #00E5FF); }
+    .auth-title { font-size: 22px; font-weight: bold; color: #FFF; letter-spacing: 0.5px; }
+    .auth-subtitle { color: #9CA3AF; font-size: 13px; margin-top: 4px; }
+
+    .tabs { display: flex; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 4px; margin-bottom: 24px; }
+    .tab-btn { flex: 1; background: transparent; border: none; color: #9CA3AF; padding: 8px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .tab-btn.active { background: #00E5FF; color: #000; box-shadow: 0 2px 10px rgba(0,229,255,0.4); }
+
+    .form-group { margin-bottom: 18px; text-align: left; }
+    .form-label { display: block; font-size: 12px; color: #D1D5DB; margin-bottom: 6px; font-weight: 500; }
+    .input-wrapper { position: relative; }
+    .input-control {
+      width: 100%;
+      background: rgba(3, 7, 18, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #FFF;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s;
+    }
+    .input-control:focus { border-color: #00E5FF; box-shadow: 0 0 12px rgba(0,229,255,0.25); }
+    .eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9CA3AF; cursor: pointer; font-size: 16px; }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #00E5FF, #0284C7);
+      color: #000;
+      border: none;
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 18px rgba(0,229,255,0.4); }
+
+    .footer-links { margin-top: 20px; text-align: center; font-size: 12px; color: #9CA3AF; }
+    .footer-links a { color: #00E5FF; text-decoration: none; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">⚡</div>
+      <h2 class="auth-title">DEK THEP PORTAL</h2>
+      <p class="auth-subtitle">ระบบพิสูจน์ตัวตนความปลอดภัยระดับสูง</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">เข้าสู่ระบบ</button>
+      <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">สมัครสมาชิก</button>
+    </div>
+
+    <form id="authForm" onsubmit="handleAuthSubmit(event)">
+      <div class="form-group" id="groupName" style="display: none;">
+        <label class="form-label">ชื่อ - นามสกุล หรือ นามแฝง</label>
+        <div class="input-wrapper">
+          <input type="text" class="input-control" id="inputName" placeholder="เช่น Somchai Cyber">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">อีเมลผู้ใช้งาน (Email Address)</label>
+        <div class="input-wrapper">
+          <input type="email" class="input-control" id="inputEmail" placeholder="user@dekthep.ai" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">รหัสผ่าน (Password)</label>
+        <div class="input-wrapper">
+          <input type="password" class="input-control" id="inputPassword" placeholder="••••••••" required>
+          <button type="button" class="eye-btn" onclick="togglePass()">👁️</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="btnSubmit">เข้าสู่ระบบทันที ➔</button>
+    </form>
+
+    <div class="footer-links">
+      <a href="#" onclick="alert('ระบบได้ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลของคุณเรียบร้อยแล้ว'); return false;">ลืมรหัสผ่าน?</a> | 
+      <a href="#" onclick="alert('ผ่านการรับรองความปลอดภัย End-to-End Encryption 256-bit'); return false;">ความปลอดภัย</a>
+    </div>
+  </div>
+
+  <scr` + `ipt>
+    let currentMode = 'login';
+
+    function switchTab(mode) {
+      currentMode = mode;
+      document.getElementById('tabLogin').classList.toggle('active', mode === 'login');
+      document.getElementById('tabRegister').classList.toggle('active', mode === 'register');
+      document.getElementById('groupName').style.display = mode === 'register' ? 'block' : 'none';
+      document.getElementById('btnSubmit').innerText = mode === 'login' ? 'เข้าสู่ระบบทันที ➔' : 'สร้างบัญชีใหม่ทันที ➔';
+    }
+
+    function togglePass() {
+      const p = document.getElementById('inputPassword');
+      p.type = p.type === 'password' ? 'text' : 'password';
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('inputEmail').value;
+      if (currentMode === 'login') {
+        alert('🎉 เข้าสู่ระบบสำเร็จ! ยินดีต้อนรับคุณ ' + email + ' เข้าสู่ระบบ DEK THEP AI');
+      } else {
+        alert('✨ สมัครสมาชิกสำเร็จ! บัญชีของคุณพร้อมใช้งานแล้ว');
+        switchTab('login');
+      }
+    }
+  <\/scr` + `ipt>
+</body>
+</html>
+\`\`\`
+
+### 📌 จุดเด่นของหน้า Login & Portal นี้:
+1. **ดีไซน์ระดับ AAA:** กระจกฝ้า Glassmorphism พร้อมขอบไฟนีออนเรืองแสง
+2. **สลับโหมดได้ราบรื่น:** รองรับทั้ง เข้าสู่ระบบ และ สมัครสมาชิก ในการ์ดเดียว
+3. **เปิดรันสด:** กดปุ่ม **▶️ รันโค้ดสด** ที่มุมขวาบนของโค้ด เพื่อทดสอบการกดและสลับแท็บได้ทันทีครับ!`;
+      }
+
+      // 4.6d Web Audio Synthesizer & Piano Player
+      if (q.includes('เครื่องเล่นเพลง') || q.includes('music') || q.includes('player') || q.includes('เพลง') || q.includes('synth') || q.includes('เปียโน') || q.includes('piano')) {
+        return `จัดเต็มให้เลยครับ! นี่คือ **Web Audio Synthesizer & Interactive Piano 2026** เครื่องดนตรีและสังเคราะห์เสียงดิจิทัลที่เล่นได้จริง 100% ผ่าน Web Audio API โดยไม่ต้องพึ่งพาไฟล์เสียงภายนอกครับ ⚡🎹
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Web Audio Synth & Piano</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: #070B14; color: #FFF; min-height: 100vh; padding: 24px; text-align: center; }
+    h1 { color: #00E5FF; text-shadow: 0 0 16px rgba(0,229,255,0.4); margin-bottom: 8px; font-size: 26px; }
+    p { color: #94A3B8; font-size: 14px; margin-bottom: 24px; }
+
+    .controls { display: flex; gap: 12px; justify-content: center; align-items: center; margin-bottom: 24px; flex-wrap: wrap; }
+    .select-ctrl { background: #131E32; border: 1px solid #00E5FF; color: #00E5FF; padding: 8px 14px; border-radius: 8px; outline: none; }
+    .btn-play-demo { background: linear-gradient(135deg, #00E5FF, #0284C7); color: #000; border: none; font-weight: bold; padding: 9px 18px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .btn-play-demo:hover { box-shadow: 0 4px 15px rgba(0,229,255,0.4); }
+
+    .piano-container { display: inline-flex; position: relative; background: #131E32; padding: 20px 24px 28px 24px; border-radius: 16px; border: 1px solid rgba(0,229,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5); user-select: none; }
+    .key-white {
+      width: 52px;
+      height: 200px;
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 0 0 6px 6px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 12px;
+      color: #475569;
+      font-weight: bold;
+      font-size: 12px;
+      transition: background 0.1s, transform 0.1s;
+    }
+    .key-white:active, .key-white.active { background: #38BDF8; color: #000; transform: translateY(4px); }
+
+    .key-black {
+      position: absolute;
+      width: 32px;
+      height: 120px;
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 0 0 4px 4px;
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 8px;
+      color: #00E5FF;
+      font-size: 10px;
+      transition: background 0.1s, transform 0.1s;
+    }
+    .key-black:active, .key-black.active { background: #00E5FF; color: #000; transform: translateY(3px); }
+
+    .visualizer-box { margin: 24px auto 0 auto; max-width: 600px; height: 80px; background: #0A0F1D; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+    canvas { width: 100%; height: 100%; display: block; }
+  </style>
+</head>
+<body>
+  <h1>🎹 CYBER WEB AUDIO SYNTHESIZER</h1>
+  <p>เครื่องดนตรีสังเคราะห์เสียงแบบ Interactive (คลิกที่คีย์เปียโน หรือกดปุ่มเล่นเพลงตัวอย่าง)</p>
+
+  <div class="controls">
+    <label style="font-size: 13px; color: #94A3B8;">ชนิดคลื่นเสียง (Waveform):</label>
+    <select class="select-ctrl" id="waveType">
+      <option value="sine">Sine Wave (นุ่มนวล)</option>
+      <option value="square">Square Wave (ชิปจูน 8-Bit)</option>
+      <option value="triangle" selected>Triangle Wave (เปียโนดิจิทัล)</option>
+      <option value="sawtooth">Sawtooth Wave (ซินธ์ไซไฟ)</option>
+    </select>
+    <button class="btn-play-demo" onclick="playDemoTune()">🎵 เล่นเพลงตัวอย่างอัตโนมัติ</button>
+  </div>
+
+  <div class="piano-container" id="piano">
+    <!-- Rendered dynamically -->
+  </div>
+
+  <div class="visualizer-box">
+    <canvas id="vizCanvas"></canvas>
+  </div>
+
+  <scr` + `ipt>
+    let audioCtx = null;
+    const notes = [
+      { name: 'C4', freq: 261.63, isBlack: false },
+      { name: 'C#4', freq: 277.18, isBlack: true, offset: 36 },
+      { name: 'D4', freq: 293.66, isBlack: false },
+      { name: 'D#4', freq: 311.13, isBlack: true, offset: 88 },
+      { name: 'E4', freq: 329.63, isBlack: false },
+      { name: 'F4', freq: 349.23, isBlack: false },
+      { name: 'F#4', freq: 369.99, isBlack: true, offset: 192 },
+      { name: 'G4', freq: 392.00, isBlack: false },
+      { name: 'G#4', freq: 415.30, isBlack: true, offset: 244 },
+      { name: 'A4', freq: 440.00, isBlack: false },
+      { name: 'A#4', freq: 466.16, isBlack: true, offset: 296 },
+      { name: 'B4', freq: 493.88, isBlack: false },
+      { name: 'C5', freq: 523.25, isBlack: false }
+    ];
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function playNote(freq) {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = document.getElementById('waveType').value;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 1.2);
+
+      pulseCanvas(freq);
+    }
+
+    const container = document.getElementById('piano');
+    notes.forEach((n, idx) => {
+      const el = document.createElement('div');
+      if (n.isBlack) {
+        el.className = 'key-black';
+        el.style.left = (n.offset + 24) + 'px';
+      } else {
+        el.className = 'key-white';
+      }
+      el.id = 'key-' + n.name;
+      el.innerHTML = '<span>' + n.name + '</span>';
+      el.onmousedown = () => playNote(n.freq);
+      container.appendChild(el);
+    });
+
+    function playDemoTune() {
+      const tune = [
+        { name: 'C4', d: 0 }, { name: 'E4', d: 200 }, { name: 'G4', d: 400 },
+        { name: 'C5', d: 600 }, { name: 'B4', d: 850 }, { name: 'G4', d: 1100 },
+        { name: 'A4', d: 1350 }, { name: 'C5', d: 1600 }, { name: 'G4', d: 1900 }
+      ];
+      tune.forEach(item => {
+        setTimeout(() => {
+          const n = notes.find(x => x.name === item.name);
+          if (n) {
+            playNote(n.freq);
+            const keyEl = document.getElementById('key-' + n.name);
+            if (keyEl) {
+              keyEl.classList.add('active');
+              setTimeout(() => keyEl.classList.remove('active'), 200);
+            }
+          }
+        }, item.d);
+      });
+    }
+
+    const canvas = document.getElementById('vizCanvas');
+    const ctx = canvas.getContext('2d');
+    function pulseCanvas(freq) {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = '#00E5FF';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for (let x = 0; x < canvas.width; x += 4) {
+        const y = canvas.height / 2 + Math.sin(x * 0.05 + freq * 0.01) * 25;
+        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+  <\/scr` + `ipt>
+</body>
+</html>
+\`\`\`
+
+### 📌 จุดเด่นของ Web Synthesizer ชิ้นนี้:
+1. **เสียงสดจากเบราว์เซอร์ 100%:** สังเคราะห์คลื่นเสียง Sine, Square, Sawtooth, Triangle ได้ทันที
+2. **Interactive Piano:** กดคีย์เปียโนหรือกดปุ่ม **"🎵 เล่นเพลงตัวอย่างอัตโนมัติ"** เพื่อฟังทำนอง
+3. **รันสดได้ทันที:** กดปุ่ม **▶️ รันโค้ดสด** ด้านบนเพื่อเปิดเล่นเสียงเพลงได้ทันทีครับ!`;
+      }
+
+      // 4.6e Cyber Trivia Quiz Game
+      if (q.includes('เกมตอบคำถาม') || q.includes('quiz') || q.includes('คำถาม') || q.includes('เกมทายคำ') || (q.includes('เกม') && (q.includes('สร้าง') || q.includes('เล่น') || q.includes('ขอ')))) {
+        return `รับทราบครับ! นี่คือเกม **Cyber Trivia & Tech Quiz Master 2026** เกมตอบคำถามความรู้รอบตัวด้านไอที ปัญญาประดิษฐ์ และคอมพิวเตอร์ พร้อมระบบนับคะแนนและคอมโบสตรีคแบบสดๆ ครับ ⚡🎮
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Trivia Quiz Master</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: #0A0F1D; color: #FFF; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .quiz-box { background: #131E32; border: 1px solid rgba(0,229,255,0.3); box-shadow: 0 0 30px rgba(0,229,255,0.15); border-radius: 18px; padding: 32px; width: 100%; max-width: 520px; text-align: center; }
+    .badge { display: inline-block; background: rgba(0,229,255,0.15); color: #00E5FF; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 12px; }
+    .q-title { font-size: 19px; line-height: 1.5; margin-bottom: 24px; color: #F1F5F9; }
+
+    .score-bar { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; }
+    .score-val { color: #00E5FF; font-weight: bold; }
+
+    .options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .opt-btn { background: #1E293B; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 14px 16px; color: #E2E8F0; text-align: left; font-size: 14px; cursor: pointer; transition: 0.2s; }
+    .opt-btn:hover { border-color: #00E5FF; background: rgba(0,229,255,0.08); transform: translateY(-2px); }
+    .opt-btn.correct { background: rgba(16,185,129,0.2) !important; border-color: #10B981 !important; color: #10B981 !important; }
+    .opt-btn.wrong { background: rgba(239,68,68,0.2) !important; border-color: #EF4444 !important; color: #EF4444 !important; }
+
+    .feedback { font-size: 14px; margin-bottom: 16px; min-height: 24px; font-weight: bold; }
+    .btn-next { background: linear-gradient(135deg, #00E5FF, #0284C7); color: #000; border: none; font-weight: bold; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; display: none; width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="quiz-box" id="quizContainer">
+    <span class="badge" id="qBadge">ข้อที่ 1 / 4</span>
+    <div class="score-bar">
+      <span>คะแนนสะสม: <span class="score-val" id="scoreVal">0</span></span>
+      <span>สตรีคต่อเนื่อง: <span class="score-val" id="streakVal">🔥 x0</span></span>
+    </div>
+    <div class="q-title" id="qTitle">กำลังโหลดคำถาม...</div>
+    <div class="options" id="optionsBox"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">ข้อถัดไป ➔</button>
+  </div>
+
+  <scr` + `ipt>
+    const questions = [
+      {
+        q: 'คำว่า "AI" ย่อมาจากคำภาษาอังกฤษใด?',
+        options: ['Automated Internet', 'Artificial Intelligence', 'Advanced Innovation', 'Algorithm Interface'],
+        ans: 1,
+        exp: 'Artificial Intelligence แปลว่า ปัญญาประดิษฐ์ ครับ!'
+      },
+      {
+        q: 'ภาษาใดที่นิยมใช้ในการเขียนโปรแกรมพัฒนา Machine Learning และ Data Science มากที่สุดในปัจจุบัน?',
+        options: ['Python', 'PHP', 'Pascal', 'Fortran'],
+        ans: 0,
+        exp: 'Python ได้รับความนิยมสูงสุดเนื่องจากมี Library อย่าง PyTorch, TensorFlow และ Pandas'
+      },
+      {
+        q: 'สถาปัตยกรรมแบบใดที่เป็นหัวใจหลักของ Large Language Model (เช่น ChatGPT, Gemini)?',
+        options: ['Transformer', 'Blockchain', 'Binary Tree', 'Relational Model'],
+        ans: 0,
+        exp: 'Transformer (เปิดตัวโดยงานวิจัย Attention Is All You Need ปี 2017) คือหัวใจหลักของโมเดลภาษาในปัจจุบัน'
+      },
+      {
+        q: 'ความเร็วแสงในสุญญากาศมีค่าประมาณเท่าใด?',
+        options: ['100,000 กม./วินาที', '299,792 กม./วินาที', '500,000 กม./วินาที', '1,000,000 กม./วินาที'],
+        ans: 1,
+        exp: 'ความเร็วแสงอยู่ที่ประมาณ 300,000 กม./วินาที (299,792 km/s)'
+      }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let streak = 0;
+    let answered = false;
+
+    function showQuestion() {
+      answered = false;
+      const q = questions[currentQ];
+      document.getElementById('qBadge').innerText = 'ข้อที่ ' + (currentQ + 1) + ' / ' + questions.length;
+      document.getElementById('qTitle').innerText = q.q;
+      document.getElementById('feedback').innerText = '';
+      document.getElementById('btnNext').style.display = 'none';
+
+      const optBox = document.getElementById('optionsBox');
+      optBox.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.innerText = (idx + 1) + '. ' + opt;
+        btn.onclick = () => selectOption(idx, btn);
+        optBox.appendChild(btn);
+      });
+    }
+
+    function selectOption(idx, btn) {
+      if (answered) return;
+      answered = true;
+      const q = questions[currentQ];
+      const allBtns = document.querySelectorAll('.opt-btn');
+
+      if (idx === q.ans) {
+        btn.classList.add('correct');
+        score += 100 + (streak * 20);
+        streak++;
+        document.getElementById('feedback').innerHTML = '<span style="color:#10B981;">✓ ถูกต้องยอดเยี่ยม! ' + q.exp + '</span>';
+      } else {
+        btn.classList.add('wrong');
+        allBtns[q.ans].classList.add('correct');
+        streak = 0;
+        document.getElementById('feedback').innerHTML = '<span style="color:#EF4444;">✗ ยังไม่ถูกต้อง! ' + q.exp + '</span>';
+      }
+
+      document.getElementById('scoreVal').innerText = score;
+      document.getElementById('streakVal').innerText = '🔥 x' + streak;
+      document.getElementById('btnNext').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      if (currentQ < questions.length) {
+        showQuestion();
+      } else {
+        showFinalResult();
+      }
+    }
+
+    function showFinalResult() {
+      document.getElementById('quizContainer').innerHTML = 
+        '<div style="font-size: 54px; margin-bottom: 12px;">🏆</div>' +
+        '<h2 style="color:#00E5FF; font-size: 24px; margin-bottom: 8px;">ยินดีด้วย! คุณจบเกมแล้ว</h2>' +
+        '<p style="color:#94A3B8; margin-bottom: 20px;">คะแนนรวมของคุณคือ:</p>' +
+        '<div style="font-size: 48px; font-weight: bold; color: #FFF; margin-bottom: 20px;">' + score + ' แต้ม</div>' +
+        '<button class="btn-next" style="display:block;" onclick="location.reload()">🔄 เล่นใหม่อีกครั้ง</button>';
+    }
+
+    showQuestion();
+  <\/scr` + `ipt>
+</body>
+</html>
+\`\`\`
+
+### 📌 จุดเด่นของเกม Cyber Trivia:
+1. **Interactive Game Engine:** มีระบบจับคะแนน สตรีคโบนัส และเฉลยคำตอบพร้อมคำอธิบายทันที
+2. **สรุปผลคะแนน:** เมื่อจบเกมจะสรุปแต้มรวมและมีปุ่มเล่นใหม่อีกรอบ
+3. **รันสดได้ทันที:** กดปุ่ม **▶️ รันโค้ดสด** ด้านบนเพื่อเปิดเล่นเกมในหน้าจอได้ทันทีครับ!`;
+      }
+
+      // 4.6f Code Debugger & Root Cause Analysis
+      if (q.includes('แก้โค้ด') || q.includes('แก้บั๊ก') || q.includes('debug') || q.includes('error') || q.includes('ทำไมรันไม่ได้') || q.includes('บั๊ก')) {
+        return `รับทราบครับ! เกี่ยวกับปัญหา **"${raw}"** AI เด็กเทพ จัดเตรียมแนวทางการวิเคราะห์หาสาเหตุหลัก (Root Cause Analysis: RCA) พร้อมเครื่องมือ **Cyber Interactive Code Inspector** ให้ทดสอบแก้ไขได้ทันทีครับ ⚡🔍
+
+### 🛠️ ลำดับขั้นตอนการวิเคราะห์และแก้ไขบั๊ก (Debugging Checklist):
+1. **ตรวจสอบชนิดของ Error:** 
+   * หากเป็น \`SyntaxError\` มักเกิดจากเครื่องหมายวงเล็บไม่ครบ ปีกกา หรือคำสั่งพิมพ์ตกหล่น
+   * หากเป็น \`TypeError: Cannot read property of undefined\` มักเกิดจากการพยายามเข้าถึงค่าตัวแปรหรืออ็อบเจกต์ที่ยังโหลดไม่เสร็จ ให้ใช้ Optional Chaining เช่น \`data?.item\`
+   * หากเป็นปัญหาเกี่ยวกับ \`Async/Await\` ตรวจสอบว่ามีคีย์เวิร์ด \`await\` หน้าฟังก์ชันที่คืนค่า Promise หรือไม่
+2. **การดักจับข้อผิดพลาด (Error Handling):** 
+   * ครอบบล็อกการทำงานที่มีความเสี่ยงด้วย \`try { ... } catch (err) { console.error(err); }\` เพื่อไม่ให้โปรแกรมหยุดการทำงานกะทันหัน
+
+นี่คือเครื่องมือทดสอบโค้ดและตรวจจับข้อผิดพลาดแบบสดๆ ครับ:
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Interactive Code Inspector</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: #0A0F1D; color: #FFF; padding: 24px; min-height: 100vh; }
+    h2 { color: #00E5FF; margin-bottom: 6px; font-size: 20px; }
+    p { color: #94A3B8; font-size: 13px; margin-bottom: 16px; }
+    textarea { width: 100%; height: 180px; background: #131E32; border: 1px solid rgba(0,229,255,0.3); border-radius: 8px; color: #38BDF8; font-family: monospace; font-size: 13px; padding: 14px; outline: none; margin-bottom: 14px; }
+    .btn-inspect { background: linear-gradient(135deg, #00E5FF, #0284C7); color: #000; border: none; font-weight: bold; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+    .output-box { margin-top: 16px; background: #030712; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 14px; font-family: monospace; font-size: 12.5px; color: #A7F3D0; min-height: 80px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h2>🔍 CYBER CODE DEBUGGER & INSPECTOR</h2>
+  <p>วางโค้ด JavaScript ที่ต้องการตรวจสอบ แล้วกดปุ่มตรวจหาข้อผิดพลาดได้ทันที</p>
+  <textarea id="codeSrc">try {
+  let user = { name: "Somchai", role: "Developer" };
+  console.log("ยินดีต้อนรับ: " + user.name);
+  // ตัวอย่างการประมวลผล
+  let result = (100 * 2) / 4;
+  console.log("ผลลัพธ์การคำนวณ: " + result);
+} catch (e) {
+  console.error("พบข้อผิดพลาด:", e.message);
+}</textarea>
+  <button class="btn-inspect" onclick="inspectCode()">▶️ ตรวจสอบและประมวลผลโค้ดสด</button>
+  <div class="output-box" id="outputConsole">[*] ผลลัพธ์การตรวจสอบจะแสดงที่นี่...</div>
+
+  <scr` + `ipt>
+    function inspectCode() {
+      const code = document.getElementById('codeSrc').value;
+      const out = document.getElementById('outputConsole');
+      out.innerText = '[*] กำลังวิเคราะห์โค้ด...\\n';
+      try {
+        let logs = [];
+        const originalLog = console.log;
+        console.log = function(...args) { logs.push(args.join(' ')); };
+        
+        const fn = new Function(code);
+        fn();
+        
+        console.log = originalLog;
+        out.innerHTML = '<span style="color:#10B981;">[✓] ไม่พบ Syntax Error โค้ดทำงานผ่าน 100%!</span>\\n\\n[Console Output]:\\n' + (logs.join('\\n') || '(ไม่มีข้อความ console.log)');
+      } catch (err) {
+        out.innerHTML = '<span style="color:#EF4444;">[✗] ตรวจพบข้อผิดพลาด (Runtime/Syntax Error):</span>\\n' + err.stack;
+      }
+    }
+  <\/scr` + `ipt>
+</body>
+</html>
+\`\`\`
+
+💡 *หากคุณมีโค้ดส่วนไหนที่มีปัญหา ส่งโค้ดชิ้นนั้นมาในแชทนี้ได้เลยครับ ผมจะชี้จุดที่ผิดและแก้ไขให้ทันทีครับ!*`;
+      }
+
+      // 4.6g Strategic Business & Marketing Roadmap
+      if (q.includes('แผนธุรกิจ') || q.includes('การตลาด') || q.includes('ขายของ') || q.includes('ยิงแอด') || q.includes('business') || q.includes('marketing') || q.includes('สร้างแบรนด์')) {
+        return `รับทราบครับ! เกี่ยวกับ **"${raw}"** นี่คือ **Strategic Business & Digital Marketing Blueprint 2026** พร้อมโปรแกรม **Cyber ROAS & Profit Calculator** สำหรับคำนวณงบยิงแอดและผลกำไรสุทธิครับ ⚡💼
+
+### 📊 4 เสาหลักกลยุทธ์การตลาดและสร้างยอดขาย (Growth Engine):
+1. **Targeting & ICP (กลุ่มลูกค้าในอุดมคติ):** อย่าขายให้ทุกคน เจาะจง Pain Point ของลูกค้า 1 กลุ่มที่ยอมจ่ายเงินแก้ปัญหาทันที
+2. **Irresistible Offer (ข้อเสนอที่ปฏิเสธไม่ลง):** รวมสินค้า + โบนัส + การรับประกันความเสี่ยง (Guarantee) ให้ลูกค้ารู้สึกว่าคุ้มค่าเกินราคา
+3. **Conversion Funnel (เส้นทางปิดการขาย):** 
+   * **Top of Funnel (Awareness):** วิดีโอสั้น (TikTok/Reels/Shorts) ดึงดูดความสนใจใน 3 วินาทีแรก
+   * **Middle of Funnel (Consideration):** รีวิวจากผู้ใช้จริง (UGC) และการเปรียบเทียบข้อดี
+   * **Bottom of Funnel (Conversion):** โปรโมชันจำกัดเวลา (Scarcity) และปุ่มสั่งซื้อที่ง่ายและเร็ว
+4. **Retention & LTV (การซื้อซ้ำ):** เก็บฐานข้อมูลลูกค้า (CRM / Line OA) เพื่อบรอดแคสต์ทำกำไรซ้ำโดยไม่ต้องเสียค่ายิงแอดเพิ่ม
+
+นี่คือเครื่องมือคำนวณงบโฆษณาและกำไรสุทธิแบบ Interactive ครับ:
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber ROAS & Profit Calculator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: #0A0F1D; color: #FFF; padding: 24px; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .calc-card { background: #131E32; border: 1px solid rgba(0,229,255,0.3); border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; }
+    h2 { color: #00E5FF; font-size: 20px; margin-bottom: 6px; text-align: center; }
+    p { color: #94A3B8; font-size: 13px; margin-bottom: 20px; text-align: center; }
+    
+    .field { margin-bottom: 14px; text-align: left; }
+    .field label { display: block; font-size: 12px; color: #CBD5E1; margin-bottom: 6px; }
+    .field input { width: 100%; background: #0A0F1D; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 14px; color: #FFF; font-size: 14px; outline: none; }
+    .field input:focus { border-color: #00E5FF; }
+
+    .btn-calc { width: 100%; background: linear-gradient(135deg, #00E5FF, #0284C7); color: #000; border: none; font-weight: bold; padding: 12px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-size: 14px; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .res-item { background: #0A0F1D; border-radius: 10px; padding: 14px; text-align: center; border: 1px solid rgba(255,255,255,0.06); }
+    .res-label { font-size: 11px; color: #94A3B8; margin-bottom: 4px; }
+    .res-val { font-size: 18px; font-weight: bold; color: #00E5FF; }
+  </style>
+</head>
+<body>
+  <div class="calc-card">
+    <h2>📈 CYBER ROAS & PROFIT CALCULATOR</h2>
+    <p>เครื่องคำนวณผลตอบแทนจากค่าโฆษณาและผลกำไรสุทธิ</p>
+
+    <div class="field">
+      <label>งบยิงแอด / ค่าโฆษณา (บาท):</label>
+      <input type="number" id="inAds" value="10000">
+    </div>
+    <div class="field">
+      <label>ยอดขายรวมที่ได้จากแอด (บาท):</label>
+      <input type="number" id="inRev" value="45000">
+    </div>
+    <div class="field">
+      <label>ต้นทุนสินค้าและจัดส่ง COGS (บาท):</label>
+      <input type="number" id="inCost" value="18000">
+    </div>
+
+    <button class="btn-calc" onclick="calculateROI()">คำนวณผลลัพธ์ทันที ➔</button>
+
+    <div class="result-grid">
+      <div class="res-item">
+        <div class="res-label">ROAS (เท่า)</div>
+        <div class="res-val" id="outRoas">4.5x</div>
+      </div>
+      <div class="res-item">
+        <div class="res-label">กำไรสุทธิ (Net Profit)</div>
+        <div class="res-val" id="outProfit" style="color: #10B981;">17,000 บ.</div>
+      </div>
+      <div class="res-item">
+        <div class="res-label">อัตรากำไร (Margin)</div>
+        <div class="res-val" id="outMargin">37.8%</div>
+      </div>
+      <div class="res-item">
+        <div class="res-label">สถานะแคมเปญ</div>
+        <div class="res-val" id="outStatus" style="color: #10B981; font-size: 14px;">✓ กำไรดีมาก (Scale ได้)</div>
+      </div>
+    </div>
+  </div>
+
+  <scr` + `ipt>
+    function calculateROI() {
+      const ads = parseFloat(document.getElementById('inAds').value) || 0;
+      const rev = parseFloat(document.getElementById('inRev').value) || 0;
+      const cost = parseFloat(document.getElementById('inCost').value) || 0;
+
+      const roas = ads > 0 ? (rev / ads).toFixed(2) : '0';
+      const profit = rev - (ads + cost);
+      const margin = rev > 0 ? ((profit / rev) * 100).toFixed(1) : '0';
+
+      document.getElementById('outRoas').innerText = roas + 'x';
+      document.getElementById('outProfit').innerText = profit.toLocaleString() + ' บ.';
+      document.getElementById('outProfit').style.color = profit >= 0 ? '#10B981' : '#EF4444';
+      document.getElementById('outMargin').innerText = margin + '%';
+
+      const statusEl = document.getElementById('outStatus');
+      if (profit > 0 && parseFloat(roas) >= 3.0) {
+        statusEl.innerText = '✓ กำไรดีเยี่ยม (Scale แอดต่อได้)';
+        statusEl.style.color = '#10B981';
+      } else if (profit > 0) {
+        statusEl.innerText = '⚠️ กำไรปานกลาง (ปรับปรุงหน้าขาย)';
+        statusEl.style.color = '#F59E0B';
+      } else {
+        statusEl.innerText = '✗ ขาดทุน (ควรหยุดแอดและปรับกลยุทธ์)';
+        statusEl.style.color = '#EF4444';
+      }
+    }
+  <\/scr` + `ipt>
+</body>
+</html>
+\`\`\`
+
+💡 *สามารถคลิกปุ่ม **▶️ รันโค้ดสด** ด้านบนเพื่อเปิดใช้งานเครื่องคำนวณและปรับตัวเลขได้ทันทีครับ!*`;
       }
 
       // 4.7 Dynamic General Coding Solution (When explicit coding was requested for custom query)
