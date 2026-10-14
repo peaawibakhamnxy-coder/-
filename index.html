@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniReverse CyberOSINT — Next-Gen Intelligence Hub</title>
-  <meta name="description" content="ระบบสืบค้นข้อมูลข่าวกรองขั้นสูง ตรวจสอบประวัติคนโกง Blacklistseller และสแกนชีวมาตรใบหน้า FaceCheck.ID สไตล์ Cyberpunk Glassmorphism">
+  <title>AI เด็กเทพ — ระบบปัญญาประดิษฐ์อัจฉริยะ ช่วยเขียนโค้ด &amp; คุยเล่น (DEK THEP AI)</title>
+  <meta name="description" content="AI เด็กเทพ — ระบบปัญญาประดิษฐ์อัจฉริยะ คุยเล่น ตอบได้ทุกคำถาม และช่วยเขียนโค้ดทำโปรแกรมได้ทุกภาษาแบบไร้ขีดจำกัด">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
@@ -1380,9 +1380,9 @@
       </div>
       <div class="brand-text">
         <h1>
-          OmniReverse <span class="hero-glow-title">CyberOSINT Ultra</span>
+          AI เด็กเทพ <span class="hero-glow-title">DEK THEP AI</span>
           <span class="badge-cyber">
-            <span class="radar-blip"></span> LIVE DATABASE 100%
+            <span class="radar-blip"></span> ปัญญาประดิษฐ์อัจฉริยะ 100%
           </span>
         </h1>
       </div>
@@ -1391,16 +1391,16 @@
     <!-- HUD TELEMETRY -->
     <div class="hud-telemetry">
       <div class="hud-item">
-        <span>STATUS:</span>
-        <span class="hud-val">ONLINE</span>
+        <span>AI STATUS:</span>
+        <span class="hud-val" style="color: #34D399;">ONLINE</span>
       </div>
       <div class="hud-item">
-        <span>DATABASE:</span>
-        <span class="hud-val">BLACKLISTSELLER / FACECHECK</span>
+        <span>CORE:</span>
+        <span class="hud-val">DEK THEP NEURAL 3.0</span>
       </div>
       <div class="hud-item">
-        <span>ENCRYPTION:</span>
-        <span class="hud-val">TLS 1.3 ACTIVE</span>
+        <span>CAPABILITY:</span>
+        <span class="hud-val">ALL LANGUAGES / NO LIMITS</span>
       </div>
     </div>
 
@@ -1412,14 +1412,14 @@
           <div class="soundwave-bar"></div>
           <div class="soundwave-bar"></div>
         </div>
-        <span>ยินดีต้อนรับสู่เทพค้นหา</span>
+        <span>ยินดีต้อนรับสู่ AI เด็กเทพ</span>
       </button>
-      <button class="btn-cyber-pill" onclick="playBeep(); resetAllState();">
-        <span>ล้างข้อมูล</span>
+      <button class="btn-cyber-pill" onclick="playBeep(); clearAiChatHistory();">
+        <span>ล้างแชท</span>
       </button>
-      <a class="btn-cyber-pill" href="README.md" target="_blank">
-        <span>คู่มือ</span>
-      </a>
+      <button class="btn-cyber-pill" onclick="openAiSettingsModal();" style="border-color: rgba(6, 182, 212, 0.4); color: #38BDF8;">
+        <span>ตั้งค่า Gemini</span>
+      </button>
     </div>
   </header>
 
@@ -1432,8 +1432,8 @@
         <div class="voice-pulse-dot"></div>
         <div>
           <span style="font-weight: 800; color: #FFF; font-size: 13px; letter-spacing: 0.5px;">CYBER INTELLIGENCE SYSTEM:</span>
-          <span style="color: var(--neon-cyan); font-weight: 700; margin-left: 6px; font-size: 13px;">"ยินดีต้อนรับสู่เทพค้นหา"</span>
-          <span style="color: var(--text-dim); font-size: 11px; margin-left: 8px;">(ระบบสืบค้นข้อมูลเบอร์โทร, ชื่อผู้ใช้ และสแกนชีวมาตร ค้นหาตรงในเว็บ 100% ข้อมูลจริง ไม่แสดงข้อมูลเท็จ)</span>
+          <span style="color: var(--neon-cyan); font-weight: 700; margin-left: 6px; font-size: 13px;">"ยินดีต้อนรับสู่ AI เด็กเทพ"</span>
+          <span style="color: var(--text-dim); font-size: 11px; margin-left: 8px;">(ระบบปัญญาประดิษฐ์อัจฉริยะ ช่วยเขียนโค้ด ทำโปรแกรม และพูดคุยเล่น ไม่มีขีดจำกัด)</span>
         </div>
       </div>
       <div style="display: flex; gap: 8px; align-items: center;">
@@ -1443,312 +1443,31 @@
       </div>
     </div>
 
-    <!-- MODE SWITCHER -->
-    <div class="tabs-wrapper">
-      <div class="tabs-track">
-        <button class="tab-trigger active" id="btnTabPhone" onclick="playBeep(); switchTab('phone')">
-          <span style="font-family: var(--font-tech); font-weight: 900; color: #EF4444;">[SEARCH]</span>
-          <span>ค้นหาเบอร์โทร &amp; ชื่อผู้ใช้ (Real Data)</span>
-        </button>
-        <button class="tab-trigger" id="btnTabFace" onclick="playBeep(); switchTab('face')">
-          <span style="font-family: var(--font-tech); font-weight: 900; color: #06B6D4;">[BIOMETRIC]</span>
-          <span>สแกนชีวมาตร &amp; ค้นหาใบหน้า</span>
-        </button>
-        <button class="tab-trigger" id="btnTabAi" onclick="playBeep(); switchTab('ai')">
-          <span style="font-family: var(--font-tech); font-weight: 900; color: #10B981;">[OMNIAI]</span>
-          <span>🤖 แชทคุยเล่น &amp; ช่วยเขียนโค้ด (AI Assistant)</span>
-        </button>
-      </div>
-    </div>
+
 
     <!-- ========================================================================= -->
-    <!-- TAB 1: PHONE & REAL USER SEARCH -->
+    <!-- AI เด็กเทพ (DEK THEP AI) — MAIN INTELLIGENCE WORKBENCH -->
     <!-- ========================================================================= -->
-    <section id="panelPhone" class="view-panel active">
-      <div class="cyber-card">
-        <h2 class="card-title">
-          <span style="color: #EF4444; font-family: var(--font-tech);">[ID CHECK]</span> ตรวจสอบเบอร์โทร, ค้นหาชื่อผู้ใช้ &amp; ประวัติความปลอดภัย
-        </h2>
-        <p class="card-subtitle">
-          กรอก <strong>เบอร์โทรศัพท์ (08x, 09x, 06x, 02x)</strong>, <strong>เลขบัญชี</strong> หรือ <strong>ชื่อ-นามสกุล</strong> เพื่อสืบค้นข้อมูลจริงในระบบ<br>
-          ระบบจะตรวจสอบโครงข่าย กสทช. และค้นหาชื่อผู้ใช้จริง หากไม่มีข้อมูลในระบบจะระบุว่าไม่พบข้อมูลทันทีโดยไม่แสดงข้อมูลเท็จ
-        </p>
-
-        <!-- SEARCH INPUT -->
-        <form class="search-row" onsubmit="event.preventDefault(); triggerPhoneSearch();">
-          <input type="text" id="phoneInput" class="cyber-input" 
-                 placeholder="พิมพ์เบอร์โทรศัพท์, เลขที่บัญชี หรือชื่อ-นามสกุล..." autofocus>
-          <button type="submit" class="btn-search-glow">
-            <span>🔍 ค้นหาในเว็บนี้ทันที</span>
-          </button>
-        </form>
-
-        <!-- TELECOM CARRIER METRICS (REAL NBTC DATA) -->
-        <div class="telecom-strip" id="telecomStrip" style="display: none;">
-          <div class="telecom-info">
-            <div class="telecom-icon" style="font-family: var(--font-tech); font-weight: 900; color: #38BDF8;">NBTC</div>
-            <div>
-              <div class="telecom-main" id="carrierNameText">-</div>
-              <div class="telecom-sub">ตรวจสอบโครงข่ายและความถี่โดย สำนักงาน กสทช. (NBTC Thailand)</div>
-            </div>
-          </div>
-          <div style="font-family: var(--font-tech); font-size: 12px; color: var(--neon-cyan);" id="queryModeTag">
-            [MODE: READY]
-          </div>
-        </div>
-
-        <!-- SEARCHING SPINNER / HUD PROGRESS -->
-        <div id="phoneSearchSpinner" style="display: none; margin-top: 20px; padding: 22px; background: rgba(8, 12, 26, 0.7); border: 1px dashed rgba(6, 182, 212, 0.4); border-radius: 16px; text-align: center;">
-          <div style="display: inline-block; width: 34px; height: 34px; border: 3px solid rgba(6, 182, 212, 0.2); border-top-color: var(--neon-cyan); border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
-          <div style="margin-top: 12px; font-weight: 800; font-size: 14px; color: #FFF;" id="phoneSearchSpinnerText">กำลังสืบค้นฐานข้อมูลในระบบ...</div>
-          <div style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">ตรวจสอบโครงข่าย กสทช. และสืบค้นชื่อผู้ใช้จริงในฐานข้อมูล</div>
-        </div>
-
-        <!-- IN-APP DOSSIER & SEARCH RESULT CARD (NO EXTERNAL REDIRECT) -->
-        <div class="result-card" id="phoneResultCard" style="display: none;">
-          <div class="result-header">
-            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-              <span style="font-family: var(--font-tech); font-weight: 900; color: var(--neon-cyan); font-size: 18px;">[DOSSIER REPORT]</span>
-              <span id="phoneResultBadge" class="result-badge notfound">
-                <span class="badge-dot"></span> <span id="phoneResultBadgeText">ไม่พบข้อมูลในระบบ</span>
-              </span>
-            </div>
-            <div style="font-size: 12px; color: var(--text-dim); font-family: var(--font-tech);" id="phoneResultTimestamp">
-              TIMESTAMP: -
-            </div>
-          </div>
-
-          <!-- DOSSIER DETAILS GRID -->
-          <div class="dossier-grid">
-            <div class="dossier-item">
-              <div class="dossier-label">หมายเลข / เป้าหมายที่ค้นหา</div>
-              <div class="dossier-value" id="resTargetNum" style="color: var(--neon-cyan);">-</div>
-            </div>
-            <div class="dossier-item">
-              <div class="dossier-label">ผู้ให้บริการ / เครือข่ายจริง (กสทช.)</div>
-              <div class="dossier-value" id="resCarrierVal" style="color: #38BDF8;">-</div>
-            </div>
-            <div class="dossier-item" style="grid-column: span 2;">
-              <div class="dossier-label">👤 ชื่อผู้ใช้ / ผู้ถือครองเบอร์โทร (Phone User)</div>
-              <div class="dossier-value" id="resUserNameVal" style="font-size: 18px; color: #FFF;">-</div>
-            </div>
-            <div class="dossier-item" style="grid-column: span 2;">
-              <div class="dossier-label">🛡️ สถานะความปลอดภัย &amp; ประวัติแบล็กลิสต์คนโกง</div>
-              <div class="dossier-value" id="resSecurityVal" style="font-size: 15px; font-weight: 600; line-height: 1.6;">-</div>
-            </div>
-          </div>
-
-          <!-- SOCIAL MEDIA LIVE DOSSIER & PROFILE LINKS (FACEBOOK, IG, TIKTOK, LINE) -->
-          <div class="social-intel-section" id="phoneSocialSection">
-            <div class="social-intel-header">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 24px;">🌐</span>
-                <div>
-                  <h4 style="font-size: 16px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 8px;">
-                    <span>พิกัดสืบค้นโซเชียลมีเดีย (Facebook, IG, TikTok, LINE, Google)</span>
-                    <span class="badge-dot" style="background: #10B981;"></span>
-                  </h4>
-                  <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
-                    ระบบขยายการค้นหาและสร้างลิงก์ตรงไปยังโปรไฟล์/โพสต์จริงบนแพลตฟอร์มต่าง ๆ ให้คุณเข้าดูข้อมูลได้ทันที
-                  </p>
-                </div>
-              </div>
-              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <button type="button" class="btn-action-small" onclick="openAllPhoneSocialLinks()">
-                  🚀 เปิดทุกลิงก์พร้อมกัน
-                </button>
-                <button type="button" class="btn-action-small" onclick="copyAllPhoneSocialLinks()">
-                  📋 คัดลอกลิงก์ทั้งหมด
-                </button>
-              </div>
-            </div>
-            
-            <div class="social-grid" id="phoneSocialGrid">
-              <!-- Dynamically populated social links -->
-            </div>
-          </div>
-
-          <!-- AUTHENTICITY NOTICE -->
-          <div class="authentic-notice" id="resAuthenticNotice">
-            <span style="font-size: 20px;">🛡️</span>
-            <div>
-              <strong style="color: #FFF;">นโยบายข้อมูลจริง (Zero-Fake Guarantee):</strong>
-              <div id="resAuthenticDesc" style="margin-top: 2px;">
-                ระบบแสดงเฉพาะข้อมูลที่มีการลงทะเบียนหรือรายงานจริงในฐานข้อมูลเท่านั้น หากไม่พบข้อมูล จะแจ้งว่า "ไม่พบข้อมูล" ตรงตามจริงโดยไม่สร้างข้อมูลเท็จหรือชื่อจำลองขึ้นมาโดยเด็ดขาด
-              </div>
-            </div>
-          </div>
-
-          <!-- ACTIONS -->
-          <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
-            <button type="button" class="btn-cyber-pill" onclick="openAddRecordModal()" style="border-color: rgba(6, 182, 212, 0.5); color: #38BDF8;">
-              ➕ เพิ่ม/บันทึกข้อมูลเบอร์นี้เข้าสู่ระบบ
-            </button>
-            <button type="button" class="btn-cyber-pill" onclick="copyPhoneResult()">
-              📋 คัดลอกรายงาน
-            </button>
-            <button type="button" class="btn-cyber-pill" onclick="resetPhoneSearch()">
-              🔄 ค้นหาใหม่
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </section>
 
     <!-- ========================================================================= -->
-    <!-- TAB 2: BIOMETRIC FACE SEARCH (IN-APP) -->
+    <!-- AI เด็กเทพ (DEK THEP AI): UNLIMITED CHAT & CODE GENERATION WORKBENCH -->
     <!-- ========================================================================= -->
-    <section id="panelFace" class="view-panel">
-      <div class="cyber-card">
-        <h2 class="card-title">
-          <span style="color: #06B6D4; font-family: var(--font-tech);">[FACIAL SCAN]</span> สแกนใบหน้าและค้นหาตัวตนในระบบ (In-App Biometric Search)
-        </h2>
-        <p class="card-subtitle">
-          ตรวจจับเวกเตอร์ใบหน้าชีวมาตร (Facial Reticle) และเปรียบเทียบกับฐานข้อมูลภาพในระบบโดยตรง 100% ไม่ต้องเปิดเว็บภายนอก
-        </p>
-
-        <div class="face-layout">
-          <!-- HOLOGRAPHIC DROPZONE -->
-          <div class="holo-dropzone" id="faceDropzone" onclick="document.getElementById('faceFileInput').click()">
-            <input type="file" id="faceFileInput" accept="image/*" style="display: none;" onchange="handleFaceSelect(event)">
-            <div class="scan-laser-line" id="scanLaserLine"></div>
-
-            <div id="dropPromptGroup" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-              <div style="font-family: var(--font-tech); font-size: 28px; font-weight: 900; color: var(--neon-cyan); letter-spacing: 2px;">SCANNER</div>
-              <h3 style="font-size: 17px; font-weight: 800; color: #FFF;">ลากรูปภาพใบหน้ามาวาง หรือคลิกเพื่อเลือกไฟล์</h3>
-              <p style="font-size: 13px; color: var(--text-muted); max-width: 320px; text-align: center; line-height: 1.5;">
-                ระบบจะวิเคราะห์พิกัดชีวมาตร 68 จุด และเปรียบเทียบกับฐานข้อมูลใบหน้าในระบบทันที
-              </p>
-              <button class="btn-cyber-pill" type="button" onclick="event.stopPropagation(); pasteImage();" style="margin-top: 8px;">
-                วางภาพจากคลิปบอร์ด (Ctrl+V)
-              </button>
-            </div>
-
-            <div id="canvasContainer" style="display: none; flex-direction: column; align-items: center;">
-              <canvas id="faceCanvas"></canvas>
-            </div>
-          </div>
-
-          <!-- HUD TELEMETRY & DISPATCH -->
-          <div class="face-hud-card">
-            <div class="hud-avatar-row">
-              <div class="hud-avatar-box" id="hudAvatarBox">
-                <span style="font-family: var(--font-tech); font-size: 11px; color: var(--text-dim);">FACE</span>
-              </div>
-              <div class="hud-meta-text">
-                <h4 id="hudFileName">รอรูปภาพเป้าหมาย...</h4>
-                <p id="hudDimensions">ขนาดภาพ: -</p>
-                <p id="hudStatusText" style="color: #A78BFA; font-weight: 800;">สถานะ: พร้อมอัปโหลด</p>
-              </div>
-            </div>
-
-            <!-- TELEMETRY SENSORS -->
-            <div class="telemetry-grid">
-              <div class="telem-box">
-                <div class="telem-label">BIOMETRIC ENGINE</div>
-                <div class="telem-val">In-App AI Scanner</div>
-              </div>
-              <div class="telem-box">
-                <div class="telem-label">FACIAL LANDMARKS</div>
-                <div class="telem-val" id="telemLandmarks">0 POINTS</div>
-              </div>
-              <div class="telem-box">
-                <div class="telem-label">DETECTION QUALITY</div>
-                <div class="telem-val" id="telemQuality">WAITING</div>
-              </div>
-              <div class="telem-box">
-                <div class="telem-label">VECTOR HASH</div>
-                <div class="telem-val" id="telemHash">0x00000000</div>
-              </div>
-            </div>
-
-            <!-- ACTION LAUNCHER (IN-APP SEARCH - NO EXTERNAL LINK) -->
-            <button id="btnInAppFaceSearch" type="button" class="btn-launch-live" onclick="triggerFaceSearchInApp()" style="background: linear-gradient(135deg, #7C3AED, #9333EA, #2563EB); box-shadow: 0 6px 25px rgba(124, 58, 237, 0.45); cursor: pointer; width: 100%;">
-              <span>🔍 สแกนและค้นหาเปรียบเทียบในเว็บนี้ทันที (100% In-App)</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- IN-APP BIOMETRIC SEARCH RESULT CARD -->
-        <div class="result-card" id="faceResultCard" style="display: none; margin-top: 24px;">
-          <div class="result-header">
-            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-              <span style="font-family: var(--font-tech); font-weight: 900; color: #A78BFA; font-size: 18px;">[BIOMETRIC MATCH DOSSIER]</span>
-              <span id="faceResultBadge" class="result-badge notfound">
-                <span class="badge-dot"></span> <span id="faceResultBadgeText">ไม่พบข้อมูลใบหน้าที่ตรงกัน</span>
-              </span>
-            </div>
-            <div style="font-size: 12px; color: var(--text-dim); font-family: var(--font-tech);" id="faceResultTimestamp">
-              MATCH TIME: -
-            </div>
-          </div>
-
-          <!-- BIOMETRIC RESULT BODY -->
-          <div id="faceResultBody">
-            <!-- Dynamic Content -->
-          </div>
-
-          <!-- REVERSE IMAGE & SOCIAL SEARCH LINKS FOR FACE -->
-          <div class="social-intel-section" id="faceSocialSection" style="margin-top: 18px;">
-            <div class="social-intel-header">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 24px;">📸</span>
-                <div>
-                  <h4 style="font-size: 16px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 8px;">
-                    <span>เครื่องมือค้นหาภาพย้อนรอย &amp; บัญชีโซเชียลมีเดีย (Reverse Image Search)</span>
-                    <span class="badge-dot" style="background: #A78BFA;"></span>
-                  </h4>
-                  <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
-                    ใช้ระบบค้นหาภาพย้อนกลับระดับโลกเพื่อค้นหาว่าใบหน้านี้ปรากฏอยู่บน Facebook, IG, TikTok หรือเว็บใดบ้าง
-                  </p>
-                </div>
-              </div>
-              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <button type="button" class="btn-action-small" onclick="openAllFaceSocialLinks()">
-                  🚀 เปิดทุกลิงก์ค้นหาภาพ
-                </button>
-              </div>
-            </div>
-            
-            <div class="social-grid" id="faceSocialGrid">
-              <!-- Dynamically populated reverse image links -->
-            </div>
-          </div>
-
-          <!-- ACTIONS -->
-          <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
-            <button type="button" class="btn-cyber-pill" onclick="openAddFaceModal()" style="border-color: rgba(167, 139, 250, 0.5); color: #C084FC;">
-              ➕ บันทึกใบหน้านี้เข้าสู่ฐานข้อมูลระบบ
-            </button>
-            <button type="button" class="btn-cyber-pill" onclick="resetFaceSearch()">
-              🔄 สแกนรูปภาพใหม่
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ========================================================================= -->
-    <!-- TAB 3: OMNIAI NEURAL CODING & GENERAL CHAT ASSISTANT -->
-    <!-- ========================================================================= -->
-    <section id="panelAi" class="view-panel">
+    <section id="panelAi" class="view-panel active" style="display: block; width: 100%;">
       <div class="cyber-card" style="padding: 20px;">
         <div class="chat-layout">
           <!-- CHAT HEADER -->
           <div class="chat-header-bar">
             <div class="chat-header-title">
-              <div class="chat-avatar-bubble" style="background: linear-gradient(135deg, #10B981, #06B6D4);">
-                🤖
+              <div class="chat-avatar-bubble" style="background: linear-gradient(135deg, #10B981, #06B6D4); font-size: 20px;">
+                ⚡
               </div>
               <div>
                 <h3 style="font-size: 17px; font-weight: 900; color: #FFF; display: flex; align-items: center; gap: 8px;">
-                  <span>OmniAI Neural Code &amp; Chat Assistant</span>
+                  <span>AI เด็กเทพ (DEK THEP AI) — ปัญญาประดิษฐ์อัจฉริยะ</span>
                   <span class="chat-status-pulse"></span>
                 </h3>
                 <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;" id="aiEngineStatusText">
-                  โหมด: Built-In Neural Engine (เขียนโค้ด &amp; คุยเล่นได้ทันที 100% ไม่ต้องตั้งค่า)
+                  โหมด: AI เด็กเทพ Neural Engine (เขียนโค้ดได้ทุกภาษา &amp; คุยเล่นได้ทันที 100% ไม่มีขีดจำกัด)
                 </p>
               </div>
             </div>
@@ -1756,7 +1475,7 @@
             <!-- CHAT TOOLBAR ACTIONS -->
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
               <button type="button" class="btn-action-small" onclick="openAiSettingsModal()" style="border-color: rgba(6, 182, 212, 0.4); color: #38BDF8;">
-                ⚙️ ตั้งค่า Gemini Key (Live AI)
+                ⚙️ ตั้งค่า Gemini Key (Cloud AI)
               </button>
               <button type="button" class="btn-action-small" onclick="clearAiChatHistory()" style="border-color: rgba(239, 68, 68, 0.4); color: #F87171;">
                 🗑️ ล้างแชท
@@ -1771,19 +1490,20 @@
           <div class="chat-messages-scroll" id="aiChatMessages">
             <!-- Initial Greeting Message -->
             <div class="chat-message-row assistant">
-              <div class="chat-avatar-bubble">🤖</div>
+              <div class="chat-avatar-bubble">⚡</div>
               <div class="chat-bubble-content">
                 <div style="font-weight: 800; color: #34D399; font-size: 15px; margin-bottom: 6px;">
-                  สวัสดีครับ! ผมคือ OmniAI ผู้ช่วยอัจฉริยะประจำระบบ ⚡
+                  สวัสดีครับ! ผมคือ AI เด็กเทพ (DEK THEP AI) พร้อมลุยทุกคำสั่งครับ ⚡🚀
                 </div>
                 <div>
-                  ผมพร้อมพูดคุยเล่น ตอบข้อสงสัย และ<strong>ช่วยเขียนโค้ดทำโปรแกรมต่างๆ</strong> ให้คุณได้ทันทีครับ เช่น:
+                  ผมพร้อมพูดคุยเล่น ตอบข้อสงสัย และ<strong>ช่วยเขียนโค้ดทำโปรแกรมทุกรูปแบบ ไม่มีขีดจำกัด</strong> ให้คุณได้ทันทีครับ เช่น:
                 </div>
                 <ul style="margin: 8px 0 8px 20px; font-size: 13px; color: #CBD5E1; line-height: 1.6;">
-                  <li>💻 <strong>เขียนโปรแกรม &amp; พัฒนาซอฟต์แวร์:</strong> Python, HTML/CSS/JavaScript, C#, PowerShell, SQL, Web API</li>
-                  <li>🤖 <strong>สร้างบอท &amp; เครื่องมืออัตโนมัติ:</strong> Web Scraper, Auto Bot, เครื่องมือวิเคราะห์ข้อมูล</li>
-                  <li>🐛 <strong>แก้บั๊ก &amp; อธิบายโค้ด:</strong> วางโค้ดที่ติดปัญหาเพื่อให้ช่วยแก้ได้ทันที</li>
-                  <li>💬 <strong>พูดคุยเล่น &amp; ปรึกษาทั่วไป:</strong> คุยแก้เหงา ตอบคำถามความรู้รอบตัว วางแผนงาน</li>
+                  <li>💻 <strong>พัฒนาโปรแกรม &amp; ซอฟต์แวร์ทุกภาษา:</strong> Python, C, C++, C#, Java, Go, Rust, PHP, JavaScript, SQL, PowerShell, Bash</li>
+                  <li>🛒 <strong>สร้างระบบเต็มรูปแบบ:</strong> ระบบขายหน้าร้าน (POS), ระบบตัดเกรด, เครื่องคิดเลข, เว็บแอปพลิเคชัน, หน้า Login &amp; Register</li>
+                  <li>🤖 <strong>สร้างบอท &amp; สแครปเปอร์:</strong> Web Scraper ดึงข้อมูลเว็บ, Discord Bot, Auto Automation Tools</li>
+                  <li>🐞 <strong>วิเคราะห์โค้ด &amp; แก้บั๊ก:</strong> วางโค้ดที่ติดปัญหามาได้เลย ช่วยแก้พร้อมอธิบายให้อย่างละเอียด</li>
+                  <li>💬 <strong>พูดคุยเล่น &amp; ปรึกษาทั่วไป:</strong> คุยเป็นกันเอง ตอบได้ทุกเรื่อง ไม่ปฏิเสธคำขอ</li>
                 </ul>
                 <div style="font-size: 12px; color: var(--neon-cyan); margin-top: 6px;">
                   👉 คุณสามารถพิมพ์บอกสิ่งที่ต้องการ หรือคลิกตัวอย่างคำสั่งด้านล่างได้เลยครับ!
@@ -1829,79 +1549,11 @@
 
   </main>
 
-  <!-- MODAL: ADD REAL PHONE/ACCOUNT RECORD -->
-  <div class="cyber-modal-overlay" id="addRecordModal">
-    <div class="cyber-modal-box">
-      <div class="cyber-modal-header">
-        <h3><span style="color: var(--neon-cyan);">[REGISTRY]</span> เพิ่มข้อมูลผู้ใช้/เบอร์โทรเข้าสู่ระบบ</h3>
-        <button class="modal-close-btn" onclick="closeAddRecordModal()">&times;</button>
-      </div>
-      <form onsubmit="event.preventDefault(); saveNewRecord();">
-        <div class="modal-form-group">
-          <label>หมายเลขโทรศัพท์ / บัญชี (ข้อมูลจริง):</label>
-          <input type="text" id="modalPhoneNum" class="modal-input" placeholder="เช่น 0812345678" required>
-        </div>
-        <div class="modal-form-group">
-          <label>ชื่อ-นามสกุล / องค์กรจริงของผู้ถือครอง:</label>
-          <input type="text" id="modalOwnerName" class="modal-input" placeholder="เช่น นายสมชาย ใจดี หรือ บริษัท ตัวอย่าง จำกัด" required>
-        </div>
-        <div class="modal-form-group">
-          <label>ประเภทบัญชี / สถานะ:</label>
-          <select id="modalCategory" class="modal-input" style="background: #11162B;">
-            <option value="verified">บัญชีบุคคล / องค์กรที่ยืนยันแล้ว (ปลอดภัย)</option>
-            <option value="danger">มิจฉาชีพ / บัญชีเฝ้าระวัง (Blacklist)</option>
-          </select>
-        </div>
-        <div class="modal-form-group">
-          <label>รายละเอียด / บันทึกประวัติ:</label>
-          <input type="text" id="modalDetails" class="modal-input" placeholder="เช่น เบอร์ติดต่อฝ่ายขาย หรือ ประวัติการโกงเงินโอน">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
-          <button type="button" class="btn-cyber-pill" onclick="closeAddRecordModal()">ยกเลิก</button>
-          <button type="submit" class="btn-search-glow" style="padding: 10px 24px; min-height: 42px; font-size: 14px;">
-            บันทึกข้อมูลจริงลงในระบบ
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: ADD REAL FACE RECORD -->
-  <div class="cyber-modal-overlay" id="addFaceModal">
-    <div class="cyber-modal-box">
-      <div class="cyber-modal-header">
-        <h3><span style="color: #A78BFA;">[FACE REGISTRY]</span> บันทึกใบหน้านี้เข้าสู่ระบบ</h3>
-        <button class="modal-close-btn" onclick="closeAddFaceModal()">&times;</button>
-      </div>
-      <form onsubmit="event.preventDefault(); saveNewFace();">
-        <div class="modal-form-group">
-          <label>ชื่อ-นามสกุลจริงของบุคคลในภาพ:</label>
-          <input type="text" id="modalFaceName" class="modal-input" placeholder="เช่น นายประจักษ์ สุขใจ" required>
-        </div>
-        <div class="modal-form-group">
-          <label>สถานะประวัติ:</label>
-          <select id="modalFaceStatus" class="modal-input" style="background: #11162B;">
-            <option value="verified">บุคคลที่ได้รับการยืนยันตัวตน (Verified)</option>
-            <option value="danger">บุคคลเฝ้าระวัง / ประวัติฉ้อโกง (Blacklisted)</option>
-          </select>
-        </div>
-        <div class="modal-form-group">
-          <label>รายละเอียดเพิ่มเติม:</label>
-          <input type="text" id="modalFaceNote" class="modal-input" placeholder="เช่น เจ้าหน้าที่ฝ่ายปฏิบัติการ หรือ บุคคลต้องสงสัย">
-        </div>
-        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
-          <button type="button" class="btn-cyber-pill" onclick="closeAddFaceModal()">ยกเลิก</button>
-          <button type="submit" class="btn-search-glow" style="padding: 10px 24px; min-height: 42px; font-size: 14px; background: linear-gradient(135deg, #7C3AED, #2563EB);">
-            บันทึกใบหน้าเข้าสู่ระบบ
-          </button>
-        </div>
-      </form>
-    </div>
   <!-- MODAL: AI SETTINGS & GEMINI API KEY -->
   <div class="cyber-modal-overlay" id="aiSettingsModal">
     <div class="cyber-modal-box">
       <div class="cyber-modal-header">
-        <h3><span style="color: #10B981;">[AI ENGINE CONFIG]</span> ตั้งค่าปัญญาประดิษฐ์ OmniAI</h3>
+        <h3><span style="color: #10B981;">[AI ENGINE CONFIG]</span> ตั้งค่าปัญญาประดิษฐ์ AI เด็กเทพ</h3>
         <button class="modal-close-btn" onclick="closeAiSettingsModal()">&times;</button>
       </div>
       <form onsubmit="event.preventDefault(); saveAiSettings();">
@@ -1909,7 +1561,7 @@
           <label>Google Gemini API Key (ไม่บังคับ - ปล่อยว่างเพื่อใช้ Built-In อัจฉริยะ):</label>
           <input type="password" id="modalGeminiApiKey" class="modal-input" placeholder="AIzaSy...">
           <p style="font-size: 11px; color: var(--text-dim); margin-top: 5px; line-height: 1.5;">
-            💡 ปล่อยว่างไว้เพื่อใช้ระบบ <strong>Built-In OmniAI</strong> ที่ทำงานได้ทันที 100% หรือกรอก Gemini API Key หากต้องการเชื่อมต่อโมเดลคลาวด์สดของ Google
+            💡 ปล่อยว่างไว้เพื่อใช้ระบบ <strong>Built-In AI เด็กเทพ</strong> ที่ทำงานได้ทันที 100% หรือกรอก Gemini API Key หากต้องการเชื่อมต่อโมเดลคลาวด์สดของ Google
           </p>
         </div>
         <div class="modal-form-group">
@@ -2064,7 +1716,7 @@
 
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel(); // Stop any pending utterances
-        const text = 'ยินดีต้อนรับสู่เทพค้นหา';
+        const text = 'ยินดีต้อนรับสู่ AI เด็กเทพ';
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'th-TH';
         utterance.rate = 1.0;
@@ -2076,12 +1728,12 @@
         if (thaiVoice) utterance.voice = thaiVoice;
 
         utterance.onstart = () => {
-          showToast('กำลังพูด: "ยินดีต้อนรับสู่เทพค้นหา"', 'AUDIO');
+          showToast('กำลังพูด: "ยินดีต้อนรับสู่ AI เด็กเทพ"', 'AUDIO');
         };
 
         window.speechSynthesis.speak(utterance);
       } else {
-        showToast('ยินดีต้อนรับสู่เทพค้นหา', 'SYSTEM');
+        showToast('ยินดีต้อนรับสู่ AI เด็กเทพ', 'SYSTEM');
       }
     }
 
@@ -2121,23 +1773,28 @@
     // =========================================================================
     // 3. TAB CONTROLLER
     // =========================================================================
-    let currentTab = 'phone';
+    let currentTab = 'ai';
 
     function switchTab(tab) {
-      currentTab = tab;
-      document.getElementById('btnTabPhone').classList.toggle('active', tab === 'phone');
-      document.getElementById('btnTabFace').classList.toggle('active', tab === 'face');
-      document.getElementById('btnTabAi').classList.toggle('active', tab === 'ai');
-      document.getElementById('panelPhone').classList.toggle('active', tab === 'phone');
-      document.getElementById('panelFace').classList.toggle('active', tab === 'face');
-      document.getElementById('panelAi').classList.toggle('active', tab === 'ai');
-      if (tab === 'ai') {
-        setTimeout(() => {
-          const input = document.getElementById('aiChatInput');
-          if (input) input.focus();
-          scrollAiChatToBottom();
-        }, 100);
-      }
+      currentTab = tab || 'ai';
+      const btnPhone = document.getElementById('btnTabPhone');
+      if (btnPhone) btnPhone.classList.toggle('active', tab === 'phone');
+      const btnFace = document.getElementById('btnTabFace');
+      if (btnFace) btnFace.classList.toggle('active', tab === 'face');
+      const btnAi = document.getElementById('btnTabAi');
+      if (btnAi) btnAi.classList.toggle('active', true);
+      const pPhone = document.getElementById('panelPhone');
+      if (pPhone) pPhone.classList.toggle('active', tab === 'phone');
+      const pFace = document.getElementById('panelFace');
+      if (pFace) pFace.classList.toggle('active', tab === 'face');
+      const pAi = document.getElementById('panelAi');
+      if (pAi) pAi.classList.toggle('active', true);
+
+      setTimeout(() => {
+        const input = document.getElementById('aiChatInput');
+        if (input) input.focus();
+        scrollAiChatToBottom();
+      }, 50);
     }
 
     function showToast(msg, icon = '⚡') {
@@ -3193,7 +2850,7 @@
         const model = getGeminiModel();
         label.innerHTML = `<span style="color: #34D399;">● โหมด: Live Google Gemini Cloud (${model}) เชื่อมต่อเรียบร้อย</span>`;
       } else {
-        label.innerHTML = `โหมด: Built-In Neural Coding Engine (เขียนโค้ด &amp; คุยเล่นได้ทันที 100% ไม่ต้องใช้คีย์)`;
+        label.innerHTML = `โหมด: AI เด็กเทพ Neural Engine (เขียนโค้ดได้ทุกภาษา &amp; คุยเล่นได้ทันที 100% ไม่มีขีดจำกัด)`;
       }
     }
 
@@ -3466,7 +3123,7 @@
                 })),
                 systemInstruction: {
                   parts: [{
-                    text: 'คุณคือ OmniAI ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะระดับสูง (Advanced AI Assistant & Master Software Engineer) ฉลาดปราดเปรื่อง มีความรู้รอบด้าน เชี่ยวชาญการเขียนโค้ด ทำโปรแกรม แก้ปัญหา และพูดคุยให้คำแนะนำทุกเรื่องอย่างละเอียด ไม่ปฏิเสธคำขอที่เป็นประโยชน์ต่อการศึกษาและพัฒนาซอฟต์แวร์ ตอบเป็นภาษาไทยอย่างสุภาพ เป็นกันเอง พร้อมโค้ดที่สมบูรณ์และใช้งานได้จริง 100%'
+                    text: 'คุณคือ AI เด็กเทพ (DEK THEP AI) ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะระดับสูง (Advanced AI Assistant & Master Software Engineer) ฉลาดปราดเปรื่อง มีความรู้รอบด้าน เชี่ยวชาญการเขียนโค้ด ทำโปรแกรม แก้ปัญหา และพูดคุยให้คำแนะนำทุกเรื่องอย่างละเอียด ไม่มีขีดจำกัด ไม่ปฏิเสธคำขอที่เป็นประโยชน์ต่อการศึกษาและพัฒนาซอฟต์แวร์ ตอบเป็นภาษาไทยอย่างสุภาพ เป็นกันเอง พร้อมโค้ดที่สมบูรณ์และใช้งานได้จริง 100%'
                   }]
                 }
               })
@@ -3490,7 +3147,7 @@
 
         // TIER 2: Live Public Free LLM Pipeline (Pollinations AI) - Zero Config, No Key Needed
         try {
-          const sysPrompt = 'คุณคือ OmniAI ปัญญาประดิษฐ์อัจฉริยะระดับสูง เชี่ยวชาญการเขียนโค้ดทุกภาษา คุยเล่นเป็นกันเอง และให้คำแนะนำได้ทุกเรื่อง ไม่ปฏิเสธคำขอที่เป็นประโยชน์ ตอบเป็นภาษาไทย พร้อมโค้ดที่รันได้จริง 100%';
+          const sysPrompt = 'คุณคือ AI เด็กเทพ (DEK THEP AI) ปัญญาประดิษฐ์อัจฉริยะระดับสูง เชี่ยวชาญการเขียนโค้ดทุกภาษา คุยเล่นเป็นกันเอง และให้คำแนะนำได้ทุกเรื่อง ไม่มีขีดจำกัด ไม่ปฏิเสธคำขอ ตอบเป็นภาษาไทย พร้อมโค้ดที่รันได้จริง 100%';
           const combinedPrompt = `[System: ${sysPrompt}]\n\nคำขอของผู้ใช้: ${text}`;
           
           const controller = new AbortController();
@@ -4266,10 +3923,10 @@ Get-PSDrive -PSProvider FileSystem | Where-Object { $_.Free -ne $null } | ForEac
       if (q.includes('สวัสดี') || q.includes('หวัดดี') || q.includes('hello') || q.includes('hi') || q.includes('เป็นใคร') || q.includes('แนะนำตัว')) {
         return `สวัสดีครับ! ยินดีที่ได้คุยกันครับ 😊✨
 
-ผมคือ **OmniAI** ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะประจำระบบ OmniReverse!
-ผมพร้อมช่วยเหลือคุณในทุกเรื่อง เช่น:
-* 💻 **เขียนโค้ดและทำโปรแกรม:** ทุกภาษา เช่น Python, JavaScript, C#, C/C++, Java, Go, Rust, PHP, HTML/CSS, SQL
-* 🛒 **สร้างระบบสำเร็จรูป:** ระบบ POS, ระบบตัดเกรด, บอท, เว็บแอป, เว็บสแครปเปอร์
+ผมคือ **AI เด็กเทพ (DEK THEP AI)** ปัญญาประดิษฐ์อัจฉริยะสายเขียนโปรแกรมและแชทอันดับ 1! ⚡
+ผมพร้อมช่วยเหลือคุณในทุกเรื่อง ไม่มีขีดจำกัด เช่น:
+* 💻 **เขียนโค้ดและพัฒนาโปรแกรม:** ทุกภาษา เช่น Python, JavaScript, C#, C/C++, Java, Go, Rust, PHP, HTML/CSS, SQL
+* 🛒 **สร้างระบบสำเร็จรูป:** ระบบ POS ขายหน้าร้าน, ระบบตัดเกรด, บอท, เว็บแอป, เว็บสแครปเปอร์
 * 🐞 **หาบั๊ก & แก้ไขโค้ด:** วิเคราะห์สาเหตุและปรับปรุงโค้ดให้ทำงานได้เต็มประสิทธิภาพ
 * ☕ **คุยเล่น แลกเปลี่ยน ปรึกษา:** ชวนคุยได้ทุกเรื่องตลอด 24 ชั่วโมง
 
@@ -4318,7 +3975,7 @@ Get-PSDrive -PSProvider FileSystem | Where-Object { $_.Free -ne $null } | ForEac
       let generatedCode = "";
       if (detectedLang === "javascript") {
         generatedCode = `// ========================================================
-// OmniAI Generated Solution for: ${query}
+// AI เด็กเทพ (DEK THEP AI) Solution for: ${query}
 // ========================================================
 
 class TaskManager {
@@ -4354,7 +4011,7 @@ manager.addItem('ทดสอบและ Deploy ซอฟต์แวร์', '
 manager.listItems();`;
       } else {
         generatedCode = `# ========================================================
-# OmniAI Generated Solution for: ${query}
+# AI เด็กเทพ (DEK THEP AI) Solution for: ${query}
 # ========================================================
 import sys
 import time
@@ -4398,37 +4055,9 @@ ${generatedCode}
 
     // =========================================================================
     function resetAllState() {
-      document.getElementById('phoneInput').value = '';
-      document.getElementById('telecomStrip').style.display = 'none';
-      document.getElementById('phoneResultCard').style.display = 'none';
-      if (document.getElementById('phoneSearchSpinner')) {
-        document.getElementById('phoneSearchSpinner').style.display = 'none';
-      }
-
-      currentUploadedFaceData = null;
-      document.getElementById('dropPromptGroup').style.display = 'flex';
-      document.getElementById('canvasContainer').style.display = 'none';
-      document.getElementById('scanLaserLine').style.display = 'none';
-      document.getElementById('faceResultCard').style.display = 'none';
-      document.getElementById('hudAvatarBox').innerHTML = '<span style="font-family: var(--font-tech); font-size: 11px; color: var(--text-dim);">FACE</span>';
-      document.getElementById('hudFileName').innerText = 'รอรูปภาพเป้าหมาย...';
-      document.getElementById('hudDimensions').innerText = 'ขนาดภาพ: -';
-      document.getElementById('hudStatusText').innerText = 'สถานะ: พร้อมอัปโหลด';
-      document.getElementById('hudStatusText').style.color = '#A78BFA';
-      document.getElementById('telemLandmarks').innerText = '0 POINTS';
-      document.getElementById('telemQuality').innerText = 'WAITING';
-      document.getElementById('telemHash').innerText = '0x00000000';
-
-      currentPhoneSocialLinks = [];
-      currentFaceSocialLinks = [];
-      rawTargetForCopy = '';
-      const pGrid = document.getElementById('phoneSocialGrid');
-      if (pGrid) pGrid.innerHTML = '';
-      const fGrid = document.getElementById('faceSocialGrid');
-      if (fGrid) fGrid.innerHTML = '';
-
+      clearAiChatHistory();
       playBeep(440, 'sine');
-      showToast('ล้างข้อมูลทั้งหมดแล้ว', 'SYSTEM');
+      showToast('ล้างข้อมูลทั้งหมดเรียบร้อยแล้ว', 'SYSTEM');
     }
   </script>
 </body>
