@@ -1061,27 +1061,27 @@
                   <span>⚡ AI เด็กเทพ 4o</span>
                   <span style="font-size: 11px; color: #10B981;">(แนะนำ)</span>
                 </div>
-                <div class="dropdown-opt-desc">เร็ว ปราดเปรื่อง เขียนโค้ดทุกภาษา คุยเล่นได้ทันที 100%</div>
+                <div class="dropdown-opt-desc">🧠 สมอง GPT-OSS Reasoning ฉลาดขึ้น 3 เท่า ตอบไวแบบสตรีมเรียลไทม์ เขียนโค้ดได้ทุกภาษา</div>
               </div>
               <div class="dropdown-opt" id="optModelDeepseek" onclick="selectAiModel('deepseek-r1')">
                 <div class="dropdown-opt-title">
-                  <span>🧠 DeepSeek R1</span>
-                  <span style="font-size: 11px; color: #38BDF8;">(Reasoning)</span>
+                  <span>🧠 เด็กเทพ DeepThink</span>
+                  <span style="font-size: 11px; color: #38BDF8;">(Deep Reasoning)</span>
                 </div>
-                <div class="dropdown-opt-desc">คิดวิเคราะห์เชิงลึก ให้เหตุผลรอบด้าน และตรรกะชั้นสูง</div>
+                <div class="dropdown-opt-desc">คิดวิเคราะห์เชิงลึกทีละขั้นตอน วางแผนโค้ดระดับสถาปนิกซอฟต์แวร์</div>
               </div>
               <div class="dropdown-opt" id="optModelQwenCoder" onclick="selectAiModel('qwen-coder')">
                 <div class="dropdown-opt-title">
-                  <span>💻 Qwen 2.5 Coder</span>
-                  <span style="font-size: 11px; color: #F59E0B;">(Pro Coder)</span>
+                  <span>💻 เด็กเทพ Coder Master</span>
+                  <span style="font-size: 11px; color: #F59E0B;">(Unlimited Code)</span>
                 </div>
-                <div class="dropdown-opt-desc">ผู้เชี่ยวชาญการเขียนโค้ด ซอฟต์แวร์ และแก้บั๊กทุกภาษา</div>
+                <div class="dropdown-opt-desc">เซียนโค้ดไร้ขีดจำกัด เขียนได้ทุกภาษา ทุกเฟรมเวิร์ก แก้บั๊กและสร้างระบบใหญ่ได้ในครั้งเดียว</div>
               </div>
               <div class="dropdown-opt" id="optModelLlama" onclick="selectAiModel('llama-3.3')">
                 <div class="dropdown-opt-title">
-                  <span>🚀 Llama 3.3 70B</span>
+                  <span>🚀 เด็กเทพ Turbo</span>
                 </div>
-                <div class="dropdown-opt-desc">โมเดลฉลาดรอบด้านจาก Meta ตอบคำถามลึกซึ้งและรอบรู้</div>
+                <div class="dropdown-opt-desc">โหมดตอบเร็วพิเศษ เหมาะกับคำถามสั้น คุยเล่น และงานเร่งด่วน</div>
               </div>
               <div class="dropdown-opt" id="optModelGeminiFlash" onclick="selectAiModel('gemini-2.5-flash')">
                 <div class="dropdown-opt-title">
@@ -1089,11 +1089,11 @@
                 </div>
                 <div class="dropdown-opt-desc">โมเดล Google Cloud ล่าสุด ตอบไวและความรู้กว้างขวาง</div>
               </div>
-              <div class="dropdown-opt" id="optModelGeminiPro" onclick="selectAiModel('gemini-1.5-pro')">
+              <div class="dropdown-opt" id="optModelGeminiPro" onclick="selectAiModel('gemini-2.5-pro')">
                 <div class="dropdown-opt-title">
-                  <span>🧠 Gemini 1.5 Pro</span>
+                  <span>💎 Gemini 2.5 Pro</span>
                 </div>
-                <div class="dropdown-opt-desc">วิเคราะห์โค้ดเชิงลึกและจัดการคำสั่งโปรแกรมซับซ้อน</div>
+                <div class="dropdown-opt-desc">สมองระดับสูงสุดจาก Google วิเคราะห์โค้ดและโจทย์ซับซ้อนเชิงลึก (ต้องใช้ API Key)</div>
               </div>
             </div>
           </div>
@@ -1210,8 +1210,8 @@
         <label style="font-size: 13px; font-weight: 600; color: #FFF;">โมเดล Cloud ที่ต้องการใช้งาน:</label>
         <select id="modalGeminiModel" class="modal-input" style="background: #171717;">
           <option value="gemini-2.5-flash">Gemini 2.5 Flash (ฉลาดและตอบไวที่สุด - แนะนำ)</option>
-          <option value="gemini-1.5-flash">Gemini 1.5 Flash (เสถียรและเร็ว)</option>
-          <option value="gemini-1.5-pro">Gemini 1.5 Pro (วิเคราะห์โค้ดเชิงลึก)</option>
+          <option value="gemini-2.5-pro">Gemini 2.5 Pro (สมองระดับสูงสุด วิเคราะห์โค้ดเชิงลึก)</option>
+          <option value="gemini-2.0-flash">Gemini 2.0 Flash (เสถียรและเร็ว)</option>
         </select>
 
         <label style="font-size: 13px; font-weight: 600; color: #FFF; margin-top: 10px; display: block;">🔊 ระบบเสียงพูด AI เด็กเทพ (HD Natural Audio):</label>
@@ -1219,9 +1219,17 @@
         <div style="margin-top: 6px;">
           <span style="font-size: 12px; color: var(--text-secondary);">เลือกเสียง AI ที่ต้องการ:</span>
           <select id="modalVoiceEngine" class="modal-input" style="background: #171717; margin-top: 4px;">
-            <option value="cloud_online">🌐 เสียง AI Cloud Neural (เสียงใส สมจริง เป็นธรรมชาติที่สุด)</option>
-            <option value="system_voice">💻 เสียงสังเคราะห์เครื่อง (Offline Native Voice)</option>
+            <option value="cloud_online">🌐 เสียง AI Cloud Neural HD (อ่านได้ยาวไม่จำกัด เสียงสมจริง)</option>
+            <option value="system_voice">💻 เสียง Neural เครื่อง (Offline Native Voice)</option>
           </select>
+          <div style="margin-top: 8px;">
+            <span style="font-size: 12px; color: var(--text-secondary);">เลือกโทนเสียงพูด:</span>
+            <select id="modalVoiceGender" class="modal-input" style="background: #171717; margin-top: 4px;">
+              <option value="female" selected>👩 เสียงผู้หญิง (ใส นุ่มนวล - แนะนำ)</option>
+              <option value="male">👨 เสียงผู้ชาย (ทุ้ม มั่นใจ)</option>
+              <option value="auto">🤖 อัตโนมัติ (เลือกเสียงดีที่สุดให้เอง)</option>
+            </select>
+          </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
@@ -1591,35 +1599,41 @@
         if (opt) opt.classList.add('active');
         showToast('เปลี่ยนเป็นโหมด AI เด็กเทพ 4o (เร็ว & ไร้ขีดจำกัด)', '⚡');
       } else if (mode === 'deepseek-r1') {
-        if (label) label.innerText = 'DeepSeek R1';
-        if (tag) tag.innerHTML = '🧠 DeepSeek R1';
+        if (label) label.innerText = 'เด็กเทพ DeepThink';
+        if (tag) tag.innerHTML = '🧠 เด็กเทพ DeepThink';
         const opt = document.getElementById('optModelDeepseek');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมด DeepSeek R1 (คิดวิเคราะห์เชิงลึก)', '🧠');
+        showToast('เปลี่ยนเป็นโหมดเด็กเทพ DeepThink (คิดวิเคราะห์เชิงลึก)', '🧠');
       } else if (mode === 'qwen-coder') {
-        if (label) label.innerText = 'Qwen 2.5 Coder';
-        if (tag) tag.innerHTML = '💻 Qwen 2.5 Coder';
+        if (label) label.innerText = 'เด็กเทพ Coder Master';
+        if (tag) tag.innerHTML = '💻 เด็กเทพ Coder Master';
         const opt = document.getElementById('optModelQwenCoder');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมด Qwen 2.5 Coder (เซียนโค้ด & แก้บั๊ก)', '💻');
+        showToast('เปลี่ยนเป็นโหมดเด็กเทพ Coder Master (เขียนโค้ดไร้ขีดจำกัด)', '💻');
       } else if (mode === 'llama-3.3') {
-        if (label) label.innerText = 'Llama 3.3 70B';
-        if (tag) tag.innerHTML = '🚀 Llama 3.3 70B';
+        if (label) label.innerText = 'เด็กเทพ Turbo';
+        if (tag) tag.innerHTML = '🚀 เด็กเทพ Turbo';
         const opt = document.getElementById('optModelLlama');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมด Meta Llama 3.3 70B', '🚀');
+        showToast('เปลี่ยนเป็นโหมดเด็กเทพ Turbo (ตอบเร็วพิเศษ)', '🚀');
       } else if (mode === 'gemini-2.5-flash') {
         if (label) label.innerText = 'Gemini 2.5 Flash';
         if (tag) tag.innerHTML = '✨ Gemini 2.5 Flash';
         const opt = document.getElementById('optModelGeminiFlash');
         if (opt) opt.classList.add('active');
         showToast('เปลี่ยนเป็นโหมด Google Gemini 2.5 Flash', '✨');
-      } else {
-        if (label) label.innerText = 'Gemini 1.5 Pro';
-        if (tag) tag.innerHTML = '🧠 Gemini 1.5 Pro';
+      } else if (mode === 'gemini-2.5-pro') {
+        if (label) label.innerText = 'Gemini 2.5 Pro';
+        if (tag) tag.innerHTML = '💎 Gemini 2.5 Pro';
         const opt = document.getElementById('optModelGeminiPro');
         if (opt) opt.classList.add('active');
-        showToast('เปลี่ยนเป็นโหมด Google Gemini 1.5 Pro', '🧠');
+        showToast('เปลี่ยนเป็นโหมด Gemini 2.5 Pro (ต้องใช้ API Key)', '💎');
+      } else {
+        if (label) label.innerText = 'Gemini 2.5 Flash';
+        if (tag) tag.innerHTML = '✨ Gemini 2.5 Flash';
+        const opt = document.getElementById('optModelGeminiFlash');
+        if (opt) opt.classList.add('active');
+        showToast('เปลี่ยนเป็นโหมด Google Gemini 2.5 Flash', '✨');
       }
     }
 
@@ -1698,26 +1712,93 @@
       } catch (e) {}
     }
 
-    // Detect and pick the best, most natural Thai neural voice
-    function getBestThaiVoice() {
+    // Detect and pick the best, most natural Thai neural voice (gender-aware)
+    function getBestThaiVoice(preferGender) {
       if (!('speechSynthesis' in window)) return null;
       const voices = window.speechSynthesis.getVoices();
       if (!voices || voices.length === 0) return null;
 
-      // Priority list for premium high quality voices
-      // 1. Microsoft Premwadee/Niwat Online (Natural)
-      // 2. Google Thai Natural
-      // 3. Apple Kanya / Narisa
-      const msNeural = voices.find(v => v.lang.includes('th') && (v.name.includes('Natural') || v.name.includes('Online') || v.name.includes('Premwadee') || v.name.includes('Niwat')));
-      if (msNeural) return msNeural;
+      const thaiVoices = voices.filter(v => (v.lang || '').toLowerCase().startsWith('th'));
+      const pool = thaiVoices.length > 0 ? thaiVoices : voices;
+      const pref = (preferGender || localStorage.getItem('omni_voice_gender') || 'female').toLowerCase();
 
-      const googleVoice = voices.find(v => v.lang.includes('th') && (v.name.includes('Google') || v.name.includes('Neural')));
-      if (googleVoice) return googleVoice;
+      // Male premium voices (Microsoft Niwat, Google, Apple)
+      const isMaleName = n => /niwat|male|ชาย/i.test(n || '');
+      // Female premium voices (Microsoft Premwadee, Apple Kanya/Narisa)
+      const isFemaleName = n => /premwadee|kanya|narisa|female|หญิง/i.test(n || '');
+      const isPremiumName = n => /natural|online|neural|premium|google/i.test(n || '');
 
-      const anyThai = voices.find(v => v.lang.includes('th') || v.lang.includes('TH'));
-      if (anyThai) return anyThai;
+      const scored = pool.map(v => {
+        let score = 0;
+        if (isPremiumName(v.name)) score += 40;
+        if (pref === 'male' && isMaleName(v.name)) score += 30;
+        if (pref === 'female' && isFemaleName(v.name)) score += 30;
+        if ((v.lang || '').toLowerCase().startsWith('th')) score += 20;
+        if (v.localService) score += 5;
+        return { v, score };
+      }).sort((a, b) => b.score - a.score);
 
-      return voices[0] || null;
+      return (scored[0] && scored[0].score > 0) ? scored[0].v : (voices[0] || null);
+    }
+
+    // Split long text into Google TTS friendly chunks (~180 chars) at sentence boundaries
+    function chunkTextForSpeech(text, maxLen) {
+      const limit = maxLen || 180;
+      const clean = (text || '').trim();
+      if (clean.length <= limit) return clean ? [clean] : [];
+      const pieces = [];
+      let buf = '';
+      const sentences = clean.split(/(?<=[\.\?\!\n])\s+/);
+      for (const sentence of sentences) {
+        let s = sentence.trim();
+        if (!s) continue;
+        while (s.length > limit) {
+          let cut = s.lastIndexOf(' ', limit);
+          if (cut < limit * 0.5) cut = limit;
+          pieces.push(s.substring(0, cut).trim());
+          s = s.substring(cut).trim();
+        }
+        if (buf && (buf.length + s.length + 1) > limit) {
+          pieces.push(buf);
+          buf = s;
+        } else {
+          buf = buf ? buf + ' ' + s : s;
+        }
+      }
+      if (buf) pieces.push(buf);
+      return pieces.filter(p => p.length > 0);
+    }
+
+    // Play a queue of cloud TTS chunks sequentially without stutter
+    function speakCloudChunkQueue(chunks, rateVal, onDone) {
+      if (!chunks || chunks.length === 0) { onDone(); return; }
+      let idx = 0;
+      const playNext = () => {
+        if (!isSpeakingAudio || idx >= chunks.length) { onDone(); return; }
+        const encoded = encodeURIComponent(chunks[idx]);
+        const audio = new Audio();
+        audio.playbackRate = Math.min(1.3, Math.max(0.8, rateVal));
+        audio.preload = 'auto';
+        // Warm up the next chunk while the current one plays (zero-gap streaming)
+        if (idx + 1 < chunks.length) {
+          try { new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(chunks[idx + 1]) + '&tl=th&client=tw-ob').preload = 'auto'; } catch (e) {}
+        }
+        audio.src = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encoded + '&tl=th&client=tw-ob';
+        currentAudioPlayer = audio;
+        idx++;
+        audio.onended = playNext;
+        audio.onerror = () => {
+          currentAudioPlayer = null;
+          // Cloud blocked -> hand the whole remaining text to the native engine
+          speakWithBrowserEngine(chunks.slice(idx - 1).join(' '), rateVal, parseFloat(localStorage.getItem('omni_voice_pitch') || '1.0'), onDone);
+        };
+        const p = audio.play();
+        if (p !== undefined) p.catch(() => {
+          currentAudioPlayer = null;
+          speakWithBrowserEngine(chunks.slice(idx - 1).join(' '), rateVal, parseFloat(localStorage.getItem('omni_voice_pitch') || '1.0'), onDone);
+        });
+      };
+      playNext();
     }
 
     function cleanTextForSpeech(markdown) {
@@ -1770,40 +1851,20 @@
         if (onEndCb) onEndCb();
       };
 
-      // TIER 1: HIGH FIDELITY CLOUD NEURAL AUDIO (Smooth, Zero Stutter)
+      // TIER 1: HIGH FIDELITY CLOUD NEURAL AUDIO (Unlimited Length, Zero Gap Streaming)
       if (engineMode === 'cloud_online') {
         try {
-          const shortText = cleaned.substring(0, 200);
-          const encoded = encodeURIComponent(shortText);
-          const cloudAudioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encoded}&tl=th&client=tw-ob`;
-          
-          const audio = new Audio();
-          audio.playbackRate = Math.min(1.3, Math.max(0.8, rateVal));
-          audio.src = cloudAudioUrl;
-          currentAudioPlayer = audio;
-
-          audio.onended = finishSpeech;
-          audio.onerror = () => {
-            // Fallback gracefully to Web Speech API
-            currentAudioPlayer = null;
-            speakWithBrowserEngine(cleaned, rateVal, pitchVal, finishSpeech);
-          };
-
-          const playPromise = audio.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              // If autoplay blocked or audio failed, fallback to native speech
-              currentAudioPlayer = null;
-              speakWithBrowserEngine(cleaned, rateVal, pitchVal, finishSpeech);
-            });
+          const chunks = chunkTextForSpeech(cleaned, 180);
+          if (chunks.length > 0) {
+            speakCloudChunkQueue(chunks, rateVal, finishSpeech);
+            return;
           }
-          return;
         } catch (e) {
           // Fall through to browser speech
         }
       }
 
-      // TIER 2: NATIVE BROWSER SPEECH ENGINE (Smooth Single Utterance)
+      // TIER 2: NATIVE BROWSER SPEECH ENGINE (Gender-Aware Premium Voice)
       speakWithBrowserEngine(cleaned, rateVal, pitchVal, finishSpeech);
     }
 
@@ -2228,6 +2289,7 @@
     // =========================================================================
     let recognition = null;
     let isVoiceDictating = false;
+    let dictationBaseText = '';
 
     function toggleVoiceDictation() {
       const micBtn = document.getElementById('btnMicInput');
@@ -2246,33 +2308,50 @@
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognition = new SpeechRecognition();
       recognition.lang = 'th-TH';
-      recognition.continuous = false;
+      recognition.continuous = true;
       recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
+
+      if (!isVoiceDictating) dictationBaseText = input && input.value ? input.value.trim() : '';
+      let interimTranscript = '';
 
       recognition.onstart = () => {
         isVoiceDictating = true;
         if (micBtn) micBtn.classList.add('listening');
         playBeep(659.25, 'sine', 0.1);
-        showToast('กำลังฟังเสียงภาษาไทยของคุณ... พูดได้เลยครับ! 🎙️', '🔴');
+        showToast('กำลังฟังเสียงภาษาไทยแบบต่อเนื่อง... พูดยาวได้เลยครับ! 🎙️', '🔴');
       };
 
       recognition.onresult = (event) => {
-        let transcript = '';
+        interimTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; ++i) {
-          transcript += event.results[i][0].transcript;
+          const res = event.results[i];
+          if (res.isFinal) {
+            dictationBaseText = (dictationBaseText ? dictationBaseText + ' ' : '') + res[0].transcript.trim();
+          } else {
+            interimTranscript += res[0].transcript;
+          }
         }
-        if (input && transcript) {
-          input.value = transcript;
+        if (input) {
+          input.value = (dictationBaseText + ' ' + interimTranscript).trim();
           handleInputChange(input);
         }
       };
 
       recognition.onerror = (e) => {
         console.warn('Speech recognition error:', e.error);
+        // 'no-speech' / 'aborted' / network hiccup: auto-restart to stay in continuous mode
+        if (isVoiceDictating && (e.error === 'no-speech' || e.error === 'aborted' || e.error === 'network')) {
+          try { recognition.start(); return; } catch (err) {}
+        }
         stopVoiceDictation();
       };
 
       recognition.onend = () => {
+        // Keep continuous listening alive until the user presses the mic button again
+        if (isVoiceDictating) {
+          try { recognition.start(); return; } catch (e) {}
+        }
         stopVoiceDictation();
       };
 
@@ -2285,6 +2364,7 @@
 
     function stopVoiceDictation() {
       isVoiceDictating = false;
+      dictationBaseText = '';
       const micBtn = document.getElementById('btnMicInput');
       if (micBtn) micBtn.classList.remove('listening');
     }
@@ -3131,14 +3211,17 @@ ${generatedCode}
       const speed = localStorage.getItem('omni_voice_speed') || '1.0';
       const pitch = localStorage.getItem('omni_voice_pitch') || '1.0';
       const engine = localStorage.getItem('omni_voice_engine') || 'cloud_online';
+      const gender = localStorage.getItem('omni_voice_gender') || 'female';
 
       const speedEl = document.getElementById('modalVoiceSpeed');
       const pitchEl = document.getElementById('modalVoicePitch');
       const engineEl = document.getElementById('modalVoiceEngine');
+      const genderEl = document.getElementById('modalVoiceGender');
 
       if (speedEl) speedEl.value = speed;
       if (pitchEl) pitchEl.value = pitch;
       if (engineEl) engineEl.value = engine;
+      if (genderEl) genderEl.value = gender;
 
       document.getElementById('aiSettingsModal').style.display = 'flex';
       document.getElementById('modalGeminiApiKey').focus();
@@ -3154,6 +3237,7 @@ ${generatedCode}
       const speed = document.getElementById('modalVoiceSpeed')?.value || '1.0';
       const pitch = document.getElementById('modalVoicePitch')?.value || '1.0';
       const engine = document.getElementById('modalVoiceEngine')?.value || 'cloud_online';
+      const gender = document.getElementById('modalVoiceGender')?.value || 'female';
 
       if (key) {
         localStorage.setItem('omni_gemini_api_key', key);
@@ -3164,6 +3248,7 @@ ${generatedCode}
       localStorage.setItem('omni_voice_speed', speed);
       localStorage.setItem('omni_voice_pitch', pitch);
       localStorage.setItem('omni_voice_engine', engine);
+      localStorage.setItem('omni_voice_gender', gender);
 
       closeAiSettingsModal();
       playCyberChime();
