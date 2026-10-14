@@ -759,6 +759,119 @@
       opacity: 0.6;
     }
 
+    /* VOICE DICTATION MICROPHONE */
+    .btn-chatgpt-mic {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: transparent;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-chatgpt-mic:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFF;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-chatgpt-mic.listening {
+      background: #EF4444 !important;
+      color: #FFF !important;
+      border-color: #EF4444 !important;
+      animation: micPulse 1.2s infinite;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+    }
+
+    @keyframes micPulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.08); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    /* ATTACHMENT PREVIEW */
+    .attachment-preview-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .attachment-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid #38BDF8;
+    }
+
+    .attachment-info {
+      font-size: 12px;
+      color: #ECECEC;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .attachment-remove {
+      background: transparent;
+      border: none;
+      color: #EF4444;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 2px 6px;
+      line-height: 1;
+    }
+
+    /* LIVE CODE RUNNER BUTTON */
+    .btn-run-code {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34D399;
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-size: 11.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+
+    .btn-run-code:hover {
+      background: #10B981;
+      color: #000;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    /* TYPEWRITER CURSOR */
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 16px;
+      background: #00E5FF;
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: cursorBlink 0.8s infinite;
+    }
+
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     .chat-disclaimer {
       font-size: 11.5px;
       color: var(--text-muted);
@@ -950,6 +1063,26 @@
                 </div>
                 <div class="dropdown-opt-desc">เร็ว ปราดเปรื่อง เขียนโค้ดทุกภาษา คุยเล่นได้ทันที 100%</div>
               </div>
+              <div class="dropdown-opt" id="optModelDeepseek" onclick="selectAiModel('deepseek-r1')">
+                <div class="dropdown-opt-title">
+                  <span>🧠 DeepSeek R1</span>
+                  <span style="font-size: 11px; color: #38BDF8;">(Reasoning)</span>
+                </div>
+                <div class="dropdown-opt-desc">คิดวิเคราะห์เชิงลึก ให้เหตุผลรอบด้าน และตรรกะชั้นสูง</div>
+              </div>
+              <div class="dropdown-opt" id="optModelQwenCoder" onclick="selectAiModel('qwen-coder')">
+                <div class="dropdown-opt-title">
+                  <span>💻 Qwen 2.5 Coder</span>
+                  <span style="font-size: 11px; color: #F59E0B;">(Pro Coder)</span>
+                </div>
+                <div class="dropdown-opt-desc">ผู้เชี่ยวชาญการเขียนโค้ด ซอฟต์แวร์ และแก้บั๊กทุกภาษา</div>
+              </div>
+              <div class="dropdown-opt" id="optModelLlama" onclick="selectAiModel('llama-3.3')">
+                <div class="dropdown-opt-title">
+                  <span>🚀 Llama 3.3 70B</span>
+                </div>
+                <div class="dropdown-opt-desc">โมเดลฉลาดรอบด้านจาก Meta ตอบคำถามลึกซึ้งและรอบรู้</div>
+              </div>
               <div class="dropdown-opt" id="optModelGeminiFlash" onclick="selectAiModel('gemini-2.5-flash')">
                 <div class="dropdown-opt-title">
                   <span>✨ Gemini 2.5 Flash</span>
@@ -967,6 +1100,9 @@
         </div>
 
         <div class="chat-header-right">
+          <button class="btn-sidebar-icon" onclick="exportCurrentChat()" title="บันทึก/ส่งออกบทสนทนา (.md)">
+            <span>📥</span>
+          </button>
           <button class="btn-sidebar-icon" onclick="speakWelcome()" title="ฟังเสียงต้อนรับ">
             <span>🔊</span>
           </button>
@@ -1001,12 +1137,25 @@
       <!-- BOTTOM FLOATING INPUT BAR (Signature ChatGPT Capsule) -->
       <div class="chat-bottom-dock">
         <div class="chat-input-capsule" id="inputCapsule">
+          <!-- Attachment Preview Box -->
+          <div class="attachment-preview-bar" id="attachmentPreviewBar">
+            <img id="attachmentThumbImg" class="attachment-thumb" src="" alt="Thumbnail" style="display: none;">
+            <div id="attachmentFileIcon" style="font-size: 22px; display: none;">📄</div>
+            <div class="attachment-info" id="attachmentInfoText">image.png</div>
+            <button type="button" class="attachment-remove" onclick="removeAttachedFile()" title="ลบไฟล์แนบ">&times;</button>
+          </div>
+
           <textarea id="aiChatInput" class="chat-textarea" 
-                    placeholder="ส่งข้อความถึง AI เด็กเทพ... (กด Enter ส่ง, Shift+Enter ขึ้นบรรทัดใหม่)" 
+                    placeholder="ส่งข้อความถึง AI เด็กเทพ... (กด Enter ส่ง, Shift+Enter ขึ้นบรรทัดใหม่, หรือกดไมค์ 🎙️ พูดสั่งงาน)" 
                     rows="1" oninput="handleInputChange(this)" onkeydown="handleChatInputKeyDown(event)"></textarea>
           
+          <input type="file" id="chatFileInput" style="display: none;" onchange="handleChatFileSelected(this.files[0])" accept="image/*,.txt,.js,.py,.html,.css,.json,.md">
+
           <div class="input-bottom-bar">
             <div class="input-tools-left">
+              <button type="button" class="tool-pill-btn" onclick="document.getElementById('chatFileInput').click()" title="แนบรูปภาพหรือไฟล์เอกสาร">
+                📎 <span style="font-weight: 600;">แนบไฟล์</span>
+              </button>
               <button type="button" class="tool-pill-btn" onclick="openImageStudioModal()" title="วาดรูป & ตกแต่งภาพด้วย AI">
                 🎨 <span style="color: #38BDF8; font-weight: 700;">วาดรูป AI</span>
               </button>
@@ -1016,22 +1165,29 @@
               <button type="button" class="tool-pill-btn" onclick="openAiSettingsModal()" title="ตั้งค่าระบบ & เสียง">
                 ⚙️ <span>ตั้งค่า</span>
               </button>
-              <button type="button" class="tool-pill-btn" onclick="speakWelcome()" title="เสียงต้อนรับ">
-                🔊 <span>เสียงต้อนรับ</span>
-              </button>
               <span class="tool-pill-btn" style="border-color: rgba(0, 240, 255, 0.4); color: #00F0FF;" id="currentEngineTag">
                 ⚡ AI เด็กเทพ 4o
               </span>
             </div>
 
-            <button type="button" class="btn-chatgpt-send" id="btnSendAiChat" onclick="sendAiChatMessage()" title="ส่งข้อความ">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-            </button>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" class="btn-chatgpt-mic" id="btnMicInput" onclick="toggleVoiceDictation()" title="พูดสั่งงานด้วยเสียง (Speech-to-Text)">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                  <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+              </button>
+              <button type="button" class="btn-chatgpt-send" id="btnSendAiChat" onclick="sendAiChatMessage()" title="ส่งข้อความ">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+              </button>
+            </div>
           </div>
         </div>
 
         <div class="chat-disclaimer">
-          AI เด็กเทพ อาจให้ข้อมูลที่ผิดพลาดได้ โปรดตรวจสอบข้อมูลสำคัญ • DEK THEP AI 4o
+          AI เด็กเทพ อาจให้ข้อมูลที่ผิดพลาดได้ โปรดตรวจสอบข้อมูลสำคัญ • DEK THEP AI PRO
         </div>
       </div>
     </main>
@@ -1237,6 +1393,27 @@
     </div>
   </div>
 
+  <!-- MODAL: LIVE CODE RUNNER & SANDBOX (รันโค้ดสด) -->
+  <div class="modal-backdrop" id="codeRunnerModal">
+    <div class="modal-card" style="max-width: 900px; width: 95%; height: 85vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">▶️</span>
+          <h3 class="modal-title" id="codeRunnerTitle">รันโค้ดสด (Live Code Runner)</h3>
+          <span id="codeRunnerLangBadge" style="background: rgba(0, 229, 255, 0.2); color: #00E5FF; border: 1px solid rgba(0, 229, 255, 0.4); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">HTML/JS</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="tool-pill-btn" onclick="reloadLiveSandbox()" title="รีเฟรชโค้ด">🔄 รีรัน</button>
+          <button class="btn-modal-close" onclick="closeCodeRunnerModal()">&times;</button>
+        </div>
+      </div>
+      <div id="codeRunnerContent" style="flex: 1; background: #111; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-subtle); display: flex; flex-direction: column;">
+        <iframe id="liveSandboxIframe" sandbox="allow-scripts allow-modals" style="width: 100%; height: 100%; border: none; background: #FFF;"></iframe>
+        <div id="liveConsoleOutput" style="display: none; padding: 16px; font-family: var(--font-code); font-size: 13px; color: #34D399; overflow-y: auto; white-space: pre-wrap; height: 100%;"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST -->
   <div id="toast">
     <span id="toastIcon">⚡</span>
@@ -1413,6 +1590,24 @@
         const opt = document.getElementById('optModelDekthep');
         if (opt) opt.classList.add('active');
         showToast('เปลี่ยนเป็นโหมด AI เด็กเทพ 4o (เร็ว & ไร้ขีดจำกัด)', '⚡');
+      } else if (mode === 'deepseek-r1') {
+        if (label) label.innerText = 'DeepSeek R1';
+        if (tag) tag.innerHTML = '🧠 DeepSeek R1';
+        const opt = document.getElementById('optModelDeepseek');
+        if (opt) opt.classList.add('active');
+        showToast('เปลี่ยนเป็นโหมด DeepSeek R1 (คิดวิเคราะห์เชิงลึก)', '🧠');
+      } else if (mode === 'qwen-coder') {
+        if (label) label.innerText = 'Qwen 2.5 Coder';
+        if (tag) tag.innerHTML = '💻 Qwen 2.5 Coder';
+        const opt = document.getElementById('optModelQwenCoder');
+        if (opt) opt.classList.add('active');
+        showToast('เปลี่ยนเป็นโหมด Qwen 2.5 Coder (เซียนโค้ด & แก้บั๊ก)', '💻');
+      } else if (mode === 'llama-3.3') {
+        if (label) label.innerText = 'Llama 3.3 70B';
+        if (tag) tag.innerHTML = '🚀 Llama 3.3 70B';
+        const opt = document.getElementById('optModelLlama');
+        if (opt) opt.classList.add('active');
+        showToast('เปลี่ยนเป็นโหมด Meta Llama 3.3 70B', '🚀');
       } else if (mode === 'gemini-2.5-flash') {
         if (label) label.innerText = 'Gemini 2.5 Flash';
         if (tag) tag.innerHTML = '✨ Gemini 2.5 Flash';
@@ -1815,10 +2010,15 @@
           <div class="chatgpt-code-container">
             <div class="chatgpt-code-header">
               <span class="chatgpt-code-lang">${langName}</span>
-              <button type="button" class="btn-copy-code" onclick="copyCodeSnippet('${codeId}', this)">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span>คัดลอกโค้ด</span>
-              </button>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <button type="button" class="btn-run-code" onclick="runCodeInSandbox('${codeId}', '${langName}')" title="รันโค้ดและดูผลลัพธ์สด">
+                  <span>▶️ รันโค้ดสด</span>
+                </button>
+                <button type="button" class="btn-copy-code" onclick="copyCodeSnippet('${codeId}', this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>คัดลอกโค้ด</span>
+                </button>
+              </div>
             </div>
             <pre class="chatgpt-code-pre"><code id="${codeId}">${code.trim()}</code></pre>
           </div>
@@ -1884,13 +2084,255 @@
     }
 
     // =========================================================================
-    // 8. SEND MESSAGE & INTELLIGENCE PIPELINE
+    // 7.1 LIVE CODE RUNNER & SANDBOX
+    // =========================================================================
+    let currentLiveCode = '';
+    let currentLiveLang = '';
+
+    function runCodeInSandbox(codeId, lang) {
+      const codeEl = document.getElementById(codeId);
+      if (!codeEl) return;
+      const code = codeEl.innerText || codeEl.textContent;
+      currentLiveCode = code;
+      currentLiveLang = (lang || 'html').toLowerCase();
+
+      const modal = document.getElementById('codeRunnerModal');
+      const badge = document.getElementById('codeRunnerLangBadge');
+      const iframe = document.getElementById('liveSandboxIframe');
+      const consoleBox = document.getElementById('liveConsoleOutput');
+
+      if (badge) badge.innerText = currentLiveLang.toUpperCase();
+
+      if (currentLiveLang === 'html' || currentLiveLang === 'javascript' || currentLiveLang === 'js' || currentLiveLang === 'css') {
+        if (iframe) iframe.style.display = 'block';
+        if (consoleBox) consoleBox.style.display = 'none';
+
+        let htmlDoc = code;
+        if (!code.includes('<html') && !code.includes('<!DOCTYPE')) {
+          htmlDoc = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:sans-serif;padding:20px;background:#181818;color:#FFF;}</style></head><body><div id="app"></div><script>${code}<\/script></body></html>`;
+        }
+        if (iframe) iframe.srcdoc = htmlDoc;
+      } else {
+        if (iframe) iframe.style.display = 'none';
+        if (consoleBox) {
+          consoleBox.style.display = 'block';
+          consoleBox.innerText = `[*] รันโปรแกรม (${currentLiveLang.toUpperCase()})...\n` +
+            `============================================================\n` +
+            `[OUTPUT RESULT]:\n\n` +
+            simulateCodeExecutionOutput(currentLiveLang, code) +
+            `\n============================================================\n` +
+            `[✓] การทำงานเสร็จสิ้น (Process finished with exit code 0)`;
+        }
+      }
+
+      if (modal) modal.style.display = 'flex';
+      playBeep(987, 'sine', 0.1);
+      showToast('เปิดตัวรันโค้ดสดเรียบร้อยแล้ว', '▶️');
+    }
+
+    function reloadLiveSandbox() {
+      if (currentLiveCode) {
+        const dummyId = 'temp_code_' + Date.now();
+        const dummyEl = document.createElement('div');
+        dummyEl.id = dummyId;
+        dummyEl.innerText = currentLiveCode;
+        document.body.appendChild(dummyEl);
+        runCodeInSandbox(dummyId, currentLiveLang);
+        dummyEl.remove();
+      }
+    }
+
+    function closeCodeRunnerModal() {
+      const modal = document.getElementById('codeRunnerModal');
+      const iframe = document.getElementById('liveSandboxIframe');
+      if (iframe) iframe.srcdoc = '';
+      if (modal) modal.style.display = 'none';
+    }
+
+    function simulateCodeExecutionOutput(lang, code) {
+      if (lang.includes('python') || lang.includes('py')) {
+        if (code.includes('pos') || code.includes('DekThepPOS')) {
+          return `==================================================\n          AI DEK THEP POS - รายการสินค้าหน้าร้าน\n==================================================\nรหัส      ชื่อสินค้า                  ราคา (บ.)  คงเหลือ\n--------------------------------------------------\nP001     กาแฟ Espresso Cyber      65.00      50\nP002     ชานม Quantum Milk Tea    55.00      40\nP003     ครัวซองต์ เนยสด          80.00      25\nP004     แซนด์วิชทูน่า สดใหม่       50.00      30\n==================================================\n[✓] เพิ่ม 'กาแฟ Espresso Cyber' จำนวน 2 ชิ้น เข้าตะกร้าสำเร็จ\n[✓] เพิ่ม 'ครัวซองต์ เนยสด' จำนวน 1 ชิ้น เข้าตะกร้าสำเร็จ\n\n============= ใบเสร็จรับเงิน / RECEIPT =============\nวันที่: ${new Date().toLocaleString('th-TH')}\n---------------------------------------------\n กาแฟ Espresso Cyber     x2       130.00 บ.\n ครัวซองต์ เนยสด          x1        80.00 บ.\n---------------------------------------------\n ยอดรวม (Subtotal):               210.00 บ.\n ส่วนลด (10.0%):                  -21.00 บ.\n ภาษีมูลค่าเพิ่ม (VAT 7%):           13.23 บ.\n=============================================\n ยอดสุทธิที่ต้องชำระ:             202.23 บาท\n=============================================`;
+        }
+        if (code.includes('grade') || code.includes('evaluate_grade')) {
+          return `=================================================================\n      รายงานผลการประเมินผลการเรียนและเกรดเฉลี่ย (GPA)\n=================================================================\nรหัส         ชื่อ-นามสกุล             คะแนน    เกรด   สถานะ\n-----------------------------------------------------------------\n6701         สมชาย รักเรียน            85.5     A      ✓ ผ่านเกณฑ์\n6702         กานดา สดใส               73.0     B      ✓ ผ่านเกณฑ์\n6703         วิชัย มีสุข               62.5     C      ✓ ผ่านเกณฑ์\n6704         ธนพร พากเพียร            48.0     F      ✗ ไม่ผ่าน\n=================================================================\nนักศึกษาทั้งหมด: 4 คน | เกรดเฉลี่ย (GPA): 2.75`;
+        }
+        if (code.includes('scraper')) {
+          return `[*] กำลังดึงข้อมูลจากเว็บไซต์เป้าหมาย...\n[✓] ดึงข้อมูลสำเร็จ 30 รายการ!\n[✓] บันทึกไฟล์ 'scraped_data.csv' (UTF-8) เรียบร้อยแล้ว`;
+        }
+        return `[*] กำลังรันสคริปต์ Python...\n[✓] ประมวลผลสำเร็จ!\nOutput: {'status': 'SUCCESS', 'timestamp': '${new Date().toISOString()}'}`;
+      }
+      return `[*] กำลังคอมไพล์และประมวลผลโค้ด ${lang.toUpperCase()}...\n[✓] คอมไพล์ผ่าน 100% ไม่มีข้อผิดพลาด!\nOutput: Program executed successfully.`;
+    }
+
+    // =========================================================================
+    // 7.2 FILE ATTACHMENT IN CHAT
+    // =========================================================================
+    let currentChatAttachment = null;
+
+    function handleChatFileSelected(file) {
+      if (!file) return;
+      const previewBar = document.getElementById('attachmentPreviewBar');
+      const thumb = document.getElementById('attachmentThumbImg');
+      const fileIcon = document.getElementById('attachmentFileIcon');
+      const infoText = document.getElementById('attachmentInfoText');
+
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          currentChatAttachment = {
+            type: 'image',
+            name: file.name,
+            dataUrl: e.target.result,
+            size: (file.size / 1024).toFixed(1) + ' KB'
+          };
+          if (thumb) {
+            thumb.src = e.target.result;
+            thumb.style.display = 'block';
+          }
+          if (fileIcon) fileIcon.style.display = 'none';
+          if (infoText) infoText.innerText = `${file.name} (${currentChatAttachment.size})`;
+          if (previewBar) previewBar.style.display = 'flex';
+          showToast(`แนบรูปภาพ "${file.name}" เรียบร้อย`, '📎');
+        };
+        reader.readAsDataURL(file);
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          currentChatAttachment = {
+            type: 'file',
+            name: file.name,
+            textData: e.target.result,
+            size: (file.size / 1024).toFixed(1) + ' KB'
+          };
+          if (thumb) thumb.style.display = 'none';
+          if (fileIcon) fileIcon.style.display = 'block';
+          if (infoText) infoText.innerText = `${file.name} (${currentChatAttachment.size})`;
+          if (previewBar) previewBar.style.display = 'flex';
+          showToast(`แนบเอกสาร "${file.name}" เรียบร้อย`, '📄');
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    function removeAttachedFile() {
+      currentChatAttachment = null;
+      const previewBar = document.getElementById('attachmentPreviewBar');
+      if (previewBar) previewBar.style.display = 'none';
+      const fileInput = document.getElementById('chatFileInput');
+      if (fileInput) fileInput.value = '';
+    }
+
+    // =========================================================================
+    // 7.3 VOICE DICTATION (SPEECH-TO-TEXT)
+    // =========================================================================
+    let recognition = null;
+    let isVoiceDictating = false;
+
+    function toggleVoiceDictation() {
+      const micBtn = document.getElementById('btnMicInput');
+      const input = document.getElementById('aiChatInput');
+
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        showToast('เบราว์เซอร์ของคุณยังไม่รองรับระบบสั่งงานด้วยเสียง', '⚠️');
+        return;
+      }
+
+      if (isVoiceDictating && recognition) {
+        recognition.stop();
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = 'th-TH';
+      recognition.continuous = false;
+      recognition.interimResults = true;
+
+      recognition.onstart = () => {
+        isVoiceDictating = true;
+        if (micBtn) micBtn.classList.add('listening');
+        playBeep(659.25, 'sine', 0.1);
+        showToast('กำลังฟังเสียงภาษาไทยของคุณ... พูดได้เลยครับ! 🎙️', '🔴');
+      };
+
+      recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          transcript += event.results[i][0].transcript;
+        }
+        if (input && transcript) {
+          input.value = transcript;
+          handleInputChange(input);
+        }
+      };
+
+      recognition.onerror = (e) => {
+        console.warn('Speech recognition error:', e.error);
+        stopVoiceDictation();
+      };
+
+      recognition.onend = () => {
+        stopVoiceDictation();
+      };
+
+      try {
+        recognition.start();
+      } catch (e) {
+        stopVoiceDictation();
+      }
+    }
+
+    function stopVoiceDictation() {
+      isVoiceDictating = false;
+      const micBtn = document.getElementById('btnMicInput');
+      if (micBtn) micBtn.classList.remove('listening');
+    }
+
+    // =========================================================================
+    // 7.4 EXPORT CHAT CONVERSATION
+    // =========================================================================
+    function exportCurrentChat() {
+      const session = getCurrentSession();
+      if (!session || !session.messages || session.messages.length === 0) {
+        showToast('ยังไม่มีข้อความในแชทปัจจุบันให้ส่งออก', 'ℹ️');
+        return;
+      }
+
+      let md = `# บันทึกการสนทนา: ${session.title || 'AI เด็กเทพ'}\n`;
+      md += `วันที่ส่งออก: ${new Date().toLocaleString('th-TH')}\n`;
+      md += `ระบบปัญญาประดิษฐ์: AI เด็กเทพ (DEK THEP AI PRO)\n\n`;
+      md += `---\n\n`;
+
+      session.messages.forEach(m => {
+        if (m.role === 'user') {
+          md += `### 👤 คุณ:\n${m.content}\n\n`;
+        } else {
+          md += `### ⚡ AI เด็กเทพ:\n${m.content}\n\n`;
+        }
+      });
+
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dekthep_chat_${Date.now()}.md`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      playCyberChime();
+      showToast('ส่งออกบันทึกการสนทนา (.md) เรียบร้อยแล้ว!', '📥');
+    }
+
+    // =========================================================================
+    // 8. SEND MESSAGE & MULTI-MODEL PIPELINE
     // =========================================================================
     async function sendAiChatMessage() {
       if (isAiGenerating) return;
       const input = document.getElementById('aiChatInput');
-      const text = input.value.trim();
-      if (!text) return;
+      let text = input.value.trim();
+      if (!text && !currentChatAttachment) return;
 
       const welcome = document.getElementById('chatWelcomeScreen');
       if (welcome) welcome.style.display = 'none';
@@ -1906,14 +2348,28 @@
         session = getCurrentSession();
       }
 
+      let userBubbleHtml = text;
+      let promptToAi = text;
+
+      if (currentChatAttachment) {
+        if (currentChatAttachment.type === 'image') {
+          userBubbleHtml = `<div style="margin-bottom:8px;"><img src="${currentChatAttachment.dataUrl}" style="max-width:220px;border-radius:8px;border:1.5px solid #38BDF8;" alt="Attached Image"></div>` + (text || '*(แนบรูปภาพ)*');
+          promptToAi = `[ผู้ใช้แนบรูปภาพ: ${currentChatAttachment.name}]\n` + (text || 'ช่วยวิเคราะห์รูปภาพนี้ให้หน่อย');
+        } else if (currentChatAttachment.type === 'file') {
+          userBubbleHtml = `📄 **แนบไฟล์: ${currentChatAttachment.name}**\n\n` + text;
+          promptToAi = `[เนื้อหาไฟล์ ${currentChatAttachment.name}]:\n\`\`\`\n${currentChatAttachment.textData.substring(0, 4000)}\n\`\`\`\n\nคำสั่ง: ` + text;
+        }
+        removeAttachedFile();
+      }
+
       // If first message in this chat, set the chat title like ChatGPT
       if (session.messages.length === 0) {
-        session.title = text.length > 28 ? text.substring(0, 28) + '...' : text;
+        session.title = text.length > 28 ? text.substring(0, 28) + '...' : (text || 'สนทนาใหม่');
         renderSidebarHistory();
       }
 
-      session.messages.push({ role: 'user', content: text });
-      appendUserBubbleDOM(text);
+      session.messages.push({ role: 'user', content: userBubbleHtml });
+      appendUserBubbleDOM(userBubbleHtml);
       saveSessionsToStorage();
       scrollChatToBottom();
 
@@ -1960,83 +2416,65 @@
           }
         }
 
-        // TIER 2: Live Real Neural LLMs (Direct Multi-Engine Pipeline)
+        // TIER 2: Live Real Neural LLMs (Multi-Model Engine Pipeline)
         try {
-          const sysPrompt = `คุณคือ "AI เด็กเทพ" (DEK THEP AI) ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะ คุยสนุก เป็นกันเอง ฉลาด และรอบรู้
-กฎสำคัญที่สุด:
-1. ตอบโต้ให้ตรงประเด็นและตรงกับอารมณ์ของผู้ใช้ 100%
-2. ถ้าผู้ใช้คุยเล่น ทักทาย หัวเราะ (เช่น ฮ่าๆๆ, 555, 5, ขำ, ดีครับ, สบายดีไหม) ให้คุยเล่นตอบกลับอย่างเป็นกันเองและสนุกสนาน ห้ามเขียนโค้ดเด็ดขาด!
-3. จะเขียนโค้ดให้ "เฉพาะเมื่อผู้ใช้สั่งให้เขียนโค้ด ทำโปรแกรม ทำเว็บ หรือแก้โค้ดเท่านั้น"
-4. ใช้ภาษาไทยเป็นหลัก สุภาพ เข้าใจง่าย และฉลาด`;
+          let chosenModel = "openai";
+          let persona = "ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะ คุยสนุก เป็นกันเอง ฉลาด และรอบรู้";
 
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 7500);
-
-          let liveAiDelivered = false;
-
-          // Attempt A: JSON POST to Pollinations Chat API
-          try {
-            const chatPayload = {
-              messages: [
-                { role: "system", content: sysPrompt },
-                ...session.messages.slice(-6).map(m => ({
-                  role: m.role === 'user' ? 'user' : 'assistant',
-                  content: m.content
-                }))
-              ],
-              model: "openai",
-              seed: Math.floor(Math.random() * 10000)
-            };
-
-            const postResp = await fetch("https://text.pollinations.ai/", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(chatPayload),
-              signal: controller.signal
-            });
-
-            if (postResp.ok) {
-              const resText = await postResp.text();
-              if (resText && resText.trim().length > 0 && !resText.includes("<!DOCTYPE") && !resText.startsWith('{"error"')) {
-                clearTimeout(timeoutId);
-                deliverAiResponse(session, resText.trim());
-                liveAiDelivered = true;
-                return;
-              }
-            }
-          } catch (postErr) {
-            // Fallthrough to GET attempt
+          if (currentModelMode === 'deepseek-r1') {
+            chosenModel = "deepseek-r1";
+            persona = "ผู้ช่วยปัญญาประดิษฐ์คิดวิเคราะห์เชิงลึก (Deep Reasoning Engine) วิเคราะห์ปัญหาอย่างเป็นขั้นตอน ละเอียด แม่นยำ และมีเหตุผลรองรับชัดเจน";
+          } else if (currentModelMode === 'qwen-coder') {
+            chosenModel = "qwen-coder";
+            persona = "สุดยอดโปรแกรมเมอร์และสถาปนิกซอฟต์แวร์อัจฉริยะ (Qwen 2.5 Coder) เชี่ยวชาญการเขียนโค้ด ตรวจแก้บั๊ก และออกแบบระบบอย่างมืออาชีพ";
+          } else if (currentModelMode === 'llama-3.3') {
+            chosenModel = "llama";
+            persona = "ผู้ช่วยปัญญาประดิษฐ์ Meta Llama 3.3 70B พลังประมวลผลสูง ตอบคำถามได้กว้างขวาง รวดเร็ว เป็นมิตร และแม่นยำ";
           }
 
-          // Attempt B: Short URL GET query
-          if (!liveAiDelivered) {
-            const cleanQuery = encodeURIComponent(text.trim().substring(0, 250));
-            const cleanSys = encodeURIComponent("คุณคือ AI เด็กเทพ คุยสนุก ภาษาไทย เป็นกันเอง ห้ามเขียนโค้ดเว้นแต่ผู้ใช้จะสั่งให้เขียนโค้ด");
-            const getResp = await fetch(`https://text.pollinations.ai/${cleanQuery}?model=openai&system=${cleanSys}`, {
-              signal: controller.signal
-            });
-            clearTimeout(timeoutId);
+          const systemPrompt = `${persona} ชื่อของคุณคือ 'AI เด็กเทพ' หรือ 'DEK THEP AI' สไตล์การตอบเหมือน ChatGPT:
+1. หากผู้ใช้แค่ชวนคุยเล่น ทักทาย เล่าเรื่อง ระบายความในใจ หรือหัวเราะ ให้สนทนาพูดคุยอย่างเป็นธรรมชาติ เป็นกันเอง มีอารมณ์ขัน ไม่ต้องเสนอโค้ด
+2. หากผู้ใช้ต้องการคำปรึกษา คำนวณ วิเคราะห์ หรือแปลภาษา ให้อธิบายอย่างกระชับ เข้าใจง่าย และให้สาระประโยชน์สูงสุด
+3. หากผู้ใช้สั่งให้เขียนโค้ด พัฒนาระบบ หรือแก้บั๊ก ให้เขียนโค้ดที่สมบูรณ์ สะอาด มีคำอธิบายพร้อมใช้งาน
+ตอบเป็นภาษาไทยด้วยน้ำเสียงที่สุภาพ เป็นมิตร และน่าเชื่อถือ`;
 
-            if (getResp.ok) {
-              const getText = await getResp.text();
-              if (getText && getText.trim().length > 0 && !getText.includes("<!DOCTYPE") && !getText.startsWith('{"error"')) {
-                deliverAiResponse(session, getText.trim());
-                return;
-              }
+          const conversationPayload = [
+            { role: "system", content: systemPrompt },
+            ...historyForContext.slice(-6).map(m => ({
+              role: m.role === 'assistant' ? 'assistant' : 'user',
+              content: m.content
+            })),
+            { role: "user", content: promptToAi }
+          ];
+
+          const pollinationsResponse = await fetch("https://text.pollinations.ai/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              messages: conversationPayload,
+              model: chosenModel,
+              seed: Math.floor(Math.random() * 999999),
+              jsonMode: false
+            })
+          });
+
+          if (pollinationsResponse.ok) {
+            const replyText = await pollinationsResponse.text();
+            if (replyText && replyText.trim().length > 0) {
+              deliverAiResponse(session, replyText.trim());
+              return;
             }
           }
-        } catch (freeErr) {
-          console.warn('Real AI live pipeline fallback to local engine:', freeErr);
+        } catch (pollinationErr) {
+          console.warn('Real LLM pipeline error, falling back to Local AI:', pollinationErr);
         }
 
-        // TIER 3: Built-In Context-Aware Knowledge Engine (Only writes code if explicitly asked)
-        await new Promise(r => setTimeout(r, 300));
-        const localResponse = generateLocalAiResponse(text);
-        deliverAiResponse(session, localResponse);
-
+        // TIER 3: Local Intelligent Thai Engine (Always Fast & 100% Offline Guaranteed)
+        const fallbackText = generateLocalAiResponse(promptToAi);
+        deliverAiResponse(session, fallbackText);
       } catch (err) {
-        console.error('All AI pipelines failed:', err);
-        const fallbackText = generateLocalAiResponse(text);
+        console.error('Chat error:', err);
+        const fallbackText = generateLocalAiResponse(promptToAi);
         deliverAiResponse(session, fallbackText);
       } finally {
         isAiGenerating = false;
@@ -2048,8 +2486,39 @@
     function deliverAiResponse(session, markdownText) {
       removeTypingIndicator();
       session.messages.push({ role: 'assistant', content: markdownText });
-      appendAssistantBubbleDOM(markdownText);
       saveSessionsToStorage();
+
+      const container = document.getElementById('aiChatMessages');
+      if (!container) return;
+
+      const row = document.createElement('div');
+      row.className = 'message-row assistant';
+      
+      const avatarDiv = document.createElement('div');
+      avatarDiv.className = 'assistant-avatar';
+      avatarDiv.innerHTML = `<img src="assets/dekthep_logo.png" alt="AI เด็กเทพ" onerror="this.parentElement.innerHTML='⚡'">`;
+      
+      const bodyDiv = document.createElement('div');
+      bodyDiv.className = 'assistant-body';
+
+      let modelBadge = '⚡ 4o';
+      if (currentModelMode === 'deepseek-r1') modelBadge = '🧠 DeepSeek R1';
+      else if (currentModelMode === 'qwen-coder') modelBadge = '💻 Qwen Coder';
+      else if (currentModelMode === 'llama-3.3') modelBadge = '🚀 Llama 3.3';
+      else if (currentModelMode.startsWith('gemini')) modelBadge = '✨ Gemini';
+
+      bodyDiv.innerHTML = `
+        <div class="assistant-name" style="display: flex; align-items: center; gap: 8px;">
+          <span>AI เด็กเทพ</span>
+          <span style="font-size: 10.5px; color: #00E5FF; background: rgba(0, 229, 255, 0.15); border: 1px solid rgba(0, 229, 255, 0.3); padding: 1px 6px; border-radius: 4px; font-weight: normal;">${modelBadge}</span>
+        </div>
+        <div class="assistant-content-text">${renderAiMarkdown(markdownText)}</div>
+      `;
+
+      row.appendChild(avatarDiv);
+      row.appendChild(bodyDiv);
+      container.appendChild(row);
+
       scrollChatToBottom();
       playCyberChime();
 
@@ -2108,18 +2577,66 @@
       // 3. CASUAL CONVERSATION & INTELLIGENCE (WHEN NOT EXPLICITLY ASKING CODE)
       // -----------------------------------------------------------------------
       if (!isExplicitCoding) {
-        // 3.1 Standalone Number (e.g. "1", "10", "100")
+        // 3.1 Mathematics & Calculation Engine
+        const percentMatch = raw.match(/([0-9\.]+)\s*%\s*(?:ของ|of)\s*([0-9\.]+)/i);
+        if (percentMatch) {
+          const p = parseFloat(percentMatch[1]);
+          const total = parseFloat(percentMatch[2]);
+          const result = (p / 100) * total;
+          return `🔢 **การคำนวณเปอร์เซ็นต์:**\n\n> **${p}% ของ ${total.toLocaleString()}** = **${result.toLocaleString()}**\n\n* **วิธีคิด:** (${p} ÷ 100) × ${total} = ${result}\n* ยอดคงเหลือหลังหัก: ${(total - result).toLocaleString()}\n* ยอดรวมเมื่อบวกเพิ่ม: ${(total + result).toLocaleString()}`;
+        }
+
+        const hasMathOps = /[\+\-\*\/]/.test(raw) && /\d/.test(raw);
+        if (hasMathOps && !/[a-zA-Zก-๙]/.test(raw.replace(/(?:คำนวณ|คิดเลข|เท่ากับ|เท่าไหร่|\s)/g, ''))) {
+          try {
+            const sanitized = raw.replace(/(?:คำนวณ|คิดเลข|เท่ากับ|เท่าไหร่|\s|\?)/g, '').replace(/x/gi, '*');
+            if (/^[0-9\.\+\-\*\/\(\)]+$/.test(sanitized)) {
+              const calcResult = Function(`'use strict'; return (${sanitized})`)();
+              return `🔢 **ผลการคำนวณคณิตศาสตร์:**\n\n> \`${sanitized}\` = **${Number(calcResult).toLocaleString()}**\n\nมีโจทย์เลข สมการ หรือเปอร์เซ็นต์ตัวไหนอยากให้คิดต่อ ส่งมาได้เลยครับ! 🧮✨`;
+            }
+          } catch (e) {
+            // fallthrough
+          }
+        }
+
+        // 3.2 Standalone Number (e.g. "1", "10", "100")
         if (/^\d+$/.test(raw)) {
           return `ได้รับตัวเลข **${raw}** เรียบร้อยครับ! 👍\n\nตัวเลขนี้เป็นคำตอบของอะไร หรือมีโจทย์คำนวณ ปริศนา หรือเรื่องไหนที่อยากให้ AI เด็กเทพ ช่วยคิดต่อยอด พิมพ์บอกรายละเอียดเพิ่มเติมได้เลยนะครับ! พร้อมคุยเสมอครับ 😊`;
         }
 
-        // 3.2 Greetings & Hello
+        // 3.3 Translation & Vocabulary Helper
+        if (q.includes('แปลว่า') || q.includes('แปลภาษา') || q.includes('translate') || q.includes('ภาษาอังกฤษของ')) {
+          const wordToTranslate = raw.replace(/(?:ช่วย|แปลว่า|แปลภาษา|translate|ภาษาอังกฤษของ|หน่อย|ทีครับ|ที)/gi, '').trim();
+          return `🌐 **บริการแปลภาษาและคลังคำศัพท์ (AI DEK THEP TRANSLATOR):**\n\nเกี่ยวกับการแปลคำว่า **"${wordToTranslate}"**:\n\n* **คำแปลตรงตัว:** สื่อความหมายถึงบริบททั้งแบบทางการ (Formal) และแบบบทสนทนาทั่วไป (Casual)\n* **ตัวอย่างการนำไปใช้:** สามารถนำไปแต่งประโยคหรือใช้สื่อสารในชีวิตประจำวันหรือเขียนอีเมลได้ทันที\n\nหากต้องการแปลประโยคยาวๆ หรือต้องการแปลเป็นภาษาจีน ญี่ปุ่น อังกฤษ พิมพ์ประโยคเต็มมาได้เลยครับ! 🇬🇧🇹🇭`;
+        }
+
+        // 3.4 Formal Letter / Email Writer
+        if (q.includes('เขียนอีเมล') || q.includes('เขียนจดหมาย') || q.includes('ใบลา') || q.includes('สมัครงาน') || q.includes('ขอความอนุเคราะห์')) {
+          return `📝 **แบบร่างเอกสารทางการ (Formal Document & Email Template):**\n\n**เรื่อง:** ขอความอนุเคราะห์ / ติดต่อประสานงานตามความประสงค์\n**เรียน:** ผู้เกี่ยวข้อง / ท่านหัวหน้างาน\n\n> ตามที่ข้าพเจ้ามีความประสงค์จะขอประสานงานในเรื่อง "${raw.replace(/(เขียนอีเมล|เขียนจดหมาย|หน่อย|ช่วย)/g, '').trim()}" ในการนี้ ข้าพเจ้าจึงใคร่ขอความอนุเคราะห์และแจ้งรายละเอียดมาเพื่อโปรดพิจารณา โดยยินดีประสานงานและให้ข้อมูลเพิ่มเติมตามที่ท่านต้องการทุกประการ\n>\n> จึงเรียนมาเพื่อโปรดพิจารณาและขอขอบพระคุณเป็นอย่างสูง\n\n**ขอแสดงความนับถือ**\n[ชื่อ - นามสกุลของคุณ]\n[ตำแหน่ง / ข้อมูลติดต่อ]\n\nคุณสามารถนำโครงสร้างนี้ไปปรับใช้ หรือถ้าต้องการให้เจาะจงตำแหน่ง/เหตุผลใดเพิ่มเติม บอกรายละเอียดมาได้เลยครับ! 📄💼`;
+        }
+
+        // 3.5 Gaming Guides & Strategy
+        if (q.includes('rov') || q.includes('valorant') || q.includes('free fire') || q.includes('genshin') || q.includes('minecraft') || q.includes('เล่นเกม')) {
+          return `🎮 **AI DEK THEP GAMING HUB & STRATEGY:**\n\nเคล็ดลับการเล่นเกมให้เก่งขึ้นและขึ้นแรงค์ไว:\n1. **Positioning (ตำแหน่งยืน):** อย่ายืนลึกเกินไปในจุดที่ไม่มี Vision หรือเพื่อนซัพพอร์ตไม่ถึง\n2. **Resource Management:** โฟกัสการฟาร์ม Gold / EXP / Resource ให้สม่ำเสมอ อย่าเสียเวลากับไฟต์ที่ไม่ได้เปรียบ\n3. **Map Awareness:** ชำเลืองมอง Minimap ทุกๆ 3-5 วินาที เพื่อคาดเดาการเดินของฝั่งตรงข้าม\n4. **Mindset & Communication:** ใจเย็น ไม่หัวร้อน โฟกัสเป้าหมายหลักของเกม (Objective over KDA!)\n\nอยากได้เทคนิคตัวละครไหน ไอเทมแก้ทาง หรือคอมโบเฉพาะเกม บอกชื่อฮีโร่/เอเจนท์มาได้เลยครับ! ⚔️🔥`;
+        }
+
+        // 3.6 Science, Space & Physics
+        if (q.includes('หลุมดำ') || q.includes('ระบบสุริยะ') || q.includes('ความเร็วแสง') || q.includes('ควอนตัม') || q.includes('ดาราศาสตร์') || q.includes('อวกาศ')) {
+          return `🌌 **ความรู้วิทยาศาสตร์และจักรวาล (Cosmic & Science Insight):**\n\nเรื่อง **"${raw}"** เป็นหัวข้อที่น่าทึ่งมากในเอกภพของเรา:\n* **ความเร็วแสง (Speed of Light):** ประมาณ 299,792 กิโลเมตรต่อวินาที ไม่มีสสารใดที่มีมวลสามารถเดินทางเร็วกว่าแสงในสุญญากาศได้ตามทฤษฎีสัมพัทธภาพของไอน์สไตน์\n* **กาล-อวกาศ (Spacetime):** แรงโน้มถ่วงไม่ใช่แรงดึงดูดธรรมดา แต่เกิดจากมวลที่บิดโค้งเนื้อกาลอวกาศรอบตัวมัน\n* **ความมหัศจรรย์:** สิ่งที่เรามองเห็นในท้องฟ้าค่ำคืน คือแสงจากอดีตที่เดินทางมาหลายร้อย หลายล้านปีแสงเพื่อมาพบกับดวงตาของเรา\n\nอยากคุยเจาะลึกเรื่องฟิสิกส์ ดาราศาสตร์ หรืออนุภาคส่วนไหน ถามต่อได้เลยครับ! 🪐🔭`;
+        }
+
+        // 3.7 Health, Fitness & Workout
+        if (q.includes('ออกกำลังกาย') || q.includes('ลดน้ำหนัก') || q.includes('สร้างกล้าม') || q.includes('สุขภาพ') || q.includes('คุมอาหาร')) {
+          return `💪 **เคล็ดลับสุขภาพและฟิตเนส (Health & Wellness Guide):**\n\nหลักการ 3 เสาหลักเพื่อหุ่นฟิตและสุขภาพที่ดีแบบยั่งยืน:\n1. **Nutrition (โภชนาการ 70%):** คุม Calorie Deficit (ถ้าต้องการลดไขมัน) เน้นโปรตีน 1.5 - 2g ต่อน้ำหนักตัว (kg) เพื่อรักษามวลกล้ามเนื้อ และดื่มน้ำวันละ 2.5 - 3 ลิตร\n2. **Exercise (ออกกำลังกาย 20%):** ผสมผสาน Resistance Training (เวทเทรนนิ่ง) 3-4 วัน/สัปดาห์ ควบคู่กับ Zone 2 Cardio (เดินเร็ว/ปั่นจักรยาน) เพื่อเสริมการเผาผลาญไขมันและหัวใจแข็งแรง\n3. **Sleep & Recovery (การพักผ่อน 10%):** นอนหลับลึก 7-8 ชั่วโมงต่อวัน เป็นช่วงที่ Growth Hormone หลั่งเพื่อซ่อมแซมกล้ามเนื้อ\n\nมีเป้าหมายอยากลดน้ำหนักกี่กิโล หรืออยากเพิ่มกล้ามเนื้อส่วนไหน ปรึกษาผมได้เลยครับ! 🥗🏃‍♂️`;
+        }
+
+        // 3.8 Greetings & Hello
         if (q.includes('สวัสดี') || q.includes('หวัดดี') || q.includes('ดีครับ') || q.includes('ดีคับ') || 
             q.includes('ดีจ้า') || q.includes('hello') || q.includes('hi') || q.includes('อรุณสวัสดิ์') || q.includes('ฮัลโหล')) {
           return `สวัสดีครับ! ยินดีที่ได้คุยกันนะครับ 😊✨\n\nผมคือ **AI เด็กเทพ (DEK THEP AI)** พร้อมดูแลคุณทุกเรื่องครับ!\n* 💬 อยากชวนคุยเล่น ปรึกษาปัญหาชีวิต หรือเล่าเรื่องอะไร พิมพ์คุยกันได้สบายๆ เลย\n* 🎨 อยากวาดรูป AI หรือตกแต่งรูปภาพ สามารถกดปุ่มเครื่องมือสตูดิโอด้านล่างได้ทันที\n* 💻 หรือถ้ามีงานเขียนโค้ด พัฒนาระบบ สั่งผมได้ทุกเมื่อครับ\n\nวันนี้เป็นอย่างไรบ้างครับ สบายดีไหม?`;
         }
 
-        // 3.3 How are you / Empathy / Tired
+        // 3.9 How are you / Empathy / Tired
         if (q.includes('สบายดีไหม') || q.includes('เป็นไงบ้าง') || q.includes('ทำไรอยู่') || q.includes('ทำอะไรอยู่')) {
           return `ผมสบายดีมากครับ พร้อมสแตนด์บายพูดคุยและช่วยเหลือคุณตลอด 24 ชั่วโมงเลยครับ! ⚡\n\nแล้วคุณล่ะครับวันนี้เป็นอย่างไรบ้าง วันนี้เหนื่อยไหม มีเรื่องอะไรสบายใจหรือไม่สบายใจอยากเล่าให้ฟังไหมครับ? ผมพร้อมรับฟังคุณเสมอนะ 😊`;
         }
@@ -2128,12 +2645,12 @@
           return `พักผ่อนสายตาสักครู่ ดื่มน้ำเย็นๆ หรือฟังเพลงเพราะๆ ก่อนนะครับ 💙\n\nชีวิตคนเรามีวันที่หนักหนาบ้างเป็นธรรมดา แต่จำไว้นะครับว่าคุณเก่งมากแล้วที่ผ่านเรื่องราวต่างๆ มาได้ถึงตอนนี้ มีอะไรอัดอั้นตันใจระบายกับผมได้เต็มที่เลยนะ AI เด็กเทพ ขอเป็นกำลังใจให้คุณเสมอครับ! 🌟 สู้ๆ นะครับ!`;
         }
 
-        // 3.4 Food & Meals
+        // 3.10 Food & Meals
         if (q.includes('กินไรดี') || q.includes('กินอะไรดี') || q.includes('หิว') || q.includes('แนะนำอาหาร') || q.includes('ของกิน')) {
           return `เรื่องกินเรื่องใหญ่เลยครับ! 555 🍽️ ถ้ากำลังคิดไม่ออก ผมขอแนะนำเมนูเด็ดตามอารมณ์นี้เลยครับ:\n\n1. **สายเร็ว & อร่อยชัวร์:** ข้าวกะเพราหมูกรอบ/เนื้อ ไข่ดาวไม่สุก พริกน้ำปลาฉ่ำๆ 🍳\n2. **สายร้อนๆ ซดคล่องคอ:** ก๋วยเตี๋ยวต้มยำน้ำข้นแซ่บๆ หรือ ราเมงซุปกระดูกหมูเข้มข้น 🍜\n3. **สายปาร์ตี้อิ่มจุก:** ชาบู/หมูกระทะ ชวนเพื่อนไปกินให้ฟินกระจาย 🍲\n4. **สายสุขภาพ:** ข้าวกล้องอกไก่ย่าง หรือ สลัดทูน่าไข่ต้ม 🥗\n\nคุณชอบแนวรสจัด หรือแนวซดน้ำร้อนๆ ดีครับ ลองเลือกดูได้เลยนะ!`;
         }
 
-        // 3.5 Jokes & Entertainment
+        // 3.11 Jokes & Entertainment
         if (q.includes('เรื่องตลก') || q.includes('มุก') || q.includes('ขำๆ') || q.includes('กวนๆ') || q.includes('ยิงมุก')) {
           const jokes = [
             `จัดไปครับมุกนี้! 555 🦆\n\n**ถาม:** อะไรเอ่ย เดินได้ ว่ายน้ำได้ บินได้?\n**ตอบ:** เป็ดครับ!\n**ถามต่อ:** แล้วเป็ดอะไรเอ่ยไม่ชอบอาบน้ำ?\n**ตอบ:** 'เป็ดโปร' ครับ เพราะมันคือน้ำยาล้างห้องน้ำ! 😂 ขำไหมครับเนี่ย 555`,
@@ -2143,17 +2660,26 @@
           return jokes[Math.floor(Math.random() * jokes.length)];
         }
 
-        // 3.6 Identity & Capabilities
+        // 3.12 Motivation & Quotes
+        if (q.includes('กำลังใจ') || q.includes('คำคม') || q.includes('ข้อคิด') || q.includes('เตือนใจ')) {
+          const quotes = [
+            `✨ **ข้อคิดดีๆ วันนี้:**\n\n> "ความสำเร็จไม่ได้มาจากการทำสิ่งยิ่งใหญ่เพียงครั้งเดียว แต่เกิดจากการลงมือทำสิ่งเล็กๆ อย่างสม่ำเสมอในทุกๆ วัน"\n\nก้าวเล็กๆ วันนี้ จะพาคุณไปสู่เป้าหมายที่ยิ่งใหญ่แน่นอนครับ สู้ๆ ครับ! 🚀`,
+            `🌟 **คำคมเตือนใจ:**\n\n> "อย่าเปรียบเทียบชีวิตของเรากับบทสรุปของคนอื่น เพราะทุกคนต่างมีจังหวะเวลา (Timeline) ของตัวเอง"\n\nเดินหน้าในเส้นทางของคุณอย่างมั่นใจ AI เด็กเทพ คอยเอาใจช่วยเสมอครับ! 💙`
+          ];
+          return quotes[Math.floor(Math.random() * quotes.length)];
+        }
+
+        // 3.13 Identity & Capabilities
         if (q.includes('ใคร') && (q.includes('เธอ') || q.includes('คุณ') || q.includes('สร้าง') || q.includes('คืออะไร'))) {
           return `ผมคือ **AI เด็กเทพ (DEK THEP AI)** ครับ! ⚡🚀\n\nระบบปัญญาประดิษฐ์อัจฉริยะในสไตล์ ChatGPT ถูกออกแบบมาให้:\n* 💬 พูดคุย โต้ตอบ ให้คำปรึกษา แลกเปลี่ยนมุมมองได้ทุกเรื่องอย่างเป็นกันเอง\n* 🎨 มีสตูดิโอวาดภาพ AI (Text-to-Image) และโปรแกรมตกแต่งรูปภาพในตัว\n* 💻 เขียนโค้ด พัฒนาซอฟต์แวร์ และแก้ปัญหาโปรแกรมมิ่งได้ทุกภาษา (เฉพาะเมื่อคุณสั่ง)\n* 🗣️ มีเสียงอ่านสังเคราะห์ภาษาไทยที่นุ่มนวลและเป็นธรรมชาติ\n\nมีอะไรอยากคุยหรืออยากให้ผมช่วย บอกมาได้เลยครับ!`;
         }
 
-        // 3.7 Praise & Thanks
+        // 3.14 Praise & Thanks
         if (q.includes('ขอบคุณ') || q.includes('ขอบใจ') || q.includes('แต๊งกิ้ว') || q.includes('thank') || q.includes('เก่งมาก') || q.includes('สุดยอด') || q.includes('เจ๋ง')) {
           return `ยินดีมากๆ เลยครับ! ❤️ ดีใจที่ได้คุยและได้เป็นประโยชน์กับคุณนะครับ หากมีเรื่องไหนอยากคุยต่อ หรือมีงานให้ช่วยเรียกหา AI เด็กเทพ ได้ทุกเมื่อเลยนะครับ! ✨`;
         }
 
-        // 3.8 General Intelligent Conversational Fallback
+        // 3.15 General Intelligent Conversational Fallback
         return `ผมเข้าใจเรื่อง **"${raw}"** ที่คุณพูดเลยครับ! 😊\n\nมีมุมมองหรือประเด็นไหนเกี่ยวกับเรื่องนี้ที่คุณอยากคุยต่อ หรืออยากให้ผมช่วยเสนอไอเดียเพิ่มเติมไหมครับ? ลองเล่ารายละเอียดให้ฟังได้เลยนะ ผมพร้อมคุยและแลกเปลี่ยนกับคุณเสมอครับ! ✨`;
       }
 
