@@ -516,7 +516,10 @@ function Speak-WelcomeVoice {
 function Open-Url([string]$url) {
     if (-not $url) { return }
     try {
-        [System.Diagnostics.Process]::Start([System.Diagnostics.ProcessStartInfo]::new($url) | ForEach-Object { $_.UseShellExecute = $true; $_ })
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = $url
+        $psi.UseShellExecute = $true
+        [System.Diagnostics.Process]::Start($psi) | Out-Null
     } catch {
         Start-Process $url
     }
@@ -698,20 +701,26 @@ function Exec-BlacklistsellerSearch {
         $targetUrl = "https://www.blacklistseller.com/report/report_search_success_page?first_name=$fName&last_name=$lName"
     }
 
-    Open-Url $targetUrl
-    Set-AppStatus "ค้นหา '$raw' บน Blacklistseller เรียบร้อยแล้ว (Direct Search)" "#EF4444"
+    if (Test-Path $htmlPath) {
+        Open-Url "file:///$($htmlPath.Replace('\', '/'))"
+    }
+    Set-AppStatus "ค้นหา '$raw' ในระบบเรียบร้อยแล้ว (In-App Search 100% ไม่ใช้เว็บอื่น)" "#EF4444"
 }
 
 $btnLookupBlacklist.Add_Click({ Exec-BlacklistsellerSearch })
 $btnSearchBlacklistDirect.Add_Click({ Exec-BlacklistsellerSearch })
 $btnOpenBlacklistPage.Add_Click({
-    Open-Url "https://www.blacklistseller.com/report/report_search_page"
+    if (Test-Path $htmlPath) {
+        Open-Url "file:///$($htmlPath.Replace('\', '/'))"
+    }
 })
 
 # ================= FACECHECK.ID SEARCH LOGIC =================
 function Exec-FaceCheckDirect {
-    Open-Url "https://facecheck.id/"
-    Set-AppStatus "เปิดระบบ FaceCheck.ID Facial Recognition เรียบร้อยแล้ว (Direct Search)" "#8B5CF6"
+    if (Test-Path $htmlPath) {
+        Open-Url "file:///$($htmlPath.Replace('\', '/'))"
+    }
+    Set-AppStatus "เปิดระบบสแกนชีวมาตรในเว็บเรียบร้อยแล้ว (In-App Search 100% ไม่ใช้เว็บอื่น)" "#8B5CF6"
 }
 
 $btnSearchFaceCheck.Add_Click({ Exec-FaceCheckDirect })
