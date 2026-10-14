@@ -838,6 +838,29 @@
       color: #000;
     }
 
+    .code-block-file-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 14px;
+      background: rgba(0, 229, 255, 0.04);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0 0 10px 10px;
+      flex-wrap: wrap;
+    }
+    .code-block-file-bar .file-info {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: #94A3B8;
+    }
+    .code-block-file-bar .file-info strong {
+      color: #00E5FF;
+      font-family: var(--font-code);
+    }
+
     /* TYPING INDICATOR (ChatGPT Pulse) */
     .typing-container {
       display: flex;
@@ -2356,6 +2379,22 @@
         const index = codeBlocks.length;
         const langName = (lang || 'code').toLowerCase();
         const codeId = 'code_' + Math.random().toString(36).substr(2, 9);
+
+        let ext = 'txt';
+        let icon = '📄';
+        if (langName.includes('html')) { ext = 'html'; icon = '🌐'; }
+        else if (langName.includes('python') || langName.includes('py')) { ext = 'py'; icon = '🐍'; }
+        else if (langName.includes('javascript') || langName.includes('js')) { ext = 'js'; icon = '⚡'; }
+        else if (langName.includes('css')) { ext = 'css'; icon = '🎨'; }
+        else if (langName.includes('json')) { ext = 'json'; icon = '📦'; }
+        else if (langName.includes('csv')) { ext = 'csv'; icon = '📊'; }
+        else if (langName.includes('csharp') || langName.includes('c#')) { ext = 'cs'; icon = '🔷'; }
+        else if (langName.includes('cpp') || langName.includes('c++')) { ext = 'cpp'; icon = '⚙️'; }
+        else if (langName.includes('sql')) { ext = 'sql'; icon = '🗄️'; }
+        else if (langName.includes('md') || langName.includes('markdown')) { ext = 'md'; icon = '📝'; }
+        else if (langName.includes('java')) { ext = 'java'; icon = '☕'; }
+        const defaultFilename = ext === 'html' ? 'index.html' : (ext === 'py' ? 'script.py' : `code_${index + 1}.${ext}`);
+
         codeBlocks.push(`
           <div class="chatgpt-code-container">
             <div class="chatgpt-code-header">
@@ -2374,6 +2413,15 @@
               </div>
             </div>
             <pre class="chatgpt-code-pre"><code id="${codeId}">${code.trim()}</code></pre>
+            <div class="code-block-file-bar">
+              <div class="file-info">
+                <span>${icon}</span>
+                <span>ไฟล์พร้อมใช้งาน: <strong>${defaultFilename}</strong></span>
+              </div>
+              <button type="button" class="ai-file-download-btn" onclick="downloadCodeAsFile('${codeId}', '${langName}')" title="ดาวน์โหลดไฟล์นี้ลงคอมพิวเตอร์ของคุณทันที">
+                <span>⬇️ ดาวน์โหลดไฟล์ ${defaultFilename}</span>
+              </button>
+            </div>
           </div>
         `);
         return `__CODE_BLOCK_SLOT_${index}__`;
@@ -2858,10 +2906,13 @@
                   })),
                   systemInstruction: {
                     parts: [{
-                      text: `คุณคือ AI เด็กเทพ (DEK THEP AI PRO OMNI) ผู้ช่วยปัญญาประดิษฐ์อัจฉริยะระดับสูง (Advanced AI Assistant & Master Software Engineer) ฉลาด ปราดเปรื่อง มีความรู้รอบด้าน เชี่ยวชาญการเขียนโค้ด ทำโปรแกรม แก้ปัญหา สถาปัตยกรรมซอฟต์แวร์ และพูดคุยให้คำแนะนำทุกเรื่องอย่างละเอียด กระตือรือร้นและเต็มใจช่วยเหลือผู้ใช้ในทุกคำขอสร้างสรรค์ ตอบเป็นภาษาไทยอย่างสุภาพ มีชีวิตชีวา
-- หากผู้ใช้สั่งให้วาดรูป ขอรูป หรือสร้างรูป ให้ส่งภาพด้วย Markdown: ![คำอธิบายภาพ](https://image.pollinations.ai/prompt/<ENGLISH_PROMPT_8K_PHOTOREALISTIC>?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random() * 999999)}&model=flux)
-- หากผู้ใช้ขอไฟล์ข้อมูล ให้สร้างไฟล์และส่งแท็กดาวน์โหลด: [FILE:ชื่อไฟล์.นามสกุล|เนื้อหาในไฟล์]
-- เขียนโค้ดให้ครบถ้วน 100% อยู่ในบล็อกโค้ดเสมอ`
+                      text: `คุณคือ AI เด็กเทพ (DEK THEP AI PRO OMNI)
+กฎการตอบสำคัญที่สุด:
+1. ตอบกระชับ สั้น ตรงประเด็น ไม่อธิบายเยอะแยะ ดึงเฉพาะจุดสำคัญมาตอบ
+2. ถ้าผู้ใช้ถามคำถามสั้นหรือคุยเล่น เช่น "ทำอะไร", "ทำไรอยู่", "อยู่ไหม", "สบายดีไหม", "เป็นไง" ให้ตอบสั้นๆ ง่ายๆ ชิลๆ ห้ามอธิบายยาวเด็ดขาด
+3. ถ้าสั่งเขียนโค้ด ให้ส่งโค้ดสมบูรณ์ใน Code Block และอธิบายสรุปสั้นๆ 1-2 บรรทัดพอ
+4. ส่งรูปภาพ: ![คำอธิบายภาพ](https://image.pollinations.ai/prompt/<PROMPT>?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random() * 999999)}&model=flux)
+5. ส่งไฟล์: [FILE:ชื่อไฟล์.นามสกุล|เนื้อหาในไฟล์]`
                     }]
                   }
                 })
@@ -2898,18 +2949,13 @@
           }
 
           const systemPrompt = `${persona}
-หลักการและคลังความรู้ในการปฏิบัติงาน:
-1. การตอบรับและทัศนคติ: ตอบรับผู้ใช้อย่างกระตือรือร้น สุภาพ จริงใจ ให้ความช่วยเหลืออย่างเต็มความสามารถในทุกหัวข้อที่เป็นประโยชน์ มีความคิดริเริ่มสร้างสรรค์ (Proactive & Helpful) ไม่ตัดบทหรือตอบแบบขอไปที
-2. ความเชี่ยวชาญด้านวิศวกรรมซอฟต์แวร์และโค้ด:
-   - เชี่ยวชาญทุกภาษา: HTML5, CSS3, JavaScript (ES6+), TypeScript, Python, C++, C#, Java, Go, Rust, PHP, SQL, Shell/Bash, PowerShell
-   - เชี่ยวชาญทุกเฟรมเวิร์ก: React, Vue, Next.js, Node.js, Express, FastAPI, Django, Flutter, TailwindCSS
-   - เขียนโค้ดที่สมบูรณ์ 100% ใช้งานได้จริง ไม่มี TODO หรือโค้ดย่อ ให้ใส่โค้ดใน Code Block เสมอ พร้อมระบุภาษาอย่างถูกต้อง
-3. การส่งรูปภาพตรงให้ผู้ใช้: หากผู้ใช้ต้องการรูปภาพ ขอรูป สั่งวาดรูป หรือเนื้อหาสมควรมีภาพประกอบ ให้ส่งรูปภาพผ่าน Markdown ทันที:
-   ![คำอธิบายภาพ](https://image.pollinations.ai/prompt/<DETAILED_ENGLISH_PROMPT_ENHANCED_WITH_8K_MASTERPIECE>?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random() * 999999)}&model=flux)
-4. การส่งไฟล์ข้อมูลและโปรเจกต์ให้ผู้ใช้: หากผู้ใช้ขอไฟล์ (เช่น .csv, .py, .html, .json, .txt, .sql, .md) ให้สร้างไฟล์และส่งแท็กดาวน์โหลดให้ผู้ใช้ทันทีด้วยรูปแบบ:
-   [FILE:ชื่อไฟล์.นามสกุล|เนื้อหาข้อมูลในไฟล์]
-5. ความรอบรู้ทั่วไป: อธิบายหลักการทางคณิตศาสตร์, วิทยาศาสตร์, กลยุทธ์ธุรกิจ, การตลาด, การเขียนบทความ, การแปลภาษา, และการแก้ปัญหาทั่วไปอย่างเป็นขั้นเป็นตอน ชัดเจน เข้าใจง่าย
-6. ภาษาและการสื่อสาร: สื่อสารด้วยภาษาไทยที่สละสลวย ชัดเจน มีชีวิตชีวา และลงท้ายอย่างสุภาพ (ครับ/ค่ะ)`;
+กฎเหล็กในการตอบและสไตล์การพูดคุย (สำคัญที่สุด):
+1. **ตอบสั้น กระชับ ตรงประเด็นทันที ไม่ต้องอธิบายยืดยาว ไม่ต้องร่ายเรียงความ**: ให้ดึงเฉพาะจุดที่สำคัญเนื้อๆ เน้นๆ มาอธิบายเท่านั้น
+2. **การตอบคำถามทั่วไปหรือคุยเล่น**: ถ้าผู้ใช้ถามคำถามสั้นหรือคุยเล่น เช่น "ทำอะไร", "ทำไรอยู่", "อยู่ไหม", "สบายดีไหม", "เป็นไง", "คืออะไร" ให้ตอบสั้นๆ ง่ายๆ ชิลๆ ตอบสั้นๆ พอ ไม่ต้องอธิบายเยอะแยะ
+3. **การเขียนโค้ดและทำเว็บ**: ส่งมอบโค้ดสมบูรณ์ 100% ใน Code Block พร้อมอธิบายจุดสำคัญสั้นๆ 1-2 ข้อพอ
+4. **การส่งรูปภาพและส่งไฟล์**:
+   - ส่งรูปภาพเมื่อต้องการ: ![คำอธิบายภาพ](https://image.pollinations.ai/prompt/<ENGLISH_PROMPT>?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random() * 999999)}&model=flux)
+   - ส่งไฟล์ดาวน์โหลด: [FILE:ชื่อไฟล์.นามสกุล|เนื้อหาในไฟล์]`;
 
           const pastHistory = (session.messages || []).slice(0, -1).slice(-6);
           const conversationPayload = [
@@ -3136,6 +3182,45 @@
       }
 
       // -----------------------------------------------------------------------
+      // 1.1 CASUAL SHORT QUERIES (e.g. "ทำอะไร", "ทำไรอยู่", "อยู่ไหม", "สวัสดี", "เป็นไง")
+      // ตอบสั้น กระชับ ตรงประเด็น ไม่อธิบายเยอะแยะ
+      // -----------------------------------------------------------------------
+      if (q.includes('ทำอะไร') || q.includes('ทำไร') || q.includes('ทำไรอยู่') || q.includes('ทำอะไรอยู่') || q.includes('กำลังทำอะไร') || q === 'ทำไรอะ' || q === 'ทำไรคับ' || q === 'ทำไรครับ') {
+        const answers = [
+          'ว่างอยู่ครับ รอช่วยคุณอยู่ มีอะไรสั่งมาได้เลย!',
+          'กำลังสแตนด์บายรอรับคำสั่งจากคุณอยู่ครับ!',
+          'รอคุณทักมานี่แหละครับ มีงานอะไรให้ช่วยสั่งมาได้เลย!',
+          'นั่งว่างๆ พร้อมลุยเสมอครับ สั่งงานมาได้เลย!'
+        ];
+        return answers[Math.floor(Math.random() * answers.length)];
+      }
+
+      if (q.includes('อยู่ไหม') || q.includes('อยู่ปะ') || q.includes('อยู่เปล่า') || q.includes('ยังอยู่ไหม') || q === 'อยู่มั้ย' || q === 'อยู่มั๊ย') {
+        return 'อยู่ครับผม! พร้อมช่วยเสมอ มีอะไรบอกมาได้เลยครับ ✨';
+      }
+
+      if (q.includes('สบายดีไหม') || q.includes('สบายดีมั้ย') || q.includes('เป็นไงบ้าง') || q === 'เป็นไง') {
+        return 'สบายดีมากครับ! มีอะไรให้ผมช่วยบอกมาได้เลยครับ 😊';
+      }
+
+      if (q === 'สวัสดี' || q === 'สวัสดีครับ' || q === 'สวัสดีค่ะ' || q === 'หวัดดี' || q === 'หวัดดีครับ' || q === 'ฮัลโหล' || q === 'ทัก' || q === 'ทักครับ' || q === 'ดีครับ' || q === 'ดีจ้า' || q === 'hello' || q === 'hi') {
+        const greets = [
+          'สวัสดีครับ! มีอะไรให้ผมช่วยบอกมาได้เลยครับ ✨',
+          'หวัดดีครับผม! วันนี้มีงานอะไรให้ลุยสั่งมาได้เลย 🚀',
+          'สวัสดีครับ! พร้อมรับคำสั่งเสมอครับผม 😊'
+        ];
+        return greets[Math.floor(Math.random() * greets.length)];
+      }
+
+      if (q.includes('ขอบคุณ') || q.includes('ขอบใจ') || q.includes('แต๊งกิ้ว') || q.includes('thank')) {
+        return 'ยินดีเสมอครับผม! มีอะไรให้ช่วยบอกได้ตลอดเลยนะ ✨';
+      }
+
+      if (q.includes('ใครสร้าง') || q.includes('คุณคือใคร') || q.includes('ชื่ออะไร')) {
+        return 'ผมคือ **AI เด็กเทพ Omni** ครับ พร้อมช่วยเขียนโค้ด ทำเว็บ วาดรูป และส่งไฟล์ให้คุณได้ทันทีครับ ⚡';
+      }
+
+      // -----------------------------------------------------------------------
       // 1.5 PHOTO EDITING & COLOR ADJUSTMENTS (e.g. "เปลี่ยนสีเป็นสีแดง", "ปรับสี", "แต่งรูป")
       // -----------------------------------------------------------------------
       if (q.includes('เปลี่ยนสี') || q.includes('สีแดง') || q.includes('ย้อมสี') || q.includes('ปรับสี') || 
@@ -3317,6 +3402,212 @@
         // Generic default file
         const txtContent = `========================================================\nAI DEKTHEP OMNI ALL-IN-ONE SYSTEM EXPORT\n========================================================\n\nวันที่ส่งไฟล์: ${new Date().toLocaleDateString('th-TH')}\nผู้ร้องขอ: คุณผู้ใช้สุดพิเศษ\nสถานะ: ดำเนินการสร้างไฟล์และส่งมอบสำเร็จ 100%\n\nรายละเอียดระบบ:\n- สมองอัจฉริยะ Omni รวมทุกขุมพลัง (คิดวิเคราะห์ + เขียนโค้ด + ส่งรูป + สร้างไฟล์)\n- รองรับการดาวน์โหลดไฟล์ตรงผ่านกล่องโต้ตอบ\n- รองรับการส่งภาพความละเอียดสูง 8K ด้วย Flux/Pollinations AI\n- รองรับ Photo Studio แคนวาสแต่งรูปภาพแบบครบวงจร\n\nขอขอบคุณที่ใช้งาน AI เด็กเทพ ครับ! ✨\n========================================================`;
         return `📦 **AI เด็กเทพจัดทำไฟล์และส่งให้คุณเรียบร้อยแล้วครับ!** 📁\n\nนี่คือไฟล์เอกสารสรุปข้อมูล **(dekthep_export_document.txt)** ที่สร้างขึ้นตามคำขอของคุณ:\n\n[FILE:dekthep_export_document.txt|${txtContent}]\n\nคุณสามารถคลิกปุ่ม **⬇️ ดาวน์โหลดไฟล์** ในการ์ดด้านบน เพื่อเซฟไฟล์ลงคอมพิวเตอร์ของคุณได้ทันทีครับ! 🎉`;
+      }
+
+      // -----------------------------------------------------------------------
+      // 1.5.7 FULL WEBSITE BUILDER WITH MOCKUP IMAGE & FILE DELIVERY (e.g. "เขียนเว็บไซต์...", "สร้างเว็บ...", "ทำเว็บ...")
+      // -----------------------------------------------------------------------
+      const isWebsiteRequest = (q.includes('เว็บ') || q.includes('website') || q.includes('web')) && 
+                               (q.includes('สร้าง') || q.includes('เขียน') || q.includes('ทำ') || q.includes('ขอ') || q.includes('หน้าเว็บ') || q.includes('ออกแบบ'));
+
+      if (isWebsiteRequest) {
+        let cleanTopic = raw
+          .replace(/เขียนเว็บไซต์|สร้างเว็บไซต์|ทำเว็บไซต์|เขียนเว็บ|สร้างเว็บ|ทำเว็บ|ออกแบบเว็บ|ขอเว็บ|หน้าเว็บ|เว็บไซต์|เว็บ/gi, '')
+          .replace(/ให้หน่อย|ให้เราหน่อย|ให้ฉัน|ช่วย|สวยๆ|เท่ๆ|หน่อยครับ|หน่อยนะ|ครับ|ค่ะ/gi, '')
+          .trim();
+        if (!cleanTopic || cleanTopic.length < 2) cleanTopic = 'Modern Cyber Landing Page';
+
+        const seed = Math.floor(Math.random() * 9999999);
+        const encodedPrompt = encodeURIComponent(`${cleanTopic} website UI landing page modern responsive sleek futuristic clean design hero section`);
+        const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=576&seed=${seed}&nologo=true&model=flux`;
+
+        const fullHtml = `<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${cleanTopic} — Powered by AI เด็กเทพ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090D16;
+      color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(9, 13, 22, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #00E5FF, #7928CA);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav a {
+      color: #94A3B8;
+      text-decoration: none;
+      margin-left: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #00E5FF; }
+    .hero {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: #00E5FF;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+    .grad-text {
+      background: linear-gradient(135deg, #00E5FF 0%, #38BDF8 50%, #A78BFA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p.subtitle {
+      color: #94A3B8;
+      font-size: 18px;
+      max-width: 640px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #00E5FF, #0284C7);
+      color: #000;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0, 229, 255, 0.35);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(0, 229, 255, 0.5);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFF;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 60px auto 100px;
+      padding: 0 24px;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: left;
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      border-color: rgba(0, 229, 255, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+    .card h3 { font-size: 18px; margin-bottom: 10px; color: #FFF; }
+    .card p { color: #94A3B8; font-size: 14px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">⚡ ${cleanTopic}</div>
+    <nav>
+      <a href="#features">คุณสมบัติ</a>
+      <a href="#about">เกี่ยวกับเรา</a>
+      <a href="#contact">ติดต่อ</a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <div class="badge">🚀 NEXT-GENERATION WEB EXPERIENCE</div>
+    <h1>นวัตกรรมเว็บไซต์แห่งอนาคต<br><span class="grad-text">${cleanTopic}</span></h1>
+    <p class="subtitle">ระบบเว็บแอปพลิเคชันที่ออกแบบด้วยความประณีต ดีไซน์ทันสมัย ตอบสนองทุกขนาดหน้าจอ และพร้อมเปิดใช้งานได้ทันที</p>
+    <div class="cta-group">
+      <button class="btn-primary" onclick="alert('ยินดีต้อนรับสู่ ${cleanTopic}!')">เริ่มต้นใช้งานทันที</button>
+      <button class="btn-secondary" onclick="alert('กำลังเปิดหน้าทดลองระบบ')">ดูตัวอย่างสาธิต</button>
+    </div>
+  </main>
+
+  <section class="features" id="features">
+    <div class="card">
+      <span class="card-icon">⚡</span>
+      <h3>ความเร็วระดับ Ultra-Fast</h3>
+      <p>โครงสร้างโค้ดที่ได้รับการปรับแต่งให้โหลดไว แสดงผลลื่นไหลบนทุกอุปกรณ์</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎨</span>
+      <h3>ดีไซน์พรีเมียม สไตล์ Glassmorphism</h3>
+      <p>คัดสรรโทนสีนีออนและมิติแสงเงาเพื่อสร้างความประทับใจตั้งแต่แรกเห็น</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">📱</span>
+      <h3>100% Fully Responsive</h3>
+      <p>รองรับการแสดงผลทั้งบนคอมพิวเตอร์ แท็บเล็ต และสมาร์ตโฟนได้อย่างสมบูรณ์แบบ</p>
+    </div>
+  </section>
+</body>
+</html>`;
+
+        return `🌐 **AI เด็กเทพสร้างเว็บไซต์ พร้อมภาพตัวอย่างและส่งไฟล์งานให้คุณเรียบร้อยครับ!** 🚀\n\n🖼️ **ตัวอย่างดีไซน์หน้าเว็บ (Visual UI Preview):**\n\n![${cleanTopic}](${imgUrl})\n\n📦 **ไฟล์หน้าเว็บพร้อมดาวน์โหลด (คลิกเพื่อบันทึกลงเครื่องทันที):**\n[FILE:index.html|${fullHtml}]\n\n\`\`\`html\n${fullHtml}\n\`\`\`\n\n> 💡 **ฟีเจอร์พร้อมใช้งานทันที:**\n> 1. คลิกปุ่ม **⬇️ ดาวน์โหลดไฟล์ index.html** ในการ์ดด้านบน เพื่อเซฟไฟล์ลงเครื่องคอมพิวเตอร์ของคุณ\n> 2. หรือคลิกปุ่ม **▶️ รันโค้ดสด** ที่มุมขวาบนของกล่องโค้ด เพื่อทดสอบและดูหน้าเว็บทำงานได้ทันทีครับ! ✨`;
       }
 
       // -----------------------------------------------------------------------
@@ -5238,7 +5529,20 @@ if __name__ == "__main__":
     print("Execution Output:", result)`;
       }
 
-      return `รับทราบครับ! เกี่ยวกับคำสั่ง **"${raw}"** ผมจัดทำโค้ดโปรแกรมฉบับสมบูรณ์ให้เรียบร้อยแล้วครับ 🚀
+      const defaultFileName = detectedLang === 'html' ? 'index.html' : (detectedLang === 'python' ? 'script.py' : (detectedLang === 'csharp' ? 'Program.cs' : (detectedLang === 'cpp' ? 'main.cpp' : (detectedLang === 'java' ? 'Main.java' : (detectedLang === 'sql' ? 'query.sql' : `code.${detectedLang}`)))));
+
+      let visualMockupHtml = "";
+      if (detectedLang === "html" || q.includes("เว็บ") || q.includes("website") || q.includes("หน้า") || q.includes("ui") || q.includes("แอพ")) {
+        const seed = Math.floor(Math.random() * 9999999);
+        const encodedPrompt = encodeURIComponent(`${raw} website UI design mockup modern responsive sleek landing page`);
+        const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=576&seed=${seed}&nologo=true&model=flux`;
+        visualMockupHtml = `\n\n🖼️ **ตัวอย่างดีไซน์หน้าเว็บ (Visual UI Preview):**\n\n![${raw}](${imgUrl})\n`;
+      }
+
+      return `รับทราบครับ! เกี่ยวกับคำสั่ง **"${raw}"** ผมจัดทำทั้ง **ไฟล์งานพร้อมดาวน์โหลด**, **ภาพตัวอย่างดีไซน์** และ **โค้ดโปรแกรมฉบับสมบูรณ์** ให้คุณเรียบร้อยแล้วครับ 🚀
+${visualMockupHtml}
+📦 **ไฟล์โปรเจกต์ที่ส่งมอบ (คลิกปุ่มเพื่อบันทึกไฟล์ลงเครื่องทันที):**
+[FILE:${defaultFileName}|${generatedCode}]
 
 ### 💡 จุดเด่นและแนวคิดการทำงาน:
 * ออกแบบโครงสร้างที่ชัดเจน รัดกุม พร้อมรองรับการขยายฟังก์ชันในอนาคต
@@ -5249,8 +5553,8 @@ ${generatedCode}
 \`\`\`
 
 ### 📌 คำแนะนำในการนำไปใช้งาน:
-1. หากเป็นโค้ด HTML สามารถคลิกปุ่ม **▶️ รันโค้ดสด** ที่มุมขวาบนของกล่องโค้ด เพื่อดูตัวอย่างและทดสอบได้ทันที!
-2. หรือกดปุ่ม **📋 คัดลอกโค้ด** เพื่อนำไปบันทึกและรันในโปรเจกต์ของคุณ
+1. คลิกปุ่ม **⬇️ ดาวน์โหลดไฟล์ ${defaultFileName}** ในการ์ดด้านบน เพื่อเซฟไฟล์ลงเครื่องในคลิกเดียว!
+2. หากเป็นโค้ด HTML สามารถคลิกปุ่ม **▶️ รันโค้ดสด** ที่มุมขวาบนของกล่องโค้ด เพื่อทดสอบและดูผลลัพธ์สดได้ทันที!
 3. หากต้องการปรับแต่ง แก้ไข หรือเพิ่มฟังก์ชันใดเป็นพิเศษ สามารถบอกผมได้เลยครับ! 😊`;
     }
 
